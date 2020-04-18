@@ -1,0 +1,37 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+
+RewriteRule ^(.+)$ /$1.php [L,QSA]
+
+
+
+RewriteRule index@www.xianzaizhuan.com$ index.php
+
+RewriteRule ebusiness@www.xianzaizhuan.com$ ebusiness.php
+
+
+RewriteRule about@www.xianzaizhuan.com$ about.php
+
+
+RewriteRule reg@www.xianzaizhuan.com$ reg.php
+
+
+RewriteRule t-(\d+).html$ index.php?act=reg&rec=$1
+RewriteRule m-(\d+).html$ index.php?act=default&a=$1
+
+
+RewriteRule mail.html$ index.php?act=mail
+RewriteRule login.htm$ member.php?act=index
+RewriteRule reg.htm$ index.php?act=reg
+RewriteRule info.htm$ index.php?act=info
+
+
+
+
+
+
+
+

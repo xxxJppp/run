@@ -1,0 +1,19 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+
+RewriteRule ^(.+)$ /$1.php [L,QSA]
+
+
+RewriteRule login.dos$ index.php?act=logins
+RewriteRule reg.dos$ index.php?act=reg
+RewriteRule index.dos$ index.php?act=index
+RewriteRule regs.dos$ index.php?act=regs
+RewriteRule task.dos$ index.php?act=task
+
+RewriteRule up.dos$ index.php?act=up
+RewriteRule zhifubao.dos$ index.php?act=ziliaos
+RewriteRule moneys.dos$ index.php?act=moneys
+RewriteRule r.dos$ index.php?act=renwus

@@ -1,0 +1,22 @@
+<div class="header bg-main" style="background: #09f">
+    <div class="logo margin-big-left fadein-top">
+        <h1>
+            <img src="<?=__A_IMG__?>y.jpg?id=123" class="radius-circle rotate-hover" height="50" alt="" />代理管理中心</h1>
+    </div>
+    
+    <div class="head-l">
+        
+       <!--   <a style="background:#fff; color:#000" class="button button-little bg-green" href="/" target="_blank">
+        可用分数:  <?=$mysql->select('z_admin','money','id='.$_SESSION['admin_uid'])?></a>&nbsp;&nbsp;
+ -->
+
+
+ 
+
+
+        <span class="icon-home"></span> <b style="color: #fff;font-size: 14px;">您好:  <?=$_SESSION['admin_name']?>&nbsp;&nbsp;邀请码:<?=$_SESSION['u_yqm']?> </b>&nbsp;&nbsp;
+       
+        <a class="button button-little bg-red" href="index?act=home&part=out">
+            <span class="icon-power-off"></span>退出登录</a>
+    </div>
+</div>

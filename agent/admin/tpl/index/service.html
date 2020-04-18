@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="renderer" content="webkit">
+  <title>业务设置</title>
+  <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+  <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+  <script src="<?=__A_JS__?>jquery.js"></script>
+  <script src="<?=__A_JS__?>pintuer.js"></script>
+
+  <link rel="stylesheet" href="../public/layui/css/layui.css">
+	
+<script src='../public/layui/layui.js'></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include('tpl/left.html');?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+<?php include('tpl/bread.html');?>
+<!-- 后台首页 面包屑 end -->
+
+<div class="admin">
+    <div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>业务设置</strong></div>
+  <div class="body-content" style="padding:10px;">
+<form class="layui-form layui-form-pane"  enctype="multipart/form-data" action="service.php" method="POST">
+
+
+
+
+
+
+
+	<textarea name="txt" class="layui-textarea" style="margin: 0px; height: 123px; width: 724px;"><?=$set['rule']?></textarea>
+<br>
+	
+
+  <div class="layui-form-item" pane="">
+    <label class="layui-form-label" style="font-weight: bold;">设置单场时间:</label>
+    <input type="text" name="lx" value="<?=$set['danzhu']?>" title="设置单场时间"><b> 分钟</b>
+    
+  </div><br>
+
+
+
+   <div class="layui-form-item" pane="">
+    <label class="layui-form-label" style="font-weight: bold;">蓝方预计赔率:</label>
+    <input type="text" name="lan" value="<?=$set['lan']?>" title="蓝方预计赔率"><b>%</b>
+    
+  </div><br>
+
+   <div class="layui-form-item" pane="">
+    <label class="layui-form-label" style="font-weight: bold;">红方预计赔率:</label>
+    <input type="text" name="hong" value="<?=$set['hong']?>" title="设置单场时间"><b>%</b>
+    
+  </div><br>
+
+
+
+
+  <div class="layui-form-item" pane="">
+    <label class="layui-form-label" style="font-weight: bold;">设置提现手续费:</label>    
+    <input type="text" name="sx" value="<?=$set['shouxu']?>" title="设置提现手续费"><b> %</b> 
+  </div>
+	<br>
+<div class="layui-form-item" pane="">
+    <label class="layui-form-label" style="font-weight: bold;">设置收款二维码:</label><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?=$set['img']?>" alt="" style="width:100px;height:100px;">  <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" name="img" id="">
+    
+
+  </div>
+	<br>
+	  <div class="layui-form-item">
+		<input type="submit" name="sub"  class="layui-btn" id="save"  value="保存">
+	  </div>
+    </form>
+  </div>
+</div>
+</div>
+<script>
+layui.use('layedit', function(){
+  var layedit = layui.layedit
+  ,$ = layui.jquery;
+  
+  //构建一个默认的编辑器
+  var index = layedit.build('LAY_demo1');
+  
+  //编辑器外部操作
+ 
+  $('.site-demo-layedit').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  
+  //自定义工具栏
+  layedit.build('LAY_demo2', {
+    tool: ['face', 'link', 'unlink', '|', 'left', 'center', 'right']
+    ,height: 100
+  })
+});
+</script>
+
+</body>
+</html>

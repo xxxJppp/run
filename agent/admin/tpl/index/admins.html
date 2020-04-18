@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title><?=$html_info['title']?></title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include('tpl/left.html');?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+<?php include('tpl/bread.html');?>
+<!-- 后台首页 面包屑 end -->
+
+<?php  if($act == 'list'){ ?>
+<!-- 产品列表 -->
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+  $("#searchs").click(function(){
+         
+    var key = $('#key').val();
+
+    var cat = $("#select_id").find("option:selected").val(); //获取Select选择的text
+
+    if (key == '' ) {alert('关键词不能为空');return}
+    
+    location.href='admin?act=list&key='+key;
+
+   });
+})
+
+</script>
+<div class="admin">
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 管理员列表</strong> <a href="" style="float:right; display:none;">添加管理员</a></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>搜索：</li>
+        <li>
+          <input type="text" placeholder="请输入管理员关键字" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" > 搜索</a>
+        </li>
+        <li><a class="button border-main icon-plus-square-o" href="admin?act=add">添加管理员</a></li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th>管理员ID</th>
+        <th>管理员名称</th>
+        <th>登录次数</th>
+        <th>状态</th>
+        <th>添加时间</th>
+        <th>最后时间</th>
+        <th>操作</th>
+      </tr>
+      
+      <?php foreach($list as $v):?>
+      <tr>
+        <td>
+         <?=$v['id']?>
+        </td>
+        <td>
+          <?php echo $v['name']?>
+        </td>
+        <td><?php echo $v['num']?></td>
+        <td><?php echo $v['zt'] == 1?'正常':'<b style="color:red">关闭</b>'?></td>
+        <td><?=date('Y-m-d H:i:s',$v['addtime'])?></td>
+        <td><?=date('Y-m-d H:i:s',$v['lasttime'])?></td>
+        <td>
+          <div class="button-group">
+            <a class="button border-main" href="admin.php?act=edit&gid=<?=$v['id']?>">
+              <span class="icon-edit"></span>修改
+            </a>
+            <a class="button border-red" id="deles"   href="javascript:if(confirm('您确定要删除吗?'))location='admin?act=dele&id=<?=$v['id']?>'" >
+              <span class="icon-trash-o"></span>删除
+            </a>
+          </div>
+        </td>
+      </tr>
+   		<?php endforeach;?>
+      <tr>
+        <td colspan="11" >
+          <?php echo $page->myde_write();?>
+        </td>
+      </tr>
+    </table>
+  </div>
+</form>
+</div>
+<!-- 产品列表结束 -->
+<?php }else{ ?>
+<!-- 增加或者修改产品 -->
+<div class="admin">
+  <div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span><?=$html_info['title']?></strong></div>
+  <div class="body-content">
+    <form id="admin" class="form-x">
+      <div class="form-group" style="display:none">
+        <div class="label">
+          <label>管理员名字:</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" required="required"  value="<?=isset($admin['mobile'])?$admin['mobile']:''?>" name="name"/>
+          <div class="tipss">必填</div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="label">
+          <label>旧密码:</label>
+        </div>
+        <div class="field">
+          <input type="password" required="required"  class="input w50"  name="jpwd"/>
+        </div>
+      </div>
+
+
+
+      <div class="form-group">
+        <div class="label">
+          <label>新密码:</label>
+        </div>
+        <div class="field">
+          <input type="password" required="required"  class="input w50"  name="pwd"/>
+        </div>
+      </div>
+
+       <div class="form-group">
+        <div class="label">
+          <label>重复密码:</label>
+        </div>
+        <div class="field">
+          <input type="password" required="required"  class="input w50" name="repwd"/>
+        </div>
+      </div>
+
+
+      <input type="hidden" required="required"  name="admin_id" value="<?=isset($admin['id'])?$admin['id']:0?>">
+    
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="save" type="button">保 存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+<script>
+
+$(document).ready(function(){
+ 
+      $("#save").click(function(){
+           var data = $("#admin").serialize();
+           $.ajax({
+               url:'admin?act=add',
+               type:'POST',
+               data:data,
+               dataType:'json',
+               success:function(res){
+                      if (res.error == 1) {
+                          alert(res.txt);
+                      }else{
+                          alert(res.txt);
+                          window.location='admin';
+                      }
+               }
+           })  
+      })
+})
+
+
+</script>
+<!-- 增加产品列表结束 -->
+<?php }?>
+
+
+
+</body>
+</html>
