@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="__WCSS__/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@1.6/lib/index.css">
+
+	<style>
+		.body{
+			line-height: px;
+		}
+		.mui-table-view-cell:after{
+			left: 0px;
+			background-color:#292828;
+		}
+		.mui-table-view:before{
+			background-color:#292828;
+		}
+		.mui-table-view:after{
+			background-color:#292828;
+		}
+		.header{
+			background:#262626;
+			top:0;
+			box-shadow:0 0px 0px #ccc;
+			-webkit-box-shadow:0 0px 0px #ccc;
+		}
+		.h1{
+			font-family:'微软雅黑';
+			color:#b99659;
+		}
+		.ul{
+			margin-top:20px;
+			background:#1e1e1e;
+			height: 115px;
+		}
+		.p{
+			margin-left:10%;
+			font-family:'微软雅黑';
+			color:#b49154;
+		}
+		.p1{
+			position:absolute;
+			left:35%;
+			bottom:12px;
+			font-family:'微软雅黑';
+			font-size:1em;
+			color:#fff;
+		}
+		.button{
+			position:absolute;
+			background:linear-gradient(to right, #b18e51 , #dcbb7b);
+			color:#000;
+			top:12px;
+			font-size:0.7em;
+			left:140px;
+			line-height:1.5em;
+			width:80px;
+			border-radius:8px;
+			border:0px solid;
+		}
+		.button1{
+			position:absolute;
+			background:linear-gradient(to right, #b18e51 , #dcbb7b);
+			color:#fff;
+			top:12px;
+			font-size:0.7em;
+			right:20px;
+			line-height:1.5em;
+			width:80px;
+			border-radius:8px;
+			border:0px solid;
+		}
+		.buttons{
+				display:block;
+				position:absolute;
+				background:linear-gradient(to right, #b18e51 , #dcbb7b);
+				color:#000;
+				top:73px;
+				font-size:0.7em;
+				right:20px;
+				line-height:1.5em;
+				width:80px;
+				border-radius:8px;
+				border:0px solid
+				width: 20%;
+				height: 25%;
+				text-align: center;
+				line-height: 230%;
+			}
+
+			.buttonss{
+					display:block;
+				position:absolute;
+				background:linear-gradient(to right, #b18e51 , #dcbb7b);
+				color:#000;
+				
+				font-size:0.7em;
+				right:20px;
+				line-height:2.5em;
+		margin-top: 5px;
+				border-radius:8px;
+				border:0px solid;
+				width: 86%;
+				
+				text-align: center;
+			}
+	</style>
+<script>
+if(('standalone' in window.navigator)&&window.navigator.standalone){
+var noddy,remotes=false;
+document.addEventListener('click',function(event){
+noddy=event.target;
+while(noddy.nodeName!=='A'&&noddy.nodeName!=='HTML') noddy=noddy.parentNode;
+if('href' in noddy&&noddy.href.indexOf('http')!==-1&&(noddy.href.indexOf(document.location.host)!==-1||remotes)){
+event.preventDefault();
+document.location.href=noddy.href;
+}
+},false);
+}
+</script></head>
+<body style="background: #1e1e1e;">
+	<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" href="javascript:history.go(-1)"></a>
+			<h1 class="mui-title h1">银行卡</h1>
+		</header>
+		<br><br>
+		<<empty name="wxlist">
+		<else />
+		<foreach name="wxlist" item="info">
+		<ul class="mui-table-view ul">
+			<li class="mui-table-view-cell mui-collapse-content"><p class="p">收款名字</p><p class="p1"><?php echo $info['uname'];?></p> </li>
+			<!--li class="mui-table-view-cell mui-collapse-content"><p class="p">账号</p><p class="p1"><?php echo $info['ewm_acc'];?></p> </li-->
+	
+			<a  href="<?php echo U('User/erweimainfo',array('id'=>$info['id']));?>">
+			<button type="button" class="button1">详情</button>
+			</a>
+					<!--a type="button" class="buttons" href="<?php echo U('User/upma',array('id'=>$info['id']));?>">编辑</a-->
+            <span id="tys">
+			<a type="button" id="xs-<?=$info['id']?>" data-id="<?=$info['id']?>" class="buttonss" href="javascript:">
+                <?php  echo $info['zt'] == 1?'已启用，点击切换    ':'<font color="yellow">已停用，点击切换 </font>  '?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php  echo $info['zt1'] == 1?'<font color="yellow">收款中</font>':''?>
+			</a>
+              <a type="button"  class="buttonss" href="<?php echo U('User/delewm',array('id'=>$info['id']));?>" style="top: 80px;">
+                删除
+			</a>
+			</span>
+		</ul>
+		</foreach>
+		</empty>
+			<script type="text/javascript" src="__COM__/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+	<script type="text/javascript" src="__COM__/js/index.js" ></script>
+	<script type="text/javascript" src="__COM__/js/public.js" ></script>
+	<script type="text/javascript" src="__COM__/js/common.js" ></script>
+	<script type="text/javascript" src="__COM__/js/Uploader.swf" ></script>
+	<script type="text/javascript" src="__COM__/js/webuploader.js" ></script>
+ <script>
+        $('#tys>a').click(function () {
+            var id = $(this).attr('data-id');
+	        var xs = $(this).attr('id');
+            $.ajax({
+                url:'/User/tys',
+                type:'post',
+                data:{'id':id},
+                datatype:'json',
+                success:function (mes) {
+
+                    if(mes.status == 1){
+                        msg_alert(''+mes.msg);
+                        $("#"+xs).text(mes.msg);
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>

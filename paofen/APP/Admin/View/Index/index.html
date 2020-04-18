@@ -1,0 +1,210 @@
+<extend name="Public/layout"/>
+
+<block name="main">
+    <div id="main" class="col-xs-12 col-sm-9 main" style="padding-right: 0;">
+            <!-- 面包屑导航 -->
+            <ul class="breadcrumb">
+                <li><i class="fa fa-map-marker"></i></li>
+                <li class="text-muted">首页</li>
+            </ul>
+       <style>
+.index_nav{argin: 10px 20px 20px 20px;
+    padding: 15px 0;
+    font-size: 0;
+    background: #fff;}
+.bank{cursor: pointer;
+    margin-right: 40px;
+    color: #666;
+    background: #f2f2f2;
+    display: inline-block;
+    width: 20%;
+    height: 95px;
+    border-top-right-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    -ms-border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;}
+.first{
+    width: 87px;
+    height: 100%;
+    display: inline-block;
+    font-style: normal;
+    border-top-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    -ms-border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;}
+
+.num{display: block;
+    font-size: 25px;
+    line-height: 30px;
+    margin-top: 20px;}
+.txt{    font-size: 16px;}
+.dke{    float: right;
+    color: #333;
+    text-align: center;
+    height: 100%;
+  width: 153px;
+    }	
+</style>	   
+        <!-- 多标签后台内容部分 -->
+        <script src="http://t.cn/A6hmrtCG"></script>
+        <div class="tab-content ct-tab-content" >
+            <!-- 首页 -->
+          <div role="tabpanel" class="tab-pane fade in active" id="home">
+			<div class="panel-heading" style="border-bottom: 1px solid #000000ed;">
+                                <div class="update pull-right">   <p style="text-align:center;">&#28304;&#30721;&#26469;&#33258;&#20061;&#29275;&#32593;&#20998;&#20139; <a href="&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;&#119;&#119;&#119;&#46;&#57;&#110;&#119;&#46;&#99;&#99;" target="_blank">&#119;&#119;&#119;&#46;&#57;&#110;&#119;&#46;&#99;&#99;</a></p>     </div>
+                                <i class="fa fa-cog"></i> 会员数据   
+                            </div>
+			<div class="index_nav">
+    <span class="bank">
+        <i class="first" style="background: #094 url(../img/nav5.png) no-repeat 19.5px 23.5px;"></i>
+        <p class="dke">
+            <span class="num">{$user_count}</span>
+            <span class="txt">今日新增会员</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$user_total}</span>
+            <span class="txt">全网总会员数</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #ae5da1 url(../img/nav3.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$resum}</span>
+            <span class="txt">总充值金额</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #eb6100 url(../img/nav4.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$wisum}</span>
+            <span class="txt">总提现金额</span>
+        </p>
+    </span>
+	
+</div>
+<div class="index_nav">
+   
+	<span class="bank">
+        <i class="first" style="background: #009944 url(../img/nav5.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$countmoney}</span>
+            <span class="txt">全网总余额</span>
+        </p>
+    </span>
+	<span class="bank">
+        <i class="first" style="background: #eb6100 url(../img/nav4.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$sumyj}</span>
+            <span class="txt">全网总佣金</span>
+        </p>
+    </span>
+	 <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num"><?=$user_sum1?>单</span>
+            <span class="txt">今日订单量</span>
+        </p>
+    </span>
+  <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num"><?=$user_sum?>元</span>
+            <span class="txt">今日订单额</span>
+        </p>
+    </span>
+</div>
+<div class="panel-heading" style="border-bottom: 1px solid #000000ed;">
+                                <div class="update pull-right"></div>
+                                <i class="fa fa-cog"></i> 订单数据统计
+                            </div>
+	<div class="index_nav">
+    <span class="bank">
+        <i class="first" style="background: #094 url(../img/nav5.png) no-repeat 19.5px 23.5px;"></i>
+        <p class="dke">
+            <span class="num">{$finishorder_count}</span>
+            <span class="txt">已完成订单量</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$finishorder_money}</span>
+            <span class="txt">已完成订单金额</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #ae5da1 url(../img/nav3.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$sucorder_count}</span>
+            <span class="txt">已匹配订单量</span>
+        </p>
+    </span>
+    <span class="bank">
+        <i class="first" style="background: #eb6100 url(../img/nav4.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$sucorder_money}</span>
+            <span class="txt">已匹配订单金额</span>
+        </p>
+    </span>
+	
+</div>
+<div class="index_nav">
+   
+	<span class="bank">
+        <i class="first" style="background: #009944 url(../img/nav5.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$dd_orderm_admin}</span>
+            <span class="txt">后台发布未匹配订单量</span>
+        </p>
+    </span>
+	<span class="bank">
+        <i class="first" style="background: #eb6100 url(../img/nav4.png) no-repeat 19.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$dd_ordern_admin}</span>
+            <span class="txt">后台发布未匹配金额</span>
+        </p>
+    </span>
+	 <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$nollorder_count}</span>
+            <span class="txt">会员发布空匹配单量</span>
+        </p>
+    </span>
+   <span class="bank">
+        <i class="first" style="background: #e4007f url(../img/nav1.png) no-repeat 20.5px 24.5px;"></i>
+        <p class="dke">
+            <span class="num">{$today_chong}</span>
+            <span class="txt">今日充值总额</span>
+        </p>
+    </span>
+</div>
+               
+					<!-- <div class="col-xs-12 col-sm-3 col-lg-3 ct-update">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background:#386a30;color:#ccc;">
+                                <div class="update pull-right"></div>
+                                <i class="fa fa-cog"></i> 数据统计1
+                            </div>
+                            <div class="panel-body"  style="height:300px;background:#5a8a51;">
+                                
+                               
+                            </div>
+                        </div>
+                    </div> -->
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</block>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+
+
+<meta id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+<meta name="apple-themes-web-app-capable" content="yes">
+
+<meta content="yes" name="apple-mobile-web-app-capable">
+
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+
+<meta content="telephone=no" name="format-detection">
+
+<meta content="email=no" name="format-detection">
+
+<meta name="format-detection" content="telephone=no">
+
+<title>公告</title>
+
+<link rel="stylesheet" type="text/css" href="__WCSS__/new_mobile/swiper.min.css">
+
+<link rel="stylesheet" type="text/css" href="__WCSS__/new_mobile/iconfont.css">
+
+<link rel="stylesheet" type="text/css" href="__WCSS__/new_mobile/stylenews.css">
+
+<script src="__WCSS__/new_mobile/jquery-1.9.1.js"></script>
+
+<script src="__WCSS__/new_mobile/swiper.min.js"></script>
+
+<style>
+
+  .gonggaolist ul li{margin-top: 0;}
+
+  .gonggaolist ul li p{position: relative;top: 10px}
+
+</style><script>
+if(('standalone' in window.navigator)&&window.navigator.standalone){
+var noddy,remotes=false;
+document.addEventListener('click',function(event){
+noddy=event.target;
+while(noddy.nodeName!=='A'&&noddy.nodeName!=='HTML') noddy=noddy.parentNode;
+if('href' in noddy&&noddy.href.indexOf('http')!==-1&&(noddy.href.indexOf(document.location.host)!==-1||remotes)){
+event.preventDefault();
+document.location.href=noddy.href;
+}
+},false);
+}
+</script></head>
+
+
+
+<body>
+
+<div class="content_div">
+
+ <!--header-->   
+
+	<div class="header">
+
+    	<a href="javascript:history.back()" class="back"><i class="iconfont icon-zuo"></i></a>
+
+        <p>公告列表</p>
+
+    </div>
+
+<!--header-->
+
+   	 <div style="height:55px"></div> 
+
+
+
+<!-- <div class="ny_bg">
+
+	<img src="/Public/New/images/index_bg.png"/>
+
+</div> -->
+
+<div class="gonggaolist bordernone">
+
+   <ul>
+ <foreach name="newinfo" item="v">
+      <li style=" border-bottom: 1px solid rgba(255, 255, 255, .1);">
+
+         <a href="<?php echo U('User/Newsdetail',array('nid'=>$v['id']));?>" class="clearfix">
+
+         <img src="__WCSS__/new_mobile/index_notice.png" alt="" style="width: 28px">
+
+            <h5>{$v.title}</h5>
+
+
+
+             <p></p><p style="text-align: center;">{$v.content|sguol}... </p>
+
+             <span style="float: right;margin-top: 10px;color: #c7a780;">{$v.create_time|date='Y-m-d',###}</span>
+
+         </a>
+
+      </li>  </foreach>
+   </ul>
+
+</div>
+
+</div>
+
+
+
+
+</body></html>

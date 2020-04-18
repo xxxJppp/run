@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://ck2.1637g.cn/Member/my_setting.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<title>我的</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" media="all" href="__WCSS__/new_mobile/style.css">
+<link rel="stylesheet" type="text/css" href="__WCSS__/new_mobile/web.css">
+<script src="__WCSS__/new_mobile/jquery.js"></script>
+
+<script src="__WCSS__/new_mobile/layer.js"></script><link rel="stylesheet" href="__WCSS__/new_mobile/layer.css" id="layui_layer_skinlayercss" style="">
+
+<script type="text/javascript">
+
+$(function(){
+
+	$('#qrxg').click(function(){
+
+		var member_name = $('#member_name').val();
+
+		$.post(
+
+			"/Member/edit.html",
+
+			{member_name:member_name},
+
+			function(data){
+
+				if(data.status==1){
+
+					<!-- layer.alert(data.info,{icon:6},function(index){ -->
+
+						<!-- layer.close(index); -->
+
+						<!-- window.location.href = data.url; -->
+
+					<!-- }); -->
+
+					layer.msg(data.info,{
+
+						time:1000,
+
+						end:function(index,layero){
+
+							window.location.href = data.url;
+
+						}
+
+					})
+
+				}else{
+
+					<!-- layer.alert(data.info,{icon:5}); -->
+
+					layer.msg(data.info);
+
+					return false;
+
+				}
+
+			},
+
+			'json'
+
+		)
+
+	})
+
+})
+
+</script>
+
+<style>
+
+	.box-s input{border:none;background: none;text-align: right;color: rgba(255, 255, 255, .8);font-size:15px; float: right;margin-top: 13px;}
+
+	.touxs{width: 41px;border-radius: 50%;margin-top: 5px;}
+
+	.vux-header-right{height: 45px;font-size: 15px;color: #c7a780;position: absolute;top: 0;right: 10px;}
+
+</style><script>
+if(('standalone' in window.navigator)&&window.navigator.standalone){
+var noddy,remotes=false;
+document.addEventListener('click',function(event){
+noddy=event.target;
+while(noddy.nodeName!=='A'&&noddy.nodeName!=='HTML') noddy=noddy.parentNode;
+if('href' in noddy&&noddy.href.indexOf('http')!==-1&&(noddy.href.indexOf(document.location.host)!==-1||remotes)){
+event.preventDefault();
+document.location.href=noddy.href;
+}
+},false);
+}
+</script></head>
+
+
+
+<body>
+
+<div class="projectd_f projectd_f1">
+
+	<div class="projectd_f_in">
+
+		<!-- <a href="javascript:history.go(-1);"><img src="/Public/Home/image/jian.png"/></a> -->
+
+		<a href="/"><img src="__WCSS__/new_mobile/jian.png"></a>
+
+        <h4 style="color: #c7a780; font-size:18px"> 我的 </h4>
+
+ 
+
+    </div>
+
+
+
+</div>
+<div style="background:#343434; width:100%; padding:50px 10px 0; box-sizing: border-box;">
+
+  <div class="team_header flex_panel" style="background:url(/Public/home/wap/css/images/tou.png) no-repeat bottom;background-size: 100% 100%; border-radius:10px; width:100%;height:100px;margin:0;">
+
+
+
+  <div class="header_userInfo flex_panel" style="width: 45%;">
+
+    <img class="icon" src="../Public/home/wap/images/logoer.png" alt="" style="margin:0">
+
+
+
+    <div class="userInfo-detail">
+
+      <!--strong style="color: rgba(255, 255, 255, .8); font-size: 11px;">{$list.username}</strong-->
+
+      <span class="tag" style="margin-top: 35%;line-height: 2.1;">普通会员V1</span>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="header_money" >
+
+     <div class="des">账&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;:{$list.account}</div>
+    <div class="des">邀请码：{$list.u_yqm}</div>
+
+    <div class="des">总收益：{$list.zsy}</div>
+
+   
+
+  </div>
+
+
+
+</div>
+
+</div>
+
+
+<!--2占固定定位的块-->
+
+<!-- <div class="occupy_f2"></div> -->
+
+
+
+
+
+    <div class="shezhi">
+
+        <div class="bottom clear">
+
+			<ul>
+
+			<li class="box-s clear">
+                   <img src="__WCSS__/new_mobile/appxiazai.png" class="imglist">
+					<a href="{:U('User/zichan')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">我的资产</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+				<div style="clear:both"></div>
+
+					<li class="box-s clear">
+                   <img src="__WCSS__/new_mobile/chuangguan.png" class="imglist">
+					<a href="{:U('User/erweima')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">二维码管理</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+				<div style="clear:both"></div>
+
+					<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/dating.png" class="imglist">
+					<a href="{:U('User/ziliao')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">个人资料</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+
+				<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/helpzhuce.png" class="imglist">
+					<a href="{:U('User/Sharecode')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">邀请注册</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+				<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/img02.png" class="imglist">
+					<a href="{:U('Recharge/chongzhijilu')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">充值管理</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+				<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/shenheguan.png" class="imglist">
+					<a href="{:U('Withdraw/index')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">提现管理</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+				</li>
+
+				<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/tuiguangerweima.png" class="imglist">
+					<a href="{:U('User/Teamdets')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">直推明细</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/img02.png" class="imglist">
+					<a href="{:U('User/bill')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">资金日志</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+				<div style="clear:both"></div>
+
+				<li class="box-s clear">
+
+					 <img src="__WCSS__/new_mobile/dating.png" class="imglist">
+					<a href="{:U('User/yjbill')}" style=" margin-left: 10%;font-size: 0.9em; bottom: 4px; ">
+<p class="fl">支出明细</p>
+<i class="icon-qianjin fr  Mright"></i></a>
+
+				</li>
+
+			</ul>
+
+			<div class="setting_tuichu" onclick="window.location.href='{:U('Login/logout')}'">
+
+					退出
+
+			</div>
+
+		</div>
+
+    </div>
+   
+<style>
+.Lav {
+    background:#333;
+        padding: 5px 0 2px 0;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+	z-index: 999;
+}
+.Lav ul {
+    height: 0px;
+}
+.Lav ul li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+.Lav ul li span {
+    display: block;
+    color: #c7a780;
+    font-size: 10px;
+    font-family: "微软雅黑";
+    
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-weight: normal;
+}
+ </style>
+<div class="Lav">
+            <ul>
+                <li>
+                    <a href="{:U('Index/index')}"><span><img src="__WCSS__/new_mobile/shouyeye.png" height="25"></span><span>首页</span></a>
+                </li>
+                <li style="position:relative;">
+                    <a href="{:U('Index/qdgame')}"><span><img src="__WCSS__/new_mobile/zhucece.png" height="25"></span><span>抢单</span></a>
+                </li>
+                <li>
+                    <a href="{:U('Index/shoudan')}"><span><img src="__WCSS__/new_mobile/shangquanquan.png" height="25"></span><span>收单</span></a>
+                </li>
+                <li>
+                    <a href="{:U('User/index')}"><span><img src="__WCSS__/new_mobile/shezz.png" height="25"></span><span>我的</span></a>
+                </li>
+            </ul>
+</div>
+
+
+
+</body></html>
