@@ -236,6 +236,8 @@ class mysql extends db {
         }
         $query = $this->query($sql);
         if ($query!='') {
+
+
             while ($row = $this->fetch_array($query,MYSQL_NUM)) {
                 $arr[] = $row[0];
             }

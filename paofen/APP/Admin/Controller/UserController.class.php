@@ -543,7 +543,8 @@ $map['addtime'] = array('between', array($st, $en));
 	}
 	
 	public function  indexs(){
-
+         //完善后需要修改url
+        $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
        $querytype = trim(I('get.querytype'));
 		 $account = trim(I('get.keyword'));
 		 $coinpx = trim(I('get.coinpx'));
@@ -572,8 +573,8 @@ $map['addtime'] = array('between', array($st, $en));
 		 }else{
 			 $list = $userobj->where ( $map )->order ( 'userid desc' )->limit ( $p->firstRow, $p->listRows )->select ();
 		 }
-    	
-		
+
+		$this->assign('url',$url);
 		$this->assign('count',$count);
     	$this->assign ( 'list', $list ); // 賦值數據集
 		$this->assign('count',$count);
