@@ -29,7 +29,7 @@ class mysql extends db {
     }
 
     public function connect($h,$u,$p) {
-        $this->conn = mysql_connect($h,$u,$p);
+        $this->conn = mysqli_connect($h,$u,$p);
         if(!$this->conn) {
             $err = new Exception('连接失败');
             throw $err;
@@ -48,7 +48,7 @@ class mysql extends db {
 
     public function query($sql) {
 
-        $rs = mysql_query($sql,$this->conn);
+        $rs = mysqli_query($sql,$this->conn);
 
        
 
@@ -85,7 +85,7 @@ class mysql extends db {
         $rs = $this->query($sql);
         
         $list = array();
-        while($row = mysql_fetch_assoc($rs)) {
+        while($row = mysqli_fetch_assoc($rs)) {
             $list[] = $row;
         }
 
@@ -95,27 +95,27 @@ class mysql extends db {
     public function getRow($sql) {
         $rs = $this->query($sql);
         
-        return mysql_fetch_assoc($rs);
+        return mysqli_fetch_assoc($rs);
     }
 
     public function getOne($sql) {
         $rs = $this->query($sql);
-        $row = mysql_fetch_row($rs);
+        $row = mysqli_fetch_row($rs);
 
         return $row[0];
     }
    public function affected_rows() {
-        return mysql_affected_rows($this->conn);
+        return mysqli_affected_rows($this->conn);
     }
 
     public function insert_id() {
-        return mysql_insert_id($this->conn);
+        return mysqli_insert_id($this->conn);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     function free_result(&$query){
-        $re=mysql_free_result($query);
+        $re=mysqli_free_result($query);
         /*if($re!=1){
             print_r(debug_backtrace());
             exit;
@@ -163,8 +163,8 @@ class mysql extends db {
         }
         return $arr;
     }
-        function fetch_array($query, $result_type = MYSQL_ASSOC) {
-        return mysql_fetch_array($query, $result_type);
+        function fetch_array($query, $result_type = MYSQLI_ASSOC) {
+        return mysqli_fetch_array($query, $result_type);
     }
     function select_limit($table, $sel_field, $where='1',$limit='1', $alert = 0) {
         $arr='';
@@ -236,7 +236,7 @@ class mysql extends db {
         }
         $query = $this->query($sql);
         if ($query!='') {
-            while ($row = $this->fetch_array($query,MYSQL_NUM)) {
+            while ($row = $this->fetch_array($query,MYSQLI_NUM)) {
                 $arr[] = $row[0];
             }
             $this->free_result($query);
@@ -251,7 +251,7 @@ class mysql extends db {
         }
         $query = $this->query($sql);
         if ($query!='') {
-            while ($row = $this->fetch_array($query,MYSQL_NUM)) {
+            while ($row = $this->fetch_array($query,MYSQLI_NUM)) {
                 $arr[$row[0]] = $row[1];
             }
             $this->free_result($query);
@@ -413,7 +413,7 @@ class mysql extends db {
             echo $sql;
         }
         if($query!=''){return 1;}
-        else{return mysql_error();}
+        else{return mysqli_error();}
     }
     
     function delete_id_in($ids,$table=MOD,$alert=0){
