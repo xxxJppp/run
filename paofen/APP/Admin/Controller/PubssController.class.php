@@ -43,7 +43,7 @@ session('qsdd',$username);
             $uid = $user_object->auto_login($user_info);
 
             // 跳转
-			xitong();
+			//xitong();
             if (0 < $account_info['id']) {
 				
 
