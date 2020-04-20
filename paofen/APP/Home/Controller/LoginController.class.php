@@ -401,7 +401,7 @@ $pipei_re = M('agent')->where(array('names'=>$shanghu['shanghu_name']))->save($s
             }
             // 设置登录状态
             $uid = $user_object->auto_login($user_info);
-			//xitong();
+			xitong();
             // 跳转
             if (0 < $uid && $user_info['userid'] === $uid) {
                 session('in_time',time(),86400);
