@@ -65,7 +65,8 @@ class mysql extends db {
 
     public function query($sql) {
 
-        $rs = mysqli_query($sql,$this->conn);
+        mysqli_query($this->conn,"SET NAMES 'UTF8'" );
+        $rs = mysqli_query($this->conn,$sql);
 
        
 

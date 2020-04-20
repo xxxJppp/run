@@ -37,7 +37,7 @@ class Database{
         $value .= '-- MySQL database dump' . $this->ds;
         $value .= '-- 主机: ' . $this->host . $this->ds;
         $value .= '-- 生成日期: ' . date ( 'Y' ) . ' 年  ' . date ( 'm' ) . ' 月 ' . date ( 'd' ) . ' 日 ' . date ( 'H:i' ) . $this->ds;
-        $value .= '-- MySQL版本: ' . mysql_get_server_info () . $this->ds;
+        $value .= '-- MySQL版本: ' . mysqli_get_server_info () . $this->ds;
         $value .= '-- PHP 版本: ' . phpversion () . $this->ds;
         $value .= '-- 数据库: `' . C("DB_NAME") . '`'. $this->ds;
 
@@ -89,7 +89,7 @@ class Database{
                 $insert .= "INSERT INTO `" . $table . "` VALUES(";
                 foreach ($val as $v){
         $insert.=$comma == 0 ? "" : ",";
-            $insert.= ( "'" . mysql_escape_string ( $v ) . "'");
+            $insert.= ( "'" . mysqli_escape_string ( $v ) . "'");
                         $comma++;
             
             }
@@ -230,7 +230,7 @@ class Database{
     Public function _insert_into($sql){
         $M=M();
         if (! $M->query( trim ( $sql ) )) {
-            $msg .= mysql_error ();
+            $msg .= mysqli_error ();
             return false;
         }
     }

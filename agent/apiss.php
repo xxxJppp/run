@@ -107,7 +107,7 @@ if (empty($iii)) {
 
 
 
-$id = mysql_insert_id();
+$id = mysqli_insert_id();
 
 
 $m = $_POST['amount'];

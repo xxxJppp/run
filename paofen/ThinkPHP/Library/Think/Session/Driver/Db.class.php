@@ -60,24 +60,24 @@ class Db {
                    $r = floor(mt_rand(C('DB_MASTER_NUM'),count($host)-1));
                }
                //主数据库链接
-               $hander = mysql_connect(
+               $hander = mysqli_connect(
                    $host[$w].(isset($port[$w])?':'.$port[$w]:':'.$port[0]),
                    isset($user[$w])?$user[$w]:$user[0],
                    isset($pwd[$w])?$pwd[$w]:$pwd[0]
                    );
-               $dbSel = mysql_select_db(
+               $dbSel = mysqli_select_db(
                    isset($name[$w])?$name[$w]:$name[0]
                    ,$hander);
                if(!$hander || !$dbSel)
                    return false;
                $this->hander[0] = $hander;
                //从数据库链接
-               $hander = mysql_connect(
+               $hander = mysqli_connect(
                    $host[$r].(isset($port[$r])?':'.$port[$r]:':'.$port[0]),
                    isset($user[$r])?$user[$r]:$user[0],
                    isset($pwd[$r])?$pwd[$r]:$pwd[0]
                    );
-               $dbSel = mysql_select_db(
+               $dbSel = mysqli_select_db(
                    isset($name[$r])?$name[$r]:$name[0]
                    ,$hander);
                if(!$hander || !$dbSel)
@@ -88,12 +88,12 @@ class Db {
        }
        //从数据库链接
        $r = floor(mt_rand(0,count($host)-1));
-       $hander = mysql_connect(
+       $hander = mysqli_connect(
            $host[$r].(isset($port[$r])?':'.$port[$r]:':'.$port[0]),
            isset($user[$r])?$user[$r]:$user[0],
            isset($pwd[$r])?$pwd[$r]:$pwd[0]
            );
-       $dbSel = mysql_select_db(
+       $dbSel = mysqli_select_db(
            isset($name[$r])?$name[$r]:$name[0]
            ,$hander);
        if(!$hander || !$dbSel) 
@@ -109,10 +109,10 @@ class Db {
    public function close() {
        if(is_array($this->hander)){
            $this->gc($this->lifeTime);
-           return (mysql_close($this->hander[0]) && mysql_close($this->hander[1]));
+           return (mysqli_close($this->hander[0]) && mysqli_close($this->hander[1]));
        }
        $this->gc($this->lifeTime); 
-       return mysql_close($this->hander); 
+       return mysqli_close($this->hander);
    } 
 
     /**
@@ -122,9 +122,9 @@ class Db {
      */
    public function read($sessID) { 
        $hander 	= 	is_array($this->hander)?$this->hander[1]:$this->hander;
-       $res 	= 	mysql_query('SELECT session_data AS data FROM '.$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(),$hander); 
+       $res 	= 	mysqli_query('SELECT session_data AS data FROM '.$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(),$hander);
        if($res) {
-           $row = 	mysql_fetch_assoc($res);
+           $row = 	mysqli_fetch_assoc($res);
            return $row['data']; 
        }
        return ""; 
@@ -140,8 +140,8 @@ class Db {
        $hander 		= 	is_array($this->hander)?$this->hander[0]:$this->hander;
        $expire 		= 	time() + $this->lifeTime; 
        $sessData 	= 	addslashes($sessData);
-       mysql_query('REPLACE INTO  '.$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')",$hander); 
-       if(mysql_affected_rows($hander)) 
+       mysqli_query('REPLACE INTO  '.$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')",$hander);
+       if(mysqli_affected_rows($hander))
            return true; 
        return false; 
    } 
@@ -153,8 +153,8 @@ class Db {
      */
    public function destroy($sessID) { 
        $hander 	= 	is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query('DELETE FROM '.$this->sessionTable." WHERE session_id = '$sessID'",$hander); 
-       if(mysql_affected_rows($hander)) 
+       mysqli_query('DELETE FROM '.$this->sessionTable." WHERE session_id = '$sessID'",$hander);
+       if(mysqli_affected_rows($hander))
            return true; 
        return false; 
    } 
@@ -166,8 +166,8 @@ class Db {
      */
    public function gc($sessMaxLifeTime) { 
        $hander = 	is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query('DELETE FROM '.$this->sessionTable.' WHERE session_expire < '.time(),$hander); 
-       return mysql_affected_rows($hander); 
+       mysqli_query('DELETE FROM '.$this->sessionTable.' WHERE session_expire < '.time(),$hander);
+       return mysqli_affected_rows($hander);
    } 
 
 }
