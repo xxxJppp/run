@@ -544,7 +544,7 @@ $map['addtime'] = array('between', array($st, $en));
 	
 	public function  indexs(){
          //完善后需要修改url
-        $url = "http://paofenag.zhiyungk.com";
+        $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
        $querytype = trim(I('get.querytype'));
 		 $account = trim(I('get.keyword'));
 		 $coinpx = trim(I('get.coinpx'));

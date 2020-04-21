@@ -642,7 +642,7 @@ public function delnullorder(){
 		 $date['status'] = 1;
 		 $date['ordernum'] = getordernum();
         $date['zduid'] =$ulist['userid'];
-		
+		$date['uid'] = 0;
 		 
 		 if($date['price'] == ''){
 			 
