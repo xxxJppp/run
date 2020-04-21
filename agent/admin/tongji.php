@@ -47,9 +47,11 @@ $sucorder_money = $mysql->sum('ysk_userrob','price',' status = 2 and uid in (' .
 $q = $mysql->sum('ysk_userrob','price',' status = 1 and uid in (' .$auid. ')');
 
 
-
-$cg = round(($q/$finishorder_count )*100);
-
+if($finishorder_count!=0){
+    $cg = (($q/$finishorder_count )*100);
+}else{
+    $cg = 0;
+}
 
 
 include('./tpl/index/tongji.html');
