@@ -18,15 +18,18 @@ class UserController extends AdminController
 		 $querytype = trim(I('get.querytype'));
 		 $account = trim(I('get.keyword'));
 		 $coinpx = trim(I('get.coinpx'));
+		 $userid = I('get.userid');
 		 if($querytype != ''){
 			 if($querytype=='mobile'){
 				 $map['account'] = $account;
 			 }elseif($querytype=='userid'){
 				  $map['userid'] = $account;
 			 }
+		 }elseif(!empty($userid)){
+             $map = 'pid ='.$userid . ' or gid = '.$userid . ' or ggid = '.$userid;
 		 }else{
-			 $map = '';
-		 }
+             $map = '';
+         }
 		
 		
 		

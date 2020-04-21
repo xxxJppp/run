@@ -70,6 +70,7 @@
                                                     <th style="font-size:12px;">UID</th>
                                                     <th style="font-size:12px;">账号</th>
                                                     <th style="font-size:12px;">昵称</th>
+                                                    <th style="font-size:12px;">邀请码</th>
                                                     <th style="font-size:12px;">每日抢单数量</th>
                                                     <th style="font-size:12px;">注册</th>
                                                     <th style="font-size:12px;">直推</th>
@@ -93,6 +94,7 @@
 															<td style="font-size:12px;"><?php echo $v['userid'];?></td>
 															<td style="font-size:12px;"><?php echo $v['account'];?></td>
 															<td style="font-size:12px;"><?php echo $v['username'];?></td>
+                                                            <td style="font-size:12px;"><?php echo $v['u_yqm'];?></td>
                                                             <td style="font-size:12px;"><?php echo $v['num']==''?'不限制':$v['num'];?></td>
 															<td style="font-size:12px;"><?php echo date('Y-m-d',$v['reg_date']);?></td>
 															<td style="font-size:12px;"><?php echo M('user')->where(array('pid'=>$v['userid']))->count();?></td>
