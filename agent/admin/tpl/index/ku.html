@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 <!-- 产品列表 -->
@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     if (key == '') {alert('请填写会员昵称关键词');return}
     
-    location.href='ku?act=list&key='+key;
+    location.href='ku.php?act=list&key='+key;
 
    });
 })
@@ -83,7 +83,7 @@ $(document).ready(function(){
         <td>
           <div class="button-group">
    
-            <a class="button border-main" href="ku?act=dele&id=<?=$v['Id']?>">
+            <a class="button border-main" href="ku.php?act=dele&id=<?=$v['Id']?>">
               <span class="icon-edit"></span>删除
             </a>
             
@@ -99,7 +99,7 @@ $(document).ready(function(){
       </tr>
     </table>
 
-    <form action="ku" method="POST">
+    <form action="ku.php" method="POST">
 	
 	<p>
 		<textarea name="content" id="" cols="30" rows="10" style="margin: 0px; width: 1062px; height: 93px;"></textarea>

@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 <!-- 产品列表 -->
@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     if (key == '') {alert('请填写会员昵称关键词');return}
     
-    location.href='recharge?act=list&key='+key;
+    location.href='recharge.php?act=list&key='+key;
 
    });
 })
@@ -96,11 +96,11 @@ $(document).ready(function(){
         <td>
           <div class="button-group">
         <?php if($v['state'] == 3):?>
-            <a class="button border-main" href="recharge?act=edit&id=<?=$v['id']?>">
+            <a class="button border-main" href="recharge.php?act=edit&id=<?=$v['id']?>">
               <span class="icon-edit"></span>同意
             </a>
             
-            <a class="button border-red" id="dele"   href="javascript:if(confirm('您确定要拒绝吗?'))location='recharge?act=dele&id=<?=$v['id']?>'" >
+            <a class="button border-red" id="dele"   href="javascript:if(confirm('您确定要拒绝吗?'))location='recharge.php?act=dele&id=<?=$v['id']?>'" >
               <span class="icon-trash-o"></span>拒绝
             </a>
         <?php else:?>

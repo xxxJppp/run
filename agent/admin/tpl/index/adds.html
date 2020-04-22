@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 
@@ -84,7 +84,7 @@ $(document).ready(function(){
       $("#save").click(function(){
            var data = $("#admin").serialize();
            $.ajax({
-               url:'adds?act=add',
+               url:'adds.php?act=add',
                type:'POST',
                data:data,
                dataType:'json',

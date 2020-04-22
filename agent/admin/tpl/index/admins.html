@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 <?php  if($act == 'list'){ ?>
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     if (key == '' ) {alert('关键词不能为空');return}
     
-    location.href='admin?act=list&key='+key;
+    location.href='admin.php?act=list&key='+key;
 
    });
 })
@@ -58,7 +58,7 @@ $(document).ready(function(){
           <input type="text" placeholder="请输入管理员关键字" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
           <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" > 搜索</a>
         </li>
-        <li><a class="button border-main icon-plus-square-o" href="admin?act=add">添加管理员</a></li>
+        <li><a class="button border-main icon-plus-square-o" href="admin.php?act=add">添加管理员</a></li>
       </ul>
     </div>
     <table class="table table-hover text-center">
@@ -89,7 +89,7 @@ $(document).ready(function(){
             <a class="button border-main" href="admin.php?act=edit&gid=<?=$v['id']?>">
               <span class="icon-edit"></span>修改
             </a>
-            <a class="button border-red" id="deles"   href="javascript:if(confirm('您确定要删除吗?'))location='admin?act=dele&id=<?=$v['id']?>'" >
+            <a class="button border-red" id="deles"   href="javascript:if(confirm('您确定要删除吗?'))location='admin.php?act=dele&id=<?=$v['id']?>'" >
               <span class="icon-trash-o"></span>删除
             </a>
           </div>
@@ -175,7 +175,7 @@ $(document).ready(function(){
       $("#save").click(function(){
            var data = $("#admin").serialize();
            $.ajax({
-               url:'admin?act=add',
+               url:'admin.php?act=add',
                type:'POST',
                data:data,
                dataType:'json',

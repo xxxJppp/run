@@ -19,7 +19,7 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     if (key == '' ) {alert('关键词不能为空');return}
     
-    location.href='account?act=list&key='+key;
+    location.href='account.php?act=list&key='+key;
 
    });
 })
@@ -177,7 +177,7 @@ $(document).ready(function(){
       $("#save").click(function(){
            var data = $("#notice").serialize();
            $.ajax({
-               url:'notice?act=add',
+               url:'notice.php?act=add',
                type:'POST',
                data:data,
                dataType:'json',

@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 <?php  if($act == 'list'){ ?>
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     if (key == '' ) {alert('关键词不能为空');return}
     
-    location.href='throw?act=list&key='+key;
+    location.href='throw.php?act=list&key='+key;
 
    });
 })

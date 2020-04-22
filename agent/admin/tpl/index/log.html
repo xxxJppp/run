@@ -19,11 +19,11 @@
 <!-- 后台首页 头部 top end -->
 
 <!-- 后台首页 左侧导航栏 start -->
-<?php include('tpl/left.html');?>
+<?php include 'tpl/left.html';?>
 <!-- 后台首页 左侧导航栏 end -->
 
 <!-- 后台首页 面包屑 start -->
-<?php include('tpl/bread.html');?>
+
 <!-- 后台首页 面包屑 end -->
 
 <!-- 产品列表 -->
@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     if (key == '') {alert('请填写会员昵称关键词');return}
     
-    location.href='log?act=list&key='+key;
+    location.href='log.php?act=list&key='+key;
 
    });
 })
