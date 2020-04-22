@@ -16,7 +16,7 @@ $a = isset($myde_page) ? ($myde_page-1)*$myde_size : ($myde_page-1)*$myde_size;
 // 搜索会员信息
 if(isset($_GET['act'])&&$_GET['act']=='select'){
 
-	$where = 'WHERE '.$_POST['name'].' LIKE "%'.$_POST['key'].'%"';
+	$where = 'WHERE '.$_POST['name'].' LIKE "%'.$_POST['key'].'%" and pid ='.$_SESSION['admin_uid'] . ' or gid = '.$_SESSION['admin_uid'] . ' or ggid = '.$_SESSION['admin_uid'];
 
 	$sql = "SELECT * FROM `ysk_user` $where order by userid desc  LIMIT $a,$myde_size";
 	$user = $mysql->getAll($sql);
