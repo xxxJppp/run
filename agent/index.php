@@ -1,17 +1,17 @@
 <?php 
 define('ACC',TRUE);
 include('./sys/init.php');
- $user=$_SESSION['admin_name'];
-  //  $key=$_REQUEST["key"];
+/*$user=$_SESSION['admin_name'];
+ //  $key=$_REQUEST["key"];
 $agent_info = $mysql->select('ysk_agent','*','names = '."'$user'");
-	/*$pwd = $_REQUEST['pwd'];
-	$money = $_REQUEST['money'];
+   $pwd = $_REQUEST['pwd'];
+   $money = $_REQUEST['money'];
 
-  
-    
-    $sql = "update  ysk_agent set money = money-'$money' where id=".$agent_info['id'];
 
-    $d=$mysql->query($sql);*/
+
+   $sql = "update  ysk_agent set money = money-'$money' where id=".$agent_info['id'];
+
+   $d=$mysql->query($sql);*/
   
  /*$data1['shanghu_id'] = $agent_info['id'];
     $data1['shanghu_name'] = $agent_info['names'];
