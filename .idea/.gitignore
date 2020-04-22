@@ -1,3 +1,9 @@
 
 # Default ignored files
 /workspace.xml
+/misc.xml
+/modules.xml
+/vcs.xml
+/run.iml
+paofen/APP/Common/Conf/config.php
+paofen/APP/Runtime
