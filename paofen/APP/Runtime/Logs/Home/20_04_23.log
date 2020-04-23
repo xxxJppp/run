@@ -1,0 +1,20 @@
+[ 2020-04-23T11:26:24+08:00 ] 127.0.0.1 /Public/sy.mp3
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000062s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.016764s ]
+INFO: Run Common\Behavior\CheckLangBehavior [ RunTime:0.033876s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.050700s ]
+ERR: 无法加载控制器:Public
+
+[ 2020-04-23T11:26:24+08:00 ] 127.0.0.1 /logo.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000024s ]
+
+[ 2020-04-23T11:28:10+08:00 ] 127.0.0.1 /Public/attached/2020/04/19/5e9c006c24a8b.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000005s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000027s ]
+
