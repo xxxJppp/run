@@ -1,0 +1,140 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+</block>
+
+<block name="main">
+   <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+
+            <li class="text-muted">商户管理 /  增加商户</li>
+
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <div class="form-group"></div>
+                    <div class="builder-container" >
+                            <div class="row" >
+                                <div class="col-xs-12">
+                                    <form action="__SELF__" method="post" class="form-horizontal form form-builder">
+                                        <div class="form-type-list">
+                                            
+                                          
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">商户名：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input" name="username" v placeholder="商户名" required="required" >
+                                                </div>
+                                            </div>
+                                         
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">商户秘钥：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" id="key" name="key"placeholder="商户秘钥" required="required" >
+                                                    <a href="JavaScript:" style="float: left;" id="scmy">生成秘钥</a>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group item_title ">
+                                                <label class="left control-label">商户网址（不要http://）：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" name="url"placeholder="商户网址" required="required" >
+                                                    
+                                                </div>
+                                            </div>
+                                          
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">登录密码：</label>
+                                                <div class="right">
+                                                    <input type="password" class="form-control input text" name="pwd" placeholder="必须填写" required="required" >
+                                                </div>
+                                            </div>
+   
+
+                                             <div class="form-group item_title ">
+                                                <label class="left control-label">微信费率（%）：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" name="wx" placeholder="微信费率" required="required" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">支付宝费率（%）：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" name="zfb" placeholder="支付宝费率" required="required" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">商家码费率（%）：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" name="sjm" placeholder="商家码费率"  required="required"   >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">商家状态：</label>
+                                                <div class="right">
+                                                    <input type="radio"  name="zt"   checked="checked" value="1" >正常
+
+                                                    <input type="radio"  name="zt"  value="0" >停用
+                                                </div>
+                                            </div>
+
+
+             
+                                        <div class="form-group"></div>
+                                        <div class="form-group bottom_button_list">
+                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="form-builder">增加</a>
+                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>                   
+</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+    <script>
+
+    function randomWord(randomFlag, min, max) {
+	    var str = "",
+	        range = min,
+	        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+	    // 随机产生
+	    if (randomFlag) {
+	        range = Math.round(Math.random() * (max - min)) + min;
+	    }
+	    for (var i = 0; i < range; i++) {
+	        pos = Math.round(Math.random() * (arr.length - 1));
+	        str += arr[pos];
+	    }
+	    return str;
+	}
+
+	$("#scmy").click(function(){
+
+		 var key = randomWord(true,32,32);
+         
+         $("#key").val(key);
+
+	})
+
+
+
+
+
+
+    </script>
+</block>
