@@ -1,6 +1,21 @@
-<extend name="Public/layout"/>
-
-<block name="style">
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="generator" content="CoreThink">
+  <!--meta http-equiv="refresh" content="60"-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="<?php echo C('WEB_SITE_TITLE');?>">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="apple-touch-icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/logo.png">
+    <link rel="stylesheet" type="text/css" href="/Public/libs/lyui/dist/css/lyui.min.css">
+    <link rel="stylesheet" type="text/css" href="/APP/Admin/View/Public/css/admin.css">
+    
     <style type="text/css">
         .background {
             position: absolute;
@@ -175,29 +190,121 @@
             }
         }
     </style>
-</block>
 
-<block name="full-header"></block>
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <script type="text/javascript" src="/Public/libs/jquery/1.x/jquery.min.js"></script>
+     <link rel="stylesheet" href="/Public/plugin/themes/default/default.css" />
+    <script charset="utf-8" src="/Public/plugin/kindeditor-min.js"></script>
+    <script charset="utf-8" src="/Public/plugin/lang/zh_CN.js"></script>
 
-<block name="full-container">
+    <!-- 日期 -->
+    <script type="text/javascript" src="/Public/libs/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/Public/libs/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <!-- 日期js cs -->
+    <link href="/Public/libs/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <link href="/Public/libs/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<style>
+  .warning-msg {display:block; bottom:0px; right:0px; position:fixed;}
+* html .warning-msg {position:absolute; right:18px}
+.notification {
+  font-family:Digital,'Microsoft YaHei',STFangsong;
+  display: flex;
+  margin: 0 auto;
+  min-height:50px;
+}
+.notification .info {
+  flex: 1;
+  padding: 10px 10px 0 10px;
+  background: #6c7e98;
+  border-radius: 3px 0 0 3px;
+  border-bottom: 3px solid #c0cdd1;
+}
+.notification .info span {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  color: #fff;
+}
+.notification .info p {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 12px;
+  color: #c5bebe;
+}
+.notification .info .button {
+  display: inline-block;
+  margin: 3px 3px 5px 0;
+  padding: 3px 7px;
+  border-radius: 2px;
+  border-bottom: 1px solid;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ecf0f1;
+}
+.notification .info .button.gray {
+  background: #95a5a6 ;
+  border-bottom-color: #798d8f;
+}
+.notification .info .button {
+  background: #435d8a;
+  border-bottom-color: #435d8a;
+}
+
+  </style>
+</head>
+   <script type="text/javascript">
+   function seeNum(){
+        var seeNumUrl = "<?php echo U('Index/seeNum');?>";
+        var rechargeState = 1;//充值声音开关，1开/0关
+        $.ajax({
+            type : "POST",
+            url : seeNumUrl,
+            data: {rechargeState:rechargeState},
+            dataType : "json",
+            success : function(result){
+                if(result['code']!="000"){
+                   $("#ifr").attr("src",result['url']);
+                   $("#zt").text(result['msg']);
+               
+                }
+            },
+            error:function(){
+                //alert();
+            }
+        });
+    }
+    setInterval(seeNum,15000);
+</script>
+<!-- <body class="admin_index_index"> --> <iframe src="" height="1" width="1" frameborder="0" id="ifr"></iframe>
+<body class="admin_config_group" >
+    <div class="clearfix full-header">
+        
+    </div>
+
+    <div class="clearfix full-container" id="full-container">
+        
     <!-- 背景 -->
     <div id="particles-js" class="background"></div>
 
     <!-- 登陆框 -->
     <div class="panel-lite">
         <div class="brand">
-            <php>if(C('WEB_SITE_LOGO')):</php>
-                <a href="{:C('HOME_PAGE')}" target="_blank">
-                    <img alt="logo" class="logo img-responsive" src="{$Think.config.WEB_SITE_LOGO|get_cover}">
+            <?php if(C('WEB_SITE_LOGO')): ?>
+                <a href="<?php echo C('HOME_PAGE');?>" target="_blank">
+                    <img alt="logo" class="logo img-responsive" src="<?php echo (get_cover(C("WEB_SITE_LOGO"))); ?>">
                 </a>
-            <php>else:</php>
-                <a href="{:C('HOME_PAGE')}" target="_blank">
-                    {:C('LOGO_DEFAULT')}
+            <?php else: ?>
+                <a href="<?php echo C('HOME_PAGE');?>" target="_blank">
+                    <?php echo C('LOGO_DEFAULT');?>
                 </a>
-            <php>endif;</php>
+            <?php endif; ?>
         </div>
         <h4>后台管理登录</h4>
-        <form class="login-form" action="{:U('Admin/pubss/login')}" method="post">
+        <form class="login-form" action="<?php echo U('Admin/pubss/login');?>" method="post">
             <div class="form-group">
                 <input type="text" required="required" class="form-control" value="" name="username" autocomplete="off">
                 <label class="form-label">账　号</label>
@@ -208,7 +315,7 @@
             </div>
              <div class="form-group">
                 <input type="text"  placeholder="请输入验证码" required="required" style="width:60%" class="form-control" name="verify">
-                <img src="{:U('Pubss/verify',array())}" id="verify_img" style="width: 39%;
+                <img src="<?php echo U('Pubss/verify',array());?>" id="verify_img" style="width: 39%;
     float: right;
     margin-top: -45px; ">
                
@@ -228,12 +335,37 @@
     <script>
 
 $("#verify_img").click(function() {
-           var verifyURL = "{:U('Pubss/verify',array())}";
+           var verifyURL = "<?php echo U('Pubss/verify',array());?>";
            var time = new Date().getTime();
            $("#verify_img").attr({
               "src" : verifyURL 
            });
         });
 </script>
-</block>
 
+
+    </div>
+
+    <div class="clearfix full-footer">
+        
+    </div>
+
+    <div class="clearfix full-script">
+        <div class="container-fluid">
+            <input type="hidden" id="corethink_home_img" value="__HOME_IMG__">
+            <script type="text/javascript" src="/Public/libs/lyui/dist/js/lyui.min.js"></script>
+            <script type="text/javascript" src="/APP/Admin/View/Public/js/admin.js"></script>
+            
+        </div>
+    </div>
+<div class="warning-msg">
+        <div class="notification">
+       <div class="info">
+                <span id="zt"></span>
+           
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-    
+
     <head>
         <title>
             管理首页
@@ -53,7 +53,7 @@
         <div class="page-container">
         	<div class="left-content">
                 <div class="mother-grid-inner">
-                   
+
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="home.php">
@@ -76,7 +76,7 @@
                                         支付订单统计
                                     </h3>
                                     <h4>
-                                       
+
                                        <?=$sum?>条【 <?=$summ?>元】
                                     </h4>
                                 </div>
@@ -112,10 +112,10 @@
                                      <?php  if($agent_info['zt'] == 0) {?>
                                        <span style="color:red">停用</span>
                                      <?php  }else{  ?>
-                                        
+
                                         <span style="color:#1b93e1">正常</span>
 
-                                     <?php  } ?>  
+                                     <?php  } ?>
                                    </li>
                                    <li>支付费率：
                                     微信<span style="color:#1b93e1"><?=$agent_info['wx']?>%</span>&nbsp;
@@ -127,7 +127,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="clearfix">
                         </div>
                     </div>
@@ -154,12 +154,12 @@
 					 });
 
 
-					})        
+					})
 					</script>
 
                     <!--//four-grids here-->
                     <!--agileinfo-grap-->
-                
+
                     <!--//agileinfo-grap-->
                     <!--photoday-section-->
                     <div class="col-sm-4 wthree-crd" >
@@ -197,13 +197,13 @@
                                                         <td>
                                                              <?=date('Y-m-d H:i:s',$v['addtime'])?>
                                                         </td>
-                                                       
+
                                                     </tr>
-                                                    <?php } ?>  
-                                           
-                                               
-                                              
-                                              
+                                                    <?php } ?>
+
+
+
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -261,14 +261,14 @@
                                                     商家码
                                                <?php } ?>
                                             </td>
-                                            
-                                           
+
+
                                             <td>
                                                 <?=date('Y-m-d H:i:s',$v['pipeitime'])?>
                                             </td>
                                              <td>
                                                 <?=$v['price']?>实到
-												 
+
 												<?php if($v['class'] == 1) {?>
                                                     <?=$v['price']-($v['price']*$agent_info['wx']/100)?>
                                                <?php }elseif($v['class'] == 2){ ?>
@@ -277,12 +277,12 @@
                                                <?php }elseif($v['class'] == 3){ ?>
                                                    <?=$v['price']-($v['price']*$agent_info['sjm']/100)?>
                                                <?php } ?>
-                                               
+
                                             </td>
                                              <td>
                                                已到账
                                             </td>
-                                           
+
                                         </tr>
                                         <?php }?>
                                             </tbody>
@@ -291,11 +291,11 @@
                             </div>
                         </div>
                     </div>
-                   
-                 
+
+
                     <!--//photoday-section-->
                     <!--w3-agileits-pane-->
-                  
+
                     <!--//w3-agileits-pane-->
                     <!-- script-for sticky-nav -->
                     <script>
@@ -318,7 +318,7 @@
                     </div>
                     <!--inner block end here-->
                     <!--copy rights start here-->
-                   
+
                     <!--COPY rights end here-->
                 </div>
             </div>
@@ -326,7 +326,7 @@
             <?php  include('./tpl/nav.php');?>
             <!--//content-inner-->
             <!--/sidebar-menu-->
-            
+
         </div>
         <script>
             var toggle = true;

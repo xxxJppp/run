@@ -89,6 +89,19 @@ if (ajaxs()) {
 	} else {
        
         if ($pwds == $info['login_pwd']) {
+            //google验证
+            if ($info['is_open_google_auth']) {
+                require_once('./Service/GoogleAuthenticator.class.php');
+                $ga = new GoogleAuthenticator();
+                // 验证验证码和密钥是否相同
+                $checkResult = $ga->verifyCode($info['google_auth'], $_POST['g_code'], 1);
+                if(!$checkResult){
+                    $data['txt'] = '谷歌验证码不正确';
+                    $data['error'] = 1;
+                    ajax_text($data);
+                }
+            }
+
         	$data['error'] = 0;
         	$_SESSION['admin_uid'] = $info['userid'];
         	$_SESSION['admin_name'] = $info['mobile'];

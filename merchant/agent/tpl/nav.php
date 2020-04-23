@@ -98,6 +98,17 @@
                                 </div>
                             </a>
                         </li>
+                        <li id="menu-academico">
+                            <a href="google.php">
+                                <i class="fa fa-file-text-o">
+                                </i>
+                                <span>
+                                    谷歌验证码绑定
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </a>
+                        </li>
                         <li >
                             <a href="out.php">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>

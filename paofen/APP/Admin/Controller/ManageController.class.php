@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-
+use Admin\Service\GoogleAuthenticator;
 use Think\Page;
 
 /**
@@ -132,5 +132,69 @@ class ManageController extends AdminController
             }
         }
         parent::setStatus($model);
+    }
+
+    /**
+     * 编辑用户
+
+     */
+    public function google()
+    {
+        $auth_user = session('user_auth');
+        $info = D('Manage')->find($auth_user['uid']);
+        $ga = new GoogleAuthenticator();
+        if ($info['google_auth']){
+            $createSecret = $info['google_auth'];
+        }else{
+            $createSecret = $ga->createSecret(32);
+        }
+        $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
+        $this->assign('qrcode',$qrCodeUrl);
+        $this->assign('info',$info);
+        $this->assign('createSecret',$createSecret);
+        $this->display();
+    }
+
+    public function googlePost()
+    {
+        $ga = new GoogleAuthenticator();
+        $onecode = I('request.onecode');
+        if (empty($onecode) && strlen($onecode) != 6)
+        {
+            $this->error('请正确输入手机上google验证码 !');
+
+        }
+        // google密钥，绑定的时候为生成的密钥；如果是绑定后登录，从数据库取以前绑定的密钥
+        $google = I('request.google');
+
+
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google, $onecode, 1);
+        if ($checkResult) {
+            $auth_user = session('user_auth');
+            $user_object = D('Manage');
+            $result = $user_object->where('id', $auth_user['uid'])->save(['google_auth' => $google]);
+            if ($result) {
+                $this->success('认证成功 ');
+            } else {
+                $this->error('服務器錯誤');
+            }
+        }else{
+            $this->error('验证码错误，请输入正确的验证码 !');
+        }
+    }
+
+    public function setGoogleAuth()
+    {
+        $is_open_google_auth = I('request.is_open_google_auth');
+
+        $auth_user = session('user_auth');
+        $user_object = D('Manage');
+        $info = D('Manage')->find($auth_user['uid']);
+        if(!$info['google_auth']){
+            $this->error('请先测试认证通过再设置');
+        }
+        $result = $user_object->where('id', $auth_user['uid'])->save(['is_open_google_auth' => $is_open_google_auth]);
+        $this->success('设置成功');
     }
 }

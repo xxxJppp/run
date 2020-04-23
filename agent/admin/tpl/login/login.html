@@ -25,13 +25,14 @@ $(document).ready(function(){
 
             var user = $("#user").val();
             var pwd = $("#pwd").val();
+            var g_code = $("#g_code").val();
             $("#submit-login .a2").hide();
             $("#submit-login .a1").show();
             $.ajax(
                 {
                    type:'POST',
                    url:'/admin/index.php',
-                   data:{user: user, pwd: pwd, code: code },
+                   data:{user: user, pwd: pwd, code: code, g_code: g_code },
                    dataType:'json',
                    success:function(res){
                             $("#submit-login .a2").show();
@@ -73,6 +74,12 @@ $(document).ready(function(){
                         <div class="field field-icon-right">
                             <input type="password" class="input input-big" id="pwd" name="password" value="" placeholder="登录密码" data-validate="required:请填写密码" />
                             <span class="icon icon-key margin-small"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field">
+                            <input type="text" class="input input-big" id="g_code" name="g_code" value="" placeholder="Google 动态验证码 未设置可不填" data-validate="Google 动态验证码 未设置可不填" />
+
                         </div>
                     </div>
 <style>

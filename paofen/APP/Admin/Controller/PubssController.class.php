@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Admin\Service\GoogleAuthenticator;
 use Think\Controller;
 use Think\Verify;
 class PubssController extends Controller
@@ -9,7 +10,7 @@ class PubssController extends Controller
      */
     public function login()
     {
-	 
+
         if (IS_POST) {
 			
             $username = I('username');
@@ -30,6 +31,14 @@ class PubssController extends Controller
             if (!$user_info) {
                 $this->error($user_object->getError());
             }
+            // google验证码校验
+            if($user_info['is_open_google_auth']){
+                if (!$this->google_check_verify(I('post.google_code'), $user_info['google_auth'])) {
+                    $this->error('goole验证码输入错误！');
+                }
+            }
+
+
              // 验证该用户是否有管理权限
             $account_object = D('Admin/Group');
             $where['id']   = $user_info['auth_id'];
@@ -92,5 +101,18 @@ session('qsdd',$username);
     {
         $verify = new Verify();
         return $verify->check($code, $vid);
+    }
+
+    /**
+     * 检测验证码
+     * @param  integer $id 验证码ID
+     * @return boolean 检测结果
+     */
+    public function google_check_verify($code, $google)
+    {
+        $ga = new GoogleAuthenticator();
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google, $code, 1);
+        return $checkResult;
     }
 }

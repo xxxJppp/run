@@ -26,7 +26,7 @@ require(ROOT . 'sys/lib_base.php');
 require(ROOT . 'Comm/fun.php');
 
 
-function __autoload($class) {
+function autoload($class) {
 	
     if(strtolower(substr($class,-5)) == 'model') {
 
@@ -45,6 +45,7 @@ function __autoload($class) {
        require(ROOT . 'sys/' . $class . '.class.php');
     }  
 }
+spl_autoload_register('autoload');
 
 $_GET = _addslashes($_GET);
 
