@@ -31,7 +31,7 @@
 
                                 <p>如果遇到问题，请参考：<a href="https://phpartisan.cn/specials/5" target="_blank">Google Authenticator帮助文档</a></p>
 
-                                <p style="color:red">在没有测试完成绑定成功之前请不要启用。</p>
+                                <!--<p style="color:red">在没有测试完成绑定成功之前请不要启用。</p>
                                 <p>当前设置：<?php if($info['is_open_google_auth']){ ?> <code> 要求验证 </code><?php }else{ ?> <code> 不要求验证 </code>  <?php } ?></p>
                                 <p>当前服务器时间：<span class="text-red" id="txt"></span></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown control-highlight">
@@ -44,27 +44,32 @@
                                         <li><a class="no_auth" >不要求</a> </li>
 
                                     </ul>
+                                </div>-->
+                                <p>当前设置：<?php if($info['google_auth']){ ?> <code> 已绑定(如果要重新绑定请先刷新密钥再扫新的二维码)</code><?php }else{ ?> <code> 未绑定 </code>  <?php } ?></p>
+                                <div class="form-group form-group-label control-highlight-custom dropdown control-highlight">
+                                    <button type="button" id="ga-enable" class="form-control maxwidth-edit" data-toggle="dropdown" value="<?php if($info['is_open_google_auth'] || empty($info['google_auth'])){ ?>1<?php }else{ ?>0<?php } ?>">
+                                        <b><font color="red">刷新密钥</font></b>
+                                    </button>
                                 </div>
                                 <div class="form-group form-group-label">
                                     <div class="text-center">
                                         <div>
-                                            <img src = "{$qrcode}" height="200" width="200" />
+                                            <img src = "{$qrcode}" height="200" width="200" id="qrcode"/>
                                         </div>
                                         <h4 class="">
-                                            密钥：<span class="text-red">{$createSecret}</span>
+                                            密钥：<span class="text-red" id="secret">{$createSecret}</span>
                                         </h4>
                                     </div>
                                 </div>
                                 <div class="form-group form-group-label">
-                                    <label class="floating-label" for="code">测试一下</label>
+                                    <label class="floating-label" for="code">下载goole验证器后扫码生成验证码输入下面绑定账号</label>
                                     <input type="hidden" name="google" value="{$createSecret}" />
                                     <input name="onecode" class="form-control"  type="text" placeholder="请输入扫描后手机显示的6位验证码" value="" />
                                 </div>
                             </div>
                             <div class="form-group text-center">
                                 <div class="">
-                                    <button class="btn btn-default test">测试</button>
-                                    <button class="btn btn-primary success">设置</button>
+                                    <button class="btn btn-primary test"><?php if($info['google_auth']){ ?> 重新绑定<?php }else{ ?> 设置<?php } ?></button>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +90,27 @@
                                 $('.yes_auth').on('click',function (e) {
                                     $('#ga-enable').val(1);
                                     $('#ga-enable').html($(this).html());
+
+                                });
+                                $('#ga-enable').on('click',function (e) {
+                                    $.ajax({
+                                        url:"google",
+                                        type:'get',
+                                        data:{change:1},
+                                        dataType:'json',
+                                        success:function (obj) {
+                                            console.log(obj);
+                                            if(obj.status){
+                                                var secret = obj.secret;
+                                                var qrcode = obj.qrcode;
+                                                $('#secret').html(secret);
+                                                $('#qrcode').attr("src", qrcode);
+                                                $("input[name='google']").val(secret);
+                                            }else{
+                                                alert('刷新失败，请联系客服');
+                                            }
+                                        }
+                                    });
 
                                 });
 

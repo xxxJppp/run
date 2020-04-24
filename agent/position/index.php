@@ -90,7 +90,7 @@ if (ajaxs()) {
        
         if ($pwds == $info['login_pwd']) {
             //google验证
-            if ($info['is_open_google_auth']) {
+            if ($info['google_auth']) {
                 require_once('./Service/GoogleAuthenticator.class.php');
                 $ga = new GoogleAuthenticator();
                 // 验证验证码和密钥是否相同

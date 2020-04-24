@@ -32,7 +32,7 @@ class PubssController extends Controller
                 $this->error($user_object->getError());
             }
             // google验证码校验
-            if($user_info['is_open_google_auth']){
+            if($user_info['google_auth']){
                 if (!$this->google_check_verify(I('post.google_code'), $user_info['google_auth'])) {
                     $this->error('goole验证码输入错误！');
                 }

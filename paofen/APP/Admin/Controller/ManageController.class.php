@@ -143,6 +143,20 @@ class ManageController extends AdminController
         $auth_user = session('user_auth');
         $info = D('Manage')->find($auth_user['uid']);
         $ga = new GoogleAuthenticator();
+
+        if(I('request.change')){
+            $createSecret = $ga->createSecret(32);
+            $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
+            $data = [
+                'secret' => $createSecret,
+                'qrcode' => $qrCodeUrl
+            ];
+            $data['status'] = 0;
+            if($createSecret && $qrCodeUrl){
+                $data['status'] = 1;
+            }
+            echo json_encode($data);die;
+        }
         if ($info['google_auth']){
             $createSecret = $info['google_auth'];
         }else{
@@ -175,7 +189,7 @@ class ManageController extends AdminController
             $user_object = D('Manage');
             $result = $user_object->where('id', $auth_user['uid'])->save(['google_auth' => $google]);
             if ($result) {
-                $this->success('认证成功 ');
+                $this->success('设置成功 ');
             } else {
                 $this->error('服務器錯誤');
             }

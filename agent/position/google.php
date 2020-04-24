@@ -8,6 +8,22 @@ if (!$_SESSION['admin_uid']&&!$_SESSION['admin_name']) {
 }
 
 require_once('./Service/GoogleAuthenticator.class.php');
+
+if (isset($_GET['change'])) {
+    $ga = new GoogleAuthenticator();
+    $createSecret = $ga->createSecret(32);
+    $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen_merchant', $createSecret);
+    $data = [
+        'secret' => $createSecret,
+        'qrcode' => $qrCodeUrl
+    ];
+    $data['status'] = 0;
+    if($createSecret && $qrCodeUrl){
+        $data['status'] = 1;
+    }
+    echo json_encode($data);die;
+}
+
 if (isset($_POST['onecode'])) {
     $ga = new GoogleAuthenticator();
     $onecode = $_REQUEST['onecode'];
@@ -24,7 +40,7 @@ if (isset($_POST['onecode'])) {
         $agent_info = $mysql->select('ysk_user','*','userid='.$_SESSION['admin_uid']);
         $result = $mysql->update('ysk_user',['google_auth' => $google],'userid='.$agent_info['userid']);
         if ($result) {
-            echo '认证成功';die;
+            echo '设置成功';die;
         } else {
             echo '服務器錯誤';die;
         }
