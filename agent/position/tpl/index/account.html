@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title><?=$html_info['title']?></title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+
+<?php  if($act == 'list'){ ?>
+<!-- 产品列表 -->
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+  $("#searchs").click(function(){
+         
+    var key = $('#key').val();
+
+    var cat = $("#select_id").find("option:selected").val(); //获取Select选择的text
+
+    if (key == '' ) {alert('关键词不能为空');return}
+    
+    location.href='account.php?act=list&key='+key;
+
+   });
+})
+
+</script>
+<div class="admin">
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head">
+    	<strong class="icon-reorder"> 账变明细</strong>
+    </div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>搜索：</li>
+        <li>
+          <input type="text" placeholder="请输入用户名" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" >搜索</a>
+        </li>
+
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+       <tr>
+                                                    <th style="font-size:12px;">ID</th>
+                                                    <th style="font-size:12px;">会员账号</th>
+                       
+                                                    <th style="font-size:12px;">事件</th>
+                                                    <th style="font-size:12px;">时间</th>
+                                                    <th style="font-size:12px;">金额</th>
+
+                       
+                                                </tr>
+      
+      <?php foreach($list as $v):?>
+      <tr>
+                              <td style="font-size:12px;"><?php echo $v['id'];?></td>
+                              <td style="font-size:12px;">
+
+
+                   
+
+                                 <?php echo $mysql->select('ysk_user','mobile','userid='.$v['uid']);?>
+
+
+
+                              </td>
+      
+                              <td style="font-size:12px;"><?php echo $v['info'];?></td>
+                              <td style="font-size:12px;"><?php echo date('Y-m-d H:i',$v['addtime']);?></td>
+                              <td style="font-size:12px;"><?php echo $v['num'];?></td>
+
+  
+                            </tr>
+   		<?php endforeach;?>
+      <tr>
+        <td colspan="6" >
+          <?php echo $page->myde_write();?>
+        </td>
+      </tr>
+    </table>
+  </div>
+</form>
+</div>
+<!-- 产品列表结束 -->
+<?php }else{ ?>
+<!-- 增加或者修改产品 -->
+<div class="admin">
+  <div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span><?=$html_info['title']?></strong></div>
+  <div class="body-content">
+    <form id="notice" class="form-x">
+      <div class="form-group">
+        <div class="label">
+          <label>彩种名称:</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" required="required"  value="<?=isset($notice['title'])?$notice['title']:''?>" name="title"/>
+          <div class="tipss">必填</div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="label">
+          <label>拼音标识:</label>
+        </div>
+        <div class="field">
+          <input type="text" required="required"  class="input w50" value="<?=isset($notice['biaoshi'])?$notice['biaoshi']:''?>" name="biaoshi"/>
+          <div class="tipss">不要随便修改</div>
+        </div>
+      </div>
+     
+    
+
+      <div class="form-group">
+        <div class="label">
+          <label>彩种排序:</label>
+        </div>
+        <div class="field">
+          <input type="text" required="required"  class="input w50" value="<?=isset($notice['lev'])?$notice['lev']:0?>" name="lev"/>
+          <div class="tipss">数字大的排名靠前</div>
+        </div>
+      </div>
+      <input type="hidden" required="required"  name="notice_id" value="<?=isset($notice['id'])?$notice['id']:0?>">
+      <div class="form-group">
+        <div class="label">
+          <label>计划状态:</label>
+        </div>
+        <div class="field" style="padding-top: 6px;">
+           <input type="radio" name="con_s" <?php if($notice['con_s'] == 1) {?> checked  <?php } ?> value="1">正常 
+           &nbsp;&nbsp;
+           <input type="radio" name="con_s" <?php if($notice['con_s'] == 0) {?> checked  <?php } ?> value="0">关闭
+        </div>
+      </div>
+     
+     
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="save" type="button">保 存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+<script>
+
+$(document).ready(function(){
+ 
+      $("#save").click(function(){
+           var data = $("#notice").serialize();
+           $.ajax({
+               url:'notice.php?act=add',
+               type:'POST',
+               data:data,
+               dataType:'json',
+               success:function(res){
+                      if (res.error == 1) {
+                          alert(res.txt);
+                      }else{
+                          alert(res.txt);
+                          window.location='notice';
+                      }
+               }
+           })  
+      })
+})
+
+
+</script>
+<!-- 增加产品列表结束 -->
+<?php }?>
+
+
+
+</body>
+</html>

@@ -12,10 +12,10 @@ define("ROOT_PATH",'http://'.$_SERVER['HTTP_HOST'].'/');
 //define('DEBUG',true);
 
 define('PATH','http://'.$_SERVER['SERVER_NAME'].'/');
-define('__A_TPL__','http://'.$_SERVER['SERVER_NAME'].'/admin/');
-define('__A_CSS__','http://'.$_SERVER['SERVER_NAME'].'/admin/public/css/');
-define('__A_JS__','http://'.$_SERVER['SERVER_NAME'].'/admin/public/js/');
-define('__A_IMG__','http://'.$_SERVER['SERVER_NAME'].'/admin/public/images/');
+define('__A_TPL__','http://'.$_SERVER['SERVER_NAME'].'/position/');
+define('__A_CSS__','http://'.$_SERVER['SERVER_NAME'].'/position/public/css/');
+define('__A_JS__','http://'.$_SERVER['SERVER_NAME'].'/position/public/js/');
+define('__A_IMG__','http://'.$_SERVER['SERVER_NAME'].'/position/public/images/');
 
 
 require(ROOT . 'sys/lib_base.php');

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title><?=$html_info['title']?></title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+
+<?php  if($act == 'list'){ ?>
+<!-- 产品列表 -->
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+  $("#searchs").click(function(){
+         
+    var key = $('#key').val();
+
+    var cat = $("#select_id").find("option:selected").val(); //获取Select选择的text
+
+    if (key == '' ) {alert('关键词不能为空');return}
+    
+    location.href='throw.php?act=list&key='+key;
+
+   });
+})
+
+</script>
+<div class="admin">
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head">
+    	<strong class="icon-reorder">任务列表</strong>
+    </div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>搜索：</li>
+        <li>
+          <input type="text" placeholder="请输入用户名" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" >搜索</a>
+        </li>
+         <li>
+            <a class="button border-main icon-plus-square-o" href="addrenwus.php?act=add">增加任务</a>
+          </li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th>ID</th>
+        <th>任务名称</th>
+        <th>任务佣金</th>
+        <th>任务数量</th>
+        <th>剩余数量</th>
+        <th>任务限时</th>
+        <th>上架日期</th>
+        <th>任务状态</th>
+        <th>操作</th>
+      </tr>
+      
+      <?php foreach($list as $v):?>
+      <tr>
+        <td>
+         <?=$v['id']?>
+        </td>
+        <td>
+          <?php echo $v['title'];   ?>
+        </td>
+        <td>
+          <?php echo $v['money'];   ?>
+        </td>
+        <td>
+          <?php echo $v['num']?>
+        </td>
+        <td>
+          <?php echo $v['num']-$v['snum']?>
+        </td>
+        <td>
+          <?php echo $v['xianshi']?>小时内完成
+        </td>
+         <td>
+         <?php echo $v['addtime']?>
+        </td>
+        <td>
+          <?php echo $v['zt'] == 1?'<span> 正常</span>':'<span style="color:Red">已下架</span>'?>
+        </td>
+
+        
+       <td>
+          <div class="button-group">
+
+            <a class="button border-main" href="throw.php?act=edit&id=<?=$v['id']?>">
+              <span class="icon-edit"></span> 详情
+            </a>
+
+             <a class="button border-red" id="deles" href="dele.php?id=<?=$v['id']?>" >
+              <span class="icon-trash-o"></span> 删除
+            </a>
+          </div>
+        </td> 
+      </tr>
+   		<?php endforeach;?>
+      <tr>
+        <td colspan="9" >
+          <?php echo $page->myde_write();?>
+        </td>
+      </tr>
+    </table>
+  </div>
+</form>
+</div>
+<!-- 产品列表结束 -->
+<?php }else{ ?>
+
+<!-- 增加产品列表结束 -->
+<?php }?>
+
+
+
+</body>
+</html>

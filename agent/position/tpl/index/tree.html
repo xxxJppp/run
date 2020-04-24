@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title><?=$html_info['title']?></title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+
+<?php  if($act == 'list'){ ?>
+<!-- 产品列表 -->
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+  $("#searchs").click(function(){
+         
+    var key = $('#key').val();
+
+    var cat = $("#select_id").find("option:selected").val(); //获取Select选择的text
+
+    if (key == '') {alert('关键词不能为空');return}
+    
+    location.href='tree.php?act=list&key='+key;
+
+   });
+})
+
+</script>
+<div class="admin">
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"><?=$html_info['title']?></strong></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>搜索：</li>
+        
+        <li>
+          <input type="text" placeholder="请输入产品关键字" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" > 搜索</a>
+        </li>
+       
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+
+        <th align="left">会员名称</th>
+        <th>上级</th>
+        <th>注册时间</th>
+
+
+      </tr>
+      
+      <?php foreach($list as $v):?>
+      <tr>
+        
+      
+      
+        <td align="left">
+          <?php echo str_repeat('——',$v['levs']);echo $v['mobile']==''?$v['mobile']:$v['mobile'];?>
+
+        </td>
+        <td>
+          <?php $sj = $mysql->select('ysk_user','mobile','userid='.$v['pid']);
+
+
+          echo $sj==''?'无':$sj; 
+
+
+          ?>
+
+        </td>
+        <td><?php echo date('Y-m-d',$v['reg_date']);?></td>
+
+  
+      </tr>
+   		<?php endforeach;?>
+   
+    </table>
+  </div>
+</form>
+</div>
+<!-- 产品列表结束 -->
+<?php }else{ ?>
+
+<?php }?>
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+     
+     $("#checkall").click(function(){ 
+
+        $("input[name='id[]']").each(function(){
+          if (this.checked) {
+            this.checked = false;
+          }
+          else {
+            this.checked = true;
+          }
+        });
+
+      });
+})
+
+</script>
+</body>
+</html>

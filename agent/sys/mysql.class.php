@@ -143,7 +143,7 @@ class mysql extends db {
         $arr='';
 
         if(strstr($table,',')!=''){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
         $sql = "select $sel_field from "   . $table . " where $where limit 1";
         if ($alert == 1) {
@@ -170,7 +170,7 @@ class mysql extends db {
         $arr='';
 
         if(strstr($table,',')!=''){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
         $sql = "select $sel_field from "   . $table . " where $where limit ".$limit;
         if ($alert == 1) {
@@ -194,9 +194,9 @@ class mysql extends db {
     function select_all($table, $sel_field, $where='1=1', $alert = 0) {
         $arr = array ();
         if(strstr($table,',')!=''){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
-        $sql = "select $sel_field from ".$this->BIAOTOU.$table." where $where ";
+        $sql = "select $sel_field from ".self::BIAOTOU.$table." where $where ";
         if ($alert == 1) {
             echo $sql;
         }
@@ -213,9 +213,9 @@ class mysql extends db {
     function select_all_key($table, $sel_field, $where='1=1', $key='id', $alert = 0) {
         $arr = array ();
         if(strstr($table,',')!=''){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
-        $sql = "select $sel_field from ".$this->BIAOTOU.$table." where $where ";
+        $sql = "select $sel_field from ".self::BIAOTOU.$table." where $where ";
         if ($alert == 1) {
             echo $sql;
         }
@@ -230,7 +230,7 @@ class mysql extends db {
     }
     
     function select_1_field($table, $sel_field='title', $where='1=1', $alert = 0) { //1个字段，输出一维数组
-        $sql = "select $sel_field from ".$this->BIAOTOU.$table." where $where ";
+        $sql = "select $sel_field from ".self::BIAOTOU.$table." where $where ";
         if ($alert == 1) {
             echo $sql;
         }
@@ -245,7 +245,7 @@ class mysql extends db {
     }
     
     function select_2_field($table, $sel_field='id,title', $where='1=1', $alert = 0) { //2个字段，输出一维数组，第一个字段是键名，第二个字段是键值
-        $sql = "select $sel_field from ".$this->BIAOTOU.$table." where $where ";
+        $sql = "select $sel_field from ".self::BIAOTOU.$table." where $where ";
         if ($alert == 1) {
             echo $sql;
         }
@@ -261,7 +261,7 @@ class mysql extends db {
     
     function select_3_field($table, $sel_field='id,title,content', $where='1=1', $alert = 0) { //3个字段，输出二维数组，第一个字段是键名，第二，三组成数字作为子数组
         $field_arr=explode(',',$sel_field);
-        $sql = "select $sel_field from ".$this->BIAOTOU.$table." where $where ";
+        $sql = "select $sel_field from ".self::BIAOTOU.$table." where $where ";
         if ($alert == 1) {
             echo $sql;
         }
@@ -342,13 +342,14 @@ class mysql extends db {
     function count($table,$where='',$alert=0){
         if($where!=''){$where ='where '.$where;}
         if(strpos($table,',')!==false){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
         $sql='select count(1) as num from '.$table." ".$where;
         if($alert==1){
             echo $sql;
         }
         $query = $this->query($sql);
+        $row = ['num'=>0];
         if($query){
             $row=$this->fetch_array($query);
             $this->free_result($query);
@@ -374,7 +375,7 @@ class mysql extends db {
     function sum($table,$count_field,$where='1=1',$alert=0){
         if($where!=''){$where ='where '.$where;}
         if(strpos($table,',')!==false){
-            $table=str_replace(',',','.$this->BIAOTOU,$table);
+            $table=str_replace(',',','.self::BIAOTOU,$table);
         }
         $select_field='';
         if(strpos($count_field,',')!==false){
@@ -387,7 +388,7 @@ class mysql extends db {
         else{
             $select_field='sum('.$count_field.') as sum';
         }
-        $sql="select ".$select_field." from ".$this->BIAOTOU.$table." ".$where;
+        $sql="select ".$select_field." from ".self::BIAOTOU.$table." ".$where;
         if($alert==1){echo $sql.'<br/>';}
         $query = $this->query($sql);
         if($query){
@@ -407,7 +408,7 @@ class mysql extends db {
     }
     
     function delete($table,$where,$alert=0){
-        $sql="delete from ".$this->BIAOTOU.$table." where $where";
+        $sql="delete from ".self::BIAOTOU.$table." where $where";
         $query = $this->query($sql);
         if($alert==1){
             echo $sql;

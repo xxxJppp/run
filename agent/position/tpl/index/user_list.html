@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+<style>
+  td{text-align: center;}
+</style>
+<div class="admin">
+
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 会员列表</strong> <a href="" style="float:right; display:none;">添加会员</a></div>
+    <form method="post" action="user.php?act=select">
+      <div class="padding border-bottom">
+        <ul class="search" style="padding-left:10px;">
+          <li style="display:none">会员身份
+            <select name="cid" class="input" style="width:60px;line-height:17px;display:inline-block">
+              <option value="2">所有</option>
+             
+            </select>
+          </li>
+          <li>
+              <select name="name" class="input" style="width:200px;line-height:17px;">
+                <option value="account">用户账户</option>
+                <option value="mobile">用户手机号</option>
+                <option value="u_yqm">用户邀请码</option>
+              </select>
+            </li>
+          <li>
+            <input type="text" placeholder="请输入搜索关键字" name="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+            <input type="submit" class="button border-main icon-search" value="搜索">
+          </li>
+      
+        
+        </ul>
+      </div>
+    </form>
+      <table class="table table-bordered table-striped table-hover">
+                                              <thead>
+                                                <tr>
+                                                    <th style="font-size:12px;">UID</th>
+                                                    <th style="font-size:12px;">账号</th>
+                                                     <th style="font-size:12px;">手机号</th> 
+                                                    <th style="font-size:12px;">邀请码</th> 
+                                                    <th style="font-size:12px;">注册</th>
+                                                    <th style="font-size:12px;">直推</th>
+                                                  <th style="font-size:12px;">总收益</th>
+                                                    <th style="font-size:12px;">上级</th>
+                                                    <th style="font-size:12px;">保证金余额</th> 
+                                 
+                                                </tr>
+                                            </thead>
+                        <tbody>
+                        
+                          <?php foreach($user as $k=>$v):   ?>
+                            <tr>
+                              <td style="font-size:12px;"><?php echo $v['userid'];?></td>
+                              <td style="font-size:12px;"><?php echo $v['account'];?></td>
+                              <td style="font-size:12px;"><?php echo $v['mobile'];?></td>
+                              <td style="font-size:12px;"><?php echo $v['u_yqm'];?></td>
+                              <td style="font-size:12px;"><?php echo date('Y-m-d',$v['reg_date']);?></td>
+                              <td style="font-size:12px;"><?php echo $mysql->count('ysk_user','pid='.$v['userid']);?></td>
+                               <td style="font-size:12px;"><?php echo $v['zsy'];?></td>
+                              <td style="font-size:12px;"><?php echo $mysql->select('ysk_user','account','userid='.$v['pid']);?></td>
+                              <td style="font-size:12px;"><?php echo $v['money'];?></td>
+                            
+  
+                            </tr>
+                          <?php endforeach;  ?>
+                          </empty>
+                        </tbody>
+                     </table>
+  </div>
+
+</div>
+<script type="text/javascript">
+
+//搜索
+function changesearch(){	
+
+}
+
+//单个删除
+function del(id){
+	if(confirm("您确定要删除吗?")){
+        window.location='user.php?act=delete&id='+id;  
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+</script>
+</body>
+</html>

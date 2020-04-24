@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="renderer" content="webkit">
+  <title>网站信息</title>
+  <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+  <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+  <script src="<?=__A_JS__?>jquery.js"></script>
+  <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+
+<div class="admin">
+    <div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>修改会员信息</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="user.php?act=add_ok">
+      <!-- <div class="form-group">
+        <div class="label">
+          <label>上级ID：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="" name="pid"/>
+          <div class="tipss">无上级请留空</div>
+        </div>
+      </div> -->
+      <div class="form-group">
+        <div class="label">
+          <label>会员：</label>
+        </div>
+        <div class="field">
+          <select name="cid" class="input w50">
+              <option value="1" selected="selected">会员</option>
+          
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>用户名：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="name"  />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>密码：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="" name="pwd"/>
+          <div class="tipss">留空默认：123456</div>
+        </div>
+      </div>
+		<div class="form-group">
+        <div class="label">
+          <label>手机号：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?=$user['tel']?>" name="tel" data-validate="required:手机号" />
+          <div class="tips"></div>
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

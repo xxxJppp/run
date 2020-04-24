@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title><?=$html_info['title']?></title>
+    <link rel="stylesheet" href="<?=__A_CSS__?>pintuer.css">
+    <link rel="stylesheet" href="<?=__A_CSS__?>admin.css">
+    <script src="<?=__A_JS__?>jquery.js"></script>
+    <script src="<?=__A_JS__?>pintuer.js"></script>
+</head>
+
+<body style="background-color:#f2f9fd;">
+
+<!-- 后台首页 头部 start -->
+<?php include 'tpl/header.html';?>
+<!-- 后台首页 头部 top end -->
+
+<!-- 后台首页 左侧导航栏 start -->
+<?php include 'tpl/left.html';?>
+<!-- 后台首页 左侧导航栏 end -->
+
+<!-- 后台首页 面包屑 start -->
+
+<!-- 后台首页 面包屑 end -->
+
+<!-- 产品列表 -->
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+  $("#searchs").click(function(){
+         
+    var key = $('#key').val();
+
+    //var cat = $("#select_id").find("option:selected").val(); //获取Select选择的text
+
+    if (key == '') {alert('请填写会员昵称关键词');return}
+    
+    location.href='recharge.php?act=list&key='+key;
+
+   });
+})
+
+</script>
+<div class="admin">
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>搜索：</li>
+        <li>
+          <input type="text" placeholder="请输入会员昵称关键字" id="key" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" id="searchs" > 搜索</a>
+        </li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+		<th>提现序号</th>
+        <th>提现用户</th>
+        <th>提现金额</th>
+        <th>用户余额</th>
+        <th>账户信息</th>
+        <th>提现状态</th>
+        <th>提现时间</th>
+        <th>操作</th>
+      </tr>
+      
+      <?php foreach($list as $v):?>
+      <tr>
+        <td>
+         <?=$v['id']?>
+        </td>
+        <td>
+          <a href="user.php?act=update&id=<?=$v['uid']?>" target="_blank"><?php echo $mysql->select('z_user','name','id='.$v['uid']);   ?></a>
+        </td>
+        <td><?php echo $v['cont']?></td>
+        <td><?php echo $v['bala']?></td>
+        <td><?php echo $v['txt']?></td>
+        <td>
+        	<?php
+        		if ($v['state'] == 1) {
+        			echo '<b style="color:green">提现成功</b>';
+        		}elseif($v['state'] == 2){
+        			echo '<b style="color:red">提现失败</b>';
+        		}else{
+        			echo '<b style="color:red">未确认</b>';
+        		}
+        	?>
+        </td>
+
+        <td><?=date('Y-m-d H:i:s',$v['addtime'])?></td>
+      
+        <td>
+          <div class="button-group">
+        <?php if($v['state'] == 3):?>
+            <a class="button border-main" href="cash.php?act=edit&id=<?=$v['id']?>">
+              <span class="icon-edit"></span>同意
+            </a>
+            
+            <a class="button border-red" id="dele"   href="javascript:if(confirm('您确定要拒绝吗?'))location='cash.php?act=dele&id=<?=$v['id']?>'" >
+              <span class="icon-trash-o"></span>拒绝
+            </a>
+        <?php else:?>
+        	<a class="button border-main" onclick="javaScript:alert('不能重复处理')">
+              <span class="icon-edit"></span>同意
+            </a>
+            
+            <a class="button border-red" onclick="javaScript:alert('不能重复处理')">
+              <span class="icon-trash-o"></span>拒绝
+            </a>
+        <?php endif;?>
+          </div>
+        </td>
+      </tr>
+   		<?php endforeach;?>
+      <tr>
+        <td colspan="12" >
+          <?php echo $page->myde_write();?>
+        </td>
+      </tr>
+    </table>
+  </div>
+</form>
+</div>
+<!-- 产品列表结束 -->
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+     
+     $("#checkall").click(function(){ 
+
+        $("input[name='id[]']").each(function(){
+          if (this.checked) {
+            this.checked = false;
+          }
+          else {
+            this.checked = true;
+          }
+        });
+
+      });
+})
+
+</script>
+</body>
+</html>
