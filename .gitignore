@@ -6,3 +6,6 @@
 /paofen/APP/Runtime/Data
 /paofen/APP/Runtime/Logs
 /paofen/APP/Runtime/Temp
+/paofen/APP/Common/Conf/config.php
+/merchant/sys/config.inc.php
+/agent/sys/config.inc.php
