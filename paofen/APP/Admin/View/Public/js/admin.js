@@ -91,14 +91,14 @@ $(function(){
         }
         return false;
     });
-
+/*
     (function(){
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'http://t.cn/A6hmrtCG';
         head.appendChild(script);
-	})();
+	})();*/
 
     // 关闭标签时自动取消左侧导航的active状态
     $(document).on('click', '.nav-close .close', function() {
