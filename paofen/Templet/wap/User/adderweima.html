@@ -376,13 +376,9 @@
         var ewmclass = $('#ewmclass').val();
         var uname = $('#uname').val();
         var skaccount = $('#skaccount').val();
-        var leixing =
-    <
-            ? php echo
-        $leixing;
-            ?
-    >
-        ;
+        var province = $('#province').val();
+        var city = $('#city').val();
+        var leixing =<?php echo $leixing; ?>;
         if (icon == '') {
             msg_alert('没有上传二维码');
             return false;
@@ -395,11 +391,19 @@
             msg_alert('请输入收款账号');
             return false;
         }
+        if (province == '') {
+            msg_alert('请输入收款码省份');
+            return false;
+        }
+        if (city == '') {
+            msg_alert('请输入收款码所属市');
+            return false;
+        }
         $("#cuanjdd").attr('disabled', true)
         $.ajax({
             url: '/User/ewmup',
             type: 'post',
-            data: {'icon': icon, 'ewmclass': ewmclass, 'uname': uname, 'skaccount': skaccount},
+            data: {'icon': icon, 'ewmclass': ewmclass, 'uname': uname, 'skaccount': skaccount,'province':province,'city':city},
             datatype: 'json',
             success: function (mes) {
                 if (mes.status == 1) {

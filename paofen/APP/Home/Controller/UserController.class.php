@@ -857,8 +857,8 @@ if($ymmjj<>$ulist['login_pwd']){
             $skaccount = trim(I('post.skaccount'));
 
             $uname = trim(I('post.uname'));
-
-
+            $province = trim(I('post.province'));
+            $city = trim(I('post.city'));
 
             $data['uid'] = $uid;
             $data['ewm_class'] = $ewmclass;
@@ -867,6 +867,8 @@ if($ymmjj<>$ulist['login_pwd']){
             $data['ewm_acc'] = $skaccount;
             $data['uaccount'] = $ulist['account'];
             $data['uname'] =   $uname;
+            $data['province'] = $province;
+            $data['city'] = $city;
             $data['addtime'] = time();
 			 $data['gengxintime'] = time();
             $ewm = M('ewm');
