@@ -10,7 +10,7 @@ return array(
         '__WJS__'        => __ROOT__ . '/Public/home/wap/js',
         '__WIMG__'       => __ROOT__ . '/Public/home/wap/images',
         '__WAP__'        => __ROOT__ . '/Public/home/wap',
-
+        '__HOME__'        => __ROOT__ . '/Public/homestyle',
         '__COM__'        => __ROOT__ . '/Public/home/common',
         '__MUSIC__'		 => __ROOT__ . '/Public/music',
 
