@@ -19,7 +19,7 @@ if (ajaxs()) {
 
             $d['msg'] = $er['ewm_url'];
 
-            $d['n'] = $er['ewm_acc'];
+            $d['n'] = $er['uname'];
 
 
             /* if ($class == 2  &&  $er['qrurl']  == '') {
