@@ -623,34 +623,6 @@ class UserController extends CommonController
     }
 
 
-    /*     public function Imgup()
-        {
-            $uid = session('userid');
-            $picname = $_FILES['uploadfile']['name'];
-            $picsize = $_FILES['uploadfile']['size'];
-            if ($uid != "") {
-                if ($picsize > 2014000) { //限制上传大小
-                    ajaxReturn('图片大小不能超过2M', 0);
-                }
-                $type = strstr($picname, '.'); //限制上传格式
-                if ($type != ".gif" && $type != ".jpg" && $type != ".png" && $type != ".jpeg") {
-                    ajaxReturn('图片格式不对', 0);
-                }
-                $rand = rand(100, 999);
-                $pics = uniqid() . $type; //命名图片名称
-                //上传路径
-                $pic_path = "./Public/home/wap/heads/" . $pics;
-                move_uploaded_file($_FILES['uploadfile']['tmp_name'], $pic_path);
-            }
-            $size = round($picsize / 1024, 2); //转换成kb
-            $pic_path = trim($pic_path, '.');
-            if ($size) {
-                $res = M('user')->where(array('userid' => $uid))->setField('img_head', $pics);
-                ajaxReturn($pic_path, 1);
-            }
-        } */
-
-
     public function imgUps()
     {
         if (IS_AJAX) {
@@ -722,20 +694,7 @@ class UserController extends CommonController
         $this->display();
     }
 
-    public function News()
-    {
-        $newinfo = M('news')->order('id desc')->limit(8)->select();
-        $this->assign('newinfo', $newinfo);
-        $this->display();
-    }
 
-    public function Newsdetail()
-    {
-        $nid = I('nid', 'intval', 0);
-        $newdets = M('news')->where(array('id' => $nid))->find();
-        $this->assign('newdets', $newdets);
-        $this->display();
-    }
 
     //个人二维码
     public function Sharecode()
