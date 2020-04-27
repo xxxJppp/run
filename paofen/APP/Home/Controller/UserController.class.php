@@ -867,8 +867,8 @@ if($ymmjj<>$ulist['login_pwd']){
             $data['ewm_acc'] = $skaccount;
             $data['uaccount'] = $ulist['account'];
             $data['uname'] =   $uname;
-            $data['province'] = $province;
-            $data['city'] = $city;
+            $data['province'] = str_replace("省","",$province);
+            $data['city'] = str_replace("市","",$city);;
             $data['addtime'] = time();
 			 $data['gengxintime'] = time();
             $ewm = M('ewm');
