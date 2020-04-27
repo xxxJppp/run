@@ -11,25 +11,30 @@
             background: #1685d0;
             overflow: hidden;
         }
+
         .brand {
             width: 100%;
             margin-bottom: 50px;
             text-align: center;
         }
+
         .brand a {
             height: 65px;
             font-size: 50px;
             text-align: center;
         }
+
         .brand a:hover {
             text-decoration: none;
         }
+
         .brand img.logo {
             width: 100%;
             max-height: 100px;
             padding: 0 30px;
             text-align: center;
         }
+
         .panel-lite {
             margin: 5% auto;
             max-width: 400px;
@@ -39,6 +44,7 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
             position: relative;
         }
+
         .panel-lite h4 {
             font-weight: 400;
             font-size: 24px;
@@ -46,6 +52,7 @@
             color: #1685d0;
             margin: 20px auto 35px;
         }
+
         .panel-lite a.link {
             display: inline-block;
             margin-top: 25px;
@@ -53,14 +60,17 @@
             color: #1685d0;
             font-size: 14px;
         }
+
         .form-group {
             position: relative;
             font-size: 15px;
             color: #666;
         }
+
         .form-group + .form-group {
             margin-top: 30px;
         }
+
         .form-group .form-label {
             position: absolute;
             z-index: 1;
@@ -69,6 +79,7 @@
             -webkit-transition: 0.3s;
             transition: 0.3s;
         }
+
         .form-group .form-control {
             width: 100%;
             position: relative;
@@ -83,15 +94,18 @@
             box-shadow: none;
             border-radius: 0;
         }
+
         .form-group .form-control:invalid {
             outline: none;
         }
+
         .form-group .form-control:focus, .form-group .form-control:valid {
             outline: none;
             color: #1685d0;
             box-shadow: 0 1px #1685d0;
             border-color: #1685d0;
         }
+
         .form-group .form-control:focus + .form-label,
         .form-group .form-control:valid + .form-label {
             font-size: 12px;
@@ -99,6 +113,7 @@
             -webkit-transform: translateY(-15px);
             transform: translateY(-15px);
         }
+
         .floating-btn {
             background: #1685d0;
             width: 60px;
@@ -117,17 +132,21 @@
             bottom: 90px;
             cursor: pointer;
         }
+
         .floating-btn:hover {
             box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 0 3px 6px rgba(0, 0, 0, 0.16), 0 5px 11px rgba(0, 0, 0, 0.23);
         }
+
         .floating-btn:hover .icon-arrow {
             -ms-transform: rotate(45deg) scale(1.2);
             -webkit-transform: rotate(45deg) scale(1.2);
             transform: rotate(45deg) scale(1.2);
         }
+
         .floating-btn:focus, .floating-btn:active {
             outline: none;
         }
+
         .icon-arrow {
             position: relative;
             width: 13px;
@@ -142,6 +161,7 @@
             -webkit-transition: 0.3s;
             transition: 0.3s;
         }
+
         .icon-arrow:after {
             content: '';
             position: absolute;
@@ -154,21 +174,13 @@
             -webkit-transform: rotate(-45deg);
             transform: rotate(-45deg);
         }
-        .verifyimg-box {
-            padding: 0;
-            border: 0;
-        }
-        .verifyimg-box .verifyimg {
-            cursor: pointer;
-            width: 130px;
-            height: 41px;
-            margin-top: -6px;
-            border-bottom: 1px solid #777;
-        }
+
+
         @media (max-width: 768px) {
             .background {
                 display: none;
             }
+
             .panel-lite {
                 box-shadow: none;
                 border-color: #fff;
@@ -187,13 +199,13 @@
     <div class="panel-lite">
         <div class="brand">
             <php>if(C('WEB_SITE_LOGO')):</php>
-                <a href="{:C('HOME_PAGE')}" target="_blank">
-                    <img alt="logo" class="logo img-responsive" src="{$Think.config.WEB_SITE_LOGO|get_cover}">
-                </a>
+            <a href="{:C('HOME_PAGE')}" target="_blank">
+                <img alt="logo" class="logo img-responsive" src="{$Think.config.WEB_SITE_LOGO|get_cover}">
+            </a>
             <php>else:</php>
-                <a href="{:C('HOME_PAGE')}" target="_blank">
-                    {:C('LOGO_DEFAULT')}
-                </a>
+            <a href="{:C('HOME_PAGE')}" target="_blank">
+                {:C('LOGO_DEFAULT')}
+            </a>
             <php>endif;</php>
         </div>
         <h4>后台管理登录</h4>
@@ -206,34 +218,18 @@
                 <input type="password" required="required" class="form-control" value="" name="password">
                 <label class="form-label">密　码</label>
             </div>
-             <div class="form-group">
-                <input type="text"  placeholder="请输入验证码" required="required" style="width:60%" class="form-control" name="verify">
-                <img src="{:U('Pubss/verify',array())}" id="verify_img" style="width: 39%;
-    float: right;
-    margin-top: -45px; ">
-               
-            </div>
             <div class="form-group">
-                <input type="text"  class="form-control" value="" name="google_code" placeholder="Google 动态验证码 未设置可不填">
+                <input type="text" class="form-control" value="" name="google_code" placeholder="Google 动态验证码 未设置可不填">
                 <label class="form-label">谷歌验证码</label>
             </div>
             <div class="form-group">
-                <a type="submit" class="visible-xs btn btn-primary-outline btn-block btn-pill btn-lg ajax-post" target-form="login-form">登录</a>
+                <a type="submit" class="visible-xs btn btn-primary-outline btn-block btn-pill btn-lg ajax-post"
+                   target-form="login-form">登录</a>
             </div>
             <button type="submit" class="floating-btn ajax-post hidden-xs" target-form="login-form">
                 <i class="icon-arrow"></i>
             </button>
         </form>
     </div>
-    <script>
-
-$("#verify_img").click(function() {
-           var verifyURL = "{:U('Pubss/verify',array())}";
-           var time = new Date().getTime();
-           $("#verify_img").attr({
-              "src" : verifyURL 
-           });
-        });
-</script>
 </block>
 

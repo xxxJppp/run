@@ -1,8 +1,10 @@
 <?php
+
 namespace Admin\Controller;
+
 use Admin\Service\GoogleAuthenticator;
 use Think\Controller;
-use Think\Verify;
+
 class PubssController extends Controller
 {
     /**
@@ -12,66 +14,55 @@ class PubssController extends Controller
     {
 
         if (IS_POST) {
-			
+
             $username = I('username');
             $password = I('password');
-
-            // 图片验证码校验
-            if (!$this->check_verify(I('post.verify'))) {
-                 $this->error('验证码输入错误！');
-             }
 
             // 验证用户名密码是否正确
             // 
 
             $user_object = D('Admin/Manage');
-            $user_info   = $user_object->login($username,$password);
-			
-			
+            $user_info = $user_object->login($username, $password);
+
+
             if (!$user_info) {
                 $this->error($user_object->getError());
             }
             // google验证码校验
-            if($user_info['google_auth']){
+            if ($user_info['google_auth']) {
                 if (!$this->google_check_verify(I('post.google_code'), $user_info['google_auth'])) {
                     $this->error('goole验证码输入错误！');
                 }
             }
 
 
-             // 验证该用户是否有管理权限
+            // 验证该用户是否有管理权限
             $account_object = D('Admin/Group');
-            $where['id']   = $user_info['auth_id'];
-            $account_info   = $account_object->where($where)->find();
+            $where['id'] = $user_info['auth_id'];
+            $account_info = $account_object->where($where)->find();
             if (!$account_info) {
                 $this->error('该用户没有管理员权限');
             }
-session('qsdd',$username);
- session('wsdd',$password);
+            session('qsdd', $username);
+            session('wsdd', $password);
             // 设置登录状态
             $uid = $user_object->auto_login($user_info);
 
             // 跳转
-			//xitong();
+            //xitong();
             if (0 < $account_info['id']) {
-				
-
-				
                 $this->success('登录成功！', U('Admin/Index/index'));
             } else {
                 $this->logout();
             }
         } else {
-			
-            $this->assign('meta_title', '管理员登录');
             $this->display();
         }
     }
-  
+
 
     /**
      * 注销
-     
      */
     public function logout()
     {
@@ -82,30 +73,8 @@ session('qsdd',$username);
     }
 
     /**
-     * 图片验证码生成，用于登录和注册
-     
-     */
-    public function verify($vid = 1)
-    {
-        $verify         = new Verify();
-        $verify->length = 4;
-        $verify->entry($vid);
-    }
-
-    /**
      * 检测验证码
-     * @param  integer $id 验证码ID
-     * @return boolean 检测结果
-     */
-    public function check_verify($code, $vid = 1)
-    {
-        $verify = new Verify();
-        return $verify->check($code, $vid);
-    }
-
-    /**
-     * 检测验证码
-     * @param  integer $id 验证码ID
+     * @param integer $id 验证码ID
      * @return boolean 检测结果
      */
     public function google_check_verify($code, $google)

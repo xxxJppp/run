@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="renderer" content="webkit">
-    <title>登录</title>  
+    <title>登录</title>
     <link rel="stylesheet" href="public/css/pintuer.css">
     <link rel="stylesheet" href="public/css/admin.css">
     <script src="public/js/jquery.js"></script>
-    <script src="public/js/pintuer.js"></script>  
+    <script src="public/js/pintuer.js"></script>
 </head>
 <script>
+    $(document).ready(function () {
+        $("#submit-login").click(function () {
 
-
-$(document).ready(function(){
-     $("#submit-login").click(function(){
-           
-           var code = $("#code").val();
-            if (!code) {
-                alert('请输入验证码');
-                return false;
-            }
+            var code = $("#code").val();
 
             var user = $("#user").val();
             var pwd = $("#pwd").val();
@@ -30,26 +24,25 @@ $(document).ready(function(){
             $("#submit-login .a1").show();
             $.ajax(
                 {
-                   type:'POST',
-                   url:'/position/index.php',
-                   data:{user: user, pwd: pwd, code: code, g_code: g_code},
-                   dataType:'json',
-                   success:function(res){
-                            $("#submit-login .a2").show();
-                            $("#submit-login .a1").hide();
-                           if (res.error == 1) {
-                             alert(res.txt);
-                           }else{
-                             window.location='user.php';
-                           }
-                   }
+                    type: 'POST',
+                    url: '/position/index.php',
+                    data: {user: user, pwd: pwd, code: code, g_code: g_code},
+                    dataType: 'json',
+                    success: function (res) {
+                        $("#submit-login .a2").show();
+                        $("#submit-login .a1").hide();
+                        if (res.error == 1) {
+                            alert(res.txt);
+                        } else {
+                            window.location = 'user.php';
+                        }
+                    }
                 }
-
             );
 
-     });
+        });
 
-});
+    });
 
 </script>
 <body>
@@ -58,56 +51,41 @@ $(document).ready(function(){
     <div class="line bouncein">
         <div class="xs6 xm4 xs3-move xm4-move">
             <div style="height:150px;"></div>
-            <div class="media media-y margin-big-bottom">           
-            </div>         
-            <form action="index.html" method="post">
-            <div class="panel loginbox">
-                <div class="text-center margin-big padding-big-top"><h1>后台</h1></div>
-                <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
-                    <div class="form-group">
-                        <div class="field field-icon-right">
-                            <input type="text" class="input input-big" id="user" name="name" value="" placeholder="登录账号" data-validate="required:请填写账号" />
-                            <span class="icon icon-user margin-small"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="field field-icon-right">
-                            <input type="password" class="input input-big" id="pwd" name="password" value="" placeholder="登录密码" data-validate="required:请填写密码" />
-                            <span class="icon icon-key margin-small"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="field">
-                            <input type="text" class="input input-big" id="g_code" name="g_code" value="" placeholder="Google 动态验证码 未设置可不填" data-validate="Google 动态验证码 未设置可不填" />
-
-                        </div>
-                    </div>
-<style>
-.yzm{
-    position:absolute;
-    right:0;
-    bottom:0;
-    width: 110px;
-    height:45px;
-    margin:1px;
-    border-left:solid 1px #ddd;
-    text-align:center;
-    line-height:42px;
-    border-radius:0 4px 4px 0;}
-</style>
-                    <div class="form-group">
-                        <div class="field">
-                            <input type="text" id="code" class="input input-big" name="code" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />
-                         <?=yzm()?>                   
-                        </div>
-                    </div>
-                </div>
-                <div style="padding:30px;" id="submit-login">
-                    <input type="button" class="button button-block bg-main text-big input-big a1" value="登录">
-                    <input type="button" style="display:none" class="button button-block bg-main text-big input-big a2" value="登录中">
-                </div>
+            <div class="media media-y margin-big-bottom">
             </div>
-            </form>          
+            <form action="index.html" method="post">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top"><h1>后台</h1></div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" id="user" name="name" value=""
+                                       placeholder="登录账号" data-validate="required:请填写账号"/>
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="input input-big" id="pwd" name="password" value=""
+                                       placeholder="登录密码" data-validate="required:请填写密码"/>
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field">
+                                <input type="text" class="input input-big" id="g_code" name="g_code" value=""
+                                       placeholder="Google 动态验证码 未设置可不填" data-validate="Google 动态验证码 未设置可不填"/>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:30px;" id="submit-login">
+                        <input type="button" class="button button-block bg-main text-big input-big a1" value="登录">
+                        <input type="button" style="display:none"
+                               class="button button-block bg-main text-big input-big a2" value="登录中">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
