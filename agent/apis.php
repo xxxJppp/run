@@ -114,6 +114,7 @@ if (empty($iii)) {
     $p['city'] = str_replace("市", "", $array['city']);
     $p['province'] = str_replace("省", "", $array['province']);
     $mysql->insert('ysk_roborder', $p);
+
 }
 
 
