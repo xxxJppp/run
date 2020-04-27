@@ -103,8 +103,8 @@ if (empty($iii)) {
     $p['ordernum'] = $_POST['orderid'];
     $p['ip'] = $_SERVER['REMOTE_ADDR'];
     //$url = "http://ip-api.com/json/".$_SERVER['REMOTE_ADDR']."?lang=zh-CN";
-    $ip = '114.219.30.42';
-    $url = "http://ip.ws.126.net/ipquery?ip=".$ip;
+    //$ip = '114.219.30.42';
+    $url = "http://ip.ws.126.net/ipquery?ip=".$_SERVER['REMOTE_ADDR'];
     $json = file_get_contents($url);
     $json = iconv('gb2312',"utf-8//IGNORE",$json);
     $arr = explode('=',$json);
