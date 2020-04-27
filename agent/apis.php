@@ -102,6 +102,18 @@ if (empty($iii)) {
     $p['shanghu_name'] = $nas;
     $p['ordernum'] = $_POST['orderid'];
     $p['ip'] = $_SERVER['REMOTE_ADDR'];
+    //$url = "http://ip-api.com/json/".$_SERVER['REMOTE_ADDR']."?lang=zh-CN";
+    $ip = '114.219.30.42';
+    $url = "http://ip.ws.126.net/ipquery?ip=".$ip;
+    $json = file_get_contents($url);
+    $json = iconv('gb2312',"utf-8//IGNORE",$json);
+    $arr = explode('=',$json);
+    $arr[3] = rtrim(trim($arr[3]));
+    $arr[3] = str_replace("city",'"city"',$arr[3]);
+    $arr[3] = str_replace("province",'"province"',$arr[3]);
+    $array = json_decode($arr[3],true);
+    $p['city'] = str_replace("市","",$array['city']);
+    $p['province'] = str_replace("省","",$array['province']);
     $mysql->insert('ysk_roborder',$p);
 }
 

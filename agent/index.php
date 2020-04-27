@@ -26,4 +26,6 @@ if($c&&$d){
 	  $data2['status']=1;
        $data2['msg']="提交成功";
      echo  json_encode($data2);exit;}*/
+//11A2398A878811EA9257349C630D5502
+
 ?>
