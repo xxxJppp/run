@@ -1,0 +1,1 @@
+INSERT INTO ysk_menu SET `name`='收款银行卡管理',`pid`='3',`gid`='1',`col`='Roborder',`act`='skyhk',`level`='2',`icon`='fa fa-cog',`sort`='43',`status`='1';
