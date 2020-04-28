@@ -1,0 +1,110 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+</block>
+
+<block name="main">
+   <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <li class="text-muted">收款银行卡 /  收款银行卡管理</li>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <div class="form-group"></div>
+                    <div class="builder-container" >
+                            <div class="row" >
+                                <div class="col-xs-12">
+                                    <form action="" method="post" class="form-horizontal form form-builder">
+                                        <div class="form-type-list">
+
+
+                                            <div class="form-group">
+                                                <label class="left control-label">收款户名：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input" name="cz_xm" value="{$skmlist.cz_xm}" placeholder="收款户名" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group item_title">
+                                                <label class="left control-label">银行名称：</label>
+                                                <div class="right">
+                                                    <select name="cz_yh" class="form-control cui-select select">
+                                                        <option value="">请选择：</option>
+                                                        <option value="中国工商银行" <?php if($skmlist['cz_yh']=="中国工商银行"){ ?>selected<?php } ?>>中国工商银行</option>
+                                                        <option value="中国农业银行" <?php if($skmlist.cz_yh=="中国农业银行"){ ?>selected<?php } ?>>中国农业银行</option>
+                                                        <option value="中国银行" <?php if($skmlist.cz_yh=="中国银行"){ ?>selected<?php } ?>>中国银行</option>
+                                                        <option value="中国建设银行" <?php if($skmlist.cz_yh=="中国建设银行"){ ?>selected<?php } ?>>中国建设银行</option>
+                                                        <option value="交通银行" <?php if($skmlist.cz_yh=="交通银行"){ ?>selected<?php } ?>>交通银行</option>
+                                                        <option value="中信银行" <?php if($skmlist.cz_yh=="中信银行"){ ?>selected<?php } ?>>中信银行</option>
+                                                        <option value="中国光大银行" <?php if($skmlist.cz_yh=="中国光大银行"){ ?>selected<?php } ?>>中国光大银行</option>
+                                                        <option value="华夏银行" <?php if($skmlist.cz_yh=="华夏银行"){ ?>selected<?php } ?>>华夏银行</option>
+                                                        <option value="民生银行" <?php if($skmlist.cz_yh=="民生银行"){ ?>selected<?php } ?>>民生银行</option>
+                                                        <option value="广发银行" <?php if($skmlist.cz_yh=="广发银行"){ ?>selected<?php } ?>>广发银行</option>
+                                                        <option value="中国邮储银行" <?php if($skmlist.cz_yh=="中国邮储银行"){ ?>selected<?php } ?>>中国邮储银行</option>
+                                                        <option value="平安银行" <?php if($skmlist.cz_yh=="平安银行"){ ?>selected<?php } ?>>平安银行</option>
+                                                        <option value="招商银行" <?php if($skmlist.cz_yh=="招商银行"){ ?>selected<?php } ?>>招商银行</option>
+                                                        <option value="兴业银行" <?php if($skmlist.cz_yh=="兴业银行"){ ?>selected<?php } ?>>兴业银行</option>
+                                                        <option value="浦发银行" <?php if($skmlist.cz_yh=="浦发银行"){ ?>selected<?php } ?>>浦发银行</option>
+                                                        <option value="恒丰银行" <?php if($skmlist.cz_yh=="恒丰银行"){ ?>selected<?php } ?>>恒丰银行</option>
+                                                        <option value="天津银行" <?php if($skmlist.cz_yh=="天津银行"){ ?>selected<?php } ?>>天津银行</option>
+                                                        <option value="齐鲁银行" <?php if($skmlist.cz_yh=="齐鲁银行"){ ?>selected<?php } ?>>齐鲁银行</option>
+                                                        <option value="上海银行" <?php if($skmlist.cz_yh=="上海银行"){ ?>selected<?php } ?>>上海银行</option>
+                                                        <option value="广东南粤银行" <?php if($skmlist.cz_yh=="广东南粤银行"){ ?>selected<?php } ?>>广东南粤银行</option>
+                                                        <option value="东莞银行" <?php if($skmlist.cz_yh=="东莞银行"){ ?>selected<?php } ?>>东莞银行</option>
+                                                        <option value="汉口银行" <?php if($skmlist.cz_yh=="汉口银行"){ ?>selected<?php } ?>>汉口银行</option>
+                                                        <option value="江苏银行" <?php if($skmlist.cz_yh=="江苏银行"){ ?>selected<?php } ?>>江苏银行</option>
+                                                        <option value="长安银行" <?php if($skmlist.cz_yh=="长安银行"){ ?>selected<?php } ?>>长安银行</option>
+                                                        <option value="湖北银行" <?php if($skmlist.cz_yh=="湖北银行"){ ?>selected<?php } ?>>湖北银行</option>
+                                                        <option value="广东华兴银行" <?php if($skmlist.cz_yh=="广东华兴银行"){ ?>selected<?php } ?>>广东华兴银行</option>
+                                                        <option value="深圳农村商业银行" <?php if($skmlist.cz_yh=="深圳农村商业银行"){ ?>selected<?php } ?>>深圳农村商业银行</option>
+                                                        <option value="湖北农信社" <?php if($skmlist.cz_yh=="湖北农信社"){ ?>selected<?php } ?>>湖北农信社</option>
+                                                        <option value="北京农商银行" <?php if($skmlist.cz_yh=="北京农商银行"){ ?>selected<?php } ?>>北京农商银行</option>
+                                                        <option value="苏州银行" <?php if($skmlist.cz_yh=="苏州银行"){ ?>selected<?php } ?>>苏州银行</option>
+                                                        <option value="东亚银行" <?php if($skmlist.cz_yh=="东亚银行"){ ?>selected<?php } ?>>东亚银行</option>
+                                                        <option value="花旗银行" <?php if($skmlist.cz_yh=="花旗银行"){ ?>selected<?php } ?>>花旗银行</option>
+                                                        <option value="大新银行" <?php if($skmlist.cz_yh=="大新银行"){ ?>selected<?php } ?>>大新银行</option>
+                                                        <option value="汇丰银行" <?php if($skmlist.cz_yh=="汇丰银行"){ ?>selected<?php } ?>>汇丰银行</option>
+                                                        <option value="北京银行" <?php if($skmlist.cz_yh=="北京银行"){ ?>selected<?php } ?>>北京银行</option>
+                                                        <option value="宁波银行" <?php if($skmlist.cz_yh=="宁波银行"){ ?>selected<?php } ?>>宁波银行</option>
+                                                        <option value="兰州银行" <?php if($skmlist.cz_yh=="兰州银行"){ ?>selected<?php } ?>>兰州银行</option>
+                                                        <option value="渤海银行" <?php if($skmlist.cz_yh=="渤海银行"){ ?>selected<?php } ?>>渤海银行</option>
+                                                        <option value="厦门银行" <?php if($skmlist['cz_yh']=="厦门银行"){ ?>selected<?php } ?>>厦门银行</option>
+                                                        <option value="吉林银行" <?php if($skmlist.cz_yh=="吉林银行"){ ?>selected<?php } ?>>吉林银行</option>
+                                                        <option value="大丰银行" <?php if($skmlist.cz_yh=="大丰银行"){ ?>selected<?php } ?>>大丰银行</option>
+                                                        <option value="江西银行" <?php if($skmlist.cz_yh=="江西银行"){ ?>selected<?php } ?>>江西银行</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">银行账号：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input" name="cz_kh" value="{$skmlist.cz_kh}" placeholder="银行账号" >
+                                                </div>
+                                            </div>
+
+             
+                                        <div class="form-group"></div>
+                                        <div class="form-group bottom_button_list">
+                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="form-builder">确定</a>
+                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>                   
+</div>
+</block>
+
+<block name="script">
+    {$extra_html}
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+</block>
