@@ -1,9 +1,7 @@
 <?php
 define('ACC', TRUE);
 include('./sys/init.php');
-
 if (ajaxs()) {
-
     if ($_REQUEST['act'] == 'select') {
         $order = $_REQUEST['order'];
         $tradeAmount = $_REQUEST['m'];
@@ -16,11 +14,8 @@ if (ajaxs()) {
             //$er = $mysql->select('ysk_ewm','*',' uid='.$info['uid']. ' and zt = 1  and ewm_class='.$class);
             $er = $mysql->select('ysk_ewm', '*', ' id=' . $info['idewm']);
             $d['error'] = 0;
-
             $d['msg'] = $er['ewm_url'];
-
             $d['n'] = $er['uname'];
-
 
             /* if ($class == 2  &&  $er['qrurl']  == '') {
                     $a =   json_decode(file_get_contents("https://api.uomg.com/api/qr.encode?url=".$er['ewm_url']),1);
