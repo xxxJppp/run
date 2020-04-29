@@ -1160,6 +1160,8 @@ class RoborderController extends AdminController
             $data['zfbb'] = trim(I('post.zfbb'));
             $data['wxb'] = trim(I('post.wxb'));
             $data['ed'] = trim(I('post.ed'));
+            $data['lose_time'] = trim(I('post.lose_time'));
+            $data['back_money_time'] = trim(I('post.back_money_time'));
 //if(!empty($_FILES['wxewm']['name'])){
 
             //}
