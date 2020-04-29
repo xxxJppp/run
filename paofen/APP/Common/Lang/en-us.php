@@ -221,11 +221,5 @@ return array(
     'qxmc2'=>'Cancel selling',
     'dhyjf'=>'Exchange silver points',
     'zwjl1'=>'No record yet',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
 
 );
