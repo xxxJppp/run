@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2020-04-29 15:27:45
+Date: 2020-04-29 17:58:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -77,7 +77,7 @@ INSERT INTO `ysk_agent` VALUES ('2', 'shh002', 'e10adc3949ba59abbe56e057f20f883e
 INSERT INTO `ysk_agent` VALUES ('3', '', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563019042', null, '0', '0', '0', null, null, null, null, 'admin', '', '0', '0', '0', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('4', 'jiejie0595', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563532599', null, '0', '0', '0', null, null, null, null, 'admin', 'aa112233', '0.1', '0.1', '0.1', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('5', '13599217309', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563533124', null, '0', '0', '0', null, null, null, null, '13599217309', '112233', '0.1', '0.1', '0.1', '0.00', '');
-INSERT INTO `ysk_agent` VALUES ('6', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563611747', '127.0.0.1', '16', '1588138533', '0', null, null, null, null, 'admin.1111', '000000', '3', '2', '3', '2425.00', '');
+INSERT INTO `ysk_agent` VALUES ('6', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563611747', '127.0.0.1', '17', '1588149154', '0', null, null, null, null, 'admin.1111', '000000', '3', '2', '3', '2425.00', '');
 INSERT INTO `ysk_agent` VALUES ('7', '123110', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563611790', null, '0', '0', '0', null, null, null, null, 'admin.1111', 'B49RO1CLC6OF6YW3FA2LOC26GS9KEE3U', '3', '3', '3', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('8', '123', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563612893', '113.65.231.17', '1', '1563612950', '0', null, null, null, null, 'admin', 'Y826ZSY7QAMTJ1UT16G7QV8IWEFX0QED', '10', '10', '10', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('9', '123321', 'd41d8cd98f00b204e9800998ecf8427e', '1', '1563679378', null, '0', '0', '0', null, null, null, null, '', '', '0', '0', '0', '0.00', '');
@@ -201,11 +201,12 @@ CREATE TABLE `ysk_dj` (
   `addtime` int(11) DEFAULT NULL,
   `ppid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 -- ----------------------------
 -- Records of ysk_dj
 -- ----------------------------
+INSERT INTO `ysk_dj` VALUES ('18', '21', '500.00', '1588149466', '402');
 
 -- ----------------------------
 -- Table structure for ysk_ewm
@@ -267,7 +268,7 @@ INSERT INTO `ysk_ewm` VALUES ('125', '166', '3', 'http://www.h8pay.com/Public/at
 INSERT INTO `ysk_ewm` VALUES ('127', '201', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e12fd2af2a06.jpg', '0.00', '6216695000012002859', '18831206543', '胡子明', '1578302807', '1578302807', '0', '1', '0', '', '');
 INSERT INTO `ysk_ewm` VALUES ('128', '199', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e131b570ae1f.jpg', '0.00', '6217996750001251446', '13398322087', '欧波', '1578310519', '1578318944', '1578318797', '1', '0', '', '');
 INSERT INTO `ysk_ewm` VALUES ('129', '167', '3', 'http://www.h8pay.com/Public/attached/2020/01/07/5e13d5382eb32.jpg', '0.00', '6230520060085161877', '15715928077', '范孝鑫', '1578358074', '1578358074', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588131091', '1588131017', '1', '0', '', '');
+INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588131091', '1588149466', '1', '1', '', '');
 INSERT INTO `ysk_ewm` VALUES ('134', '21', '3', 'http://fast.com/Public/attached/2020/04/26/5ea4ed7c97336.png', '0.00', '123873474829839', '13888888888', 'XIA', '1587867014', '1587867014', '1587868297', '1', '0', '', '');
 INSERT INTO `ysk_ewm` VALUES ('135', '21', '2', 'http://fast.com/Public/attached/2020/04/26/5ea5223112385.png', '0.00', '', '13888888888', '小虾', '1587880529', '1588131108', '1588132021', '1', '0', '浙江省', '杭州市');
 
@@ -578,7 +579,7 @@ CREATE TABLE `ysk_roborder` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `class` (`class`,`price`,`addtime`) USING BTREE,
   KEY `status` (`status`,`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=400 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
+) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
 
 -- ----------------------------
 -- Records of ysk_roborder
@@ -733,6 +734,7 @@ INSERT INTO `ysk_roborder` VALUES ('395', null, '2', '0.00', '1588123370', '3', 
 INSERT INTO `ysk_roborder` VALUES ('396', '133', '1', '500.00', '1588131003', '3', '21', '谢', '21194.60', '1588131091', '', 'E15881309980006329', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('398', '135', '2', '500.00', '1588131083', '3', '21', '谢', '20701.60', '1588131108', '', 'E15881310570005760', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('399', '135', '2', '500.00', '1588132017', '2', '21', '13033556688', '20707.10', '1588132021', '', 'E15881320160003175', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('402', '133', '1', '500.00', '1588149458', '2', '21', '13033556688', '20707.10', '1588149466', '', 'E15881494550002986', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 
 -- ----------------------------
 -- Table structure for ysk_skm
@@ -1231,13 +1233,15 @@ CREATE TABLE `ysk_system` (
   `ylb` varchar(255) DEFAULT NULL,
   `ed` decimal(10,2) DEFAULT '0.00',
   `qd_kf` varchar(50) DEFAULT NULL,
+  `lose_time` int(10) DEFAULT '60' COMMENT '订单失效时间',
+  `back_money_time` int(10) DEFAULT '120' COMMENT '失效后退还押金时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='游戏参数设置表';
 
 -- ----------------------------
 -- Records of ysk_system
 -- ----------------------------
-INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '200', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888');
+INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '200', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888', '60', '120');
 
 -- ----------------------------
 -- Table structure for ysk_tixian
@@ -1355,7 +1359,7 @@ INSERT INTO `ysk_user` VALUES ('16', '0', '0', '0', '18960238701', '18960238701'
 INSERT INTO `ysk_user` VALUES ('17', '2', '0', '0', 'djfjds', '13567896789', 'Bh54C4Fh', 'djfjds', '5d7df6959beb5e42de65cff9c3ccd6d8', '4875', '8016.00', '1560657291', '', '1', '0', 'hvl5br8alvbp2qcgfj3ruapse6', '34', '34', 'dfds', 'dfdsf@dsf.com', '234324', '3432432', null, '0', '1', '1', '1', '16.00', '0', '10', '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('18', '17', '2', '0', '13456789000', '13456789000', 'OLYqLpVJ28Iv', 'erwe', '149dd2de7d927a793945671245002279', 'TY8c', '0.00', '1560658942', '127.0.0.1', '1', '0', null, null, null, null, '', '', '', '-17-', '1', '0', '1', '1', '0.00', '0', '10', null, '0', '');
 INSERT INTO `ysk_user` VALUES ('20', '0', '0', '0', '13252585458', '13252585458', '', '13252585458', 'dc4a26ce0b136b40a0f02335a71f46c5', '5281', '0.00', '1563149840', '', '1', '0', 'mc50krcg13svskashs1dbh6iv3', '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '0', '0', '');
-INSERT INTO `ysk_user` VALUES ('21', '1', '1', '1', '13888888888', '13888888888', 'OYeKVKTqDObq', '13033556688', '8afc14645ed885190bfbb0ce23334b6b', 'f0f', '20707.10', '1563163346', '14.106.121.50', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '456456', '456456', '谢', '456456@qq.com', '456456', '4564564546546456', '--', '1', '1', '1', '1', '915.50', '1', '100', '1', '14', '');
+INSERT INTO `ysk_user` VALUES ('21', '1', '1', '1', '13888888888', '13888888888', 'OYeKVKTqDObq', '13033556688', '8afc14645ed885190bfbb0ce23334b6b', 'f0f', '20207.10', '1563163346', '14.106.121.50', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '456456', '456456', '谢', '456456@qq.com', '456456', '4564564546546456', '--', '1', '1', '1', '1', '915.50', '1', '100', '0', '14', '');
 INSERT INTO `ysk_user` VALUES ('22', '0', '0', '0', '13245674567', '13245674567', 'ey261pbEIiUD', '13245674567', '96ca78c6286c56002a4748343a3ec7c6', '4907', '5000.00', '1563245021', '', '1', '0', '66bc90a3l8ap66a004menc53h1', null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('23', '1', '0', '0', '15637897332', '15637897332', 'rI6BMa453syO', '张旭', 'a91225a8bbe6f46bd5ed8a12c7f124d6', 'ZNDK', '0.00', '1563254320', '61.158.152.20', '0', '0', 'id5a4lno1sbbsd9ajaqg2l6ie1', '', '', '', '', '', '', '-196-1-', '1', '0', '1', '1', '0.00', '0', '10', '0', '0', '');
 INSERT INTO `ysk_user` VALUES ('24', '0', '0', '0', 'momo624', 'momo624', 'evMfpkbMX3YZ', 'momo624', '54fefe6a8dcfc185d7ad9d11485eaa51', '6421', '0.00', '1563444962', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', null, '0', '');
@@ -1560,7 +1564,7 @@ CREATE TABLE `ysk_userrob` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`,`class`) USING BTREE,
   KEY `ordernum` (`ordernum`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
 
 -- ----------------------------
 -- Records of ysk_userrob
@@ -1708,6 +1712,7 @@ INSERT INTO `ysk_userrob` VALUES ('150', '21', '1', '500.00', '0.00', '22182.10'
 INSERT INTO `ysk_userrob` VALUES ('151', '21', '1', '500.00', '0.00', '21694.60', '13888888888', '13033556688', '396', '3', '1588131017', '1588131017', '1588131091', 'N266002766448', 'E15881309980006329', '500.00', '133', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('152', '21', '2', '500.00', '0.00', '21201.60', '13888888888', '13033556688', '398', '3', '1588131099', '1588131099', '1588131108', 'N059688681078', 'E15881310570005760', '500.00', '135', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('153', '21', '2', '500.00', '0.00', '20707.10', '13888888888', '13033556688', '399', '4', '1588132021', '1588132021', '', 'N385738554523', 'E15881320160003175', '500.00', '135', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('154', '21', '1', '500.00', '0.00', '20707.10', '13888888888', '13033556688', '402', '2', '1588149466', '1588149466', '', 'N039335792387', 'E15881494550002986', '500.00', '133', '0', null);
 
 -- ----------------------------
 -- Table structure for ysk_withdraw
@@ -1767,7 +1772,7 @@ CREATE TABLE `z_log` (
   `ip` varchar(255) DEFAULT NULL,
   `addtime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1828 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1829 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of z_log
@@ -3099,3 +3104,4 @@ INSERT INTO `z_log` VALUES ('1824', 'admin', '127.0.0.1', '1588054346');
 INSERT INTO `z_log` VALUES ('1825', 'admin', '127.0.0.1', '1588124060');
 INSERT INTO `z_log` VALUES ('1826', 'admin', '127.0.0.1', '1588128729');
 INSERT INTO `z_log` VALUES ('1827', 'admin', '127.0.0.1', '1588138533');
+INSERT INTO `z_log` VALUES ('1828', 'admin', '127.0.0.1', '1588149154');

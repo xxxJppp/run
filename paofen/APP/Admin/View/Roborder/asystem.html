@@ -154,7 +154,20 @@
                                             
                                         </div>
                                     </div>
-                                    
+                                    <div class="form-group item_config[WEB_SITE_TITLE] ">
+                                        <label class="left control-label">订单失效时间：</label>
+                                        <div style="width:50%" class="input-group">
+                                            <input type="text" name="qd_minmoney" class="form-control" value="{$info.lose_time}" placeholder="单位为秒"/>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group item_config[WEB_SITE_TITLE] ">
+                                        <label class="left control-label">押金释放时间：</label>
+                                        <div style="width:50%" class="input-group">
+                                            <input type="text" name="qd_minmoney" class="form-control" value="{$info.back_money_time}" placeholder="单位为秒，订单过期多久后释放冻结押金"/>
+
+                                        </div>
+                                    </div>
                                      充值提现参数设置<hr style="margin-top: 0px;width: 100%">
                                    <div class="form-group item_config[WEB_SITE_TITLE] ">
                                         <label class="left control-label">最小充值额度：</label>
