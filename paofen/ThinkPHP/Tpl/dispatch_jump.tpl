@@ -19,18 +19,18 @@ body{ background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16p
 .system-message .detail{ font-size: 12px; line-height: 20px; margin-top: 12px; display:none}
 </style>
 </head>
-<body  style="background:#0d1539;">
+<body>
 <div class="system-message">
 <?php if(isset($message)) {?>
-<h1 style="color:#ccc;">nine star :)</h1>
-<p class="success" style="color:#ccc;"><?php echo($message); ?></p>
+<h1>:)</h1>
+<p class="success"><?php echo($message); ?></p>
 <?php }else{?>
-<h1 style="color:#ccc;">:(</h1>
-<p class="error" style="color:#ccc;"><?php echo($error); ?></p>
+<h1>:(</h1>
+<p class="error"><?php echo($error); ?></p>
 <?php }?>
-<p class="detail" style="color:#ccc;"></p>
-<p class="jump" style="color:#ccc;">
-页面自动 <a id="href" href="<?php echo($jumpUrl); ?> " style="color:#ccc;">跳转</a> 等待时间： <b id="wait" style="color:#ccc;"><?php echo($waitSecond); ?></b>
+<p class="detail"></p>
+<p class="jump">
+页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b>
 </p>
 </div>
 <script type="text/javascript">

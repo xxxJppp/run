@@ -188,7 +188,7 @@ class UserController extends AdminController
     //提现列表
     public function recharge()
     {
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
         if (I('get.userid')) {
@@ -300,33 +300,12 @@ class UserController extends AdminController
 
     }
 
-    //充值处理
-    public function save_czset()
-    {
-        if ($_GET) {
-            $data['cz_yh'] = trim(I('get.cz_yh'));
-            $data['cz_xm'] = trim(I('get.cz_xm'));
-            $data['cz_kh'] = trim(I('get.cz_kh'));
-
-            $re = M('system')->where(array('id' => 1))->save($data);
-
-            if ($re) {
-                $this->success('修改成功');
-                exit;
-            } else {
-
-                $this->error('修改失败');
-                exit;
-            }
-        }
-
-    }
 
 
     //提现列表
     public function withdraw()
     {
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
 
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
@@ -355,7 +334,7 @@ class UserController extends AdminController
 
             $map['addtime'] = array('between', array($st, $en));
         }
-
+        $map['status'] = array('NEQ',4);
 
         $userobj = M('withdraw');
         $count = $userobj->where($map)->count();
@@ -388,11 +367,11 @@ class UserController extends AdminController
         $st = trim(I('get.st'));
         $relist = M('withdraw')->where(array('id' => $id))->find();
 
-        if ($st == 1) {
+        if ($st == 1 && $relist['status']==1) {
             $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 3));
 
 
-        } elseif ($st == 2) {
+        } elseif ($st == 2 && $relist['status']==1) {
 
             $ulist = M('user')->where(array('userid' => $relist['uid']))->find();
 
@@ -416,8 +395,8 @@ class UserController extends AdminController
             $re = M('user')->where(array('userid' => $relist['uid']))->save($sa);
 
 
-        } elseif ($st == 3) {
-            $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 3));
+        } elseif ($st == 3 && $relist['status']==1) {
+            $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 4));
 
         }
 
@@ -513,7 +492,7 @@ class UserController extends AdminController
     //银行卡列表
     public function bankcard()
     {
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
         $querytype = trim(I('get.querytype'));
         $account = trim(I('get.keyword'));
         $coinpx = trim(I('get.coinpx'));

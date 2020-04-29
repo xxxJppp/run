@@ -163,7 +163,7 @@ class Verify {
             for ($i = 0; $i<$this->length; $i++) {
                 $code[$i] = $this->codeSet[mt_rand(0, strlen($this->codeSet)-1)];
                 $codeNX  += mt_rand($this->fontSize*1.2, $this->fontSize*1.6);
-                imagettftext($this->_image, $this->fontSize, mt_rand(0, 0), $codeNX, $this->fontSize*1.6, $this->_color, $this->fontttf, $code[$i]);
+                imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize*1.6, $this->_color, $this->fontttf, $code[$i]);
             }
         }
        

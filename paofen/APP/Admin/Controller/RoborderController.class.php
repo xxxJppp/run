@@ -15,7 +15,7 @@ class RoborderController extends AdminController
     public function index()
     {
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
 
         $map['id'] = array('gt', 0);
         if (I('get.mobile')) {
@@ -272,7 +272,7 @@ class RoborderController extends AdminController
     {
 
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
 
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
@@ -338,7 +338,7 @@ class RoborderController extends AdminController
     public function robsucc2()
     {
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
         if (I('get.class')) {
@@ -405,7 +405,7 @@ class RoborderController extends AdminController
     {
 
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
 
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
@@ -475,7 +475,7 @@ class RoborderController extends AdminController
     public function robsucc()
     {
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
         $coinpx = trim(I('get.coinpx'));
 
         $map['id'] = array('gt', 0);
@@ -546,7 +546,7 @@ class RoborderController extends AdminController
     public function ordersucc()
     {
 
-        $fy = I('get.fy');
+        $fy = I('get.fy',100);
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
         if (I('get.class')) {
@@ -1396,7 +1396,9 @@ class RoborderController extends AdminController
     public function skyhk()
     {
         if($_POST) {
-            $data = I('post.');
+            $data['cz_yh'] = trim(I('post.cz_yh'));
+            $data['cz_xm'] = trim(I('post.cz_xm'));
+            $data['cz_kh'] = trim(I('post.cz_kh'));
             $result = M('system')->where(array('id'=>1))->save($data);
             if ($result) {
                 $this->success('修改成功');
