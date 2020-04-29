@@ -78,10 +78,4 @@ if(count($_GET)>0)
     //CheckURL();
 }
 
-if (isset($_SESSION['h_id'])  && $_SESSION['h_id'] > 0) {
-   
-   $us_info = $mysql->select('fafa_member','*','id='.$_SESSION['h_id']);
-}
-
-require(ROOT . 'data/web_config.php');
 ?>
