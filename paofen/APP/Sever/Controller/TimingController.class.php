@@ -44,8 +44,32 @@ class TimingController extends Controller
     }
 
     public function timeoutOrder(){
-//        pipeitime
-
+        $model = M();
+        $listss = M('roborder')->where(array('status'=>1))->select();
+        $system = M('system')->where(array('id'=>1))->find();
+        foreach ($listss as $k => $v) {
+            $a = $v['addtime'];
+            $sheng = time() - $a;
+            if ($sheng > $system['lose_time']) {
+                if($v['uid']!=0) {
+                    $data = array('uid'=>$v['uid'],'money'=>$v['price'],'addtime'=>time(),'ppid'=>$v['id']);
+                    $dj = M('dj')->add($data);
+                    $user_status = M('userrob')->where(array('uid'=>$v['uid'],'ppid'=>$v['id'],'pay_sn'=>$v['ordernum']))->save(array('status'=>4));
+                }else{
+                    $ret = M('roborder')->where(array('id' => $v['id']))->delete();
+                }
+            }
+        }
+        $user_order_dj = M('dj')->select();
+        foreach($user_order_dj as $val){
+            $time = time()-$val['addtime'];
+            if($time>$system['back_money_time']){
+                M('user')->where(array('userid'=>$val['uid']))->setInc('money',$val['money']);
+                M('dj')->where(array('id'=>$val['id']))->delete();
+                M('userrob')->where(array('uid'=>$val['uid'],'ppid'=>$val['id'],'status'=>4))->delete();
+            }
+        }
+        $model->commit();
     }
 
 
