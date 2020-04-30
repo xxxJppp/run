@@ -156,11 +156,13 @@
                                                         <span data-v-7b3d257d=""
                                                               class="warn-color font-14"><?php echo $info['uname'];?></span><span
                                                                 data-v-7b3d257d="" class="green font-14 ML10" id="tys">
+                                                            <?php if($info['audit_status']==0){ ?>待审核<?php }else{ ?>
 				<a type="button" id="xs-<?=$info['id']?>" data-id="<?=$info['id']?>" class="buttonss"
                    href="javascript:">
                 <?php  echo $info['zt'] == 1?'点击停用    ':'<font color="">点击启用 </font>
                     '?> <?php  echo $info['zt1'] == 1?'<font color="">,收款中</font>':''?>
 			</a>
+                                                        <?php } ?>
 				</span></div>
                                                     <div data-v-7b3d257d="" class="MT03">
                                                         今日收款 <span data-v-7b3d257d="" class="fail-color">{$info.id|jrsk=###}</span>
@@ -226,11 +228,12 @@
                                                         <span data-v-7b3d257d=""
                                                               class="warn-color font-14"><?php echo $info['uname'];?></span><span
                                                                 data-v-7b3d257d="" class="green font-14 ML10" id="tys">
+                                                            <?php if($info['audit_status']==0){ ?>待审核<?php }else{ ?>
 				<a type="button" id="xs-<?=$info['id']?>" data-id="<?=$info['id']?>" class="buttonss"
                    href="javascript:">
                 <?php  echo $info['zt'] == 1?'点击停用    ':'<font color="">点击启用 </font>
                     '?> <?php  echo $info['zt1'] == 1?'<font color="">,收款中</font>':''?>
-			</a>
+			</a><?php } ?>
 				</span></div>
                                                     <div data-v-7b3d257d="" class="MT03">
                                                         今日收款 <span data-v-7b3d257d="" class="fail-color">{$info.id|jrsk=###} </span>
@@ -295,11 +298,12 @@
                                                         <span data-v-7b3d257d=""
                                                               class="warn-color font-14"><?php echo $info['uname'];?></span><span
                                                                 data-v-7b3d257d="" class="green font-14 ML10" id="tys">
+                                                            <?php if($info['audit_status']==0){ ?>待审核<?php }else{ ?>
 				<a type="button" id="xs-<?=$info['id']?>" data-id="<?=$info['id']?>" class="buttonss"
                    href="javascript:">
                 <?php  echo $info['zt'] == 1?'点击停用    ':'<font color="">点击启用 </font>
                     '?> <?php  echo $info['zt1'] == 1?'<font color="">,收款中</font>':''?>
-			</a>
+			</a><?php } ?>
 				</span></div>
                                                     <div data-v-7b3d257d="" class="MT03">
                                                         今日收款 <span data-v-7b3d257d="" class="fail-color">{$info.id|jrsk=###} </span>

@@ -1,3 +1,4 @@
+alter table ysk_ewm add audit_status tinyint(1) DEFAULT '0' COMMENT '0待审核1已审核';
 alter table ysk_roborder add notify_url VARCHAR(255) DEFAULT '' COMMENT '回调路径';
 alter table ysk_roborder add notify_status int(2) DEFAULT 0 COMMENT '回调状态1是成功，0是未回调';
 alter table ysk_roborder add fail_num int(2) DEFAULT 0 COMMENT '失败次数';

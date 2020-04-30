@@ -9,9 +9,8 @@ class IndexController extends CommonController
 
     public function index()
     {
-
-
         $userid = session('userid');
+        M()->startTrans();
         $ulist = M('user')->where(array('userid' => $userid))->find();
         $dj = M('dj')->where(array('uid' => $userid))->select();
         //echo M('dj')->getLastSql();  exit;
@@ -24,8 +23,6 @@ class IndexController extends CommonController
         } else {
             $max_pipeinone = 0;
         }
-
-
         if (!empty($dj)) {
 
             foreach ($dj as $k => $v) {
@@ -45,13 +42,8 @@ class IndexController extends CommonController
 
                 }
             }
-
-
         }
-
-
         $nlist = M('news')->where(array('sort' => 0))->order('id desc')->limit(5)->select();
-
         $slist = M('userrob')->where(array('uid' => $userid, 'status' => 2))->order('id desc')->select();
         $this->assign('slist', $slist);
         $this->assign('list', $nlist);
@@ -395,13 +387,11 @@ class IndexController extends CommonController
             exit;
         }
 
-
         if ($max_pipeinone < $clist['qd_minmoney']) {
             $data['status'] = 0;
             $data['msg'] = '小于最小抢单金额';
             $this->ajaxReturn($data);
             exit;
-
         }
 
         /****需要添加一个未完成订单限制*******/
@@ -417,9 +407,7 @@ class IndexController extends CommonController
 
         /*********这里需要区分直接匹配成功，和后台没有发布订单时的排队匹配两种情况********/
 
-
         if (!empty($orderlist)) {//后台有符合条件的待匹配订单，生成一条直接匹配好的记录。
-            //print_r($orderlist);exit;
             foreach ($orderlist as $k => $v) {
                 $dtime = time();
                 $sk = $dtime - $clist['jdtime'] * 60;
@@ -428,6 +416,8 @@ class IndexController extends CommonController
                 $where11['zt'] = 1;
                 $where11['zt1'] = 0;
                 $where11['jdtime'] = array('elt', $sk);
+                $where11['audit_status'] = 1;
+                $where11['uid'] = $userid;
                 $ewm = M('ewm')->where($where11)->select();
                 foreach ($ewm as $val) {
                     if ($val['city'] == $v['city']) {
@@ -444,12 +434,14 @@ class IndexController extends CommonController
                         break;
                     }
                 }
+                $where11['uid'] = $userid;
                 $keyongppewm = M('ewm')->where($where11)->find();
                 //
                 $qdclass = $v['class'];
 
                 if ($keyongppewm) {
-
+                    $model = M();
+                    $model->startTrans();
                     $psave['uid'] = $userid;
                     $psave['uname'] = $ulist['username'];
                     $psave['umoney'] = $ulist['money'];
@@ -462,49 +454,55 @@ class IndexController extends CommonController
 
                     $ewmzt1['zt1'] = 1;
                     $ewmzt1['jdtime'] = time();
-                    M('ewm')->where(array('id' => $keyongppewm['id']))->save($ewmzt1);
+                    $ewm_status = M('ewm')->where(array('id' => $keyongppewm['id']))->save($ewmzt1);
 
-                    if ($pipei_re) {
-                        $updata['idewm'] = $keyongppewm['id'];
 
-                        $updata['uid'] = $userid;
-                        $updata['class'] = $qdclass;
-                        $updata['price'] = $v['price'];
-                        $updata['yjjc'] = $clist['qd_yjjc'];
-                        $updata['umoney'] = $ulist['money'];
-                        $updata['uaccount'] = $ulist['account'];
-                        $updata['uname'] = $ulist['username'];
-                        $updata['ppid'] = $id;
-                        $updata['status'] = 2;
-                        $updata['addtime'] = time();
-                        $updata['pipeitime'] = time();
-                        $updata['ordernum'] = getordernum();
-                        $updata['pay_sn'] = $v['ordernum'];;
-                        $updata['pay_money'] = $v['price'];
+                    $updata['idewm'] = $keyongppewm['id'];
 
-                        /****************************************************************/
-                        //$dj = M('dj')->where(array('uid'=>$userid))->find();
+                    $updata['uid'] = $userid;
+                    $updata['class'] = $qdclass;
+                    $updata['price'] = $v['price'];
+                    $updata['yjjc'] = $clist['qd_yjjc'];
+                    $updata['umoney'] = $ulist['money'];
+                    $updata['uaccount'] = $ulist['account'];
+                    $updata['uname'] = $ulist['username'];
+                    $updata['ppid'] = $id;
+                    $updata['status'] = 2;
+                    $updata['addtime'] = time();
+                    $updata['pipeitime'] = time();
+                    $updata['ordernum'] = getordernum();
+                    $updata['pay_sn'] = $v['ordernum'];;
+                    $updata['pay_money'] = $v['price'];
 
-                        $dj['addtime'] = time();
-                        $dj['uid'] = $userid;
-                        $dj['money'] = $v['price'];
-                        $dj['ppid'] = $id;
-                        M('dj')->add($dj);
+                    /****************************************************************/
+                    //$dj = M('dj')->where(array('uid'=>$userid))->find();
 
-                        $uss['money'] = $ulist['money'] - $v['price'];
+                    $dj['addtime'] = time();
+                    $dj['uid'] = $userid;
+                    $dj['money'] = $v['price'];
+                    $dj['ppid'] = $id;
+                    $dj_status = M('dj')->add($dj);
 
-                        M('user')->where(array('userid' => $userid))->save($uss);//完成
-                        /*****************************************************************/
+                    $uss['money'] = $ulist['money'] - $v['price'];
 
-                        $up_re = M('userrob')->add($updata);
-                        if ($up_re) {
-                            $data['status'] = 1;
-                            $data['msg'] = '自动匹配成功';
+                    $user_status = M('user')->where(array('userid' => $userid))->save($uss);//完成
+                    /*****************************************************************/
 
-                            $this->ajaxReturn($data);
-                            exit;
-                        }
+                    $up_re = M('userrob')->add($updata);
+                    if ($up_re && $pipei_re && $ewm_status && $user_status && $dj_status) {
+                        $model->commit();
+                        $data['status'] = 1;
+                        $data['msg'] = '自动匹配成功';
+                        $this->ajaxReturn($data);
+                        exit;
+                    } else {
+                        $model->rollback();
+                        $data['status'] = 0;
+                        $data['msg'] = '未知错误';
+                        $this->ajaxReturn($data);
+                        exit;
                     }
+
                 } else {
                     $data['status'] = 0;
                     $data['msg'] = '没有满足条件的二维码！';
@@ -713,7 +711,7 @@ class IndexController extends CommonController
 
     }
 
-    //生成抢单订单
+    //生成抢单订单(此处代码是二维码带有金额的时候可以打开使用)
     public function pipeiorder()
     {
         if ($_POST) {
@@ -763,7 +761,7 @@ class IndexController extends CommonController
             }
             /********************/
 
-            $count_qrnum = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1))->count();
+            $count_qrnum = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1, 'audit_status' => 1))->count();
 
             if ($qdclass == 1) {
                 $str = '微信收款二维码';
@@ -795,7 +793,7 @@ class IndexController extends CommonController
                 //符合条件的最小额度的记录为$orderlist[0],所以直接匹配最小的这一条，如果最小金额的都不够匹配，同样也生成一条匹配记录，提示等待(不采用)
                 //这里写业务
                 //循环匹配收款二维类型及金额都符合则匹配成功
-                $ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1))->select();
+                $ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1, 'audit_status' => 1))->select();
                 foreach ($orderlist as $k => $v) {
                     foreach ($ewmlist as $val) {
                         if ($v['price'] == $val['ewm_price']) {
@@ -1101,7 +1099,7 @@ class IndexController extends CommonController
             }
             /********************/
 
-            $count_qrnum = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1))->count();
+            $count_qrnum = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1, 'audit_status' => 1))->count();
 
 
             if ($qdclass == 1) {
@@ -1130,130 +1128,119 @@ class IndexController extends CommonController
             $where1['zt'] = array('eq', 1);
             $where1['zt1'] = array('eq', 0);
             $where1['jdtime'] = array('elt', $sk);
+            $where1['audit_status'] = 1;
             $count_qrnumww = M('ewm')->where($where1)->count();
 
             if ($count_qrnumww < 1) {
                 $data['status'] = 0;
-                $data['msg'] = '您开启的' . $str . '都处于收款状态，或者间隔收款时间不满足！';
+                $data['msg'] = '您开启的' . $str . '都处于收款/待审核状态，或者间隔收款时间不满足！';
                 $this->ajaxReturn($data);
                 exit;
             }
-            $keyongppewm = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1, 'zt1' => 0))->order('gengxintime')->find();
-
 
             /*********这里需要区分直接匹配成功，和后台没有发布订单时的排队匹配两种情况********/
-            $orderlist = M('roborder')->where(array('id' => $id))->find();
-
-
-            /*if ($clist['ed'] >= $ulist['money']) {
-                $data['status'] = 0;
-               $data['msg'] = '保证金预留额度必须大于'.$clist['ed'].'元';
-               $this->ajaxReturn($data);exit;
+            $tolist = M('roborder')->where(array('id' => $id))->find();
+            $ewm = M('ewm')->where($where1)->select();
+            foreach ($ewm as $val) {
+                if ($val['city'] == $tolist['city']) {
+                    $where11['id'] = $val['id'];
+                    break;
+                } elseif ($val['province'] == $tolist['province']) {
+                    $where11['id'] = $val['id'];
+                    break;
+                } else {
+                    $where11['id'] = $val['id'];
+                    break;
+                }
             }
-         */
-
-            if ($orderlist['price'] > $max_pipeinone) {
+            $where11['uid'] = $userid;
+            $keyongppewm = M('ewm')->where($where11)->find();
+            if ($tolist['price'] > $max_pipeinone) {
                 $data['status'] = 0;
                 $data['msg'] = '您最高抢单额度为' . $max_pipeinone;
                 $this->ajaxReturn($data);
                 exit;
             }
 
-
-            if (!empty($orderlist)) {//后台有符合条件的待匹配订单，生成一条直接匹配好的记录。
+            if (!empty($tolist)) {//后台有符合条件的待匹配订单，生成一条直接匹配好的记录。
                 //符合条件的最小额度的记录为$orderlist[0],所以直接匹配最小的这一条，如果最小金额的都不够匹配，同样也生成一条匹配记录，提示等待(不采用)
                 //这里写业务
                 //循环匹配收款二维类型及金额都符合则匹配成功
-                $ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_class' => $qdclass, 'zt' => 1))->select();
+
+                if ($tolist['zduid'] && $tolist['zduid'] <> $userid) {
+                    $data['status'] = 0;
+                    $data['msg'] = '该订单为指定单';
+                    $this->ajaxReturn($data);
+                    exit;
+                }
+                $model = M();
+                $model->startTrans();
+                if ($tolist['status'] == 1) {
+
+                    $psave['uid'] = $userid;
+                    $psave['uname'] = $ulist['username'];
+                    $psave['umoney'] = $ulist['money'];
+                    $psave['pipeitime'] = time();
+                    $psave['status'] = 2;
+                    $psave['idewm'] = $keyongppewm['id'];
+
+                    $pipei_re = M('roborder')->where(array('id' => $id))->save($psave);
 
 
-                if (1) {
+                    $ewmzt1['zt1'] = 1;
+                    $ewmzt1['jdtime'] = time();
+                    $ewm_status = M('ewm')->where(array('id' => $keyongppewm['id'], 'uid' => $userid))->save($ewmzt1);
 
 
-                    $tolist = M('roborder')->where(array('id' => $id))->find();//被匹配的这一条记录
+                    $updata['idewm'] = $keyongppewm['id'];
+                    $updata['uid'] = $userid;
+                    $updata['class'] = $qdclass;
+                    $updata['price'] = $tolist['price'];
+                    $updata['yjjc'] = $clist['qd_yjjc'];
+                    $updata['umoney'] = $ulist['money'];
+                    $updata['uaccount'] = $ulist['account'];
+                    $updata['uname'] = $ulist['username'];
+                    $updata['ppid'] = $id;
+                    $updata['status'] = 2;
+                    $updata['addtime'] = time();
+                    $updata['pipeitime'] = time();
+                    $updata['ordernum'] = getordernum();
+                    $updata['pay_sn'] = $tolist['ordernum'];
+                    $updata['pay_money'] = $tolist['price'];
 
+                    /****************************************************************/
+                    //$dj = M('dj')->where(array('uid'=>$userid))->find();
 
-                    if ($tolist['zduid'] && $tolist['zduid'] <> $userid) {
+                    /****************************************************************/
+
+                    $dj['addtime'] = time();
+                    $dj['uid'] = $userid;
+                    $dj['money'] = $tolist['price'];
+                    $dj['ppid'] = $id;
+                    $dj_result = M('dj')->add($dj);
+
+                    $uss['money'] = $ulist['money'] - $tolist['price'];
+
+                    $user_price = M('user')->where(array('userid' => $userid))->save($uss);//完成
+                    $up_re = M('userrob')->add($updata);
+
+                    if ($pipei_re && $ewm_status && $dj_result && $user_price && $up_re) {
+                        $model->commit();
+                        $data['status'] = 1;
+                        $data['msg'] = '抢单成功..';
+                        $this->ajaxReturn($data);
+                        exit;
+                    } else {
+                        $model->rollback();
                         $data['status'] = 0;
-                        $data['msg'] = '该订单为指定单';
+                        $data['msg'] = '未知错误1';
                         $this->ajaxReturn($data);
                         exit;
                     }
-                    if ($tolist['status'] == 1) {
-
-                        $psave['uid'] = $userid;
-                        $psave['uname'] = $ulist['username'];
-                        $psave['umoney'] = $ulist['money'];
-                        $psave['pipeitime'] = time();
-                        $psave['status'] = 2;
-                        $psave['idewm'] = $keyongppewm['id'];
-
-                        $pipei_re = M('roborder')->where(array('id' => $id))->save($psave);
-
-
-                        $ewmzt1['zt1'] = 1;
-                        $ewmzt1['jdtime'] = time();
-                        M('ewm')->where(array('id' => $keyongppewm['id']))->save($ewmzt1);
-
-
-                        if ($pipei_re) {
-                            $updata['idewm'] = $keyongppewm['id'];
-                            $updata['uid'] = $userid;
-                            $updata['class'] = $qdclass;
-                            $updata['price'] = $tolist['price'];
-                            $updata['yjjc'] = $clist['qd_yjjc'];
-                            $updata['umoney'] = $ulist['money'];
-                            $updata['uaccount'] = $ulist['account'];
-                            $updata['uname'] = $ulist['username'];
-                            $updata['ppid'] = $id;
-                            $updata['status'] = 2;
-                            $updata['addtime'] = time();
-                            $updata['pipeitime'] = time();
-                            $updata['ordernum'] = getordernum();
-                            $updata['pay_sn'] = $tolist['ordernum'];
-                            $updata['pay_money'] = $tolist['price'];
-
-                            /****************************************************************/
-                            //$dj = M('dj')->where(array('uid'=>$userid))->find();
-
-                            /****************************************************************/
-                            //$dj = M('dj')->where(array('uid'=>$userid))->find();
-
-                            $dj['addtime'] = time();
-                            $dj['uid'] = $userid;
-                            $dj['money'] = $tolist['price'];
-                            $dj['ppid'] = $id;
-                            M('dj')->add($dj);
-
-                            $uss['money'] = $ulist['money'] - $tolist['price'];
-
-                            M('user')->where(array('userid' => $userid))->save($uss);//完成
-
-
-                            /*****************************************************************/
-                            /*****************************************************************/
-
-                            $up_re = M('userrob')->add($updata);
-                            if ($up_re) {
-                                $data['status'] = 1;
-                                $data['msg'] = '抢单成功..';
-                                $this->ajaxReturn($data);
-                                exit;
-                            } else {
-                                $data['status'] = 0;
-                                $data['msg'] = '未知错误';
-                                $this->ajaxReturn($data);
-                                exit;
-                            }
-                        } else {
-                            $data['status'] = 0;
-                            $data['msg'] = '未知错误';
-                            $this->ajaxReturn($data);
-                            exit;
-                        }
-                    }
 
                 }
+
+
             }
 
         } else {

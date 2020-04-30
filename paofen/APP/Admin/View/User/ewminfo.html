@@ -75,12 +75,17 @@
                                                     <img src="{$info.ewm_url}" style="width:10%"/>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">收款码审核：</label>
+                                                <div class="right">
+                                                    <input type="text" class="form-control input text" name="wx_no"  readonly="readonly" value="<?php if($info['audit_status']==0){ ?>待审核<?php }else{ ?>已审核<?php } ?>"/>
+                                                </div>
+                                            </div>
              
                                         <div class="form-group"></div>
                                         <div class="form-group bottom_button_list">
-                                       
-                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">返回</a>
+                                            <a class="btn btn-danger return" style="background-color:#178EEC;border:#178EEC;" href="<?php echo U('User/ewmAudit',array('id'=>$info['id']));?>">审核</a>
+                                            <a class="btn btn-danger return" href="<?php echo U('User/ewm');?>">返回</a>
                                         </div>
                                     </div>
                                 </form>

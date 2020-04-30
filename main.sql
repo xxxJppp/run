@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2020-04-29 17:58:19
+Date: 2020-04-30 16:28:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `ysk_admin` (
   `google_auth` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='后台管理员表格';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='后台管理员表格';
 
 -- ----------------------------
 -- Records of ysk_admin
@@ -97,7 +97,7 @@ INSERT INTO `ysk_agent` VALUES ('26', 'ZHUYI', '1dfc269f9a745a95802a4af561764115
 INSERT INTO `ysk_agent` VALUES ('27', '111', 'e10adc3949ba59abbe56e057f20f883e', '1', '1571381333', '117.181.81.112', '1', '1571381542', '0', null, null, null, null, '13100000000', 'RUD85ZL5XF15Y91SSJ7WM1Q045875SAJ', '1', '0.1', '0.1', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('28', 'gghun1', 'c8837b23ff8aaa8a2dde915473ce0991', '1', '1571392634', null, '0', '0', '0', '', '', '', '', '112233', 'GCZ3YYJO9GCNWQQAVD1QL40M3MWKWFAY', '0', '0', '0', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('29', 'ddss667788', 'e10adc3949ba59abbe56e057f20f883e', '1', '1571531393', null, '0', '0', '0', '', '', '', '', '13100000000', 'HKPWGBNHWE4PYMK6X8O37QVPMFGIDJNA', '0', '0', '0', '0.00', '');
-INSERT INTO `ysk_agent` VALUES ('30', '222', 'e10adc3949ba59abbe56e057f20f883e', '1', '1577977529', '115.53.107.121', '1', '1577977535', '0', '', '', '', '', 'www.99t.com', 'BE47DWAC05N16Y84YR58L88GP2FMJAGF', '1.2', '1.2', '1.5', '1976.00', '');
+INSERT INTO `ysk_agent` VALUES ('30', '222', 'e10adc3949ba59abbe56e057f20f883e', '1', '1577977529', '115.53.107.121', '1', '1577977535', '0', '', '', '', '', 'www.99t.com', 'BE47DWAC05N16Y84YR58L88GP2FMJAGF', '1.2', '1.2', '1.5', '4149.60', '');
 INSERT INTO `ysk_agent` VALUES ('31', 'ceshishangjia1', 'e10adc3949ba59abbe56e057f20f883e', '0', '1577890466', '1.198.29.29', '1', '1575121381', '0', '', '', '', '', 'http://api.gnqtl.xyz/api1', 'P7Q94UXOR56LVE8II23IPXSWL9SYMLEF', '1.2', '1.2', '1.2', '0.00', '');
 INSERT INTO `ysk_agent` VALUES ('32', 'merchant', 'e10adc3949ba59abbe56e057f20f883e', '1', '1587530898', '127.0.0.1', '11', '1587707361', '0', null, null, null, null, '', '', '0', '0', '0', '0.00', '');
 
@@ -113,7 +113,7 @@ CREATE TABLE `ysk_bankcard` (
   `banknum` varchar(225) NOT NULL COMMENT '银行卡号',
   `addtime` varchar(225) NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='银行卡管理';
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='银行卡管理';
 
 -- ----------------------------
 -- Records of ysk_bankcard
@@ -201,12 +201,13 @@ CREATE TABLE `ysk_dj` (
   `addtime` int(11) DEFAULT NULL,
   `ppid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 -- ----------------------------
 -- Records of ysk_dj
 -- ----------------------------
-INSERT INTO `ysk_dj` VALUES ('18', '21', '500.00', '1588149466', '402');
+INSERT INTO `ysk_dj` VALUES ('19', '21', '500.00', '1588219037', '403');
+INSERT INTO `ysk_dj` VALUES ('20', '21', '500.00', '1588219072', '404');
 
 -- ----------------------------
 -- Table structure for ysk_ewm
@@ -228,49 +229,51 @@ CREATE TABLE `ysk_ewm` (
   `zt1` int(1) NOT NULL DEFAULT '0',
   `province` varchar(255) NOT NULL COMMENT '二维码省份',
   `city` varchar(255) NOT NULL COMMENT '二维码所属市',
+  `audit_status` tinyint(1) DEFAULT '0' COMMENT '0待审核1已审核',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`,`ewm_class`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二维码管理';
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二维码管理';
 
 -- ----------------------------
 -- Records of ysk_ewm
 -- ----------------------------
-INSERT INTO `ysk_ewm` VALUES ('86', '159', '2', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb92719c890.jpg', '0.00', '', '13931091933', '六熊猫', '1574670970', '1575311032', '1575310992', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('88', '157', '1', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb953522bdb.jpg', '0.00', '', '18731028899', '刘海', '1574671681', '1574673233', '1574673222', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('89', '160', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcb9cd7018c.jpg', '0.00', '', '14033033330', '啊就好', '1574746579', '1574746934', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('90', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcbce2a255f.jpg', '0.00', '', '13100007777', '123', '1574747367', '1575297453', '1575297317', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('91', '1', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de514b6df7c9.png', '0.00', '', '13100000000', '567', '1575294141', '1575294181', '1575294174', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('92', '152', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de516b31cd4c.png', '0.00', '', '13111112222', 'sdfsdf', '1575294646', '1575296589', '1575297395', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('93', '155', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de51c1e8bcdd.png', '0.00', '', '13100006666', '121212', '1575296031', '1575296668', '1575296663', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('94', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de5210b315cf.png', '0.00', '', '13100007777', '士大夫大师傅', '1575297293', '1578045913', '1575304897', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('95', '9', '1', 'http://p.nanguang998.com/Public/attached/2019/12/09/5dee1c3875156.png', '0.00', '', '13800138000', '张三', '1575886416', '1578017400', '1578017467', '1', '1', '', '');
-INSERT INTO `ysk_ewm` VALUES ('96', '164', '1', 'http://p.nanguang998.com/Public/attached/2019/12/11/5df0e6cd8749b.jpeg', '0.00', '', '13783914073', '张磊', '1576068816', '1576069337', '1576069324', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('97', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb04b652507.jpg', '0.00', '', '13800138000', '多得到', '1576731834', '1578045884', '1576820862', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('98', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb05fd79696.png', '0.00', '', '13800138000', '孙鹏', '1576732205', '1578045866', '1577455905', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('99', '9', '3', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb3b8a2beca.png', '0.00', '456456', '13800138000', '456', '1576745867', '1576745867', '1577977047', '0', '1', '', '');
-INSERT INTO `ysk_ewm` VALUES ('100', '9', '3', 'http://pao.h8pay.com/Public/attached/2019/12/21/5dfde01ec7613.jpg', '0.00', '6123359123569621', '13800138000', '张梦磊', '1576919082', '1578047939', '1579634027', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('105', '176', '2', 'http://www.h8pay.com/Public/attached/2020/01/01/5e0ca15cdfb8e.jpeg', '0.00', '', '17521149197', '王新钘', '1577886053', '1577886053', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('107', '165', '2', 'http://www.h8pay.com/Public/attached/2020/01/02/5e0e04b995899.png', '0.00', '', '14725836900', '我现在', '1577977021', '1577977042', '0', '0', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('109', '165', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0e8fae6c259.png', '0.00', '4657286488500964', '14725836900', '刘亮', '1578012610', '1578044401', '1578044390', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('111', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebba6be664.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023848', '1578023848', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('112', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebbdff05b9.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023906', '1578023906', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('113', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebf17138d1.jpg', '0.00', '', '15665431432', '合肥水润网络信息科技有限公司', '1578024764', '1578024764', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('114', '186', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ec9a833e5a.jpeg', '0.00', '6217923671554615', '13386909567', '纪仁泽', '1578027508', '1578027508', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('116', '179', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ecea003115.jpg', '0.00', '', '15665431432', '来都借', '1578028709', '1578028709', '1578028868', '0', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('117', '165', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed535c4244.png', '0.00', '', '14725836900', '个地方', '1578030393', '1578040970', '1578040919', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('118', '186', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed54cb8019.jpeg', '0.00', '', '13386909567', '纪平凡', '1578030429', '1578030429', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('119', '172', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed53bdde74.jpeg', '0.00', '6217001780006760433', '18075031017', '荣发涛', '1578030467', '1578034129', '1578034029', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('121', '169', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0658ac1d.jpg', '0.00', '6212262013027479790', '18928696507', '陈超威', '1578037371', '1578037371', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('122', '169', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0cf0fe64.jpeg', '0.00', '', '18928696507', '陈超威', '1578037458', '1578037458', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('123', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0f03a4ed820.jpg', '0.00', '6230580000232230487', '15838717882', '秦守博', '1578042280', '1578317016', '1578048788', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('124', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0fe9499e071.jpg', '0.00', '6221804910002203671', '15838717882', '秦守博', '1578101097', '1578101097', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('125', '166', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0ff40050267.jpeg', '0.00', '6215581510007874434', '18022484190', '陈冬明', '1578103870', '1578103870', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('127', '201', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e12fd2af2a06.jpg', '0.00', '6216695000012002859', '18831206543', '胡子明', '1578302807', '1578302807', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('128', '199', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e131b570ae1f.jpg', '0.00', '6217996750001251446', '13398322087', '欧波', '1578310519', '1578318944', '1578318797', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('129', '167', '3', 'http://www.h8pay.com/Public/attached/2020/01/07/5e13d5382eb32.jpg', '0.00', '6230520060085161877', '15715928077', '范孝鑫', '1578358074', '1578358074', '0', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588131091', '1588149466', '1', '1', '', '');
-INSERT INTO `ysk_ewm` VALUES ('134', '21', '3', 'http://fast.com/Public/attached/2020/04/26/5ea4ed7c97336.png', '0.00', '123873474829839', '13888888888', 'XIA', '1587867014', '1587867014', '1587868297', '1', '0', '', '');
-INSERT INTO `ysk_ewm` VALUES ('135', '21', '2', 'http://fast.com/Public/attached/2020/04/26/5ea5223112385.png', '0.00', '', '13888888888', '小虾', '1587880529', '1588131108', '1588132021', '1', '0', '浙江省', '杭州市');
+INSERT INTO `ysk_ewm` VALUES ('86', '159', '2', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb92719c890.jpg', '0.00', '', '13931091933', '六熊猫', '1574670970', '1575311032', '1575310992', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('88', '157', '1', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb953522bdb.jpg', '0.00', '', '18731028899', '刘海', '1574671681', '1574673233', '1574673222', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('89', '160', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcb9cd7018c.jpg', '0.00', '', '14033033330', '啊就好', '1574746579', '1574746934', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('90', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcbce2a255f.jpg', '0.00', '', '13100007777', '123', '1574747367', '1575297453', '1575297317', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('91', '1', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de514b6df7c9.png', '0.00', '', '13100000000', '567', '1575294141', '1575294181', '1575294174', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('92', '152', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de516b31cd4c.png', '0.00', '', '13111112222', 'sdfsdf', '1575294646', '1575296589', '1575297395', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('93', '155', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de51c1e8bcdd.png', '0.00', '', '13100006666', '121212', '1575296031', '1575296668', '1575296663', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('94', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de5210b315cf.png', '0.00', '', '13100007777', '士大夫大师傅', '1575297293', '1578045913', '1575304897', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('95', '9', '1', 'http://p.nanguang998.com/Public/attached/2019/12/09/5dee1c3875156.png', '0.00', '', '13800138000', '张三', '1575886416', '1578017400', '1578017467', '1', '1', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('96', '164', '1', 'http://p.nanguang998.com/Public/attached/2019/12/11/5df0e6cd8749b.jpeg', '0.00', '', '13783914073', '张磊', '1576068816', '1576069337', '1576069324', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('97', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb04b652507.jpg', '0.00', '', '13800138000', '多得到', '1576731834', '1578045884', '1576820862', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('98', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb05fd79696.png', '0.00', '', '13800138000', '孙鹏', '1576732205', '1578045866', '1577455905', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('99', '9', '3', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb3b8a2beca.png', '0.00', '456456', '13800138000', '456', '1576745867', '1576745867', '1577977047', '0', '1', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('100', '9', '3', 'http://pao.h8pay.com/Public/attached/2019/12/21/5dfde01ec7613.jpg', '0.00', '6123359123569621', '13800138000', '张梦磊', '1576919082', '1578047939', '1579634027', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('105', '176', '2', 'http://www.h8pay.com/Public/attached/2020/01/01/5e0ca15cdfb8e.jpeg', '0.00', '', '17521149197', '王新钘', '1577886053', '1577886053', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('107', '165', '2', 'http://www.h8pay.com/Public/attached/2020/01/02/5e0e04b995899.png', '0.00', '', '14725836900', '我现在', '1577977021', '1577977042', '0', '0', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('109', '165', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0e8fae6c259.png', '0.00', '4657286488500964', '14725836900', '刘亮', '1578012610', '1578044401', '1578044390', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('111', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebba6be664.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023848', '1578023848', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('112', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebbdff05b9.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023906', '1578023906', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('113', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebf17138d1.jpg', '0.00', '', '15665431432', '合肥水润网络信息科技有限公司', '1578024764', '1578024764', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('114', '186', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ec9a833e5a.jpeg', '0.00', '6217923671554615', '13386909567', '纪仁泽', '1578027508', '1578027508', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('116', '179', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ecea003115.jpg', '0.00', '', '15665431432', '来都借', '1578028709', '1578028709', '1578028868', '0', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('117', '165', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed535c4244.png', '0.00', '', '14725836900', '个地方', '1578030393', '1578040970', '1578040919', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('118', '186', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed54cb8019.jpeg', '0.00', '', '13386909567', '纪平凡', '1578030429', '1578030429', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('119', '172', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed53bdde74.jpeg', '0.00', '6217001780006760433', '18075031017', '荣发涛', '1578030467', '1578034129', '1578034029', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('121', '169', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0658ac1d.jpg', '0.00', '6212262013027479790', '18928696507', '陈超威', '1578037371', '1578037371', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('122', '169', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0cf0fe64.jpeg', '0.00', '', '18928696507', '陈超威', '1578037458', '1578037458', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('123', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0f03a4ed820.jpg', '0.00', '6230580000232230487', '15838717882', '秦守博', '1578042280', '1578317016', '1578048788', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('124', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0fe9499e071.jpg', '0.00', '6221804910002203671', '15838717882', '秦守博', '1578101097', '1578101097', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('125', '166', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0ff40050267.jpeg', '0.00', '6215581510007874434', '18022484190', '陈冬明', '1578103870', '1578103870', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('127', '201', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e12fd2af2a06.jpg', '0.00', '6216695000012002859', '18831206543', '胡子明', '1578302807', '1578302807', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('128', '199', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e131b570ae1f.jpg', '0.00', '6217996750001251446', '13398322087', '欧波', '1578310519', '1578318944', '1578318797', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('129', '167', '3', 'http://www.h8pay.com/Public/attached/2020/01/07/5e13d5382eb32.jpg', '0.00', '6230520060085161877', '15715928077', '范孝鑫', '1578358074', '1578358074', '0', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588231632', '1588231617', '1', '0', '', '', '1');
+INSERT INTO `ysk_ewm` VALUES ('134', '21', '3', 'http://fast.com/Public/attached/2020/04/26/5ea4ed7c97336.png', '0.00', '123873474829839', '13888888888', 'XIA', '1587867014', '1587867014', '1587868297', '1', '0', '', '', '0');
+INSERT INTO `ysk_ewm` VALUES ('135', '21', '2', 'http://fast.com/Public/attached/2020/04/26/5ea5223112385.png', '0.00', '', '13888888888', '小虾', '1587880529', '1588131108', '1588219037', '1', '1', '浙江省', '杭州市', '1');
+INSERT INTO `ysk_ewm` VALUES ('136', '21', '1', 'http://fast.com/Public/attached/2020/04/30/5eaa43850ed31.png', '0.00', '', '13888888888', '小虾1', '1588216713', '1588216713', '1588219072', '1', '1', '浙江', '杭州', '0');
 
 -- ----------------------------
 -- Table structure for ysk_group
@@ -327,7 +330,7 @@ CREATE TABLE `ysk_menu` (
   `sort` char(4) NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=566 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=565 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of ysk_menu
@@ -458,7 +461,7 @@ CREATE TABLE `ysk_recharge` (
   `marker` varchar(225) NOT NULL COMMENT '备注',
   `pic` varchar(225) NOT NULL COMMENT '凭证',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员充值表';
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员充值表';
 
 -- ----------------------------
 -- Records of ysk_recharge
@@ -545,10 +548,10 @@ INSERT INTO `ysk_recharge` VALUES ('83', '193', '15838717882', '偷税漏税王�
 INSERT INTO `ysk_recharge` VALUES ('84', '193', '15838717882', '偷税漏税王八蛋', '10000.00', '3', '1578522401', '1', '中国工商银行', '');
 INSERT INTO `ysk_recharge` VALUES ('85', '169', '18928696507', '陈超威', '10000.00', '3', '1578843518', '1', '中国工商银行', '');
 INSERT INTO `ysk_recharge` VALUES ('86', '169', '18928696507', '陈超威', '10000.00', '3', '1578856563', '3', '中国建设银行', '');
-INSERT INTO `ysk_recharge` VALUES ('87', '21', '13888888888', 'XIA', '1001.00', '1', '1587867658', '3', 'test', '');
-INSERT INTO `ysk_recharge` VALUES ('88', '21', '13888888888', 'XIA', '1001.00', '2', '1587971150', '1', 'test', '');
-INSERT INTO `ysk_recharge` VALUES ('89', '9', '13800138000', '小虾', '2001.00', '2', '1587977618', '1', '1', '');
-INSERT INTO `ysk_recharge` VALUES ('90', '9', '13800138000', '小虾', '1001.00', '3', '1588038088', '1', '中国工商银行', '');
+INSERT INTO `ysk_recharge` VALUES ('87', '21', '13888888888', 'XIA', '1001.00', '1', '1587867658', '1', 'test', '');
+INSERT INTO `ysk_recharge` VALUES ('88', '21', '13888888888', 'XIA', '1001.00', '2', '1587971150', '3', 'test', '');
+INSERT INTO `ysk_recharge` VALUES ('89', '9', '13800138000', '小虾', '2001.00', '2', '1587977618', '3', '1', '');
+INSERT INTO `ysk_recharge` VALUES ('90', '9', '13800138000', '小虾', '1001.00', '3', '1588038088', '3', '中国工商银行', '');
 
 -- ----------------------------
 -- Table structure for ysk_roborder
@@ -579,7 +582,7 @@ CREATE TABLE `ysk_roborder` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `class` (`class`,`price`,`addtime`) USING BTREE,
   KEY `status` (`status`,`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
+) ENGINE=InnoDB AUTO_INCREMENT=411 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
 
 -- ----------------------------
 -- Records of ysk_roborder
@@ -734,7 +737,11 @@ INSERT INTO `ysk_roborder` VALUES ('395', null, '2', '0.00', '1588123370', '3', 
 INSERT INTO `ysk_roborder` VALUES ('396', '133', '1', '500.00', '1588131003', '3', '21', '谢', '21194.60', '1588131091', '', 'E15881309980006329', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('398', '135', '2', '500.00', '1588131083', '3', '21', '谢', '20701.60', '1588131108', '', 'E15881310570005760', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('399', '135', '2', '500.00', '1588132017', '2', '21', '13033556688', '20707.10', '1588132021', '', 'E15881320160003175', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('402', '133', '1', '500.00', '1588149458', '2', '21', '13033556688', '20707.10', '1588149466', '', 'E15881494550002986', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('402', '133', '1', '500.00', '1588149458', '3', '21', '谢', '19207.10', '1588229230', '', 'E15881494550002986', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('403', '135', '2', '500.00', '1588219032', '2', '21', '13033556688', '20207.10', '1588219037', '', 'E15882190270001779', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('406', '133', '1', '500.00', '1588229253', '3', '21', '谢', '18714.10', '1588229272', '', 'E15882292530007375', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('409', '133', '1', '500.00', '1588230167', '3', '21', '谢', '18221.10', '1588230331', '', 'E15882301650003330', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('410', '133', '1', '700.00', '1588231615', '3', '21', '谢', '17528.10', '1588231632', '', 'E15882316140002869', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
 
 -- ----------------------------
 -- Table structure for ysk_skm
@@ -768,7 +775,7 @@ CREATE TABLE `ysk_somebill` (
   `xjuid` int(10) DEFAULT NULL COMMENT '来自谁的提成',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `jc_class` (`jc_class`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=411 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员流水账单';
+) ENGINE=InnoDB AUTO_INCREMENT=431 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员流水账单';
 
 -- ----------------------------
 -- Records of ysk_somebill
@@ -1183,6 +1190,24 @@ INSERT INTO `ysk_somebill` VALUES ('407', '1', '1', '直推抢单成功佣金', 
 INSERT INTO `ysk_somebill` VALUES ('408', '21', '1', '佣金收入+', '1588131108', '+', '5.50', null);
 INSERT INTO `ysk_somebill` VALUES ('409', '21', '6', '充值500.00确认-', '1588131108', '-', '500.00', null);
 INSERT INTO `ysk_somebill` VALUES ('410', '1', '1', '直推抢单成功佣金', '1588131108', '+', '1.65', '21');
+INSERT INTO `ysk_somebill` VALUES ('411', '21', '1', '佣金收入+', '1588229230', '+', '7.00', null);
+INSERT INTO `ysk_somebill` VALUES ('412', '21', '6', '充值500.00确认-', '1588229230', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('413', '1', '1', '直推抢单成功佣金', '1588229230', '+', '2.10', '21');
+INSERT INTO `ysk_somebill` VALUES ('414', '21', '1', '佣金收入+', '1588229272', '+', '7.00', null);
+INSERT INTO `ysk_somebill` VALUES ('415', '21', '6', '充值500.00确认-', '1588229272', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('416', '1', '1', '直推抢单成功佣金', '1588229272', '+', '2.10', '21');
+INSERT INTO `ysk_somebill` VALUES ('417', '21', '1', '佣金收入+', '1588230331', '+', '7.00', null);
+INSERT INTO `ysk_somebill` VALUES ('418', '21', '6', '充值500.00确认-', '1588230331', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('419', '1', '1', '直推抢单成功佣金', '1588230331', '+', '2.10', '21');
+INSERT INTO `ysk_somebill` VALUES ('420', '21', '1', '佣金收入+', '1588231632', '+', '9.80', null);
+INSERT INTO `ysk_somebill` VALUES ('421', '21', '6', '充值700.00确认-', '1588231632', '-', '700.00', null);
+INSERT INTO `ysk_somebill` VALUES ('422', '1', '1', '直推抢单成功佣金', '1588231632', '+', '2.94', '21');
+INSERT INTO `ysk_somebill` VALUES ('423', '9', '3', '充值+', '1588232308', '+', '1001.00', null);
+INSERT INTO `ysk_somebill` VALUES ('424', '9', '3', '充值+', '1588232325', '+', '2001.00', null);
+INSERT INTO `ysk_somebill` VALUES ('425', '21', '3', '充值+', '1588232341', '+', '1001.00', null);
+INSERT INTO `ysk_somebill` VALUES ('428', '21', '3', '充值+', '1588232932', '+', '1001.00', null);
+INSERT INTO `ysk_somebill` VALUES ('429', '21', '4', '提现', '1588232984', '-', '2000.00', null);
+INSERT INTO `ysk_somebill` VALUES ('430', '21', '4', '提现', '1588234638', '-', '500.00', null);
 
 -- ----------------------------
 -- Table structure for ysk_store
@@ -1241,7 +1266,7 @@ CREATE TABLE `ysk_system` (
 -- ----------------------------
 -- Records of ysk_system
 -- ----------------------------
-INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '200', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888', '60', '120');
+INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '100', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888', '60', '180');
 
 -- ----------------------------
 -- Table structure for ysk_tixian
@@ -1345,12 +1370,12 @@ CREATE TABLE `ysk_user` (
 -- ----------------------------
 -- Records of ysk_user
 -- ----------------------------
-INSERT INTO `ysk_user` VALUES ('1', '0', '0', '0', '13100000000', '13100000000', '', '13100000000', '9672e6c05f3b6eecdb57ab2358a9bd05', '3156', '5917.98', '1560570334', '', '1', '0', '5dn8rgub6kjb08lkd1inbl7h82', '', '', '', '', '', '', null, '0', '0', '1', '1', '40.50', '1', '0', '1', '1', '');
+INSERT INTO `ysk_user` VALUES ('1', '0', '0', '0', '13100000000', '13100000000', '', '13100000000', '9672e6c05f3b6eecdb57ab2358a9bd05', '3156', '5927.22', '1560570334', '', '1', '0', '5dn8rgub6kjb08lkd1inbl7h82', '', '', '', '', '', '', null, '0', '0', '1', '1', '40.50', '1', '0', '1', '1', '');
 INSERT INTO `ysk_user` VALUES ('3', '2', '0', '0', 'dfdsfds', '13456789009', '4hse45h5', 'dfdsfds', '2184bf64e5e696123baf7d6425e77ef5', '2770', '0.00', '1560502602', '', '1', '0', null, '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '0', '0', null, '0', '');
 INSERT INTO `ysk_user` VALUES ('6', '0', '0', '0', '18321631857', '18321631857', '', '18321631857', '332e51c8f2ab46a377349260ade0f2e0', '370', '0.00', '1560570862', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', null, null, '0', '');
 INSERT INTO `ysk_user` VALUES ('7', '0', '0', '0', '15511090417', '15511090417', '', '15511090417', 'd403b68b77860b5f1f698130505138d8', '3560', '0.02', '1560571836', '', '1', '0', null, null, null, null, '', '', '', null, '0', '5', '1', '1', '0.00', '1', null, null, '0', '');
 INSERT INTO `ysk_user` VALUES ('8', '0', '0', '0', '13913124650', '13913124650', '', '13913124650', '698fd40f639b46efd8e4edfbd83831c3', '7183', '0.00', '1560572618', '', '1', '0', 'jit5sa70kor4428gde29dtsp14', null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', null, null, '0', '');
-INSERT INTO `ysk_user` VALUES ('9', '0', '0', '0', '13800138000', '13800138000', '4534dfdfg', '15566667777', '041fa50fcfc633d6f5401fc548a11798', '7774', '137431.42', '1560579763', '', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '567', '567', '56700000', '2342@qq.com', '567', '567', null, '0', '8', '1', '1', '707694.69', '1', '9999', '1', '24', '');
+INSERT INTO `ysk_user` VALUES ('9', '0', '0', '0', '13800138000', '13800138000', '4534dfdfg', '15566667777', '041fa50fcfc633d6f5401fc548a11798', '7774', '140433.42', '1560579763', '', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '567', '567', '56700000', '2342@qq.com', '567', '567', null, '0', '8', '1', '1', '707694.69', '1', '9999', '1', '24', '');
 INSERT INTO `ysk_user` VALUES ('10', '2', '0', '0', '13333333333', '13333333333', 'fw54AhhD', '13333333333', '964f45954424fb2bc430411fe27ec971', '2707', '0.00', '1560584639', '', '1', '0', '1fk4vuh53hpe9g2u9nqiqnv1d1', null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '0', null, '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('11', '0', '0', '0', '18000000000', '18000000000', '', '18000000000', '77c05d2a6fcde573ffe3a68a61fd5443', '4738', '100000.00', '1560586188', '', '1', '0', '1q017j3qlekgc31butbcupcog2', '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '1', '0', '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('13', '12', '0', '0', '闫振龙', '18625824723', 'wBhDeFDh', '闫振龙', '749ea9c2e4f5fb5b76fdde1a1d902afe', '2443', '0.00', '1560590474', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '0', null, null, '0', '');
@@ -1359,7 +1384,7 @@ INSERT INTO `ysk_user` VALUES ('16', '0', '0', '0', '18960238701', '18960238701'
 INSERT INTO `ysk_user` VALUES ('17', '2', '0', '0', 'djfjds', '13567896789', 'Bh54C4Fh', 'djfjds', '5d7df6959beb5e42de65cff9c3ccd6d8', '4875', '8016.00', '1560657291', '', '1', '0', 'hvl5br8alvbp2qcgfj3ruapse6', '34', '34', 'dfds', 'dfdsf@dsf.com', '234324', '3432432', null, '0', '1', '1', '1', '16.00', '0', '10', '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('18', '17', '2', '0', '13456789000', '13456789000', 'OLYqLpVJ28Iv', 'erwe', '149dd2de7d927a793945671245002279', 'TY8c', '0.00', '1560658942', '127.0.0.1', '1', '0', null, null, null, null, '', '', '', '-17-', '1', '0', '1', '1', '0.00', '0', '10', null, '0', '');
 INSERT INTO `ysk_user` VALUES ('20', '0', '0', '0', '13252585458', '13252585458', '', '13252585458', 'dc4a26ce0b136b40a0f02335a71f46c5', '5281', '0.00', '1563149840', '', '1', '0', 'mc50krcg13svskashs1dbh6iv3', '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '0', '0', '');
-INSERT INTO `ysk_user` VALUES ('21', '1', '1', '1', '13888888888', '13888888888', 'OYeKVKTqDObq', '13033556688', '8afc14645ed885190bfbb0ce23334b6b', 'f0f', '20207.10', '1563163346', '14.106.121.50', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '456456', '456456', '谢', '456456@qq.com', '456456', '4564564546546456', '--', '1', '1', '1', '1', '915.50', '1', '100', '0', '14', '');
+INSERT INTO `ysk_user` VALUES ('21', '1', '1', '1', '13888888888', '13888888888', 'OYeKVKTqDObq', '13033556688', '8afc14645ed885190bfbb0ce23334b6b', 'f0f', '17039.90', '1563163346', '14.106.121.50', '1', '0', 'h7q8ul7qp8kdshqf5o1p9nlqs4', '456456', '456456', '谢', '456456@qq.com', '456456', '4564564546546456', '--', '1', '1', '1', '1', '946.30', '1', '100', '1', '18', '');
 INSERT INTO `ysk_user` VALUES ('22', '0', '0', '0', '13245674567', '13245674567', 'ey261pbEIiUD', '13245674567', '96ca78c6286c56002a4748343a3ec7c6', '4907', '5000.00', '1563245021', '', '1', '0', '66bc90a3l8ap66a004menc53h1', null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '1', '0', '');
 INSERT INTO `ysk_user` VALUES ('23', '1', '0', '0', '15637897332', '15637897332', 'rI6BMa453syO', '张旭', 'a91225a8bbe6f46bd5ed8a12c7f124d6', 'ZNDK', '0.00', '1563254320', '61.158.152.20', '0', '0', 'id5a4lno1sbbsd9ajaqg2l6ie1', '', '', '', '', '', '', '-196-1-', '1', '0', '1', '1', '0.00', '0', '10', '0', '0', '');
 INSERT INTO `ysk_user` VALUES ('24', '0', '0', '0', 'momo624', 'momo624', 'evMfpkbMX3YZ', 'momo624', '54fefe6a8dcfc185d7ad9d11485eaa51', '6421', '0.00', '1563444962', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', null, '0', '');
@@ -1564,7 +1589,7 @@ CREATE TABLE `ysk_userrob` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`,`class`) USING BTREE,
   KEY `ordernum` (`ordernum`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
 
 -- ----------------------------
 -- Records of ysk_userrob
@@ -1712,7 +1737,11 @@ INSERT INTO `ysk_userrob` VALUES ('150', '21', '1', '500.00', '0.00', '22182.10'
 INSERT INTO `ysk_userrob` VALUES ('151', '21', '1', '500.00', '0.00', '21694.60', '13888888888', '13033556688', '396', '3', '1588131017', '1588131017', '1588131091', 'N266002766448', 'E15881309980006329', '500.00', '133', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('152', '21', '2', '500.00', '0.00', '21201.60', '13888888888', '13033556688', '398', '3', '1588131099', '1588131099', '1588131108', 'N059688681078', 'E15881310570005760', '500.00', '135', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('153', '21', '2', '500.00', '0.00', '20707.10', '13888888888', '13033556688', '399', '4', '1588132021', '1588132021', '', 'N385738554523', 'E15881320160003175', '500.00', '135', '0', null);
-INSERT INTO `ysk_userrob` VALUES ('154', '21', '1', '500.00', '0.00', '20707.10', '13888888888', '13033556688', '402', '2', '1588149466', '1588149466', '', 'N039335792387', 'E15881494550002986', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('154', '21', '1', '500.00', '0.00', '20707.10', '13888888888', '13033556688', '402', '3', '1588149466', '1588149466', '1588229230', 'N039335792387', 'E15881494550002986', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('155', '21', '2', '500.00', '0.00', '20207.10', '13888888888', '13033556688', '403', '2', '1588219037', '1588219037', '', 'N673753153354', 'E15882190270001779', '500.00', '135', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('157', '21', '1', '500.00', '0.00', '19214.10', '13888888888', '13033556688', '406', '3', '1588229257', '1588229257', '1588229272', 'N362200084140', 'E15882292530007375', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('167', '21', '1', '500.00', '0.00', '18721.10', '13888888888', '13033556688', '409', '3', '1588230322', '1588230322', '1588230331', 'N145149356433', 'E15882301650003330', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('168', '21', '1', '700.00', '0.00', '18228.10', '13888888888', '13033556688', '410', '3', '1588231617', '1588231617', '1588231632', 'N562012612458', 'E15882316140002869', '700.00', '133', '0', null);
 
 -- ----------------------------
 -- Table structure for ysk_withdraw
@@ -1729,7 +1758,7 @@ CREATE TABLE `ysk_withdraw` (
   `endtime` varchar(225) NOT NULL COMMENT '完成时间',
   `status` int(11) NOT NULL COMMENT '状态1提交，2退回3成功',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提现申请表';
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提现申请表';
 
 -- ----------------------------
 -- Records of ysk_withdraw
@@ -1761,6 +1790,8 @@ INSERT INTO `ysk_withdraw` VALUES ('47', '172', '18075031017', '荣发涛', '621
 INSERT INTO `ysk_withdraw` VALUES ('48', '172', '18075031017', '荣发涛', '6212261314002186926|中国工商银行|安徽省六安市三里桥支行', '1400.00', '1578319807', '', '3');
 INSERT INTO `ysk_withdraw` VALUES ('49', '199', '13398322087', '欧波', '6217996750001251446|中国邮政储蓄|通川支行', '3036.00', '1578386223', '', '3');
 INSERT INTO `ysk_withdraw` VALUES ('50', '21', '13888888888', '小虾', '2435324234234|中国银行|北京支行', '1000.00', '1588042708', '', '3');
+INSERT INTO `ysk_withdraw` VALUES ('51', '21', '13888888888', '小虾', '2435324234234|中国银行|北京支行', '2000.00', '1588232984', '', '1');
+INSERT INTO `ysk_withdraw` VALUES ('52', '21', '13888888888', '小虾', '2435324234234|中国银行|北京支行', '500.00', '1588234638', '', '1');
 
 -- ----------------------------
 -- Table structure for z_log

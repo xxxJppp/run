@@ -187,7 +187,7 @@ class UserController extends CommonController
     {
         if ($_POST) {
             $uid = session('userid');
-
+            $model = M();
             $ulist = M('user')->where(array('userid' => $uid))->find();
             $salt = $ulist['login_salt'];
             $password = trim(I('post.password'));
@@ -200,15 +200,16 @@ class UserController extends CommonController
                 exit;
             }
 
-
             $sava['login_pwd'] = pwd_md5($password, $salt);
             $re = M('user')->where(array('userid' => $uid))->save($sava);
             if ($re) {
+                $model->commit();
                 $data['status'] = 1;
                 $data['msg'] = '设置成功';
                 $this->ajaxReturn($data);
                 exit;
             } else {
+                $model->rollback();
                 $data['status'] = 0;
                 $data['msg'] = '密码没变,设置失败';
                 $this->ajaxReturn($data);
