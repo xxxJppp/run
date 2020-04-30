@@ -197,12 +197,13 @@
                 <?php };?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                         style="margin: .15rem .2rem 0 .2rem;"
-                        onclick="location='<?php echo U('Index/qrs',array('id'=>$olist['id']));?>'"><span
+                        onclick="confirmSK()"><span
                         data-v-2496acda="" class="van-button__text">
 确认收款</span></button>
                 <div data-v-2496acda="" class="van-popup van-popup--center"
                      style="width: 95%; height: 95%; z-index: 2009; display: none;">
-                    <img data-v-2496acda="" src="__HOME__/img/wx_guide.34bc1b9b.jpg" alt="guide" width="100%" height="100%">
+                    <img data-v-2496acda="" src="__HOME__/img/wx_guide.34bc1b9b.jpg" alt="guide" width="100%"
+                         height="100%">
                 </div>
             </div>
         </div>
@@ -232,6 +233,40 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmSK() {
+        var index = layer.load();
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo U('Index/qrs',array('id'=>$olist['id']));?>",
+            //data: {m: str.price, order: str.time, md5key: str.md5key, status: str.error},
+            dataType: 'json',
+            success: function (n) {
+                if (n.status == 1) {
+                    var str = JSON.parse(n.info);
 
+                    $.ajax({
+                        type: 'POST',
+                        url: str.url,
+                        data: {m: str.price, order: str.time, md5key: str.md5key, status: str.status},
+                        dataType: 'json',
+                        success: function (n) {
+                            layer.close(index);
+                            alert('确认收款成功');
+                            location.href = '/Index/index.html';
+
+                        }
+                    });
+                } else {
+                    layer.msg(n.info);
+                }
+
+            }
+        });
+
+
+    }
+
+</script>
 </body>
 </html>

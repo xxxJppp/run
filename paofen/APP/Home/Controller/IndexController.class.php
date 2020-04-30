@@ -158,20 +158,17 @@ class IndexController extends CommonController
 
     public function qrs()
     {
-
-
         if ($_GET) {
             $Model = M();
             $Model->startTrans();
             $userid = session('userid');
-            $ulist = M('user')->where(array('userid' => $userid))->find();
             $id = trim(I('get.id'));
+            $ulist = M('user')->where(array('userid' => $userid))->find();
             $olist = M('userrob')->where(array('id' => $id))->find();
 
-            $ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_price' => $olist['price'], 'ewm_class' => $olist['class'], 'zt' => 1))->find();
+            //$ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_price' => $olist['price'], 'ewm_class' => $olist['class'], 'zt' => 1))->find();
 
             if ($olist['status'] != 2) {
-
                 $this->error('未知错误', U('Index/shoudan'));
             }
 
@@ -185,19 +182,14 @@ class IndexController extends CommonController
 
                 $yj = ($m * $wx / 100);
 
-                $ms = $m;
-
             } else if ($olist['class'] == 2) {
 
                 $yj = ($m * $zfb / 100);
-
-                $ms = $m;
 
             } else if ($olist['class'] == 3) {
 
                 $yj = ($m * $yl / 100);
 
-                $ms = $m;
             }
 
 
@@ -269,11 +261,6 @@ class IndexController extends CommonController
 
             M('dj')->where(array('ppid' => $pid))->delete();
 
-
-            //////////////////////////////
-            ///
-            ///
-
             $clist = M('system')->where(array('id' => 1))->find();
             $oneuser = M('user')->where(array('userid' => $ulist['pid']))->find();//上一代
 
@@ -327,19 +314,20 @@ class IndexController extends CommonController
                             $threeuser_bill['xjuid'] = $userid;
                             M('somebill')->add($threeuser_bill);
                         }
-
                     }
-
-
                 }
-
-
             }
-
 
             $Model = M()->commit();
             zhifuchenggongtz($id);
-            $this->success('确认成功', U('Index/index'));
+            $ret = [];
+            $ret['url'] = $shanghu['notify_url'];
+            $ret['price'] = $shanghu['price'];
+            $ret['time'] = $shanghu['ordernum'];
+            $ret['md5key'] =  md5(md5($shanghu['ordernum'] . $shanghu['price'] . $shanghuxx['names']) . $shanghuxx['key']);
+            $ret['status'] = $shanghu['status'];
+
+            $this->success(json_encode($ret), U('Index/index'),true);
         }
 
 
@@ -441,16 +429,16 @@ class IndexController extends CommonController
                 $where11['zt1'] = 0;
                 $where11['jdtime'] = array('elt', $sk);
                 $ewm = M('ewm')->where($where11)->select();
-                foreach($ewm as $val){
-                    if($val['city']==$v['city']){
+                foreach ($ewm as $val) {
+                    if ($val['city'] == $v['city']) {
                         $where11 = [];
                         $where11['id'] = $val['id'];
                         break;
-                    }elseif($val['province']==$v['province']){
+                    } elseif ($val['province'] == $v['province']) {
                         $where11 = [];
                         $where11['id'] = $val['id'];
                         break;
-                    }else{
+                    } else {
                         $where11 = [];
                         $where11['id'] = $val['id'];
                         break;
