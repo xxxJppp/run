@@ -67,7 +67,7 @@ $shid=$shanghuxx['names'];
 $shkey=$shanghuxx['key'];
 $shkey=md5(md5($shkey).$shid);
 $status="1";
-$data = ['amount' => $amount, 'class' =>$class,'orderid'=>$orderid,'shid'=>$shid,'shkey'=>$shkey,'status'=>$status];
+$data = array('amount' => $amount, 'class' =>$class,'orderid'=>$orderid,'shid'=>$shid,'shkey'=>$shkey,'status'=>$status);
 $xx = 'http://'.$shanghuxx['url'];
  
 $ch = curl_init(); 

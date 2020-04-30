@@ -249,8 +249,9 @@ class UserController extends AdminController
         $id = trim(I('get.id'));
         $st = trim(I('get.st'));
         $relist = M('recharge')->where(array('id' => $id))->find();
-        $ulist = M('user')->where(array('userid' => $relist['uid']))->find();
-
+        //$ulist = M('user')->where(array('userid' => $relist['uid']))->find();
+        $model = M();
+        $model->startTrans();
         if ($st == 1) {
             if ($relist['status'] == 1) {
                 $re = M('recharge')->where(array('id' => $id))->save(array('status' => 3));
@@ -275,9 +276,11 @@ class UserController extends AdminController
             if ($relist['status'] == 1) {
                 $re = M('recharge')->where(array('id' => $id))->save(array('status' => 2));
                 $ure = 1;
+                $up_re =1;
             } else {
                 $re = 0;
                 $ure = 0;
+                $up_re = 0;
             }
 
 
@@ -285,15 +288,19 @@ class UserController extends AdminController
             if ($relist['status'] == 3) {
                 $re = M('recharge')->where(array('id' => $id))->delete();
                 $ure = 1;
+                $up_re = 1;
             } else {
                 $re = 0;
                 $ure = 0;
+                $up_re = 0;
             }
         }
 
-        if ($re && $ure) {
+        if ($re && $ure && $up_re) {
+            $model->commit();
             $this->success('操作成功');
         } else {
+            $model->rollback();
             $this->error('操作失败');
         }
 
@@ -442,7 +449,6 @@ class UserController extends AdminController
             $list = $userobj->where($map)->order('id desc')->limit($p->firstRow, $p->listRows)->select();
         }
 
-
         $this->assign('count', $count);
         $this->assign('list', $list); // 賦值數據集
         $this->assign('count', $count);
@@ -459,6 +465,22 @@ class UserController extends AdminController
         $ewminfo = M('ewm')->where(array('id' => $id))->find();
         $this->assign('info', $ewminfo);
         $this->display();
+    }
+    public function ewmAudit(){
+        $id = trim(I('get.id'));
+        $where = array('id'=>$id);
+        $data = array('audit_status'=>1);
+        $ewminfo = M('ewm')->where($where)->find();
+        if($ewminfo['audit_status']==0){
+            $result = M('ewm')->where($where)->save($data);
+            if($result){
+                $this->success('审核成功');
+            }else{
+                $this->error('审核失败');
+            }
+        }else{
+            $this->error('已经审核过此二维码');
+        }
     }
 
     //删除二维码

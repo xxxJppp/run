@@ -2,7 +2,8 @@
 <block name="style" >
     <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
     <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
-
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/lytebox_v5.5/lytebox.css">
+    <script src="__ADMIN_CSS__/lytebox_v5.5/lytebox.js" charset=""></script>
 
 </block>
 
@@ -74,6 +75,8 @@
                                                     <th style="font-size:12px;">收款账号</th>
                                       
                                                     <th style="font-size:12px;">上传时间</th>
+                                                    <th style="font-size:12px;">二维码</th>
+                                                    <th style="font-size:12px;">状态</th>
                                                     <th style="max-width:20%;font-size:12px;" >操作</th>
                                                 </tr>
                                             </thead>
@@ -94,9 +97,18 @@
 															<td style="font-size:12px;"><?php echo $v['ewm_acc'];?></td>
 										
 															<td style="font-size:12px;"><?php echo date('Y-m-d H:i',$v['addtime']);?></td>
-															
+                                                            <td style="font-size:12px;"><a href="<?php echo $v['ewm_url'];?>" rel="lytebox">查看二维码</a></td>
+                                                            <td style="font-size:12px;">
+                                                                <?php if($v['audit_status']==0){ ?>
+                                                                <span style="color:red">待审核</span>
+                                                                <?php }else{ ?>
+                                                                <span style="color:green;">已审核</span>
+                                                                <?php } ?>
+                                                            </td>
 															<td style="font-size:12px;">
-																<a href="<?php echo U('User/ewminfo',array('id'=>$v['id']));?>" style="font-size:12px;cursor:pointer;">详情 ||</a>
+																<a href="<?php echo U('User/ewminfo',array('id'=>$v['id']));?>" style="font-size:12px;cursor:pointer;">详情 </a>|
+                                                                <a href="<?php echo U('User/ewmAudit',array('id'=>$v['id']));?>" style="font-size:12px;cursor:pointer;">审核 </a>
+                                                                |
 																<a href="<?php echo U('User/delewm',array('id'=>$v['id']));?>" style="font-size:12px;cursor:pointer;">删除</a>
 															</td>
 	

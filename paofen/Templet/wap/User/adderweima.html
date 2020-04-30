@@ -301,18 +301,12 @@
         var skaccount = $('#skaccount').val();
         var province = $('#province').val();
         var city = $('#city').val();
-        var leixing =
-    <
-            ? php echo
-        $leixing;
-            ?
-    >
-        ;
-        if (icon == '') {
+        var leixing =$('#ewmclass').val();
+        if(icon == '') {
             msg_alert('没有上传二维码');
             return false;
         }
-        if (uname == '') {
+        if(uname == '') {
             msg_alert('请输入会员名字');
             return false;
         }
