@@ -373,16 +373,16 @@ class UserController extends AdminController
         $id = trim(I('get.id'));
         $st = trim(I('get.st'));
         $relist = M('withdraw')->where(array('id' => $id))->find();
-
+        $model = M();
         if ($st == 1 && $relist['status']==1) {
             $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 3));
-
-
+            $ret=1;
+            $up_re=1;
         } elseif ($st == 2 && $relist['status']==1) {
 
             $ulist = M('user')->where(array('userid' => $relist['uid']))->find();
 
-            $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 2));
+            $ret = M('withdraw')->where(array('id' => $id))->save(array('status' => 2));
             $p = $relist['price'];
 
             $sa['money'] = $ulist['money'] + $p;
@@ -404,12 +404,15 @@ class UserController extends AdminController
 
         } elseif ($st == 3 && $relist['status']==1) {
             $re = M('withdraw')->where(array('id' => $id))->save(array('status' => 4));
-
+            $ret=1;
+            $up_re=1;
         }
 
-        if ($re) {
+        if ($re && $up_re && $ret) {
+            $model->commit();
             $this->success('操作成功');
         } else {
+            $model->rollback();
             $this->error('操作失败');
         }
 
