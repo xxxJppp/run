@@ -420,16 +420,15 @@ class IndexController extends CommonController
                 $where11['uid'] = $userid;
                 $ewm = M('ewm')->where($where11)->select();
                 foreach ($ewm as $val) {
+                    $where11 = array();
                     if ($val['city'] == $v['city']) {
-                        $where11 = [];
+
                         $where11['id'] = $val['id'];
                         break;
                     } elseif ($val['province'] == $v['province']) {
-                        $where11 = [];
                         $where11['id'] = $val['id'];
                         break;
                     } else {
-                        $where11 = [];
                         $where11['id'] = $val['id'];
                         break;
                     }
