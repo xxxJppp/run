@@ -64,6 +64,7 @@ if (empty($check)) {
     $p['status'] = 1;
     $p['shanghu_name'] = $_POST['shid'];
     $p['ordernum'] = $_POST['orderid'];
+    $p['notify_url'] = $_POST['url'];
     $p['ip'] = $_SERVER['REMOTE_ADDR'];
     $mysql->insert('ysk_roborder', $p);
 }
@@ -422,7 +423,7 @@ foreach ($listss as $k => $v) {
 
                         alert('此订单已失效，请重新发起支付');
 
-                        location.href = 'api.php';
+                        location.href = 'pay_true.php';
                     }
                 }
             });
