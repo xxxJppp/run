@@ -6,7 +6,7 @@ function Music() {
         panels = [],
         selectedItem = null;
     Music.prototype = {
-        total:70,
+       jia total:70,
         pageSize:10,
         dataUrl:"http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.common",
         playerUrl:"http://box.baidu.com/widget/flash/bdspacesong.swf",

@@ -122,15 +122,4 @@ $id = mysqli_insert_id();
 
 $m = $_POST['amount'];
 $oid = $_POST['orderid'];
-$listss = $mysql->select_all('ysk_roborder', '*', 'status = 1');
-
-foreach ($listss as $k => $v) {
-
-    $a = $v['addtime'];
-    $sheng = time() - $a;
-    if ($sheng > 50) {
-
-        $mysql->delete('ysk_roborder', 'id=' . $v['id']);
-    }
-}
 require_once SYS.'/../tpl/apis.html';

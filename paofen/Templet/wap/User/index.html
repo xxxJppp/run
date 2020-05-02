@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
     <link rel="icon" href="/favicon.ico">
     <title>h8pay</title>
-    <style>body {
-        background: #f2f2f2;
-    }
-
-    @media screen and (min-width: 767px) {
-        #app {
-            width: 540px;
-            margin: 0 auto;
-            min-height: 100vh;
-            box-sizing: border-box;
-            border: 1px solid #999;
-            /* overflow-y: hidden; */
+    <style>
+        body {
+            background: #f2f2f2;
         }
 
-        .van-popup--top {
-            width: 540px;
-            margin: 0 auto;
-        }
-    }</style>
+        @media screen and (min-width: 767px) {
+            #app {
+                width: 540px;
+                margin: 0 auto;
+                min-height: 100vh;
+                box-sizing: border-box;
+                border: 1px solid #999;
+                /* overflow-y: hidden; */
+            }
+        }</style>
 
     <link href="__HOME__/css/app.2150f8cc.css" rel="preload" as="style">
     <link href="__HOME__/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
@@ -34,8 +30,6 @@
     <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-fde07e7a.adc0509a.css">
     <script charset="utf-8" src="__HOME__/js/chunk-fde07e7a.d481bd8c.js"></script>
     <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-ae7bdc24.38e0efd9.css">
-    <script charset="utf-8" src="__HOME__/js/chunk-ae7bdc24.95a06cff.js"></script>
-    <script charset="utf-8" src="__HOME__/js/chunk-089a5e6c.989dbb83.js"></script>
     <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-57d8499b.96222562.css">
     <script charset="utf-8" src="__HOME__/js/chunk-57d8499b.a72ea326.js"></script>
     <script charset="utf-8" src="__HOME__/js/chunk-2d0f0c02.2926760c.js"></script>
@@ -78,6 +72,7 @@
                         <div data-v-e8eda342="" style="color: rgb(89, 89, 89);">账号：{$list.account}</div>
                         <div class="font-13 success-color">
                             <a href="{:U('User/password')}">重置密码</a>
+                            <a style="margin-left: 30px" id="checkCode" href="javascript:;">查看二维码</a>
                             <if condition="$list['agent'] eq 1 ">
                                 <p style="line-height:0;color: #000;" onclick="copyUrl();">邀请码：{$list.u_yqm}</p>
                                 <span hidden id="txt">{$list.u_yqm}</span>
@@ -176,7 +171,8 @@
                             <img src="/img/you.png" alt="" class="icon2" style="margin-top: 0.18rem;"></div>
                         <div data-v-e8eda342="" class="flexh flex-between user-operation"
                              onclick="location='<?php echo U('/User/erweima');?>'">
-                            <div data-v-e8eda342=""><img data-v-e8eda342="" src="__HOME__/img/skm.png" alt="" class="icon"><span
+                            <div data-v-e8eda342=""><img data-v-e8eda342="" src="__HOME__/img/skm.png" alt=""
+                                                         class="icon"><span
                                     data-v-e8eda342="">收款码</span></div>
                             <img src="/img/you.png" alt="" class="icon2" style="margin-top: 0.18rem;"></div>
 
@@ -220,7 +216,31 @@
 
     </div>
 </div>
+<div id="code" style="display:none;position: fixed;left: -0.7rem;top: -2rem;"><img src=""></div>
+<script>
 
+    $('#checkCode').click(function () {
+        $.ajax({
+            url: '/User/checkCode',
+            type: 'post',
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status == 1) {
+                    $("#code img").attr('src',mes.info)
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        closeBtn: 0,
+                        area: ['auto'],
+                        skin: 'layui-layer-nobg', //没有背景色
+                        shadeClose: true,
+                        content: $('#code   ')
+                    });
+                }
+            }
+        })
+    })
+</script>
 
 </body>
 </html>

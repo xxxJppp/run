@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Think\Controller;
+use Think\Crypt;
 
 class ApiController extends Controller
 {
@@ -34,19 +35,30 @@ class ApiController extends Controller
 
         $get = I('get.');
 
-        p($get);
+        //amount=500&type=2&payee=222&seretKey=gnd33ICnpa-wfHrdgqaErpGrsauQsqhmhHiZ3oF2dmOCnYOi
+        //31_30_1588240423
+
         if ($get) {
+            $Crypt = new Crypt();
             $Model = M();
             $Model->startTrans();
-            $userid = session('userid');
-            //$id = trim(I('get.id'));
-            $ulist = M('user')->where(array('userid' => $userid))->find();
-            $olist = M('userrob')->where(array('id' => $id))->find();
 
+            $key = $Crypt->decrypt($get['seretKey'],C('USER_KEY'));
+            $key = explode('_',$key);
+            $userid = $key[0];
+            $id = trim(I('get.id'));
+            $ulist = M('user')->where(array('userid' => $userid))->find();
+
+
+            $olist = M('userrob')->where(array('uid' => $key[0],'pipeitime'=>array('gt',time()-60),'class'=>$get['type'],'status'=>2,'price'=>$get['amount']))->find();
             //$ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_price' => $olist['price'], 'ewm_class' => $olist['class'], 'zt' => 1))->find();
 
+            if (!$olist) {
+                $this->error('订单不存在或已超时');
+            }
+
             if ($olist['status'] != 2) {
-                $this->error('未知错误', U('Index/shoudan'));
+                $this->error('未知错误');
             }
 
             $sxf = M('system')->where(array('id' => 1))->find();
@@ -68,13 +80,16 @@ class ApiController extends Controller
                 $yj = ($m * $yl / 100);
 
             }
+
             $psaves['status'] = 3;
             $psaves['finishtime'] = time();
-            M('userrob')->where(array('id' => $id))->save($psaves);  //完成
+            M('userrob')->where(array('id' => $olist['id']))->save($psaves);  //完成
+
 
             $ewmzt1['zt1'] = 0;
             $ewmzt1['gengxintime'] = time();
             M('ewm')->where(array('id' => $olist['idewm']))->save($ewmzt1);
+
 
             $pid = $olist['ppid'];
             $psave['uid'] = $userid;
@@ -86,7 +101,8 @@ class ApiController extends Controller
             $pipei_re = M('roborder')->where(array('id' => $pid))->save($psave);//完成
 //商户余额增加
             $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
-            $shanghuxx = M('agent')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
+
+            $shanghuxx = M('agent')->where(array('names' => shanghu['shanghu_name']))->find();//完成
             if ($olist['class'] == 1) {
 
                 $shdz = $m - ($m * $shanghuxx['wx'] / 100);
