@@ -1162,14 +1162,8 @@ class RoborderController extends AdminController
             $data['ed'] = trim(I('post.ed'));
             $data['lose_time'] = trim(I('post.lose_time'));
             $data['back_money_time'] = trim(I('post.back_money_time'));
-//if(!empty($_FILES['wxewm']['name'])){
-
-            //}
-
-
+            $data['order_num'] = trim(I('post.order_num'));
             $re = M('system')->where(array('id' => 1))->save($data);
-
-
             //echo M('system')->getLastSql();  exit;
 
             if ($re) {

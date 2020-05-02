@@ -908,7 +908,6 @@ class UserController extends AdminController
                 } else {
                     $this->error('网络错误！');
                 }
-
             } elseif ($st == 2) {
                 $re = M('user')->where(array('userid' => $userid))->save(array('status' => 1));
                 if ($re) {
@@ -920,15 +919,33 @@ class UserController extends AdminController
             } else {
                 $this->error('网络错误！');
             }
-
-
         } else {
             $this->error('网络错误！');
         }
-
-
     }
+    //解除抢单状态
+    public function set_order_status()
+    {
+        if ($_GET) {
+            $userid = trim(I('get.userid'));
+            $st = I('get.order_status');
+            $list = M('user')->where(array('userid' => $userid))->find();
+            if (empty($list)) {
+                $this->error('该会员不存在');
+            }
 
+            $re = M('user')->where(array('userid' => $userid))->save(array('order_status' => $st));
+            if ($re) {
+                if($st==0){
+                    $this->success('该会员已被禁止抢单');
+                }else{
+                    $this->success('该会员抢单功能已经开启');
+                }
+            } else {
+                $this->error('网络错误！');
+            }
+        }
+    }
 
     /**
      * 编辑用户

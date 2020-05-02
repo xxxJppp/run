@@ -58,23 +58,33 @@ class TimingController extends Controller
                 if ($v['uid'] != 0) {
                     $data = array('uid' => $v['uid'], 'money' => $v['price'], 'addtime' => time(), 'ppid' => $v['id']);
                     $dj = M('dj')->add($data);
-                    $lt = M('userrob')->where(array('uid' => $v['uid'], 'ppid' => $v['id'], 'pay_sn' => $v['ordernum']))->select();
                     $order_status = M('roborder')->where(array('id' => $v['id']))->save(array('status' => 4));
+                    if($system['order_num']>0){
+                        $user = M('userrob')->where(array('uid'=>$v['uid']))->order('addtime desc')->limit($system['order_num'])->select();
+                        $i=0;
+                        foreach($user as $it){
+                            if($it['status']==4){
+                                $i += 1;
+                            }
+                        }
+                        if($i == $system['order_num']){
+                            M('user')->where(array('userid'=>$v['uid']))->save(array('order_status'=>0));
+                        }
+                    }
                     $user_status = M('userrob')->where(array('uid' => $v['uid'], 'ppid' => $v['id']))->save(array('status' => 4));
-                    print_r($lt);
-
                 }
             }
         }
         $model->commit();
 
     }
-
     //释放冻结金额
     public function releaseBlockedAmount()
     {
+        $model = M();
+        $model->startTrans();
         $system = M('system')->where(array('id' => 1))->find();
-        $user_order_dj = M('dj')->select();
+        /*$user_order_dj = M('dj')->select();
         foreach ($user_order_dj as $val) {
             $time = time() - $val['addtime'];
             if ($time > $system['back_money_time']) {
@@ -85,7 +95,7 @@ class TimingController extends Controller
                 print_r($li);
                 M('userrob')->where(array('uid' => $val['uid'], 'ppid' => $val['id'], 'status' => 4))->delete();
             }
-        }
+        }*/
         $model->commit();
     }
 

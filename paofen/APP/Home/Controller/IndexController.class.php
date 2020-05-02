@@ -156,12 +156,13 @@ class IndexController extends CommonController
             $userid = session('userid');
             $id = trim(I('get.id'));
             $ulist = M('user')->where(array('userid' => $userid))->find();
-            $olist = M('userrob')->where(array('id' => $id))->find();
+
+            $olist = M('userrob')->where(array('id' => $id,'uid'=>$userid))->find();
 
             //$ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_price' => $olist['price'], 'ewm_class' => $olist['class'], 'zt' => 1))->find();
 
             if ($olist['status'] != 2) {
-                $this->error('未知错误', U('Index/shoudan'));
+                $this->error('订单超时联系管理员', U('Index/shoudan'));
             }
 
             $sxf = M('system')->where(array('id' => 1))->find();
@@ -312,7 +313,7 @@ class IndexController extends CommonController
 
             $Model = M()->commit();
             zhifuchenggongtz($id);
-            $ret = [];
+            $ret = array();
             $ret['url'] = $shanghu['notify_url'];
             $ret['price'] = $shanghu['price'];
             $ret['time'] = $shanghu['ordernum'];
@@ -329,13 +330,26 @@ class IndexController extends CommonController
     {
         $userid = session('userid');
         $ulist = M('user')->where(array('userid' => $userid))->find();
-
+        if($ulist['order_status']==0){
+            $data['status'] = 0;
+            $data['msg'] = '订单连续超时次数太多，暂时无法抢单';
+            $this->ajaxReturn($data);
+            exit;
+        }
         if ($ulist['zdopention'] == 0) {
             $data['status'] = 0;
             $data['msg'] = '没有开启自动抢单';
             $this->ajaxReturn($data);
             exit;
 
+        }
+        $user_order = M('roborder')->where(array('uid'=>$userid))->order('pipeitime desc')->select();
+        $tm = time()-30;
+        if($user_order && $user_order[0]['pipeitime']>$tm){
+            $data['status'] = 0;
+            $data['msg'] = '抢单时间间隔不能少于30S';
+            $this->ajaxReturn($data);
+            exit;
         }
         $clist = M('system')->where(array('id' => 1))->find();
         if ($ulist['money'] > 0) {
@@ -434,6 +448,7 @@ class IndexController extends CommonController
                     }
                 }
                 $where11['uid'] = $userid;
+
                 $keyongppewm = M('ewm')->where($where11)->find();
                 //
                 $qdclass = $v['class'];
@@ -1055,6 +1070,20 @@ class IndexController extends CommonController
             $qdclass = trim(I('post.qdclass'));
             $userid = session('userid');
             $ulist = M('user')->where(array('userid' => $userid))->find();
+            if($ulist['order_status']==0){
+                $data['status'] = 0;
+                $data['msg'] = '订单连续超时次数太多，暂时无法抢单';
+                $this->ajaxReturn($data);
+                exit;
+            }
+            $user_order = M('roborder')->where(array('uid'=>$userid))->order('pipeitime desc')->select();
+            $tm = time()-30;
+            if($user_order && $user_order[0]['pipeitime']>$tm){
+                $data['status'] = 0;
+                $data['msg'] = '抢单时间间隔不能少于30S';
+                $this->ajaxReturn($data);
+                exit;
+            }
             $clist = M('system')->where(array('id' => 1))->find();
             if ($ulist['rz_st'] != 1) {
                 $data['status'] = 0;
