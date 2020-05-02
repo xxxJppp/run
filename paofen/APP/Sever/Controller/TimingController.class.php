@@ -54,8 +54,12 @@ class TimingController extends Controller
                 if($v['uid']!=0) {
                     $data = array('uid'=>$v['uid'],'money'=>$v['price'],'addtime'=>time(),'ppid'=>$v['id']);
                     $dj = M('dj')->add($data);
-                    $user_status = M('userrob')->where(array('uid'=>$v['uid'],'ppid'=>$v['id'],'pay_sn'=>$v['ordernum']))->save(array('status'=>4));
+                    $lt = M('userrob')->where(array('uid'=>$v['uid'],'ppid'=>$v['id'],'pay_sn'=>$v['ordernum']))->select();
+                    $user_status = M('userrob')->where(array('uid'=>$v['uid'],'ppid'=>$v['id']))->save(array('status'=>4));
+                    print_r($lt);
+
                 }else{
+                    echo 2;
                     $ret = M('roborder')->where(array('id' => $v['id']))->delete();
                 }
             }
@@ -66,6 +70,9 @@ class TimingController extends Controller
             if($time>$system['back_money_time']){
                 M('user')->where(array('userid'=>$val['uid']))->setInc('money',$val['money']);
                 M('dj')->where(array('id'=>$val['id']))->delete();
+                M('ewm')->where(array('id'=>$val['idewm']))->save(array('zt1'=>0));
+                $li = M('userrob')->where(array('uid'=>$val['uid'],'ppid'=>$val['id'],'status'=>4))->select();
+                print_r($li);
                 M('userrob')->where(array('uid'=>$val['uid'],'ppid'=>$val['id'],'status'=>4))->delete();
             }
         }

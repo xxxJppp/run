@@ -10,7 +10,7 @@ class ApiController extends Controller
     public function heartbeat(){
 
         $seretKey = I('get.seretKey');
-        $ret = [];
+        $ret = array();
         $ret['success'] = 'true';
         $ret['msg'] = 'success';
         $ret['code'] = 200;

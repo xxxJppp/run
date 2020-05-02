@@ -36,7 +36,7 @@ public function jt()
 	                M('dj')->where(array('id'=>$v['id']))->delete();
 	                $p['status'] = 4;
 	                M('userrob')->where(array('ppid'=>$v['ppid']))->save($p);//完成
-					  M('roborder')->where(array('id'=>$v['ppid']))->save($p);//完成
+                    M('roborder')->where(array('id'=>$v['ppid']))->save($p);//完成
 					 
 					 $dfdfas=M('userrob')->where(array('ppid'=>$v['ppid']))->find();//完成
 		$ewmzt1['zt1']=0 ;
