@@ -50,6 +50,7 @@
                                                     <input  type="text" name="userid" class="search-input  " value="{$_GET.userid}"  placeholder="" style="float: left;width: 70%;"> </div>
                                                  <div style="float:left;width:15%;" class="input-group search-form ssssy"> <span style="float:left;height: 34px; ">类型</span>
                                                      <select name="mobile" class="search-input  " style="float: left;width: 84%;">
+                                                         <option value="0">请选择</option>
                                                          <option value="1" <?php if($_GET['mobile']==1){ ?> selected<?php } ?>>微信</option>
                                                          <option value="2" <?php if($_GET['mobile']==2){ ?> selected<?php } ?>>支付宝</option>
                                                          <option value="3" <?php if($_GET['mobile']==3){ ?> selected<?php } ?>>银行卡</option>
@@ -57,6 +58,7 @@
                                                  </div>
                                                  <div style="float:left;width:20%" class="input-group search-form ssssy"> <span style="float:left;height: 34px; ">状态</span>
                                                      <select name="zt" class="search-input  " style="float: left;width: 84%;">
+                                                         <option value="0">请选择</option>
                                                          <option value="1" <?php if($_GET['zt']==1){ ?> selected<?php } ?>>未匹配</option>
                                                          <option value="2" <?php if($_GET['zt']==2){ ?> selected<?php } ?>>已匹配</option>
                                                          <option value="3" <?php if($_GET['zt']==3){ ?> selected<?php } ?>>成功</option>
@@ -117,6 +119,8 @@
 																	<span style="color:blue">匹配成功</span>
 															   <?php }elseif($data['status'] == 3){?>
 																	<span style="color:red">完成交易</span>
+                                                                <?php }elseif($data['status'] == 4){?>
+                                                                交易超时
 															   <?php }?>
                                                             </td>
                                                             <td>
