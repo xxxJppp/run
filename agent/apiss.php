@@ -74,7 +74,6 @@ $m = $_POST['amount'];
 $oid = $_POST['orderid'];
 
 $listss = $mysql->select_all('ysk_roborder', '*', 'status = 1');
-
 foreach ($listss as $k => $v) {
 
     $a = $v['addtime'];

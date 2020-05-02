@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Think\Controller;
+use Think\Crypt;
 use Vendor\TTKClient;
 use Think\Page;
 
@@ -696,7 +697,6 @@ class UserController extends CommonController
     }
 
 
-
     //个人二维码
     public function Sharecode()
     {
@@ -914,4 +914,29 @@ class UserController extends CommonController
         session_destroy();
         $this->redirect('Login/login');
     }
+
+
+    public function checkCode()
+    {
+        $uid = session('userid');
+        $agent_id = M('user')->field('agent')->where(array('id' => $uid))->find();
+
+        if (!$agent_id) {
+            $this->error('参数错误');
+        }
+        $png_name = md5($uid . C('USER_KEY'));
+        $filename = '/Public/qrcode/' . $png_name . '.png';
+        if (!is_file($_SERVER['DOCUMENT_ROOT'] . $filename)) {
+            $content = $uid . '_' . $agent_id['agent'] . '_' . $_SERVER['REQUEST_TIME'];
+            $Crypt = new Crypt();
+            $value = $Crypt->encrypt($content, C('USER_KEY'));
+            require_cache(APP_PATH . 'Lib/phpqrcode.php');
+            //生成二维码图片
+            \QRcode::png($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $value, $_SERVER['DOCUMENT_ROOT'] . $filename, 'L', 5, 2);
+        }
+
+        $this->success($filename, '', true);
+
+    }
+
 }
