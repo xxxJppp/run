@@ -62,7 +62,7 @@ $orderid=$olist['pay_sn'];
 $pid = $olist['ppid'];
 
 $shanghu = M('roborder')->where(array('id'=>$pid))->find();//完成
- $shanghuxx = M('agent')->where(array('names'=>$shanghu['shanghu_name']))->find();//完成
+ $shanghuxx = M('merchant')->where(array('names'=>$shanghu['shanghu_name']))->find();//完成
 $shid=$shanghuxx['names'];
 $shkey=$shanghuxx['key'];
 $shkey=md5(md5($shkey).$shid);

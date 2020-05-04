@@ -22,7 +22,7 @@ if (ajaxs()) {
         ajax_text($data);
    }
 
-   $info = $mysql->select('ysk_agent','*','names='."'$name'");
+   $info = $mysql->select('ysk_merchant','*','names='."'$name'");
 
 
    if (empty($info)) {
@@ -68,7 +68,7 @@ if (ajaxs()) {
 
         $ip = get_client_ip();
 
-        $sql = "update ysk_agent set login_num = login_num +1,last_time= '$t',ip='$ip' where id=".$info['id'];
+        $sql = "update ysk_merchant set login_num = login_num +1,last_time= '$t',ip='$ip' where id=".$info['id'];
 
    	    $mysql->query($sql);
 
