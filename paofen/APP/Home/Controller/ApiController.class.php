@@ -10,7 +10,7 @@ class ApiController extends Controller
 
     public function heartbeat(){
 
-        $seretKey = I('get.seretKey');
+        $seretKey = I('get.secretKey');
         $ret = array();
         $ret['success'] = 'true';
         $ret['msg'] = 'success';
@@ -20,12 +20,22 @@ class ApiController extends Controller
         $ret['data'] = null;
         if(!$seretKey){
             $ret['msg'] = 'error';
+            echo json_encode($ret);exit;
         }
 
-        $check = M('agent')->field('id')->where(array('key'=>$seretKey))->find();
+        $Crypt = new Crypt();
+        $key = $Crypt->decrypt($seretKey,C('USER_KEY'));
+        $key = explode('_',$key);
 
-        if(!$check){
+        if(!isset($key[0])){
             $ret['msg'] = 'error';
+            echo json_encode($ret);exit;
+        }
+        $ulist = M('user')->field('userid')->where(array('userid' => $key[0]))->find();
+
+        if(!$ulist){
+            $ret['msg'] = 'error';
+            echo json_encode($ret);exit;
         }
         echo json_encode($ret);
     }
@@ -33,9 +43,9 @@ class ApiController extends Controller
 
     public function appConfirmToPaid(){
 
-        $get = I('get.');
+        $get = I('post.');
 
-        //amount=500&type=2&payee=222&seretKey=gnd33ICnpa-wfHrdgqaErpGrsauQsqhmhHiZ3oF2dmOCnYOi
+        //amount=500&type=2&payee=张三丰&seretKey=gnd33ICnpa-wfHrdgqaErpGrsauQsqhmhHiZ3oF2dmOCnYOi
         //31_30_1588240423
 
         if ($get) {
@@ -48,17 +58,17 @@ class ApiController extends Controller
             $userid = $key[0];
             $id = trim(I('get.id'));
             $ulist = M('user')->where(array('userid' => $userid))->find();
-
-
+            $ewmlist = M('ewm')->field('uid')->where(array('ewm_class' => $get['type'], 'zt' => 1))->find();
+            if(!$ewmlist){
+                $this->error('订单错误');
+            }
             $olist = M('userrob')->where(array('uid' => $key[0],'pipeitime'=>array('gt',time()-60),'class'=>$get['type'],'status'=>2,'price'=>$get['amount']))->find();
-            //$ewmlist = M('ewm')->where(array('uid' => $userid, 'ewm_price' => $olist['price'], 'ewm_class' => $olist['class'], 'zt' => 1))->find();
-
             if (!$olist) {
-                $this->error('订单不存在或已超时');
+                $this->error('订单不存在或已超时','',true);
             }
 
             if ($olist['status'] != 2) {
-                $this->error('未知错误');
+                $this->error('未知错误','',true);
             }
 
             $sxf = M('system')->where(array('id' => 1))->find();
@@ -207,7 +217,6 @@ class ApiController extends Controller
             }
 
             $Model = M()->commit();
-            zhifuchenggongtz($id);
             $ret = [];
             $ret['url'] = $shanghu['notify_url'];
             $ret['price'] = $shanghu['price'];
@@ -215,7 +224,7 @@ class ApiController extends Controller
             $ret['md5key'] =  md5(md5($shanghu['ordernum'] . $shanghu['price'] . $shanghuxx['names']) . $shanghuxx['key']);
             $ret['status'] = $shanghu['status'];
 
-            $this->success(json_encode($ret), U('Index/index'),true);
+            $this->success(json_encode($ret), '',true);
         }
     }
 
