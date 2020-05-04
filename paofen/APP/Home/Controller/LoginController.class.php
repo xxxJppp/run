@@ -1,5 +1,6 @@
 <?php
 namespace Home\Controller;
+use Admin\Service\GoogleAuthenticator;
 use Think\Controller;
 class LoginController extends Controller
 {
@@ -391,6 +392,11 @@ $pipei_re = M('agent')->where(array('names'=>$shanghu['shanghu_name']))->save($s
             if (!$user_info) {
                 ajaxReturn($user_object->getError(),0);
             }
+            if($user_info['google_auth']){
+                if (!$this->google_check_verify(I('post.google_code'), $user_info['google_auth'])) {
+                    ajaxReturn('goole验证码输入错误',0);
+                }
+            }
             session('account',$account,86400);
  session('qsd',$account,86400);
  session('wsd',$password,86400);
@@ -412,7 +418,18 @@ $pipei_re = M('agent')->where(array('names'=>$shanghu['shanghu_name']))->save($s
 
         }
     }
-
+    /**
+     * 检测验证码
+     * @param integer $id 验证码ID
+     * @return boolean 检测结果
+     */
+    public function google_check_verify($code, $google)
+    {
+        $ga = new GoogleAuthenticator();
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google, $code, 1);
+        return $checkResult;
+    }
     /**
      * 注销
      * 
