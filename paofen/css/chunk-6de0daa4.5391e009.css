@@ -1,0 +1,118 @@
+.recharge[data-v-53fe239e] {
+    background: #F5F4F9;
+    padding-bottom: .6rem
+}
+
+.recharge .title[data-v-53fe239e] {
+    font-size: .2rem;
+    width: 2.72rem;
+    line-height: .4rem;
+    height: .4rem;
+    border-bottom: .01rem solid #eee;
+    text-align: center;
+    margin: 0 auto
+}
+
+.charge-info[data-v-53fe239e] {
+    width: 100%;
+    margin: .15rem auto;
+
+}
+.font-16-box {
+    height: .9rem;
+    width: 100%;
+    padding: 0rem .15rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow:0px 1px 4px 0px rgba(0,0,0,0.1);
+}
+
+.font-16[data-v-53fe239e] {
+    position: relative;
+    font-size: .16rem;
+    height: .45rem;
+    line-height: .45rem;
+}
+
+.font-16 .amount {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    font-size: .16rem;
+    height: .45rem;
+    line-height: .45rem;
+    color: #FE3B30;
+}
+.font-16-bottom {
+    border-bottom: .01rem solid #EDEDED;
+}
+.charge-iten-box{
+    margin-top: .15rem;
+    width: 100%;
+    padding: .15rem .15rem;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+.charge-num[data-v-53fe239e] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.charge-num .van-button--normal[data-v-53fe239e] {
+    width: 1.5rem;
+    margin-bottom: .1rem
+}
+
+.charge-num[data-v-53fe239e] .van-radio__icon {
+    display: none !important
+}
+
+.charge-num[data-v-53fe239e] .van-radio__label {
+    margin-left: 0
+}
+
+.charge-info[data-v-53fe239e] .van-cell {
+    background: #eee;
+    width: 3rem;
+    height: .4rem;
+    margin-left: .2rem;
+    margin-top: .05rem;
+    border-radius: .05rem
+}
+
+.charge-way[data-v-53fe239e] {
+    color: #333;
+    height: .55rem;
+    line-height: .25rem;
+    padding: .15rem .15rem;
+    box-sizing: border-box;
+}
+
+.bank-img[data-v-53fe239e] {
+   height:.25rem;
+    margin-right: .15rem;
+    vertical-align: middle
+}
+
+.charge-way-info-box {
+    background-color: #fff;
+    padding: 0rem .15rem;
+}
+.charge-way-info[data-v-53fe239e] {
+    display: flex;
+    justify-content: space-between;
+    height: .45rem;
+    padding: .1rem 0px;
+    box-sizing: border-box;
+    border-bottom: .01rem solid #EDEDED;
+}
+
+.charge-btn[data-v-53fe239e] {
+    margin-left: .2rem;
+    border-radius: .1rem;
+    width: 3.4rem;
+    font-size: .17rem;
+    margin-top: .1rem
+}

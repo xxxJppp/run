@@ -1,236 +1,283 @@
 <html lang="en" style="font-size: 100px;">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="icon" href="/favicon.ico">
-    <title>h8pay</title>
-    <style>body {
-        background: #f2f2f2;
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+  <link rel="icon" href="/favicon.ico">
+  <title>h8pay</title>
+  <style>
+    body {
+      background: #f2f2f2;
     }
 
     @media screen and (min-width: 767px) {
-        #app {
-            width: 540px;
-            margin: 0 auto;
-            min-height: 100vh;
-            box-sizing: border-box;
-            border: 1px solid #999;
-            /* overflow-y: hidden; */
-        }
+      #app {
+        width: 540px;
+        margin: 0 auto;
+        min-height: 100vh;
+        box-sizing: border-box;
+        border: 1px solid #999;
+        /* overflow-y: hidden; */
+      }
 
-        .van-popup--top {
-            width: 540px;
-            margin: 0 auto;
-        }
-    }</style>
+      .van-popup--top {
+        width: 540px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+  <link href="/css/chunk-02960128.d8e4678b.css" rel="prefetch">
+  <link href="/css/chunk-03d19c5b.da3b4d7d.css" rel="prefetch">
+  <link href="/css/chunk-16db521b.9f656bd8.css" rel="prefetch">
+  <link href="/css/chunk-24229c8f.122b5dbc.css" rel="prefetch">
+  <link href="/css/chunk-38d9c4e3.72558616.css" rel="prefetch">
+  <link href="/css/chunk-41206b58.2fe3c40b.css" rel="prefetch">
+  <link href="/css/chunk-43155bdd.7506223a.css" rel="prefetch">
+  <link href="/css/chunk-4dbebf52.c3310d55.css" rel="prefetch">
+  <link href="/css/chunk-57d8499b.96222562.css" rel="prefetch">
+  <link href="/css/chunk-58705b64.1442bd8d.css" rel="prefetch">
+  <link href="/css/chunk-5ea3ec15.30d377cf.css" rel="prefetch">
+  <link href="/css/chunk-6a2440bf.15a728eb.css" rel="prefetch">
+  <link href="/css/chunk-6de0daa4.5391e009.css" rel="prefetch">
+  <link href="/css/chunk-9fea3c5c.531c8116.css" rel="prefetch">
+  <link href="/css/chunk-ae7bdc24.38e0efd9.css" rel="prefetch">
+  <link href="/css/chunk-dee820da.cfa2c36a.css" rel="prefetch">
+  <link href="/css/chunk-fde07e7a.adc0509a.css" rel="prefetch">
+  <link href="/css/chunk-02960128.e3c7e508.js" rel="prefetch">
+  <link href="/css/chunk-03d19c5b.27befa25.js" rel="prefetch">
+  <link href="/css/chunk-071b2878.ae2fec1b.js" rel="prefetch">
+  <link href="/css/chunk-16db521b.7109f654.js" rel="prefetch">
+  <link href="/css/chunk-170f8e40.69f62aae.js" rel="prefetch">
+  <link href="/css/chunk-24229c8f.46929d5e.js" rel="prefetch">
+  <link href="/css/chunk-2c41e510.2c195371.js" rel="prefetch">
+  <link href="/css/chunk-2d0f0c02.2926760c.js" rel="prefetch">
+  <link href="/css/chunk-38d9c4e3.8ea2ebe4.js" rel="prefetch">
+  <link href="/css/chunk-41206b58.9330140e.js" rel="prefetch">
+  <link href="/css/chunk-43155bdd.e84d6a1d.js" rel="prefetch">
+  <link href="/css/chunk-4dbebf52.4e82767b.js" rel="prefetch">
+  <link href="/css/chunk-5753040b.b03c4f33.js" rel="prefetch">
+  <link href="/css/chunk-57d8499b.a72ea326.js" rel="prefetch">
+  <link href="/css/chunk-58705b64.3dc71b78.js" rel="prefetch">
+  <link href="/css/chunk-5ea3ec15.3c920ba3.js" rel="prefetch">
+  <link href="/css/chunk-6a2440bf.68deef23.js" rel="prefetch">
+  <link href="/css/chunk-6de0daa4.ea9e4c1a.js" rel="prefetch">
+  <link href="/css/chunk-9fea3c5c.ffde5972.js" rel="prefetch">
+  <link href="/css/chunk-ae7bdc24.95a06cff.js" rel="prefetch">
+  <link href="/css/chunk-dee820da.c9a3f55b.js" rel="prefetch">
+  <link href="/css/chunk-fde07e7a.d481bd8c.js" rel="prefetch">
+  <link href="/css/app.2150f8cc.css" rel="preload" as="style">
+  <link href="/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
+  <link href="/css/chunk-vendors.9dc788ca.js" rel="preload" as="script">
+  <link href="/css/chunk-vendors.e9f6096e.css" rel="stylesheet">
+  <link href="/css/app.2150f8cc.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/chunk-43155bdd.7506223a.css">
+  <script charset="utf-8" src="/css/chunk-43155bdd.e84d6a1d.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-fde07e7a.adc0509a.css">
+  <script charset="utf-8" src="/css/chunk-fde07e7a.d481bd8c.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-57d8499b.96222562.css">
+  <script charset="utf-8" src="/css/chunk-57d8499b.a72ea326.js"></script>
+  <script charset="utf-8" src="/css/chunk-2d0f0c02.2926760c.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-38d9c4e3.72558616.css">
+  <script charset="utf-8" src="/css/chunk-38d9c4e3.8ea2ebe4.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-6de0daa4.5391e009.css">
+  <script charset="utf-8" src="/css/chunk-6de0daa4.ea9e4c1a.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-03d19c5b.da3b4d7d.css">
+  <script charset="utf-8" src="/css/chunk-03d19c5b.27befa25.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-ae7bdc24.38e0efd9.css">
+  <script charset="utf-8" src="/css/chunk-ae7bdc24.95a06cff.js"></script>
+  <script charset="utf-8" src="/css/chunk-2c41e510.2c195371.js"></script>
+  <script charset="utf-8" src="/css/chunk-071b2878.ae2fec1b.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-41206b58.2fe3c40b.css">
+  <script charset="utf-8" src="/css/chunk-41206b58.9330140e.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-6a2440bf.15a728eb.css">
+  <script charset="utf-8" src="/css/chunk-6a2440bf.68deef23.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-02960128.d8e4678b.css">
+  <script charset="utf-8" src="/css/chunk-02960128.e3c7e508.js"></script>
+  <script charset="utf-8" src="/css/chunk-170f8e40.69f62aae.js"></script>
+  <script charset="utf-8" src="/css/chunk-5753040b.b03c4f33.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-9fea3c5c.531c8116.css">
+  <script charset="utf-8" src="/css/chunk-9fea3c5c.ffde5972.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-24229c8f.122b5dbc.css">
+  <script charset="utf-8" src="/css/chunk-24229c8f.46929d5e.js"></script>
+  <style type="text/css">
+    .file-uploads {
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      display: inline-block
+    }
 
-    <link href="__HOME__/css/app.2150f8cc.css" rel="preload" as="style">
-    <link href="__HOME__/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
-    <link href="__HOME__/css/chunk-vendors.9dc788ca.js" rel="preload" as="script">
-    <link href="__HOME__/css/chunk-vendors.e9f6096e.css" rel="stylesheet">
-    <link href="__HOME__/css/app.2150f8cc.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-43155bdd.7506223a.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-43155bdd.e84d6a1d.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-fde07e7a.adc0509a.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-fde07e7a.d481bd8c.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-57d8499b.96222562.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-57d8499b.a72ea326.js"></script>
-    <script charset="utf-8" src="__HOME__/css/chunk-2d0f0c02.2926760c.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-38d9c4e3.72558616.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-38d9c4e3.8ea2ebe4.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-6de0daa4.5391e009.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-6de0daa4.ea9e4c1a.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-03d19c5b.da3b4d7d.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-03d19c5b.27befa25.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-ae7bdc24.38e0efd9.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-ae7bdc24.95a06cff.js"></script>
-    <script charset="utf-8" src="__HOME__/css/chunk-2c41e510.2c195371.js"></script>
-    <script charset="utf-8" src="__HOME__/css/chunk-071b2878.ae2fec1b.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-41206b58.2fe3c40b.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-41206b58.9330140e.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-6a2440bf.15a728eb.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-6a2440bf.68deef23.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-02960128.d8e4678b.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-02960128.e3c7e508.js"></script>
-    <script charset="utf-8" src="__HOME__/css/chunk-170f8e40.69f62aae.js"></script>
-    <script charset="utf-8" src="__HOME__/css/chunk-5753040b.b03c4f33.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-9fea3c5c.531c8116.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-9fea3c5c.ffde5972.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-24229c8f.122b5dbc.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-24229c8f.46929d5e.js"></script>
-    <style type="text/css">
-        .file-uploads {
-            overflow: hidden;
-            position: relative;
-            text-align: center;
-            display: inline-block
-        }
+    .file-uploads.file-uploads-html4 input,
+    .file-uploads.file-uploads-html5 label {
+      background: #fff;
+      opacity: 0;
+      font-size: 20em;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%
+    }
 
-        .file-uploads.file-uploads-html4 input, .file-uploads.file-uploads-html5 label {
-            background: #fff;
-            opacity: 0;
-            font-size: 20em;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            position: absolute;
-            width: 100%;
-            height: 100%
+    .file-uploads.file-uploads-html4 label,
+    .file-uploads.file-uploads-html5 input {
+      background: rgba(255, 255, 255, 0);
+      overflow: hidden;
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      z-index: -1;
+      opacity: 0
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-58705b64.1442bd8d.css">
+  <script charset="utf-8" src="/css/chunk-58705b64.3dc71b78.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-5ea3ec15.30d377cf.css">
+  <script charset="utf-8" src="/css/chunk-5ea3ec15.3c920ba3.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-dee820da.cfa2c36a.css">
+  <script charset="utf-8" src="/css/chunk-dee820da.c9a3f55b.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-4dbebf52.c3310d55.css">
+  <script charset="utf-8" src="/css/chunk-4dbebf52.4e82767b.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/chunk-16db521b.9f656bd8.css">
+  <script charset="utf-8" src="/css/chunk-16db521b.7109f654.js"></script>
+  <script>
+    if (('standalone' in window.navigator) && window.navigator.standalone) {
+      var noddy, remotes = false;
+      document.addEventListener('click', function (event) {
+        noddy = event.target;
+        while (noddy.nodeName !== 'A' && noddy.nodeName !== 'HTML') noddy = noddy.parentNode;
+        if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !==
+            -1 || remotes)) {
+          event.preventDefault();
+          document.location.href = noddy.href;
         }
-
-        .file-uploads.file-uploads-html4 label, .file-uploads.file-uploads-html5 input {
-            background: rgba(255, 255, 255, 0);
-            overflow: hidden;
-            position: fixed;
-            width: 1px;
-            height: 1px;
-            z-index: -1;
-            opacity: 0
-        }</style>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-58705b64.1442bd8d.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-58705b64.3dc71b78.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-5ea3ec15.30d377cf.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-5ea3ec15.3c920ba3.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-dee820da.cfa2c36a.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-dee820da.c9a3f55b.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-4dbebf52.c3310d55.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-4dbebf52.4e82767b.js"></script>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-16db521b.9f656bd8.css">
-    <script charset="utf-8" src="__HOME__/css/chunk-16db521b.7109f654.js"></script>
-    <script>
-        if (('standalone' in window.navigator) && window.navigator.standalone) {
-            var noddy, remotes = false;
-            document.addEventListener('click', function (event) {
-                noddy = event.target;
-                while (noddy.nodeName !== 'A' && noddy.nodeName !== 'HTML') noddy = noddy.parentNode;
-                if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
-                    event.preventDefault();
-                    document.location.href = noddy.href;
-                }
-            }, false);
-        }
-    </script>
+      }, false);
+    }
+  </script>
 </head>
+
 <body class="">
 
 
-<div id="app">
+  <div id="app">
     <div class="bank-charge">
-        <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
-            <div class="van-nav-bar__left" onclick="javascript :history.back(-1);"><i
-                    class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i><span class="van-nav-bar__text">返回</span>
+      <div class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
+        <div class="van-nav-bar__left" onclick="javascript :history.back(-1);"><i
+            class="van-icon van-icon-arrow-left van-nav-bar__arrow">
+            <!----></i><span class="van-nav-bar__text"></span></div>
+        <div class="van-nav-bar__title van-ellipsis">转账</div>
+        <div class="van-nav-bar__right"></div>
+      </div>
+      <form class="mui-input-group form" name="AddUser" action="{:U('Recharge/wx_rc')}" id="registerForm">
+        <div class="tip"><span class="tip-icon">!</span><span>确认转账信息并提交</span></div>
+        <div class="header">
+          <div style="padding-left: 4.4%; display: flex; padding-top: 10px;">
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAA8CAYAAAAjW/WRAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5YmE2NDZlYi1jZWI5LThiNDgtYTIyZC0wMWVkYjFjZWM2OTIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjZENjFDNEJDM0JDMTFFOThEQkY5MjQ2Q0MyM0ZDRDIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjZENjFDNEFDM0JDMTFFOThEQkY5MjQ2Q0MyM0ZDRDIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OWJhNjQ2ZWItY2ViOS04YjQ4LWEyMmQtMDFlZGIxY2VjNjkyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjliYTY0NmViLWNlYjktOGI0OC1hMjJkLTAxZWRiMWNlYzY5MiIv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"
+              alt="logo" height="30px" style="margin-top: 5px; margin-right: 4.5%;">
+            <div>
+              <div class="font-15" style="color: #333;font-size: 16px;line-height: 22px;">转账信息</div>
+              <div style="color: #ccc; font-size: 13px;line-height: 22px;">TRANSFER&nbsp;INFORMATION</div>
             </div>
-            <div class="van-nav-bar__title van-ellipsis">转账</div>
-            <div class="van-nav-bar__right"></div>
+          </div>
         </div>
-        <form class="mui-input-group form" name="AddUser" action="{:U('Recharge/wx_rc')}" id="registerForm">
-            <div class="tip"><span class="tip-icon">!</span><span>确认转账信息并提交</span></div>
-            <div class="header">
-                <div style="padding-left: 4.4%; display: flex; padding-top: 10px;">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAA8CAYAAAAjW/WRAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo5YmE2NDZlYi1jZWI5LThiNDgtYTIyZC0wMWVkYjFjZWM2OTIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjZENjFDNEJDM0JDMTFFOThEQkY5MjQ2Q0MyM0ZDRDIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjZENjFDNEFDM0JDMTFFOThEQkY5MjQ2Q0MyM0ZDRDIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OWJhNjQ2ZWItY2ViOS04YjQ4LWEyMmQtMDFlZGIxY2VjNjkyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjliYTY0NmViLWNlYjktOGI0OC1hMjJkLTAxZWRiMWNlYzY5MiIv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"
-                         alt="logo" height="30px" style="margin-top: 5px; margin-right: 4.5%;">
-                    <div>
-                        <div class="font-15">转账信息</div>
-                        <div style="color: rgb(153, 153, 153); font-size: 10px;">TRANSFER&nbsp;INFORMATION</div>
-                    </div>
-                </div>
+        <div class="main">
+          <div class="minfo" style="text-align: center;padding-top:10px">
+
+            <img src="/Uploads/payimg/{$conf.wxewm}" id="img1" style="width: 80%;" />
+          </div>
+          <div class="item-info" style="padding: 0px 15px;box-sizing: border-box;">
+            <div class="item-name"><span class="font-15">收款金额</span>
+              <div style="color: #ccc; font-size: 10px;">ACCOUNT</div>
+            </div><span class="account-info font-15" style="color: red;">{$amount}元</span>
+          </div>
+          <div style="background: #F5F4F9; height: 7px;"></div>
+          <div class="header">
+            <div style="padding-left: 4.4%; display: flex; padding-top: 10px;"><img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAmCAMAAAB9PwLlAAAAeFBMVEUAAADJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJyckMZXmSAAAAJ3RSTlMAiHjEBfuk7W7u6L+tkPfRnoqAGwmrm4VM4bmVWD48DLBlXDgyLNtIzJ3JAAABFklEQVQ4y62TyXLDIBBEByGQtW+2VjvykqT//w9TKQ7SjCnp4j4x1Bu6KRha1QZpUsSlvZ7Jr6Awuurry4jkRB6FGWzrlrcJk+cYhU3jw2RvwI/pmCNekuhMuy0X9JKIxLHjRQAtRPypFMQ3rnyjSgTxhYFv1OaIUJCXlS5ddJQ0LUmomHkdV5JIf0Oe6ymJAYo1xAtJVdskvSu4wjtyZuRBamR0IK0/QoR5BKY4DzmRwyomC8WJyJKQdQ90HpqsTIwmKEkE+P/9WQFT3ufm6Yg1hSPCCkl9c3n8RA21jo/XJb4Q7RNQHyBWF5Z0JXp0532CThgfy54L0Uuj0HPT5H7CDWWTJjCRj7BicJAGXFb2aODtf/wBf2Ecgg1UpVEAAAAASUVORK5CYII="
+                alt="remittance" height="30px" style="margin-top: 5px; margin-right: 18px;">
+              <div>
+                <div class="font-15">打款信息</div>
+                <div style="color:#ccc; font-size: 11px;line-height: 22px;">REMITTANCE&nbsp;INFORMATION</div>
+              </div>
             </div>
-            <div class="main">
-                <div class="minfo" style="text-align: center;padding-top:10px">
-
-                    <img src="/Uploads/payimg/{$conf.wxewm}" id="img1" style="width: 80%;"/>
-                </div>
-                <div class="item-info">
-                    <div class="item-name"><span class="font-15">收款金额</span>
-                        <div style="color: rgb(153, 153, 153); font-size: 10px;">ACCOUNT</div>
-                    </div>
-                    <span class="account-info font-15" style="color: red;">{$amount}元</span></div>
-                <div style="background: rgb(245, 245, 245); height: 7px;"></div>
-                <div class="header">
-                    <div style="padding-left: 4.4%; display: flex; padding-top: 10px;"><img
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAmCAMAAAB9PwLlAAAAeFBMVEUAAADJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJycnJyckMZXmSAAAAJ3RSTlMAiHjEBfuk7W7u6L+tkPfRnoqAGwmrm4VM4bmVWD48DLBlXDgyLNtIzJ3JAAABFklEQVQ4y62TyXLDIBBEByGQtW+2VjvykqT//w9TKQ7SjCnp4j4x1Bu6KRha1QZpUsSlvZ7Jr6Awuurry4jkRB6FGWzrlrcJk+cYhU3jw2RvwI/pmCNekuhMuy0X9JKIxLHjRQAtRPypFMQ3rnyjSgTxhYFv1OaIUJCXlS5ddJQ0LUmomHkdV5JIf0Oe6ymJAYo1xAtJVdskvSu4wjtyZuRBamR0IK0/QoR5BKY4DzmRwyomC8WJyJKQdQ90HpqsTIwmKEkE+P/9WQFT3ufm6Yg1hSPCCkl9c3n8RA21jo/XJb4Q7RNQHyBWF5Z0JXp0532CThgfy54L0Uuj0HPT5H7CDWWTJjCRj7BicJAGXFb2aODtf/wBf2Ecgg1UpVEAAAAASUVORK5CYII="
-                            alt="remittance" height="30px" style="margin-top: 5px; margin-right: 18px;">
-                        <div>
-                            <div class="font-15">打款信息</div>
-                            <div style="color: rgb(153, 153, 153); font-size: 10px;">REMITTANCE&nbsp;INFORMATION</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item-info">
-                    <div class="item-name"><span class="font-15">打款户名</span>
-                        <div style="color: rgb(153, 153, 153); font-size: 10px;">ACCOUNT&nbsp;NAME</div>
-                    </div>
-                    <div style="line-height: 20px;">
-
-                        <input type="text" name="uname" class="name-input" style="height: 28px;">
-                        <input type="text" name="account" class="name-input" value="{$rlist.account}"
-                               style="display:none;">
-                        <input type="text" name="price" class="name-input" value="{$amount}" style="display:none;">
-                    </div>
-                </div>
-                <div class="item-info" style="border-bottom: none;">
-                    <div class="item-name"><span class="font-15">备注</span>
-                        <div style="color: rgb(153, 153, 153); font-size: 10px;">MARK&nbsp;NAME</div>
-                    </div>
-                    <input type="text" name="marker" class="name-input" style="height: 28px;"></div>
-                <div class="submit-btn van-button van-button--primary van-button--normal" id="submit"
-                     onclick="alipaynow()"><span class="van-button__text">立即提交</span></div>
-        </form>
+          </div>
+          <div style="padding: 0px 15px; box-sizing: border-box;">
+            <div class="item-info">
+              <div class="item-name"><span class="font-15">打款户名</span>
+                <div style="color: #ccc; font-size: 10px;">ACCOUNT&nbsp;NAME</div>
+              </div>
+              <div style="line-height: 20px;">
+  
+                <input type="text" name="uname" class="name-input" style="height: 28px;">
+                <input type="text" name="account" class="name-input" value="{$rlist.account}" style="display:none;">
+                <input type="text" name="price" class="name-input" value="{$amount}" style="display:none;">
+              </div>
+            </div>
+            <div class="item-info" style="border-bottom: none;">
+              <div class="item-name"><span class="font-15">备注</span>
+                <div style="color: #ccc; font-size: 10px;">MARK&nbsp;NAME</div>
+              </div><input type="text" name="marker" class="name-input" style="height: 28px;">
+            </div>
+          </div>
+          <div class="submit-btn van-button van-button--primary van-button--normal" id="submit" onclick="alipaynow()">
+            <span class="van-button__text">立即提交</span></div>
+      </form>
     </div>
-</div>
-</div>
-<script src="__WJS__/mui.min.js"></script>
-<script type="text/javascript" src="__COM__/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="__COM__/layer/layer.js"></script>
-<script type="text/javascript">
-
+  </div>
+  </div>
+  <script src="__WJS__/mui.min.js"></script>
+  <script type="text/javascript" src="__COM__/js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="__COM__/layer/layer.js"></script>
+  <script type="text/javascript">
     function alipaynow() {
-        var thisform = document.forms['AddUser'];
-        var uname = thisform.uname.value;
-        var account = thisform.account.value;
-        var price = thisform.price.value;
-        var marker = thisform.marker.value;
+      var thisform = document.forms['AddUser'];
+      var uname = thisform.uname.value;
+      var account = thisform.account.value;
+      var price = thisform.price.value;
+      var marker = thisform.marker.value;
 
-        if (uname == '' || uname == null) {
-            layer.msg('充值人姓名未填写');
-            return false;
-        }
-        if (account == '' || account == null) {
-            layer.msg('充值账号未填写');
-            return false;
-        }
-        if (price == '' || price == null) {
-            layer.msg('充值金额');
-            return false;
-        }
+      if (uname == '' || uname == null) {
+        layer.msg('充值人姓名未填写');
+        return false;
+      }
+      if (account == '' || account == null) {
+        layer.msg('充值账号未填写');
+        return false;
+      }
+      if (price == '' || price == null) {
+        layer.msg('充值金额');
+        return false;
+      }
 
-        var post_url = $("form[name='AddUser']").attr('action');
-        var post_data = $("form[name='AddUser']").serialize();
-        //$("#submit").attr('disabled',true)
-        $.ajax({
-            type: "POST",
-            url: post_url,
-            data: post_data,
-            dataType: "json",
-            success: function (data) {
-                if (data.status == 1) {
-                    layer.msg(data.msg);  //,data.url);
-                    setTimeout(function (args) {
-                        window.location.href = "{:U('Recharge/chongzhijilu')}";
-                    }, 3000);
-                } else {
-                    layer.msg(data.msg);
-                    setTimeout(function (args) {
-                        window.location.href = "{:U('Recharge/chongzhi')}";
-                    }, 3000);
-                }
-            }
-        });
+      var post_url = $("form[name='AddUser']").attr('action');
+      var post_data = $("form[name='AddUser']").serialize();
+      //$("#submit").attr('disabled',true)
+      $.ajax({
+        type: "POST",
+        url: post_url,
+        data: post_data,
+        dataType: "json",
+        success: function (data) {
+          if (data.status == 1) {
+            layer.msg(data.msg); //,data.url);
+            setTimeout(function (args) {
+              window.location.href = "{:U('Recharge/chongzhijilu')}";
+            }, 3000);
+          } else {
+            layer.msg(data.msg);
+            setTimeout(function (args) {
+              window.location.href = "{:U('Recharge/chongzhi')}";
+            }, 3000);
+          }
+        }
+      });
     }
-
-</script>
+  </script>
 </body>
+
 </html>

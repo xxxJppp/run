@@ -1,281 +1,362 @@
 <html lang="en" style="font-size: 100px;">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="icon" href="/favicon.ico">
-    <title>h8pay</title>
-    <style>body {
-        background: #f2f2f2;
-    }
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+	<link rel="icon" href="/favicon.ico">
+	<title>h8pay</title>
+	<style>
+		body {
+			background: #f2f2f2;
+		}
 
-    @media screen and (min-width: 767px) {
-        #app {
-            width: 540px;
-            margin: 0 auto;
-            min-height: 100vh;
-            box-sizing: border-box;
-            border: 1px solid #999;
-            /* overflow-y: hidden; */
-        }
+		@media screen and (min-width: 767px) {
+			#app {
+				width: 540px;
+				margin: 0 auto;
+				min-height: 100vh;
+				box-sizing: border-box;
+				border: 1px solid #999;
+				/* overflow-y: hidden; */
+			}
 
-        .van-popup--top {
-            width: 540px;
-            margin: 0 auto;
-        }
-    }</style>
+			.van-popup--top {
+				width: 540px;
+				margin: 0 auto;
+			}
+		}
+	</style>
+	<link href="/css/chunk-02960128.d8e4678b.css" rel="prefetch">
+	<link href="/css/chunk-03d19c5b.da3b4d7d.css" rel="prefetch">
+	<link href="/css/chunk-16db521b.9f656bd8.css" rel="prefetch">
+	<link href="/css/chunk-24229c8f.122b5dbc.css" rel="prefetch">
+	<link href="/css/chunk-38d9c4e3.72558616.css" rel="prefetch">
+	<link href="/css/chunk-41206b58.2fe3c40b.css" rel="prefetch">
+	<link href="/css/chunk-43155bdd.7506223a.css" rel="prefetch">
+	<link href="/css/chunk-4dbebf52.c3310d55.css" rel="prefetch">
+	<link href="/css/chunk-57d8499b.96222562.css" rel="prefetch">
+	<link href="/css/chunk-58705b64.1442bd8d.css" rel="prefetch">
+	<link href="/css/chunk-5ea3ec15.30d377cf.css" rel="prefetch">
+	<link href="/css/chunk-6a2440bf.15a728eb.css" rel="prefetch">
+	<link href="/css/chunk-6de0daa4.5391e009.css" rel="prefetch">
+	<link href="/css/chunk-9fea3c5c.531c8116.css" rel="prefetch">
+	<link href="/css/chunk-ae7bdc24.38e0efd9.css" rel="prefetch">
+	<link href="/css/chunk-dee820da.cfa2c36a.css" rel="prefetch">
+	<link href="/css/chunk-fde07e7a.adc0509a.css" rel="prefetch">
+	<link href="/css/app.2150f8cc.css" rel="preload" as="style">
+	<link href="/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
+	<link href="/css/chunk-vendors.e9f6096e.css" rel="stylesheet">
+	<link href="/css/app.2150f8cc.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-43155bdd.7506223a.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-fde07e7a.adc0509a.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-57d8499b.96222562.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-38d9c4e3.72558616.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-6de0daa4.5391e009.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-03d19c5b.da3b4d7d.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-ae7bdc24.38e0efd9.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-41206b58.2fe3c40b.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-6a2440bf.15a728eb.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-02960128.d8e4678b.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-9fea3c5c.531c8116.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-24229c8f.122b5dbc.css">
+	<style type="text/css">
+		.file-uploads {
+			overflow: hidden;
+			position: relative;
+			text-align: center;
+			display: inline-block
+		}
 
-    <link href="__HOME__/css/app.2150f8cc.css" rel="preload" as="style">
-    <link href="__HOME__/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
-    <link href="__HOME__/css/chunk-vendors.e9f6096e.css" rel="stylesheet">
-    <link href="__HOME__/css/app.2150f8cc.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-43155bdd.7506223a.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-fde07e7a.adc0509a.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-57d8499b.96222562.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-38d9c4e3.72558616.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-6de0daa4.5391e009.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-03d19c5b.da3b4d7d.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-ae7bdc24.38e0efd9.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-41206b58.2fe3c40b.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-6a2440bf.15a728eb.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-02960128.d8e4678b.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-9fea3c5c.531c8116.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-24229c8f.122b5dbc.css">
-    <style type="text/css">
-        .file-uploads {
-            overflow: hidden;
-            position: relative;
-            text-align: center;
-            display: inline-block
-        }
+		.mui-selected {
+			border-color: #04C060 !important;
+			background-color: #04C060 !important;
+		}
 
-        .mui-selected {
-            border-color: rgb(62, 178, 113) !important;
-            background-color: rgb(62, 178, 113) !important;
-        }
+		.file-uploads.file-uploads-html4 input,
+		.file-uploads.file-uploads-html5 label {
+			background: #fff;
+			opacity: 0;
+			font-size: 20em;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			position: absolute;
+			width: 100%;
+			height: 100%
+		}
 
-        .file-uploads.file-uploads-html4 input, .file-uploads.file-uploads-html5 label {
-            background: #fff;
-            opacity: 0;
-            font-size: 20em;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            position: absolute;
-            width: 100%;
-            height: 100%
-        }
-
-        .file-uploads.file-uploads-html4 label, .file-uploads.file-uploads-html5 input {
-            background: rgba(255, 255, 255, 0);
-            overflow: hidden;
-            position: fixed;
-            width: 1px;
-            height: 1px;
-            z-index: -1;
-            opacity: 0
-        }</style>
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-58705b64.1442bd8d.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-5ea3ec15.30d377cf.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-dee820da.cfa2c36a.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-4dbebf52.c3310d55.css">
-    <link rel="stylesheet" type="text/css" href="__HOME__/css/chunk-16db521b.9f656bd8.css">
-    <script>
-        if (('standalone' in window.navigator) && window.navigator.standalone) {
-            var noddy, remotes = false;
-            document.addEventListener('click', function (event) {
-                noddy = event.target;
-                while (noddy.nodeName !== 'A' && noddy.nodeName !== 'HTML') noddy = noddy.parentNode;
-                if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes)) {
-                    event.preventDefault();
-                    document.location.href = noddy.href;
-                }
-            }, false);
-        }
-    </script>
+		.file-uploads.file-uploads-html4 label,
+		.file-uploads.file-uploads-html5 input {
+			background: rgba(255, 255, 255, 0);
+			overflow: hidden;
+			position: fixed;
+			width: 1px;
+			height: 1px;
+			z-index: -1;
+			opacity: 0
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="/css/chunk-58705b64.1442bd8d.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-5ea3ec15.30d377cf.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-dee820da.cfa2c36a.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-4dbebf52.c3310d55.css">
+	<link rel="stylesheet" type="text/css" href="/css/chunk-16db521b.9f656bd8.css">
+	<script>
+		if (('standalone' in window.navigator) && window.navigator.standalone) {
+			var noddy, remotes = false;
+			document.addEventListener('click', function (event) {
+				noddy = event.target;
+				while (noddy.nodeName !== 'A' && noddy.nodeName !== 'HTML') noddy = noddy.parentNode;
+				if ('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location
+						.host) !== -1 || remotes)) {
+					event.preventDefault();
+					document.location.href = noddy.href;
+				}
+			}, false);
+		}
+	</script>
 </head>
+
 <body class="">
-<div id="app">
-    <div class="home"><!---->
-        <div data-v-53fe239e="" class="recharge" carryorderlist="">
-            <header data-v-53fe239e="">充 值</header>
-            <section data-v-53fe239e="" class="charge-info" style="height:80%">
-                <div data-v-53fe239e="" class="font-16" style="padding-top: 0.2rem;">
-                    可用额度：<span data-v-53fe239e="" style="color: rgb(255, 75, 75);">{$rlist.money}</span></div>
-                <div data-v-53fe239e="" class="font-16">
-                    充值账号：<span data-v-53fe239e="" style="color: rgb(255, 75, 75);">{$rlist.account}</span></div>
+	<div id="app">
+		<div class="home">
+			<!---->
+			<div data-v-53fe239e="" class="recharge" carryorderlist="">
+				<header data-v-53fe239e="">充 值</header>
+				<section data-v-53fe239e="" class="charge-info">
+					<div class="font-16-box">
+						<div data-v-53fe239e="" class="font-16 font-16-bottom">
+							可用额度：<div class="amount ">{$rlist.money}</div>
+						</div>
+						<div data-v-53fe239e="" class="font-16">
+							充值账号：<div class="amount" style="color: #1677FE;">{$rlist.account}</div>
+						</div>
+					</div>
+					<form class="mui-input-group form" action="/Recharge/yhkcz" method="post" id="loginForm">
+						<div class="charge-iten-box">
+							<div data-v-53fe239e="" role="radiogroup" class="charge-num van-radio-group"
+								id="little_light">
+								<div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round van-radio__icon--checked"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--primary van-button--normal van-button--plain"
+											id="501"><span data-v-53fe239e="" class="van-button__text">501元</span>
+										</li>
+									</span>
+								</div>
+								<div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false"
+									class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--normal van-button--plain"
+											id="1001"><span data-v-53fe239e="" class="van-button__text">1001元</span>
+										</li>
+									</span>
+								</div>
+								<div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false"
+									class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--normal van-button--plain"
+											id="2001"><span data-v-53fe239e="" class="van-button__text">2001元</span>
+										</li>
+									</span>
+								</div>
+								<div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false"
+									class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--normal van-button--plain"
+											id="5001"><span data-v-53fe239e="" class="van-button__text">5001元</span>
+										</li>
+									</span>
+								</div>
+								<div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false"
+									class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--normal van-button--plain"
+											id="8001"><span data-v-53fe239e="" class="van-button__text">8001元</span>
+										</li>
+									</span>
+								</div>
+								<div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false"
+									class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round"><i
+											class="van-icon van-icon-success">
+											<!----></i></div><span class="van-radio__label">
+										<li data-v-53fe239e=""
+											class="van-button van-button--default van-button--normal van-button--plain"
+											id="10000"><span data-v-53fe239e="" class="van-button__text">10000元</span>
+										</li>
+									</span>
+								</div>
+							</div>
 
+							<div data-v-53fe239e="" class="van-cell van-field">
+								<div class="van-cell__value van-cell__value--alone">
+									<div class="van-field__body">
 
-                <form class="mui-input-group form" action="/Recharge/yhkcz" method="post" id="loginForm">
-                    <div data-v-53fe239e="">
-                        <div data-v-53fe239e="" role="radiogroup" class="charge-num van-radio-group" id="little_light">
-                            <div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round van-radio__icon--checked"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e=""
-          class="van-button van-button--default van-button--primary van-button--normal van-button--plain" id="501"><span
-              data-v-53fe239e="" class="van-button__text">501元</span></li></span></div>
-                            <div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e="" class="van-button van-button--default van-button--normal van-button--plain" id="1001"><span
-              data-v-53fe239e="" class="van-button__text">1001元</span></li></span></div>
-                            <div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e="" class="van-button van-button--default van-button--normal van-button--plain" id="2001"><span
-              data-v-53fe239e="" class="van-button__text">2001元</span></li></span></div>
-                            <div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e="" class="van-button van-button--default van-button--normal van-button--plain" id="5001"><span
-              data-v-53fe239e="" class="van-button__text">5001元</span></li></span></div>
-                            <div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e="" class="van-button van-button--default van-button--normal van-button--plain" id="8001"><span
-              data-v-53fe239e="" class="van-button__text">8001元</span></li></span></div>
-                            <div data-v-53fe239e="" role="radio" tabindex="-1" aria-checked="false" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round"><i
-                                        class="van-icon van-icon-success"><!----></i></div>
-                                <span class="van-radio__label">
-	  <li data-v-53fe239e="" class="van-button van-button--default van-button--normal van-button--plain"
-          id="10000"><span data-v-53fe239e="" class="van-button__text">10000元</span></li></span></div>
-                        </div>
+										<input type="text" placeholder="手动输入金额" class="van-field__control" style="text-align: center;" id="amount"
+											name="amount" value="501"></div>
+								</div>
+							</div>
+						</div>
+						<div data-v-53fe239e="" class="charge-way">
+							选择支付方式
+						</div>
+						<div class="charge-way-info-box">
+							<div data-v-53fe239e="" class="charge-way-info" id="checkedclass_bank">
+								<div data-v-53fe239e=""><img data-v-53fe239e="" src="/img/bank.png" alt="bank"
+										class="bank-img">&nbsp;银行卡</div>
+								<div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
+										<i class="van-icon van-icon-success" id="bank">
+											<!----></i></div>
+								</div>
+							</div>
+	
+							<div data-v-53fe239e="" class="charge-way-info" id="checkedclass_zfb">
+								<div data-v-53fe239e=""><img data-v-53fe239e="" style="margin-right: ;" src="/img/zhifb.png" alt="bank"
+										class="bank-img">&nbsp;支付宝</div>
+								<div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
+										<i class="van-icon van-icon-success" id="zfb">
+											<!----></i></div>
+								</div>
+							</div>
+	
+							<div data-v-53fe239e="" class="charge-way-info" id="checkedclass_wx">
+								<div data-v-53fe239e=""><img data-v-53fe239e="" src="/img/vx.png" alt="bank"
+										class="bank-img">&nbsp;微信</div>
+								<div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
+									<div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
+										<i class="van-icon van-icon-success" id="wx">
+											<!----></i></div>
+								</div>
+							</div>
+						</div>
 
-                        <div data-v-53fe239e="" class="van-cell van-field">
-                            <div class="van-cell__value van-cell__value--alone">
-                                <div class="van-field__body">
+						<div data-v-53fe239e="" style="margin-left: 3%;margin-top: 15px;"
+							class="charge-btn van-button van-button--primary van-button--normal" id="submitbut"><span
+								data-v-53fe239e="" class="van-button__text">立即充值</span></div>
+					</form>
+				</section>
+			</div>
+			<div data-v-41371306="" class="van-hairline--top-bottom van-tabbar van-tabbar--fixed" style="z-index: 1;">
+				<div data-v-41371306="" class="van-tabbar-item">
+					<div class="van-tabbar-item__icon">
+						<!---->
+					</div>
+					<a href="{:U('Index/index')}">
+						<div class="van-tabbar-item__text">
+							<img data-v-41371306="" src="/img/tabbar/home.png" alt="" class="home-icons">
+						</div>
+						<div class="home-lable">首页</div>
+					</a>
+				</div>
+				<div data-v-41371306="" class="van-tabbar-item">
+					<div class="van-tabbar-item__icon">
+						<!---->
+					</div>
+					<a href="{:U('Recharge/chongzhi')}">
+						<div class="van-tabbar-item__text"><img data-v-41371306="" src="/img/tabbar/czhi1.png" alt=""
+								class="home-icons">
 
-                                    <input type="text" placeholder="手动输入金额" class="van-field__control" id="amount"
-                                           name="amount" value="501"></div>
-                            </div>
-                        </div>
-                        <div data-v-53fe239e="" class="charge-way">
-                            选择支付方式
-                        </div>
-                        <div data-v-53fe239e="" class="charge-way-info" id="checkedclass_bank">
-                            <div data-v-53fe239e=""><img data-v-53fe239e="" src="__HOME__/img/bank.png" alt="bank"
-                                                         class="bank-img">&nbsp;银行卡
-                            </div>
-                            <div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
-                                    <i class="van-icon van-icon-success" id="bank"><!----></i></div>
-                            </div>
-                        </div>
+						</div>
+						<div class="home-lable-active">充值</div>
+					</a>
+				</div>
+				<div data-v-41371306="" class="van-tabbar-item">
+					<div class="van-tabbar-item__icon">
+						<!---->
+					</div>
+					<a href="{:U('Withdraw/tixian')}">
+						<div class="van-tabbar-item__text"><img data-v-41371306="" src="/img/tabbar/txian.png" alt=""
+								class="home-icons">
 
-                        <div data-v-53fe239e="" class="charge-way-info" id="checkedclass_zfb">
-                            <div data-v-53fe239e=""><img data-v-53fe239e="" src="__HOME__/img/zfb.png" alt="bank"
-                                                         class="bank-img">&nbsp;支付宝
-                            </div>
-                            <div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
-                                    <i class="van-icon van-icon-success" id="zfb"><!----></i></div>
-                            </div>
-                        </div>
+						</div>
+						<div class="home-lable">提现</div>
+					</a>
+				</div>
+				<div data-v-41371306="" class="van-tabbar-item van-tabbar-item--active">
+					<div class="van-tabbar-item__icon">
+						<!---->
+					</div>
+					<a href="{:U('User/index')}">
+						<div class="van-tabbar-item__text"><img data-v-41371306="" src="/img/tabbar/center.png" alt=""
+								class="home-icons">
 
-                        <div data-v-53fe239e="" class="charge-way-info" id="checkedclass_wx">
-                            <div data-v-53fe239e=""><img data-v-53fe239e="" src="__HOME__/img/wx.png" alt="bank"
-                                                         class="bank-img">&nbsp;微信
-                            </div>
-                            <div data-v-53fe239e="" role="radio" tabindex="0" aria-checked="true" class="van-radio">
-                                <div class="van-radio__icon van-radio__icon--round van-radio__icon--checked ">
-                                    <i class="van-icon van-icon-success" id="wx"><!----></i></div>
-                            </div>
-                        </div>
+						</div>
+						<div class="home-lable">我的</div>
+					</a>
+				</div>
+			</div>
 
-                    </div>
-            </section>
-            <div data-v-53fe239e="" style="margin-left: 3%;"
-                 class="charge-btn van-button van-button--primary van-button--normal" id="submitbut"><span
-                    data-v-53fe239e="" class="van-button__text">立即充值</span></div>
-            </form>
+			<div data-v-5f2d282c="">
+				<!---->
+				<!---->
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="__COM__/js/jquery-1.9.1.min.js"></script>
+	<script>
+		$(function () {
+			$("#little_light li").bind("click", function () {
+				//$(this).siblings('button').removeClass('van-button--primary');  // 删除其他兄弟元素的样式
+				//$(this).addClass('van-button--primary'); 
+				$('#little_light li').removeClass('van-button--primary');
+				$(this).addClass('van-button--primary');
+				var id = $(this).attr('id');
+				$('#amount').val(id);
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		$("#submitbut").click(function () {
+			var name = $("#amount").val();
 
-        </div>
-        <div data-v-41371306="" class="van-hairline--top-bottom van-tabbar van-tabbar--fixed" style="z-index: 1;">
-            <div data-v-41371306="" class="van-tabbar-item">
-                <div class="van-tabbar-item__icon"><!----></div>
-                <a href="{:U('Index/index')}">
-                    <div class="van-tabbar-item__text">
-                        <img data-v-41371306="" src="__HOME__/img/home1.png" alt="" class="home-icons"></div>
-                </a></div>
-            <div data-v-41371306="" class="van-tabbar-item">
-                <div class="van-tabbar-item__icon"><!----></div>
-                <a href="{:U('Recharge/chongzhi')}">
-                    <div class="van-tabbar-item__text"><img data-v-41371306="" src="__HOME__/img/chongzhi.png" alt=""
-                                                            class="home-icons"></div>
-                </a>
-            </div>
-            <div data-v-41371306="" class="van-tabbar-item">
-                <div class="van-tabbar-item__icon"><!----></div>
-                <a href="{:U('Withdraw/tixian')}">
-                    <div class="van-tabbar-item__text"><img data-v-41371306="" src="__HOME__/img/tixian1.png" alt=""
-                                                            class="home-icons"></div>
-                </a></div>
-            <div data-v-41371306="" class="van-tabbar-item van-tabbar-item--active">
-                <div class="van-tabbar-item__icon"><!----></div>
-                <a href="{:U('User/index')}">
-                    <div class="van-tabbar-item__text"><img data-v-41371306="" src="__HOME__/img/center1.png" alt=""
-                                                            class="home-icons"></div>
-                </a></div>
-        </div>
+			if (name == "") {
+				alert("金额不能为空");
+				return;
+			}
 
-        <div data-v-5f2d282c=""><!----><!----></div>
-    </div>
-</div>
-<script type="text/javascript" src="__COM__/js/jquery-1.9.1.min.js"></script>
-<script>
-    $(function () {
-        $("#little_light li").bind("click", function () {
-            //$(this).siblings('button').removeClass('van-button--primary');  // 删除其他兄弟元素的样式
-            //$(this).addClass('van-button--primary');
-            $('#little_light li').removeClass('van-button--primary');
-            $(this).addClass('van-button--primary');
-            var id = $(this).attr('id');
-            $('#amount').val(id);
-        });
-    });
-</script>
-<script type="text/javascript">
-    $("#submitbut").click(function () {
-        var name = $("#amount").val();
-
-        if (name == "") {
-            alert("金额不能为空");
-            return;
-        }
-
-        $("#loginForm").submit();
-    });
-
-</script>
-<script type="text/javascript">
-    $('#checkedclass_wx').click(function () {
-        $('#wx').addClass("mui-selected");
-        $('#zfb').removeClass("mui-selected");
-        $('#bank').removeClass("mui-selected");
-        $("#loginForm").attr('action', '/Recharge/recharge_wx');
-    });
-    $('#checkedclass_zfb').click(function () {
-        $('#zfb').addClass("mui-selected");
-        $('#wx').removeClass("mui-selected");
-        $('#bank').removeClass("mui-selected");
-        $("#loginForm").attr('action', '/Recharge/recharge_alipay');
-    });
-    $('#checkedclass_bank').click(function () {
-        $('#bank').addClass("mui-selected");
-        $('#zfb').removeClass("mui-selected");
-        $('#wx').removeClass("mui-selected");
-        $("#loginForm").attr('action', '/Recharge/yhkcz');
-    });
-
-</script>
+			$("#loginForm").submit();
+		});
+	</script>
+	<script type="text/javascript">
+		$('#checkedclass_wx').click(function () {
+			$('#wx').addClass("mui-selected");
+			$('#zfb').removeClass("mui-selected");
+			$('#bank').removeClass("mui-selected");
+			$("#loginForm").attr('action', '/Recharge/recharge_wx');
+		});
+		$('#checkedclass_zfb').click(function () {
+			$('#zfb').addClass("mui-selected");
+			$('#wx').removeClass("mui-selected");
+			$('#bank').removeClass("mui-selected");
+			$("#loginForm").attr('action', '/Recharge/recharge_alipay');
+		});
+		$('#checkedclass_bank').click(function () {
+			$('#bank').addClass("mui-selected");
+			$('#zfb').removeClass("mui-selected");
+			$('#wx').removeClass("mui-selected");
+			$("#loginForm").attr('action', '/Recharge/yhkcz');
+		});
+	</script>
 </body>
+
 </html>
