@@ -7,8 +7,8 @@ header('Access-Control-Allow-Origin:*');//注意！跨域要加这个头 上面�
 $user=$_REQUEST["u"];
     $key=$_REQUEST["key"];
    // echo $key;exit;
- $info =  $mysql->select('ysk_merchant','*','names = '."'$user'");
-//$ulist = M('merchant')->where(array('names'=>$user))->find();
+ $info =  $mysql->select('ysk_agent','*','names = '."'$user'");
+//$ulist = M('agent')->where(array('names'=>$user))->find();
    // print_r($ulist);exit;
     if($info['key']<>$key){
       $data['status']=0;
@@ -26,7 +26,7 @@ elseif($_REQUEST['act'] == 'tixianxx')
 {
     $user=$_REQUEST["u"];
     $key=$_REQUEST["key"];
- $info =  $mysql->select('ysk_merchant','*','names = '."'$user'");
+ $info =  $mysql->select('ysk_agent','*','names = '."'$user'");
     if($info['key']<>$key){
       $data['status']=0;
        $data['msg']="无此用户";
@@ -48,7 +48,7 @@ elseif($_REQUEST['act'] == 'infocl')
     $key=$_REQUEST["key"];
 // echo  json_encode($_REQUEST);
   //print_r($_REQUEST);exit;
-$agent_info = $mysql->select('ysk_merchant','*','names = '."'$user'");
+$agent_info = $mysql->select('ysk_agent','*','names = '."'$user'");
 	$pwd = $_REQUEST['pwd'];
 	if (md5($pwd)  != $agent_info['pwd']||$agent_info['key']<>$key) {
        $data['status']=0;
@@ -62,7 +62,7 @@ $agent_info = $mysql->select('ysk_merchant','*','names = '."'$user'");
        $datas['bankinfo'] = $_REQUEST['bankinfo'];
        $datas['name'] = $_REQUEST['name'];
         
-    $mysql->update('ysk_merchant',$datas,'id='.$agent_info['id']);
+    $mysql->update('ysk_agent',$datas,'id='.$agent_info['id']);
       $data['status']=1;
        $data['msg']="资料修改成功";
      echo  json_encode($data);
@@ -73,13 +73,13 @@ $agent_info = $mysql->select('ysk_merchant','*','names = '."'$user'");
 }elseif($_REQUEST['act'] == 'tixiancl'){
    $user=$_REQUEST["u"];
     $key=$_REQUEST["key"];
-$agent_info = $mysql->select('ysk_merchant','*','names = '."'$user'");
+$agent_info = $mysql->select('ysk_agent','*','names = '."'$user'");
 	$pwd = $_REQUEST['pwd'];
 	$money = $_REQUEST['money'];
 
   
     
-    $sql = "update  ysk_merchant set money = money-'$money' where id=".$agent_info['id'];
+    $sql = "update  ysk_agent set money = money-'$money' where id=".$agent_info['id'];
 
     $d=$mysql->query($sql);
   
@@ -117,7 +117,7 @@ if($c&&$d){
     $data['money'] = $money;
     $data['addtime'] = time();
     
-    $sql = "update  ysk_merchant set money = money-'$money' where id=".$agent_info['id'];
+    $sql = "update  ysk_agent set money = money-'$money' where id=".$agent_info['id'];
 
     $mysql->query($sql);
 

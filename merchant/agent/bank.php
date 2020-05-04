@@ -8,7 +8,7 @@ if ($_SESSION['agent_id'] == '') {
 }
 
 if (isset($_POST['sub'])) {
-	$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+	$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 	$pwd = $_REQUEST['pwd'];
 	if (md5($pwd)  != $agent_info['pwd']) {
         jump('-1','登录密码不正确');
@@ -17,10 +17,10 @@ if (isset($_POST['sub'])) {
     unset($_POST['sub']);
     unset($_POST['pwd']);
 
-	$mysql->update('ysk_merchant',$_POST,'id='.$agent_info['id']);
+	$mysql->update('ysk_agent',$_POST,'id='.$agent_info['id']);
 	jump('-1','保存成功');
 }
-$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 include('./tpl/bank.html');
 
 

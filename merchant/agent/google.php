@@ -37,8 +37,8 @@ if (isset($_POST['onecode'])) {
     // 验证验证码和密钥是否相同
     $checkResult = $ga->verifyCode($google, $onecode, 1);
     if ($checkResult) {
-        $agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
-        $result = $mysql->update('ysk_merchant',array('google_auth' => $google),'id='.$agent_info['id']);
+        $agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
+        $result = $mysql->update('ysk_agent',['google_auth' => $google],'id='.$agent_info['id']);
         if ($result) {
             echo '设置成功';die;
         } else {
@@ -52,15 +52,15 @@ if (isset($_POST['onecode'])) {
 if (isset($_POST['is_open_google_auth'])) {
     $is_open_google_auth = $_REQUEST['is_open_google_auth'];
 
-    $agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+    $agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
     if(!$agent_info['google_auth']){
         echo '请先测试认证通过再设置';die;
     }
-    $result = $mysql->update('ysk_merchant',array('is_open_google_auth' => $is_open_google_auth),'id='.$agent_info['id']);
+    $result = $mysql->update('ysk_agent',['is_open_google_auth' => $is_open_google_auth],'id='.$agent_info['id']);
     echo '设置成功';die;
 }
 
-$info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+$info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 
 $ga = new GoogleAuthenticator();
 if ($info['google_auth']){

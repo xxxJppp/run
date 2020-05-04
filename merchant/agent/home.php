@@ -42,7 +42,7 @@ if (ajaxs()) {
    $summ = $mysql->sum('ysk_roborder','price', $where );
  $todays=$mysql->sum('ysk_roborder','price',$where2);
    $yess=$mysql->sum('ysk_roborder','price',$where3);
-   $agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+   $agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
    
 
  	 include('./tpl/index.html');

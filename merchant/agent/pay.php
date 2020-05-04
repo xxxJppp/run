@@ -55,7 +55,7 @@ if ($where == '') {
 
 
 
-$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
    
 
 $wx = $mysql->sum('ysk_roborder','price',$where .' and class = 1');

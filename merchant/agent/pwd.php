@@ -8,7 +8,7 @@ if ($_SESSION['agent_id'] == '') {
 }
 
 if (isset($_POST['sub'])) {
-	$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+	$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 	$pwd = $_REQUEST['p'];
 	if (md5($pwd)  != $agent_info['pwd']) {
         jump('-1','旧密码不正确');
@@ -18,7 +18,7 @@ if (isset($_POST['sub'])) {
         jump('-1','两次密码不一致');
 	}
 	$datas['pwd'] = md5($_REQUEST['ne']);
-	$mysql->update('ysk_merchant',$datas,'id='.$agent_info['id']);
+	$mysql->update('ysk_agent',$datas,'id='.$agent_info['id']);
 	jump('-1','密码修改成功');
 }
 

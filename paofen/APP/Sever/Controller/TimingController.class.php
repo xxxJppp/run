@@ -28,7 +28,7 @@ class TimingController extends Controller
         }
         foreach ($shanghu as $v) {
 
-            $shanghuxx = M('merchant')->field('names,key')->where(array('names' => $v['shanghu_name']))->find();//完成
+            $shanghuxx = M('agent')->field('names,key')->where(array('names' => $v['shanghu_name']))->find();//完成
             $ret = array();
             $ret['m'] = $v['price'];
             $ret['order'] = $v['ordernum'];

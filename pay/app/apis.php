@@ -21,7 +21,7 @@ if ($_POST['orderid'] == '') {
 
 
 $nas = $_POST['shid'];
-$info = $mysql->select('ysk_merchant', '*', 'names=' . "'$nas'");
+$info = $mysql->select('ysk_agent', '*', 'names=' . "'$nas'");
 
 if (empty($info)) {
 

@@ -8,7 +8,7 @@ if ($_SESSION['agent_id'] == '') {
 }
 
 if (isset($_POST['sub'])) {
-	$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+	$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 	$pwd = $_REQUEST['pwd'];
 	$money = $_REQUEST['money'];
 	if ($money <= 0 ) {
@@ -33,7 +33,7 @@ if (isset($_POST['sub'])) {
     $data['money'] = $money;
     $data['addtime'] = time();
     
-    $sql = "update  ysk_merchant set money = money-'$money' where id=".$_SESSION['agent_id'];
+    $sql = "update  ysk_agent set money = money-'$money' where id=".$_SESSION['agent_id'];
 
     $mysql->query($sql);
 
@@ -42,7 +42,7 @@ if (isset($_POST['sub'])) {
 	jump('link.php','申请成功，请等待审核');
 
 }
-$agent_info = $mysql->select('ysk_merchant','*','id='.$_SESSION['agent_id']);
+$agent_info = $mysql->select('ysk_agent','*','id='.$_SESSION['agent_id']);
 include('./tpl/tixian.html');
 
 

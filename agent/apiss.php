@@ -11,7 +11,7 @@ include('./sys/init.php');
 (!isset($_POST['amount']) || empty($_POST['amount'])) && jump('-1', '金额不能为空并且不能为0');
 
 
-$info = $mysql->select('ysk_merchant', '*', 'names=' . "'{$_POST['shid']}'");
+$info = $mysql->select('ysk_agent', '*', 'names=' . "'{$_POST['shid']}'");
 
 if (empty($info) || $info['key'] != $_POST['key']) {
     jump('-1', '效验失败商户账号不正确');
