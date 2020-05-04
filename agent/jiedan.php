@@ -16,6 +16,8 @@ if (ajaxs()) {
             $d['error'] = 0;
             $d['msg'] = $er['ewm_url'];
             $d['n'] = $er['uname'];
+            $time = $mysql->select('ysk_system','lose_time','id=1');
+            $d['pipeitime'] = date('Y-m-d H:i:s',$info['pipeitime']+$time);
 
             /* if ($class == 2  &&  $er['qrurl']  == '') {
                     $a =   json_decode(file_get_contents("https://api.uomg.com/api/qr.encode?url=".$er['ewm_url']),1);
@@ -64,6 +66,15 @@ if (ajaxs()) {
     } else if ($_REQUEST['act'] == 'sn') {
         $d['or'] = 'E' . time() . rand(0000, 9999);
         $d['error'] = 0;
+        ajax_text($d);
+    }else if ($_REQUEST['act'] == 'sx') {
+        $order = $_REQUEST['order'];
+        $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'$order'");
+        $data = array('uid' => $info['uid'], 'money' => $info['price'], 'addtime' => time(), 'ppid' => $info['id']);
+        $dj = $mysql->insert('ysk_dj',$data);
+        $order_status = $mysql->update('ysk_roborder',array('status' => 4),'id='.$info['id']);
+        $user_status = $mysql->update('ysk_userrob',array('status' => 4),'uid='.$info['uid'].' and ppid='.$info['id']);
+        $d['error'] = 1;
         ajax_text($d);
     }
 
