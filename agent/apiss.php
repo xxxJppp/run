@@ -5,7 +5,7 @@ define('DEBUG', TRUE);
 include('./sys/init.php');
 
 (!isset($_POST['shid']) || empty($_POST['shid'])) && jump('-1', '商户账号不能为空');
-(!isset($_POST['url']) || empty($_POST['url']))  && jump('-1', '商户回调地址不能为空');
+(!isset($_POST['url']) || empty($_POST['url'])) && jump('-1', '商户回调地址不能为空');
 (!isset($_POST['key']) || empty($_POST['key'])) && jump('-1', '商户秘钥不能为空');
 (!isset($_POST['orderid']) || empty($_POST['orderid'])) && jump('-1', '订单号不能为空');
 (!isset($_POST['amount']) || empty($_POST['amount'])) && jump('-1', '金额不能为空并且不能为0');
@@ -56,7 +56,6 @@ if ($_POST['pay'] == 'wx') {
 }
 
 $check = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'{$_POST['orderid']}'");
-
 if (empty($check)) {
     $p['class'] = $wxid;
     $p['price'] = $_POST['amount'];
@@ -73,6 +72,7 @@ $id = $mysql->insert_id();
 $m = $_POST['amount'];
 $oid = $_POST['orderid'];
 
+
 $listss = $mysql->select_all('ysk_roborder', '*', 'status = 1');
 foreach ($listss as $k => $v) {
 
@@ -84,17 +84,6 @@ foreach ($listss as $k => $v) {
     }
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -125,6 +114,7 @@ foreach ($listss as $k => $v) {
         position: relative;
         font-size: 1.2em;
     }
+
     h1 {
 
         font-family: "微软雅黑";
@@ -210,7 +200,7 @@ foreach ($listss as $k => $v) {
                     <strong>
                         交易时间：
                     </strong>
-                    <?=date('Y-m-d H:i:s')?>
+                    <?= date('Y-m-d H:i:s') ?>
                 </li>
             </ul>
         </div>
@@ -222,7 +212,7 @@ foreach ($listss as $k => $v) {
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
                     <a href="#weixin" aria-controls="weixin" role="tab" data-toggle="tab">
-                        <?=$title?>
+                        <?= $title ?>
                     </a>
                 </li>
             </ul>
@@ -251,7 +241,7 @@ foreach ($listss as $k => $v) {
                                             <td height="20">
                                                 <strong>
                                                     <font style="font-size:30px; color:#F60;">
-                                                        <?=$_REQUEST['amount']?>
+                                                        <?= $_REQUEST['amount'] ?>
                                                     </font>
                                                     &nbsp;&nbsp;
                                                 </strong>
@@ -265,7 +255,7 @@ foreach ($listss as $k => $v) {
                                                     <tbody>
                                                     <tr>
                                                         <td align="center" id="loding" style="display: none">
-                                                            <img id="je" src="<?=$erwei['ewm_url']?>"
+                                                            <img id="je" src="<?= $erwei['ewm_url'] ?>"
                                                                  height="230">
                                                         </td>
                                                         <td align="center" id="lodings"
@@ -295,11 +285,11 @@ foreach ($listss as $k => $v) {
                                                                     <td align="center">
                                                                         <font style="font-size:14px; color:#F60;">
                                                                             <strong>
-                                                                                <?=$title?>，<span id="nes"></span>扫一扫付款
+                                                                                <?= $title ?>，<span id="nes"></span>扫一扫付款
                                                                             </strong>
                                                                         </font>
                                                                     </td>
-
+                                                                    <strong id="div"></strong>
 
                                                                 </tr>
                                                                 </tbody>
@@ -322,6 +312,7 @@ foreach ($listss as $k => $v) {
                     </div>
                 </div>
                 <a id="zhifu" style="display: none" href="alipays://">点击支付宝支付</a>
+                <input type="hidden" id="nyr" value="">
         </div>
     </div>
 </div>
@@ -333,7 +324,87 @@ foreach ($listss as $k => $v) {
 <script src="./demo/js/bootstrap.min.js">
 </script>
 <script>
+    setTimeout(clock, 1000);
+    function clock() {
+        var tm = $("#nyr").val();
+        console.log(tm);
+        if (tm != '') {
+            var today = new Date(),//当前时间
+
+                h = today.getHours(),
+
+                m = today.getMinutes(),
+
+                s = today.getSeconds();
+
+            var stopTime = new Date("" + tm + ""),//结束时间
+
+                stopH = stopTime.getHours(),
+
+                stopM = stopTime.getMinutes(),
+
+                stopS = stopTime.getSeconds();
+            var shenyu = stopTime.getTime() - today.getTime(),//倒计时毫秒数
+
+                shengyuD = parseInt(shenyu / (60 * 60 * 24 * 1000)),//转换为天
+
+                D = parseInt(shenyu) - parseInt(shengyuD * 60 * 60 * 24 * 1000),//除去天的毫秒数
+
+                shengyuH = parseInt(D / (60 * 60 * 1000)),//除去天的毫秒数转换成小时
+
+                H = D - shengyuH * 60 * 60 * 1000,//除去天、小时的毫秒数
+
+                shengyuM = parseInt(H / (60 * 1000)),//除去天的毫秒数转换成分钟
+
+                M = H - shengyuM * 60 * 1000;//除去天、小时、分的毫秒数
+
+            S = parseInt((shenyu - shengyuD * 60 * 60 * 24 * 1000 - shengyuH * 60 * 60 * 1000 - shengyuM * 60 * 1000) / 1000)//除去天、小时、分的毫秒数转化为秒
+            if (shengyuM < 10) {
+                shengyuM = '0' + shengyuM;
+            }
+            document.getElementById("div").innerHTML = (shengyuH + ":" + shengyuM + ":" + S + "<br>");
+
+            // setTimeout("clock()",500);
+            setTimeout(clock, 1000);
+            if (shengyuM <= 0 && S <= 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: './jiedan.php?act=sx',
+                    data: {
+                        m: '<?=$m?>',
+                        order: '<?=$oid?>',
+                        class: '<?=$wxid?>',
+                        key: '<?=$_POST['key']?>'
+                    },
+                    dataType: 'json',
+                    success: function (n) {
+                        if (n.error == 1) {
+                            //alert('尊敬的用户：'+str.name+' 已确认订单号:'+str.time+',充值成功 '+str.price + '元');
+                            alert('支付超时，请重新发起订单！');
+                            location.href = 'pay_true.php';
+                            /*
+                            layer.alert(msg, {
+                                            skin: 'layui-layer-lan'
+                                            ,closeBtn: 0
+                                            ,anim: 4 //动画类型
+                                          }); */
+
+                            //	location.href=n.back_url;
+                        }
+
+                    }
+                });
+            }
+        }
+
+    }
+
+
+</script>
+<script>
+
     $(document).ready(function () {
+
         var timeoute = false; //启动及关闭按钮
         function dscd() {
             if (timeoute) return;
@@ -353,16 +424,17 @@ foreach ($listss as $k => $v) {
                         $("#lodings").hide();
                         $("#loding").show();
                         $("#je").attr("src", str.msg);
+                        $("#nyr").val(str.pipeitime);
                         if (str.qrurl) {
 
                             $("#zhifu").show();
 
                             $("#zhifu").attr('href', 'alipays://platformapi/startapp?appId=20000067&url=' + str.qrurl);
-
                         }
                         $("#nes").text('收款人:' + str.n);
                         var intDiff = parseInt(1800);//倒计时总秒数量
                         $("#second_show").text(intDiff);
+
                     } else if (str.error == 4) {
                         alert('此订单已失效，请重新发起支付');
                         location.href = 'pay_true.php';

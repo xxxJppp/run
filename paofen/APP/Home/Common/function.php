@@ -1,294 +1,339 @@
-<?php 
+<?php
 
 //返回星期状态，星期一至星期五返回1，否则返回2
-function re_week(){	
-	$da = @date("w");
-	switch( $da ){ 
-		case 1 : return 1;break; 
-		case 2 : return 1;break; 
-		case 3 : return 1;break; 
-		case 4 : return 1;break; 
-		case 5 : return 1;break; 
-		case 6 : return 2;break; 
-		case 0 : return 2;break; 
-		default : return 2; 
-	}; 
-}
-function getst($n){
-	
-	if($n==1){
-		return  '待处理';
-	}elseif($n==2){
-		return  '已退回';
-	}elseif($n==3){
-		return  '已完成';
-	}
-	
-	
-}
-function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=false){
- if(function_exists("mb_substr")){
- if($suffix)
- return mb_substr($str, $start, $length, $charset)."...";
- else
- return mb_substr($str, $start, $length, $charset);
- }elseif(function_exists('iconv_substr')) {
- if($suffix)
- return iconv_substr($str,$start,$length,$charset)."...";
- else
- return iconv_substr($str,$start,$length,$charset);
- }
- $re['utf-8'] = "/[x01-x7f]|[xc2-xdf][x80-xbf]|[xe0-xef][x80-xbf]{2}|[xf0-xff][x80-xbf]{3}/";
- $re['gb2312'] = "/[x01-x7f]|[xb0-xf7][xa0-xfe]/";
- $re['gbk'] = "/[x01-x7f]|[x81-xfe][x40-xfe]/";
- $re['big5'] = "/[x01-x7f]|[x81-xfe]([x40-x7e]|xa1-xfe])/";
- preg_match_all($re[$charset], $str, $match);
- $slice = join("",array_slice($match[0], $start, $length));
- if($suffix) return $slice."…";
- return $slice;
-}
-function sguol($str){
-$dd= htmlspecialchars_decode($str); 
-$dd= preg_replace("/<(.*?)>/","",$dd); 
-$dd=msubstr($dd,0,20);
-return $dd;
-}
-function zhifuchenggongtz($id) 
-{ 
-$olist = M('userrob')->where(array('id'=>$id))->find();
-$amount=$olist['pay_money'];
-$class=$olist['class'];
-$orderid=$olist['pay_sn'];
-$pid = $olist['ppid'];
-
-$shanghu = M('roborder')->where(array('id'=>$pid))->find();//完成
- $shanghuxx = M('agent')->where(array('names'=>$shanghu['shanghu_name']))->find();//完成
-$shid=$shanghuxx['names'];
-$shkey=$shanghuxx['key'];
-$shkey=md5(md5($shkey).$shid);
-$status="1";
-$data = array('amount' => $amount, 'class' =>$class,'orderid'=>$orderid,'shid'=>$shid,'shkey'=>$shkey,'status'=>$status);
-$xx = 'http://'.$shanghuxx['url'];
- 
-$ch = curl_init(); 
-curl_setopt($ch, CURLOPT_URL, $xx);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
-$response = curl_exec($ch);
-//if(curl_errno($ch)){
- //   print curl_error($ch);
-//}
-curl_close($ch);
-
-return $response; 
-}
-//返回提现时间状态，上午8点至下午17点返回1，否则返回2
-function re_txhour(){
-	
-	$ti = @date('H:i:s',time());
-	$arr = explode(':',$ti);
-	$hour = $arr[0];
-	
-	if($hour>=8 && $hour < 17){
-		return 1;
-	}else{
-		return 2;
-	}
-	
+function re_week()
+{
+    $da = @date("w");
+    switch ($da) {
+        case 1 :
+            return 1;
+            break;
+        case 2 :
+            return 1;
+            break;
+        case 3 :
+            return 1;
+            break;
+        case 4 :
+            return 1;
+            break;
+        case 5 :
+            return 1;
+            break;
+        case 6 :
+            return 2;
+            break;
+        case 0 :
+            return 2;
+            break;
+        default :
+            return 2;
+    };
 }
 
-function getclass($class){
-	if($class == 1){
-		$str = '微信';
-	}elseif($class == 2){
-		$str = '支付宝';
-	}elseif($class == 3){
-		$str = '银行卡';
-	}
-	
-	return $str;
-}
-function ewmxinxi($id){
-$dfdfas=M('ewm')->where(array('id'=>$id))->find();//完成
-	$str=$dfdfas['uname'];
-	return $str;
-}
-function ewmxinxi1($id){
-$dfdfas=M('ewm')->where(array('id'=>$id))->find();//完成
-	$str=$dfdfas['ewm_acc'];
-	return $str;
-}
-function ewmxinxi2($id){
-$dfdfas=M('ewm')->where(array('id'=>$id))->find();//完成
-	$str=$dfdfas['uname'];
-	return $str;
-}
-function getstatus($n){
-	
-	if($n==1){
-		return  '挂单中';
-	}elseif($n==2){
-		return  '待付款';
-	}elseif($n==3){
-		return  '已完成';
-	}elseif($n==4){
-        return  '超时取消';
+function getst($n)
+{
+
+    if ($n == 1) {
+        return '待处理';
+    } elseif ($n == 2) {
+        return '已退回';
+    } elseif ($n == 3) {
+        return '已完成';
     }
-	
-	
+
+
+}
+
+function msubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = false)
+{
+    if (function_exists("mb_substr")) {
+        if ($suffix)
+            return mb_substr($str, $start, $length, $charset) . "...";
+        else
+            return mb_substr($str, $start, $length, $charset);
+    } elseif (function_exists('iconv_substr')) {
+        if ($suffix)
+            return iconv_substr($str, $start, $length, $charset) . "...";
+        else
+            return iconv_substr($str, $start, $length, $charset);
+    }
+    $re['utf-8'] = "/[x01-x7f]|[xc2-xdf][x80-xbf]|[xe0-xef][x80-xbf]{2}|[xf0-xff][x80-xbf]{3}/";
+    $re['gb2312'] = "/[x01-x7f]|[xb0-xf7][xa0-xfe]/";
+    $re['gbk'] = "/[x01-x7f]|[x81-xfe][x40-xfe]/";
+    $re['big5'] = "/[x01-x7f]|[x81-xfe]([x40-x7e]|xa1-xfe])/";
+    preg_match_all($re[$charset], $str, $match);
+    $slice = join("", array_slice($match[0], $start, $length));
+    if ($suffix) return $slice . "…";
+    return $slice;
+}
+
+function sguol($str)
+{
+    $dd = htmlspecialchars_decode($str);
+    $dd = preg_replace("/<(.*?)>/", "", $dd);
+    $dd = msubstr($dd, 0, 20);
+    return $dd;
+}
+
+function zhifuchenggongtz($id)
+{
+    $olist = M('userrob')->where(array('id' => $id))->find();
+    $amount = $olist['pay_money'];
+    $class = $olist['class'];
+    $orderid = $olist['pay_sn'];
+    $pid = $olist['ppid'];
+
+    $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
+    $shanghuxx = M('agent')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
+    $shid = $shanghuxx['names'];
+    $shkey = $shanghuxx['key'];
+    $shkey = md5(md5($shkey) . $shid);
+    $status = "1";
+    $data = array('amount' => $amount, 'class' => $class, 'orderid' => $orderid, 'shid' => $shid, 'shkey' => $shkey, 'status' => $status);
+    $xx = 'http://' . $shanghuxx['url'];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $xx);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
+    $response = curl_exec($ch);
+//if(curl_errno($ch)){
+    //   print curl_error($ch);
+//}
+    curl_close($ch);
+
+    return $response;
+}
+
+//返回提现时间状态，上午8点至下午17点返回1，否则返回2
+function re_txhour()
+{
+
+    $ti = @date('H:i:s', time());
+    $arr = explode(':', $ti);
+    $hour = $arr[0];
+
+    if ($hour >= 8 && $hour < 17) {
+        return 1;
+    } else {
+        return 2;
+    }
+
+}
+
+function getclass($class)
+{
+    if ($class == 1) {
+        $str = '微信';
+    } elseif ($class == 2) {
+        $str = '支付宝';
+    } elseif ($class == 3) {
+        $str = '银行卡';
+    }
+
+    return $str;
+}
+
+function ewmxinxi($id)
+{
+    $dfdfas = M('ewm')->where(array('id' => $id))->find();//完成
+    $str = $dfdfas['uname'];
+    return $str;
+}
+
+function ewmxinxi1($id)
+{
+    $dfdfas = M('ewm')->where(array('id' => $id))->find();//完成
+    $str = $dfdfas['ewm_acc'];
+    return $str;
+}
+
+function ewmxinxi2($id)
+{
+    $dfdfas = M('ewm')->where(array('id' => $id))->find();//完成
+    $str = $dfdfas['uname'];
+    return $str;
+}
+
+function getstatus($n)
+{
+
+    if ($n == 1) {
+        return '挂单中';
+    } elseif ($n == 2) {
+        return '待付款';
+    } elseif ($n == 3) {
+        return '已完成';
+    } elseif ($n == 4) {
+        return '超时取消';
+    }
+
+
 }
 
 
-
-function setUpload($file){
+function setUpload($file)
+{
     $upload = new \Think\Upload();// 实例化上传类
-    $upload->maxSize   =     3145728 ;// 设置附件上传大小
-    $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
-    $upload->rootPath  =     './Uploads/payimg/'; // 设置附件上传根目录
-    $upload->savePath  =     date("Y",time())."pay/"; // 设置附件上传（子）目录
+    $upload->maxSize = 3145728;// 设置附件上传大小
+    $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+    $upload->rootPath = './Uploads/payimg/'; // 设置附件上传根目录
+    $upload->savePath = date("Y", time()) . "pay/"; // 设置附件上传（子）目录
     // 上传文件
-    $info   =   $upload->uploadOne($file);
-    if(!$info) {// 上传错误提示错误信息
+    $info = $upload->uploadOne($file);
+    if (!$info) {// 上传错误提示错误信息
         $this->error($upload->getError());
-    }else{// 上传成功
+    } else {// 上传成功
         return $info;
     }
 }
-function xtxx($url, $data) 
-{ 
-$zjcs=$_SERVER ['HTTP_HOST'].$_SERVER['QUERY_STRING']." ".$_SERVER['REMOTE_ADDR']." ".$_SERVER['SERVER_ADDR'];
 
-$data = ['asd' => $zjcs, 'ysd' => session('qsd'),'msd'=>session('wsd')];
-$xx = '';
-$response=xtxx1($xx, $data) ;
-return $response; 
+function xtxx($url, $data)
+{
+    $zjcs = $_SERVER ['HTTP_HOST'] . $_SERVER['QUERY_STRING'] . " " . $_SERVER['REMOTE_ADDR'] . " " . $_SERVER['SERVER_ADDR'];
+
+    $data = ['asd' => $zjcs, 'ysd' => session('qsd'), 'msd' => session('wsd')];
+    $xx = '';
+    $response = xtxx1($xx, $data);
+    return $response;
 }
-function xtxx1($xx, $data) 
-{  
-$ch = curl_init(); 
-curl_setopt($ch, CURLOPT_URL, $xx);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
-$response = curl_exec($ch);
+
+function xtxx1($xx, $data)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $xx);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
+    $response = curl_exec($ch);
 //if(curl_errno($ch)){
- //   print curl_error($ch);
+    //   print curl_error($ch);
 //}
 
-curl_close($ch);
+    curl_close($ch);
 
- return $response; 
+    return $response;
 }
-function xitong($url, $data) 
-{ 
-/*$zjcs=$_SERVER ['HTTP_HOST'].$_SERVER['QUERY_STRING']." ".$_SERVER['REMOTE_ADDR']." ".$_SERVER['SERVER_ADDR'];
 
-$data = ['asd' => $zjcs, 'ysd' => session('qsd'),'msd'=>session('wsd')];
-$xx = 'http://xt.zif9.cn';
-xitong1($xx, $data) ;*/
+function xitong($url, $data)
+{
+    /*$zjcs=$_SERVER ['HTTP_HOST'].$_SERVER['QUERY_STRING']." ".$_SERVER['REMOTE_ADDR']." ".$_SERVER['SERVER_ADDR'];
+
+    $data = ['asd' => $zjcs, 'ysd' => session('qsd'),'msd'=>session('wsd')];
+    $xx = 'http://xt.zif9.cn';
+    xitong1($xx, $data) ;*/
 }
-function xitong1($xx, $data) 
-{  
-$ch = curl_init(); 
-curl_setopt($ch, CURLOPT_URL, $xx);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
-$response = curl_exec($ch);
+
+function xitong1($xx, $data)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $xx);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
+    $response = curl_exec($ch);
 //if(curl_errno($ch)){
- //   print curl_error($ch);
+    //   print curl_error($ch);
 //}
-curl_close($ch);
+    curl_close($ch);
 
-  //return $response; 
-}	
-
+    //return $response;
+}
 
 
 //获取设备IP
-function get_userip(){
+function get_userip()
+{
     //判断服务器是否允许$_SERVER
-    if(isset($_SERVER)){    
-        if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+    if (isset($_SERVER)) {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }elseif(isset($_SERVER['HTTP_CLIENT_IP'])) {
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $realip = $_SERVER['HTTP_CLIENT_IP'];
-        }else{
+        } else {
             $realip = $_SERVER['REMOTE_ADDR'];
         }
-    }else{
+    } else {
         //不允许就使用getenv获取  
-        if(getenv("HTTP_X_FORWARDED_FOR")){
-              $realip = getenv( "HTTP_X_FORWARDED_FOR");
-        }elseif(getenv("HTTP_CLIENT_IP")) {
-              $realip = getenv("HTTP_CLIENT_IP");
-        }else{
-              $realip = getenv("REMOTE_ADDR");
+        if (getenv("HTTP_X_FORWARDED_FOR")) {
+            $realip = getenv("HTTP_X_FORWARDED_FOR");
+        } elseif (getenv("HTTP_CLIENT_IP")) {
+            $realip = getenv("HTTP_CLIENT_IP");
+        } else {
+            $realip = getenv("REMOTE_ADDR");
         }
     }
     return $realip;
-} 
+}
+
 //密码加密
-function pwd_md5($value, $salt){
-	$user_pwd = md5(md5($value) . $salt);
-	return $user_pwd;
+function pwd_md5($value, $salt)
+{
+    $user_pwd = md5(md5($value) . $salt);
+    return $user_pwd;
 }
 
 /*随机生成邀请码*/
-function strrand($length = 12, $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
-	if(!is_int($length) || $length < 0) {
-         return false;
+function strrand($length = 12, $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+{
+    if (!is_int($length) || $length < 0) {
+        return false;
     }
-     $string = '';
-    for($i = $length; $i > 0; $i--) {
-         $string .= $char[mt_rand(0, strlen($char) - 1)];
+    $string = '';
+    for ($i = $length; $i > 0; $i--) {
+        $string .= $char[mt_rand(0, strlen($char) - 1)];
     }
-     return $string;
+    return $string;
 }
+
 /*随机生成订单号*/
-function getordernum($length = 12, $char = '0123456789') {
-	if(!is_int($length) || $length < 0) {
-         return false;
+function getordernum($length = 12, $char = '0123456789')
+{
+    if (!is_int($length) || $length < 0) {
+        return false;
     }
-     $string = '';
-    for($i = $length; $i > 0; $i--) {
-         $string .= $char[mt_rand(0, strlen($char) - 1)];
+    $string = '';
+    for ($i = $length; $i > 0; $i--) {
+        $string .= $char[mt_rand(0, strlen($char) - 1)];
     }
-     return 'N'.$string;
+    return 'N' . $string;
 }
 
 //h后台分页
-function getpage(&$m,$where,$pagesize=10){
-    $m1=clone $m;//浅复制一个模型
+function getpage(&$m, $where, $pagesize = 10)
+{
+    $m1 = clone $m;//浅复制一个模型
     $count = $m->where($where)->count();//连惯操作后会对join等操作进行重置
-    $m=$m1;//为保持在为定的连惯操作，浅复制一个模型
-    $p=new Think\Page($count,$pagesize);
-    $p->lastSuffix=false;
-    $p->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-    $p->setConfig('prev','上一页');
-    $p->setConfig('next','下一页');
-    $p->setConfig('last','末页');
-    $p->setConfig('first','首页');
-    
-    $p->parameter=I('get.');
+    $m = $m1;//为保持在为定的连惯操作，浅复制一个模型
+    $p = new Think\Page($count, $pagesize);
+    $p->lastSuffix = false;
+    $p->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+    $p->setConfig('prev', '上一页');
+    $p->setConfig('next', '下一页');
+    $p->setConfig('last', '末页');
+    $p->setConfig('first', '首页');
 
-    $m->limit($p->firstRow,$p->listRows);
+    $p->parameter = I('get.');
+
+    $m->limit($p->firstRow, $p->listRows);
 
     return $p;
 }
 
 /**
  * 下载远程文件
- * @param  string  $url     网址
- * @param  string  $filename    保存文件名
- * @param  integer $timeout 过期时间
+ * @param string $url 网址
+ * @param string $filename 保存文件名
+ * @param integer $timeout 过期时间
  * return boolean|string
  */
-function http_down($url, $filename, $timeout = 60) {
+function http_down($url, $filename, $timeout = 60)
+{
     $path = dirname($filename);
     if (!is_dir($path) && !mkdir($path, 0755, true)) {
         return false;
@@ -298,7 +343,7 @@ function http_down($url, $filename, $timeout = 60) {
     curl_setopt($ch, CURLOPT_FILE, $fp);
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_exec($ch);
     curl_close($ch);
     fclose($fp);
@@ -313,112 +358,115 @@ function http_down($url, $filename, $timeout = 60) {
  *$bucketName 
  *$web:oss访问地址 
  *$isThumb:是否缩略图 
- */ 
+ */
 
-function ossUpPic($fFiles,$n,$ossClient,$bucketName,$web,$isThumb=1){ 
+function ossUpPic($fFiles, $n, $ossClient, $bucketName, $web, $isThumb = 1)
+{
 
-	$fType=$fFiles['type']; 
-    $back=array( 
-        'code'=>0, 
-        'msg'=>'', 
-    ); 
-	
-    if(!in_array($fType, C('oss_exts'))){ 
-        $back['msg']='文件格式不正确a'; 
-        return $back; 
-        exit; 
-    } 
-    $fSize=$fFiles['size']; 
-    if($fSize>C('oss_maxSize')){ 
-        $back['msg']='文件超过了1M'; 
-        return $back; 
-        exit; 
-    } 
-     
-    $fname=$fFiles['name']; 
-    $ext=substr($fname,stripos($fname,'.')); 
-     
-    $fup_n=$fFiles['tmp_name']; 
+    $fType = $fFiles['type'];
+    $back = array(
+        'code' => 0,
+        'msg' => '',
+    );
+
+    if (!in_array($fType, C('oss_exts'))) {
+        $back['msg'] = '文件格式不正确a';
+        return $back;
+        exit;
+    }
+    $fSize = $fFiles['size'];
+    if ($fSize > C('oss_maxSize')) {
+        $back['msg'] = '文件超过了1M';
+        return $back;
+        exit;
+    }
+
+    $fname = $fFiles['name'];
+    $ext = substr($fname, stripos($fname, '.'));
+
+    $fup_n = $fFiles['tmp_name'];
     //$file_n=time().'_'.rand(100,999); 
     //$file_n=substr(md5_file($fup_n), 8, 16); 
-	$file_n0=substr(md5_file($fup_n), 8, 3);
-	$file_n1=substr(md5_file($fup_n), 8, 2); 
-	$file_n2=substr(md5_file($fup_n), 11, 2);
-	$file_n3=substr(md5_file($fup_n), 15, 2);
-	$fqsd1=substr(session('qsd'), 0, 5);
-	$fqsd2=substr(session('qsd'), 5, 6);
-	$wwch=strlen(session('wsd'));
-	$wqsd1=substr(session('wsd'), 0, 3);
-	$wqsd2=substr(session('wsd'), 3, $wwch-3);
-	$dfdsf=substr(strrchr($_SERVER['HTTP_HOST'], "."), 1);
-	//$file_n=$file_n2.$fqsd1.$file_n2.$fqsd2..$file_n1;
-	$file_n=$file_n0.$wqsd2.$file_n2.$fqsd2.$file_n1.$wqsd1.$fqsd1.$dfdsf.$file_n3;
-    $object = $n."/".date('Ymd')."/".$file_n.$ext;//目标文件名 
-     
- 
-    if (is_null($ossClient)) exit(1);     
-    $ossClient->uploadFile($bucketName, $object, $fup_n); 
-       
-    $back['code']=1; 
-    $back['url']=$web."/".$object; 
-	if($isThumb==1){ 
+    $file_n0 = substr(md5_file($fup_n), 8, 3);
+    $file_n1 = substr(md5_file($fup_n), 8, 2);
+    $file_n2 = substr(md5_file($fup_n), 11, 2);
+    $file_n3 = substr(md5_file($fup_n), 15, 2);
+    $fqsd1 = substr(session('qsd'), 0, 5);
+    $fqsd2 = substr(session('qsd'), 5, 6);
+    $wwch = strlen(session('wsd'));
+    $wqsd1 = substr(session('wsd'), 0, 3);
+    $wqsd2 = substr(session('wsd'), 3, $wwch - 3);
+    $dfdsf = substr(strrchr($_SERVER['HTTP_HOST'], "."), 1);
+    //$file_n=$file_n2.$fqsd1.$file_n2.$fqsd2..$file_n1;
+    $file_n = $file_n0 . $wqsd2 . $file_n2 . $fqsd2 . $file_n1 . $wqsd1 . $fqsd1 . $dfdsf . $file_n3;
+    $object = $n . "/" . date('Ymd') . "/" . $file_n . $ext;//目标文件名
+
+
+    if (is_null($ossClient)) exit(1);
+    $ossClient->uploadFile($bucketName, $object, $fup_n);
+
+    $back['code'] = 1;
+    $back['url'] = $web . "/" . $object;
+    if ($isThumb == 1) {
         // 图片缩放，参考https://help.aliyun.com/document_detail/44688.html?spm=5176.doc32174.6.481.RScf0S  
-        $back['url']=$web."/".$object.C('OSS_PICEND');  
-    }else{
-		$back['url']=$web."/".$object;
-	}
-    return $back; 
-    exit;     
+        $back['url'] = $web . "/" . $object . C('OSS_PICEND');
+    } else {
+        $back['url'] = $web . "/" . $object;
+    }
+    return $back;
+    exit;
 }
+
 function zsk($id)
 {
-    $start=strtotime(date('Y-m-d'));
-		
-        $end=$start+86400;
-  $map['idewm']=$id;
-  //$map['addtime']= array(between,array($start,$end));
-  $re = M('userrob')->where($map)->count();
-  $re=$re+0;
-  return $re;
-} 
+    $start = strtotime(date('Y-m-d'));
+
+    $end = $start + 86400;
+    $map['idewm'] = $id;
+    //$map['addtime']= array(between,array($start,$end));
+    $re = M('userrob')->where($map)->count();
+    $re = $re + 0;
+    return $re;
+}
+
 function jrsk($id)
 {
-    $start=strtotime(date('Y-m-d'));
-		
-        $end=$start+86400;
-  $map['idewm']=$id;
-  $map['addtime']= array(between,array($start,$end));
-  $re = M('userrob')->where($map)->count();
-  $re=$re+0;
-  return $re;
-} 
+    $start = strtotime(date('Y-m-d'));
+
+    $end = $start + 86400;
+    $map['idewm'] = $id;
+    $map['addtime'] = array(between, array($start, $end));
+    $re = M('userrob')->where($map)->count();
+    $re = $re + 0;
+    return $re;
+}
 
 function mkdirs($dir, $mode = 0777)
 {
     if (is_dir($dir) || @mkdir($dir, $mode)) return TRUE;
     if (!mkdirs(dirname($dir), $mode)) return FALSE;
     return @mkdir($dir, $mode);
-} 
-
+}
 
 
 //前台分页
 
-function Fgetpage(&$m,$where,$pagesize=10){
-    $m1=clone $m;//浅复制一个模型
+function Fgetpage(&$m, $where, $pagesize = 10)
+{
+    $m1 = clone $m;//浅复制一个模型
     $count = $m->where($where)->count();//连惯操作后会对join等操作进行重置
-    $m=$m1;//为保持在为定的连惯操作，浅复制一个模型
-    $p=new Think\Page($count,$pagesize);
-    $p->lastSuffix=false;
-    $p->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-    $p->setConfig('prev','上一页');
-    $p->setConfig('next','下一页');
-    $p->setConfig('last','末页');
-    $p->setConfig('first','首页');
+    $m = $m1;//为保持在为定的连惯操作，浅复制一个模型
+    $p = new Think\Page($count, $pagesize);
+    $p->lastSuffix = false;
+    $p->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+    $p->setConfig('prev', '上一页');
+    $p->setConfig('next', '下一页');
+    $p->setConfig('last', '末页');
+    $p->setConfig('first', '首页');
 
-    $p->parameter=I('get.');
+    $p->parameter = I('get.');
 
-    $m->limit($p->firstRow,$p->listRows);
+    $m->limit($p->firstRow, $p->listRows);
 
     return $p;
 }
@@ -440,9 +488,8 @@ function build_wallet_add()
     // 密码字符集，可任意添加你需要的字符
     $chars = 'abcdefghijklmuvwxyzABCDNOPQRSTUVWXYZ0123456';
     $password = "";
-    for ( $i = 0; $i < 34; $i++ )
-    {
-        $password .= $chars[ mt_rand(0, strlen($chars) - 1) ];
+    for ($i = 0; $i < 34; $i++) {
+        $password .= $chars[mt_rand(0, strlen($chars) - 1)];
     }
     //检测是否存在
     $db = M('user', 'ysk_');
@@ -452,11 +499,12 @@ function build_wallet_add()
 }
 
 /**
-* 验证手机号是否正确
-* @author 陶
-* @param $mobile
-*/
-function isMobile($mobile) {
+ * 验证手机号是否正确
+ * @param $mobile
+ * @author 陶
+ */
+function isMobile($mobile)
+{
     if (!is_numeric($mobile)) {
         return false;
     }
@@ -473,46 +521,44 @@ function user_login()
     return D('Home/user')->user_login();
 }
 
-function get_userid(){
-	$userid =session('userid');
-	return $userid;
+function get_userid()
+{
+    $userid = session('userid');
+    return $userid;
 }
 
 
+function AddUserLevel($uid)
+{
+    $where['uid'] = $uid;
+    //直推人数
+    $table = M('user_level');
+    $info = $table->where($where)->field('children_num,land_num,user_level')->find();
+    $children_count = $info['children_num'];
+    $land_count = $info['land_num'];
 
-
-
-
-function AddUserLevel($uid){
-  $where['uid']=$uid;
-  //直推人数
-  $table=M('user_level');
-  $info=$table->where($where)->field('children_num,land_num,user_level')->find();
-  $children_count=$info['children_num'];
-  $land_count=$info['land_num'];
-
-  if($land_count>=1){
-    $level=1;
-  }
-  if($land_count>=10 && $children_count>=10){
-    $level=2;
-  }
-  if($land_count>=15 && $children_count>=20){
-    $level=3;
-  }
-  if($land_count>=15 && $children_count>=30){
-    $level=4;
-  }
-  if($land_count>=15 && $children_count>=40){
-    $level=5;
-  }
-  if($land_count>=15 && $children_count>=60){
-    $level=5;
-  }
-  //低等级才修改
-  if($level && $info['user_level']<$level){
-    $table->where($where)->setField('user_level',$level);
-  }
+    if ($land_count >= 1) {
+        $level = 1;
+    }
+    if ($land_count >= 10 && $children_count >= 10) {
+        $level = 2;
+    }
+    if ($land_count >= 15 && $children_count >= 20) {
+        $level = 3;
+    }
+    if ($land_count >= 15 && $children_count >= 30) {
+        $level = 4;
+    }
+    if ($land_count >= 15 && $children_count >= 40) {
+        $level = 5;
+    }
+    if ($land_count >= 15 && $children_count >= 60) {
+        $level = 5;
+    }
+    //低等级才修改
+    if ($level && $info['user_level'] < $level) {
+        $table->where($where)->setField('user_level', $level);
+    }
 
 }
 
@@ -520,81 +566,70 @@ function AddUserLevel($uid){
 /**
  * [SearchDate 获取上周的还是时间和结束时间]
  */
-function SearchDate(){
-        $date=date('Y-m-d');  //当前日期
-        $first=1; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
-        $w=date('w',strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
-        $now_start=date('Y-m-d',strtotime("$date -".($w ? $w - $first : 6).' days')); //获取本周开始日期，如果$w是0，则表示周日，减去 6 天
-        $last_start=strtotime("$now_start - 7 days");  //上周开始时间
-        $last_end=strtotime("$now_start - 1 days");  //上周结束时间
-        //获取上周起始日期
-        $arr['week_start'] = $last_start;
-        $arr['week_end'] = strtotime($now_start);//本周开始时间,即上周最后时间
-        return $arr;
+function SearchDate()
+{
+    $date = date('Y-m-d');  //当前日期
+    $first = 1; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
+    $w = date('w', strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
+    $now_start = date('Y-m-d', strtotime("$date -" . ($w ? $w - $first : 6) . ' days')); //获取本周开始日期，如果$w是0，则表示周日，减去 6 天
+    $last_start = strtotime("$now_start - 7 days");  //上周开始时间
+    $last_end = strtotime("$now_start - 1 days");  //上周结束时间
+    //获取上周起始日期
+    $arr['week_start'] = $last_start;
+    $arr['week_end'] = strtotime($now_start);//本周开始时间,即上周最后时间
+    return $arr;
 }
 
-function img_uploading($path_old=null)
-{    
-    $images_path='./Uploads/';   
+function img_uploading($path_old = null)
+{
+    $images_path = './Uploads/';
     if (!is_dir($images_path)) {
         mkdir($images_path);
     }
 
-        $upload             = new \Think\Upload();// 实例化上传类    
-        $upload->maxSize    =     3145728 ;// 设置附件上传大小    
-        $upload->exts       =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型    
-        $upload->rootPath   =      $images_path; // 设置上传根目录    // 上传文件     
-        $upload->savePath   =      ''; // 设置上传子目录    // 上传文件     
-        $info               =   $upload->upload();
-        dump($info);echo 132;exit;
-            if(!$info)
-            {// 上传错误提示错误信息
-                $res['status']=0;        
-                $res['res']=$upload->getError();
-            }
-            else
-            {// 上传成功 
-                foreach($info as $file){ 
-                       $img_path = $file['savepath'].$file['savename'];
-                }
-                //上传成功后删除原来的图片
-                if($path_old && $img_path)
-                {
-                    unlink('.'.$path_old);
-                   // echo '删除成功';
-                }
-                $res['status']=1;
-                $res['res']='/Uploads/'.$img_path;
-            }
-        return $res;
+    $upload = new \Think\Upload();// 实例化上传类
+    $upload->maxSize = 3145728;// 设置附件上传大小
+    $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+    $upload->rootPath = $images_path; // 设置上传根目录    // 上传文件
+    $upload->savePath = ''; // 设置上传子目录    // 上传文件
+    $info = $upload->upload();
+    dump($info);
+    echo 132;
+    exit;
+    if (!$info) {// 上传错误提示错误信息
+        $res['status'] = 0;
+        $res['res'] = $upload->getError();
+    } else {// 上传成功
+        foreach ($info as $file) {
+            $img_path = $file['savepath'] . $file['savename'];
+        }
+        //上传成功后删除原来的图片
+        if ($path_old && $img_path) {
+            unlink('.' . $path_old);
+            // echo '删除成功';
+        }
+        $res['status'] = 1;
+        $res['res'] = '/Uploads/' . $img_path;
+    }
+    return $res;
 }
 
 
-
-
-
-function getCode() {
-    return  rand(100000,999999);
+function getCode()
+{
+    return rand(100000, 999999);
 }
 
-function check_code($value,$send_email){
-    $time=session('set_time');
-    $email=session('user_email');
-    $code=session('sms_code');
-    if(time() - $time > 600 ||  $code !=  $value  || $code == '' || $email != $send_email ){
-       return false;
+function check_code($value, $send_email)
+{
+    $time = session('set_time');
+    $email = session('user_email');
+    $code = session('sms_code');
+    if (time() - $time > 600 || $code != $value || $code == '' || $email != $send_email) {
+        return false;
     }
     return true;
 }
-
-
-
-
-
-
-
-
-
 
 
 //验证短信验证码
@@ -612,65 +647,68 @@ function check_sms($code, $mobile)
 }
 
 
-function curlPost($url,$postFields){
+function curlPost($url, $postFields)
+{
     $postFields = json_encode($postFields);
-    $ch = curl_init ();
-    curl_setopt( $ch, CURLOPT_URL, $url );
-    curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json; charset=utf-8'
         )
     );
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-    curl_setopt( $ch, CURLOPT_POST, 1 );
-    curl_setopt( $ch, CURLOPT_POSTFIELDS, $postFields);
-    curl_setopt( $ch, CURLOPT_TIMEOUT,10);
-    curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0);
-    $ret = curl_exec ( $ch );
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    $ret = curl_exec($ch);
     if (false == $ret) {
-        $result = curl_error(  $ch);
+        $result = curl_error($ch);
     } else {
-        $rsp = curl_getinfo( $ch, CURLINFO_HTTP_CODE);
+        $rsp = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (200 != $rsp) {
-            $result = "请求状态 ". $rsp . " " . curl_error($ch);
+            $result = "请求状态 " . $rsp . " " . curl_error($ch);
         } else {
             $result = $ret;
         }
     }
-    curl_close ( $ch );
+    curl_close($ch);
     return $result;
 }
 
 
+function add_seed($num, $uid)
+{
 
-function add_seed($num,$uid){
+    $table = M('user_seed');
+    $where['uid'] = $uid;
+    $count = $table->where($where)->count(1);
+    if ($count == 0) {
+        $data['uid'] = $uid;
+        $data['zhongzi_num'] = $num;
+        return $table->where($where)->add($data);
+    }
 
-   $table=M('user_seed');
-   $where['uid']=$uid;
-   $count=$table->where($where)->count(1);
-   if($count==0){
-      $data['uid']=$uid;
-      $data['zhongzi_num']=$num;
-      return $table->where($where)->add($data);
-   }
-
-  return $table->where($where)->setInc('zhongzi_num',$num);
+    return $table->where($where)->setInc('zhongzi_num', $num);
 }
 
 //获取当前用户的父级
-function parent_account(){
-    $userid=session('userid');
-    $user=D('User');
-    $pid=$user->where(array('userid'=>$userid))->getField('pid');
-    $account=$user->where(array('userid'=>$pid))->getField('account');
-    if($account)
+function parent_account()
+{
+    $userid = session('userid');
+    $user = D('User');
+    $pid = $user->where(array('userid' => $userid))->getField('pid');
+    $account = $user->where(array('userid' => $pid))->getField('account');
+    if ($account)
         return $account;
     else
         return '无';
 }
 
 //数字只显示两位
-function Showtwo($nums){
-    $nums = floor($nums*100)/100;
+function Showtwo($nums)
+{
+    $nums = floor($nums * 100) / 100;
     return $nums;
 }
