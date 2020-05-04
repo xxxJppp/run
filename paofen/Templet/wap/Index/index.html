@@ -207,9 +207,7 @@
                         <div class="bgcontent">
                             <?php  $total=1; ?>
                             <foreach name='list' item='v'>
-                                <?php  $total++; $image = ['shou.png', 'qiang.png','bao.png', 'shou.png', 'ti.png', 'lushui.png'];
-                                  $titleList = ['收款码','抢单','保证金','收单','提现','流水明细'];
-                                ?>
+                                <?php  $total++; $image = ['shou.png', 'qiang.png','bao.png', 'shou.png', 'ti.png', 'lushui.png'];?>
                                 <div
                                     class="bgcontent-cell bgcontent-cell-<?php if(ceil($total/2)%2==1){ ?>huang<?php }else{?>nan<?php } ?>  bgcontent-cell-<?php if(($key+1)%2 == 1){ ?>left<?php }else{?>right<?php } ?>">
                                     <a href="<?php echo U('Index/news',array('id'=>$v['id']));?>">
@@ -221,7 +219,7 @@
                                     </a>
                                     <div
                                         class="bgcontent-title-<?php if(($key+1)%2 == 1){ ?>left<?php }else{?>right<?php } ?> bgcontent-title-<?php if(ceil($total/2)%2==1){ ?>huang<?php }else{?>nan<?php } ?> ">
-                                        <?php echo $titleList[$key];?></div>
+                                        {$v.title}</div>
                                 </div>
                             </foreach>
 =======
