@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2020-05-05 18:43:14
+Date: 2020-05-05 20:07:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -565,11 +565,11 @@ CREATE TABLE `ysk_roborder` (
   `price` float(10,2) NOT NULL COMMENT '收款金额',
   `addtime` varchar(225) NOT NULL COMMENT '添加时间',
   `status` int(2) NOT NULL COMMENT '订单状态',
-  `uid` int(11) NOT NULL COMMENT '匹配用户ID',
-  `uname` varchar(225) NOT NULL COMMENT '匹配用户名称',
-  `umoney` float(10,2) NOT NULL COMMENT '匹配用户余额',
-  `pipeitime` varchar(225) NOT NULL COMMENT '匹配时间',
-  `finishtime` varchar(225) NOT NULL COMMENT '完成时间',
+  `uid` int(11) DEFAULT NULL COMMENT '匹配用户ID',
+  `uname` varchar(225) DEFAULT NULL COMMENT '匹配用户名称',
+  `umoney` float(10,2) DEFAULT NULL COMMENT '匹配用户余额',
+  `pipeitime` varchar(225) DEFAULT NULL COMMENT '匹配时间',
+  `finishtime` varchar(225) DEFAULT NULL COMMENT '完成时间',
   `ordernum` varchar(225) NOT NULL COMMENT '订单号',
   `class2` int(11) DEFAULT NULL,
   `ip` varchar(255) DEFAULT NULL,
@@ -583,7 +583,7 @@ CREATE TABLE `ysk_roborder` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `class` (`class`,`price`,`addtime`) USING BTREE,
   KEY `status` (`status`,`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=441 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
+) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
 
 -- ----------------------------
 -- Records of ysk_roborder
@@ -766,7 +766,7 @@ INSERT INTO `ysk_roborder` VALUES ('432', '133', '1', '500.00', '1588572609', '4
 INSERT INTO `ysk_roborder` VALUES ('433', '133', '1', '500.00', '1588572683', '4', '21', '13033556688', '7095.90', '1588572692', '', 'E15885726800009875', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('435', '135', '2', '500.00', '1588576037', '3', '21', '谢', '6095.90', '1588582588', '', 'E15885760340003835', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
 INSERT INTO `ysk_roborder` VALUES ('438', '133', '1', '500.00', '1588663680', '4', '21', '13033556688', '6101.40', '1588663713', '', 'E15886636750008328', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('440', '133', '1', '500.00', '1588675294', '2', '21', '13033556688', '5601.40', '1588675321', '', 'E15886752920004397', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('440', '133', '1', '500.00', '1588675294', '4', '21', '13033556688', '5601.40', '1588675321', '', 'E15886752920004397', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
 
 -- ----------------------------
 -- Table structure for ysk_skm
@@ -1821,7 +1821,7 @@ INSERT INTO `ysk_userrob` VALUES ('188', '21', '1', '500.00', '0.00', '7595.90',
 INSERT INTO `ysk_userrob` VALUES ('189', '21', '1', '500.00', '0.00', '7095.90', '13888888888', '13033556688', '433', '4', '1588572692', '1588572692', '', 'N102447533684', 'E15885726800009875', '500.00', '133', '2', '/Public/attached/2020/05/05/5eb13b762c69b.png');
 INSERT INTO `ysk_userrob` VALUES ('190', '21', '2', '500.00', '0.00', '6595.90', '13888888888', '13033556688', '435', '3', '1588576044', '1588576044', '1588582588', 'N905718833116', 'E15885760340003835', '500.00', '135', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('191', '21', '1', '500.00', '0.00', '6101.40', '13888888888', '13033556688', '438', '4', '1588663713', '1588663713', '', 'N428623147029', 'E15886636750008328', '500.00', '133', '0', null);
-INSERT INTO `ysk_userrob` VALUES ('192', '21', '1', '500.00', '0.00', '5601.40', '13888888888', '13033556688', '440', '2', '1588675321', '1588675321', '', 'N268956948482', 'E15886752920004397', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('192', '21', '1', '500.00', '0.00', '5601.40', '13888888888', '13033556688', '440', '4', '1588675321', '1588675321', '', 'N268956948482', 'E15886752920004397', '500.00', '133', '0', null);
 
 -- ----------------------------
 -- Table structure for ysk_withdraw
