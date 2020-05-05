@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2020-05-05 20:07:43
+Date: 2020-05-05 20:10:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1635,7 +1635,7 @@ CREATE TABLE `ysk_userrob` (
   `status` int(2) NOT NULL COMMENT '状态1等2匹配中3成功',
   `addtime` varchar(225) NOT NULL COMMENT '添加时间',
   `pipeitime` int(10) NOT NULL COMMENT '匹配成功时间',
-  `finishtime` varchar(225) NOT NULL COMMENT '交易完成时间',
+  `finishtime` varchar(225) DEFAULT NULL COMMENT '交易完成时间',
   `ordernum` varchar(225) NOT NULL COMMENT '订单号',
   `pay_sn` varchar(255) DEFAULT NULL COMMENT '充值编号',
   `pay_money` varchar(255) DEFAULT NULL,
