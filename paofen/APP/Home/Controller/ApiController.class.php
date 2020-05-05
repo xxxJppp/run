@@ -22,7 +22,6 @@ class ApiController extends Controller
             $ret['msg'] = 'error';
             echo json_encode($ret);exit;
         }
-
         $Crypt = new Crypt();
         $key = $Crypt->decrypt($seretKey,C('USER_KEY'));
         $key = explode('_',$key);
@@ -112,7 +111,7 @@ class ApiController extends Controller
 //商户余额增加
             $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
 
-            $shanghuxx = M('agent')->where(array('names' => shanghu['shanghu_name']))->find();//完成
+            $shanghuxx = M('merchant')->where(array('names' => shanghu['shanghu_name']))->find();//完成
             if ($olist['class'] == 1) {
 
                 $shdz = $m - ($m * $shanghuxx['wx'] / 100);
@@ -126,7 +125,7 @@ class ApiController extends Controller
 
 
             $shye['money'] = $shanghuxx['money'] + $shdz;
-            $pipei_re = M('agent')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
+            $pipei_re = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
 
             //总收益
             $newss = $ulist['zsy'] + $yj;

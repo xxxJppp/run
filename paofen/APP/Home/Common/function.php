@@ -1,105 +1,84 @@
 <?php
 
 //返回星期状态，星期一至星期五返回1，否则返回2
-function re_week()
-{
-    $da = @date("w");
-    switch ($da) {
-        case 1 :
-            return 1;
-            break;
-        case 2 :
-            return 1;
-            break;
-        case 3 :
-            return 1;
-            break;
-        case 4 :
-            return 1;
-            break;
-        case 5 :
-            return 1;
-            break;
-        case 6 :
-            return 2;
-            break;
-        case 0 :
-            return 2;
-            break;
-        default :
-            return 2;
-    };
+
+
+function re_week(){	
+	$da = @date("w");
+	switch( $da ){ 
+		case 1 : return 1;break; 
+		case 2 : return 1;break; 
+		case 3 : return 1;break; 
+		case 4 : return 1;break; 
+		case 5 : return 1;break; 
+		case 6 : return 2;break; 
+		case 0 : return 2;break; 
+		default : return 2; 
+	}; 
 }
-
-function getst($n)
-{
-
-    if ($n == 1) {
-        return '待处理';
-    } elseif ($n == 2) {
-        return '已退回';
-    } elseif ($n == 3) {
-        return '已完成';
-    }
-
-
+function getst($n){
+	
+	if($n==1){
+		return  '待处理';
+	}elseif($n==2){
+		return  '已退回';
+	}elseif($n==3){
+		return  '已完成';
+	}
+	
+	
 }
-
-function msubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = false)
-{
-    if (function_exists("mb_substr")) {
-        if ($suffix)
-            return mb_substr($str, $start, $length, $charset) . "...";
-        else
-            return mb_substr($str, $start, $length, $charset);
-    } elseif (function_exists('iconv_substr')) {
-        if ($suffix)
-            return iconv_substr($str, $start, $length, $charset) . "...";
-        else
-            return iconv_substr($str, $start, $length, $charset);
-    }
-    $re['utf-8'] = "/[x01-x7f]|[xc2-xdf][x80-xbf]|[xe0-xef][x80-xbf]{2}|[xf0-xff][x80-xbf]{3}/";
-    $re['gb2312'] = "/[x01-x7f]|[xb0-xf7][xa0-xfe]/";
-    $re['gbk'] = "/[x01-x7f]|[x81-xfe][x40-xfe]/";
-    $re['big5'] = "/[x01-x7f]|[x81-xfe]([x40-x7e]|xa1-xfe])/";
-    preg_match_all($re[$charset], $str, $match);
-    $slice = join("", array_slice($match[0], $start, $length));
-    if ($suffix) return $slice . "…";
-    return $slice;
+function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=false){
+ if(function_exists("mb_substr")){
+ if($suffix)
+ return mb_substr($str, $start, $length, $charset)."...";
+ else
+ return mb_substr($str, $start, $length, $charset);
+ }elseif(function_exists('iconv_substr')) {
+ if($suffix)
+ return iconv_substr($str,$start,$length,$charset)."...";
+ else
+ return iconv_substr($str,$start,$length,$charset);
+ }
+ $re['utf-8'] = "/[x01-x7f]|[xc2-xdf][x80-xbf]|[xe0-xef][x80-xbf]{2}|[xf0-xff][x80-xbf]{3}/";
+ $re['gb2312'] = "/[x01-x7f]|[xb0-xf7][xa0-xfe]/";
+ $re['gbk'] = "/[x01-x7f]|[x81-xfe][x40-xfe]/";
+ $re['big5'] = "/[x01-x7f]|[x81-xfe]([x40-x7e]|xa1-xfe])/";
+ preg_match_all($re[$charset], $str, $match);
+ $slice = join("",array_slice($match[0], $start, $length));
+ if($suffix) return $slice."…";
+ return $slice;
 }
-
-function sguol($str)
-{
-    $dd = htmlspecialchars_decode($str);
-    $dd = preg_replace("/<(.*?)>/", "", $dd);
-    $dd = msubstr($dd, 0, 20);
-    return $dd;
+function sguol($str){
+$dd= htmlspecialchars_decode($str); 
+$dd= preg_replace("/<(.*?)>/","",$dd); 
+$dd=msubstr($dd,0,20);
+return $dd;
 }
+function zhifuchenggongtz($id) 
+{ 
+$olist = M('userrob')->where(array('id'=>$id))->find();
+$amount=$olist['pay_money'];
+$class=$olist['class'];
+$orderid=$olist['pay_sn'];
+$pid = $olist['ppid'];
 
-function zhifuchenggongtz($id)
-{
-    $olist = M('userrob')->where(array('id' => $id))->find();
-    $amount = $olist['pay_money'];
-    $class = $olist['class'];
-    $orderid = $olist['pay_sn'];
-    $pid = $olist['ppid'];
-
-    $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
-    $shanghuxx = M('agent')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
-    $shid = $shanghuxx['names'];
-    $shkey = $shanghuxx['key'];
-    $shkey = md5(md5($shkey) . $shid);
-    $status = "1";
-    $data = array('amount' => $amount, 'class' => $class, 'orderid' => $orderid, 'shid' => $shid, 'shkey' => $shkey, 'status' => $status);
-    $xx = 'http://' . $shanghuxx['url'];
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $xx);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
-    $response = curl_exec($ch);
+$shanghu = M('roborder')->where(array('id'=>$pid))->find();//完成
+ $shanghuxx = M('merchant')->where(array('names'=>$shanghu['shanghu_name']))->find();//完成
+$shid=$shanghuxx['names'];
+$shkey=$shanghuxx['key'];
+$shkey=md5(md5($shkey).$shid);
+$status="1";
+$data = array('amount' => $amount, 'class' =>$class,'orderid'=>$orderid,'shid'=>$shid,'shkey'=>$shkey,'status'=>$status);
+$xx = 'http://'.$shanghuxx['url'];
+ 
+$ch = curl_init(); 
+curl_setopt($ch, CURLOPT_URL, $xx);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)");
+$response = curl_exec($ch);
 //if(curl_errno($ch)){
     //   print curl_error($ch);
 //}

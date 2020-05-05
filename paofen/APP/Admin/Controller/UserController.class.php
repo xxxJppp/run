@@ -705,11 +705,11 @@ class UserController extends AdminController
         $da['zt'] = 2;
         M('tixian')->where(array('id' => $id))->save($da);
 
-        $ulist = M('agent')->where(array('id' => $info['shanghu_id']))->find();
+        $ulist = M('merchant')->where(array('id' => $info['shanghu_id']))->find();
 
         $d['money'] = $ulist['money'] + $info['money'];
 
-        M('agent')->where(array('id' => $info['shanghu_id']))->save($d);
+        M('merchant')->where(array('id' => $info['shanghu_id']))->save($d);
 
         $this->success('异常退回处理成功，提现金额已返还到商户余额');
     }
@@ -742,7 +742,7 @@ class UserController extends AdminController
             $sjm = trim(I('post.sjm'));
             $name = $data['username'];
             $id = trim(I('post.id'));
-            $list = M('agent')->where(array('names' => $name))->find();
+            $list = M('merchant')->where(array('names' => $name))->find();
             if (!empty($list) && $list['id'] != $id) {
                 $this->error('修改商户失败,商户名已经存在');
             }
@@ -769,7 +769,7 @@ class UserController extends AdminController
             $datas['zfb'] = $zfb;
             $datas['sjm'] = $sjm;
 
-            $re = M('agent')->where(array('id' => $id))->save($datas);
+            $re = M('merchant')->where(array('id' => $id))->save($datas);
 
 
             if ($re) {
@@ -783,7 +783,7 @@ class UserController extends AdminController
 
         } else {
             $id = trim(I('get.userid'));
-            $list = M('agent')->where(array('id' => $id))->find();
+            $list = M('merchant')->where(array('id' => $id))->find();
             $this->assign('info', $list);
             $this->display();
         }
@@ -810,7 +810,7 @@ class UserController extends AdminController
 
             $name = $data['username'];
 
-            $list = M('agent')->where(array('names' => $name))->find();
+            $list = M('merchant')->where(array('names' => $name))->find();
 
 
             if (!empty($list)) {
@@ -830,7 +830,7 @@ class UserController extends AdminController
             $datas['sjm'] = $sjm;
 
 
-            $re = M('agent')->add($datas);
+            $re = M('merchant')->add($datas);
             if ($re) {
 
                 $this->success('增加商户成功');
@@ -1020,7 +1020,7 @@ class UserController extends AdminController
     public function sdel()
     {
         $userid = trim(I('get.userid'));
-        //M('agent')->where(array('id'=>$userid))->delete();
+        //M('merchant')->where(array('id'=>$userid))->delete();
         //$this->success('商家删除成功');
         $this->success('演示站禁止删除商户');
     }

@@ -139,7 +139,7 @@ class RoborderController extends AdminController
             $pipei_re = M('roborder')->where(array('id' => $pid))->save($psave);//完成
 //商户余额增加
             $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
-            $shanghuxx = M('agent')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
+            $shanghuxx = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
             if ($olist['class'] == 1) {
 
                 $shdz = $m - ($m * $shanghuxx['wx'] / 100);
@@ -159,7 +159,7 @@ class RoborderController extends AdminController
 
 
             $shye['money'] = $shanghuxx['money'] + $shdz;
-            $pipei_re = M('agent')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
+            $pipei_re = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
 
 
             //总收益
@@ -791,7 +791,7 @@ class RoborderController extends AdminController
             $pipei_re = M('roborder')->where(array('id' => $pid))->save($psave);//完成
 //商户余额增加
             $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
-            $shanghuxx = M('agent')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
+            $shanghuxx = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
             if ($olist['class'] == 1) {
 
                 $shdz = $m - ($m * $shanghuxx['wx'] / 100);
@@ -811,7 +811,7 @@ class RoborderController extends AdminController
 
 
             $shye['money'] = $shanghuxx['money'] + $shdz;
-            $pipei_re = M('agent')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
+            $pipei_re = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
 
 
             //总收益

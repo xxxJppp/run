@@ -3,13 +3,13 @@ define('ACC',TRUE);
 include('./sys/init.php');
 /*$user=$_SESSION['admin_name'];
  //  $key=$_REQUEST["key"];
-$agent_info = $mysql->select('ysk_agent','*','names = '."'$user'");
+$agent_info = $mysql->select('ysk_merchant','*','names = '."'$user'");
    $pwd = $_REQUEST['pwd'];
    $money = $_REQUEST['money'];
 
 
 
-   $sql = "update  ysk_agent set money = money-'$money' where id=".$agent_info['id'];
+   $sql = "update  ysk_merchant set money = money-'$money' where id=".$agent_info['id'];
 
    $d=$mysql->query($sql);*/
   
