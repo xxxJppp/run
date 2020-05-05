@@ -15,7 +15,7 @@ class RoborderController extends AdminController
     public function index()
     {
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
 
         $map['id'] = array('gt', 0);
         if (I('get.mobile')) {
@@ -79,189 +79,180 @@ class RoborderController extends AdminController
             $Model = M();
             $Model->startTrans();
             $id = I('post.id');
+            $status = I('post.status');
             $olist = M('userrob')->where(array('id' => $id))->find();
-            $userid = $olist['uid'];
-            $ulist = M('user')->where(array('userid' => $userid))->find();
+            if ($status == 0) {
+                $userid = $olist['uid'];
+                $ulist = M('user')->where(array('userid' => $userid))->find();
 
 
-            //$ewmlist = M('ewm')->where(array('uid'=>$userid,'ewm_price'=>$olist['price'],'ewm_class'=>$olist['class'],'zt'=>1))->find();
+                //$ewmlist = M('ewm')->where(array('uid'=>$userid,'ewm_price'=>$olist['price'],'ewm_class'=>$olist['class'],'zt'=>1))->find();
 
-            if ($olist['status'] != 4) {
+                if ($olist['status'] != 4) {
 
-                $this->error('已经补单');
-            }
-
-            $sxf = M('system')->where(array('id' => 1))->find();
-            $wx = $sxf['wxb'];
-            $zfb = $sxf['zfbb'];
-            $yl = $sxf['ylb'];
-
-            $m = $olist['pay_money'];  //确认充值的金额//
-            if ($olist['class'] == 1) {
-
-                $yj = ($m * $wx / 100);
-
-                $ms = $m;
-
-            } else if ($olist['class'] == 2) {
-
-                $yj = ($m * $zfb / 100);
-
-                $ms = $m;
-
-            } else if ($olist['class'] == 3) {
-
-                $yj = ($m * $yl / 100);
-
-                $ms = $m;
-            }
-
-
-            $psaves['status'] = 3;
-
-            $psaves['finishtime'] = time();
-            M('userrob')->where(array('id' => $id))->save($psaves);  //完成
-
-
-            $ewmzt1['zt1'] = 0;
-            //$ewmzt1['cgsk']=array('exp','cgsk+1');
-            $ewmzt1['gengxintime'] = time();
-            M('ewm')->where(array('id' => $olist['idewm']))->save($ewmzt1);
-
-
-            $pid = $olist['ppid'];
-            $psave['uid'] = $userid;
-            $psave['uname'] = $ulist['truename'];
-            $psave['umoney'] = $ulist['money'];
-            $psave['pipeitime'] = time();
-            $psave['status'] = 3;
-
-            $pipei_re = M('roborder')->where(array('id' => $pid))->save($psave);//完成
-//商户余额增加
-            $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
-            $shanghuxx = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
-            if ($olist['class'] == 1) {
-
-                $shdz = $m - ($m * $shanghuxx['wx'] / 100);
-
-
-            } else if ($olist['class'] == 2) {
-
-                $shdz = $m - ($m * $shanghuxx['zfb'] / 100);
-
-
-            } else if ($olist['class'] == 3) {
-
-                $shdz = $m - ($m * $shanghuxx['sjm'] / 100);
-
-
-            }
-
-
-            $shye['money'] = $shanghuxx['money'] + $shdz;
-            $pipei_re = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
-
-
-            //总收益
-            $newss = $ulist['zsy'] + $yj;
-
-            $usss['zsy'] = $newss;
-            $usss['money'] = $ulist['money'] + $yj - $olist['price'];
-            M('user')->where(array('userid' => $userid))->save($usss);//完成
-
-
-            $mxs['uid'] = $userid;
-            $mxs['jl_class'] = 1;
-            $mxs['info'] = '佣金收入+';
-            $mxs['addtime'] = time();
-            $mxs['jc_class'] = '+';
-            $mxs['num'] = $yj;
-
-
-            $up_re = M('somebill')->add($mxs);
-
-
-            $mxss['uid'] = $userid;
-            $mxss['jl_class'] = 6;
-            $mxss['info'] = '充值' . $m . '确认-';
-            $mxss['addtime'] = time();
-            $mxss['jc_class'] = '-';
-            $mxss['num'] = $m;
-
-
-            $up_re = M('somebill')->add($mxss);
-
-
-            M('dj')->where(array('ppid' => $pid))->delete();
-
-
-            //////////////////////////////
-            ///
-            ///
-
-            $clist = M('system')->where(array('id' => 1))->find();
-            $oneuser = M('user')->where(array('userid' => $ulist['pid']))->find();//上一代
-
-            //一代佣金奖励
-            if (!empty($oneuser)) {
-
-                $oneyj_money = $yj * $clist['team_oneyj']; //上一代佣金
-
-                $puser_inc_re = M('user')->where(array('userid' => $ulist['pid']))->setInc('money', $oneyj_money);
-
-                if ($puser_inc_re) {
-                    $puser_bill['uid'] = $oneuser['userid'];
-                    $puser_bill['jl_class'] = 1; //佣金类型
-                    $puser_bill['info'] = '直推抢单成功佣金';
-                    $puser_bill['addtime'] = time();
-                    $puser_bill['jc_class'] = '+';
-                    $puser_bill['num'] = $oneyj_money;
-                    M('somebill')->add($puser_bill);
+                    $this->error('已经补单');
                 }
 
-                $twouser = M('user')->where(array('userid' => $oneuser['pid']))->find();//上二代
+                $sxf = M('system')->where(array('id' => 1))->find();
+                $wx = $sxf['wxb'];
+                $zfb = $sxf['zfbb'];
+                $yl = $sxf['ylb'];
 
-                if (!empty($twouser)) {
+                $m = $olist['pay_money'];  //确认充值的金额//
+                if ($olist['class'] == 1) {
 
-                    $twoyj_money = $yj * $clist['team_twoyj']; //二代佣金
-                    $twouser_inc_re = M('user')->where(array('userid' => $oneuser['pid']))->setInc('money', $twoyj_money);
-                    if ($twouser_inc_re) {
-                        $twouser_bill['uid'] = $twouser['userid'];
-                        $twouser_bill['jl_class'] = 1; //佣金类型
-                        $twouser_bill['info'] = '二代抢单成功佣金';
-                        $twouser_bill['addtime'] = time();
-                        $twouser_bill['jc_class'] = '+';
-                        $twouser_bill['num'] = $twoyj_money;
-                        M('somebill')->add($twouser_bill);
+                    $yj = ($m * $wx / 100);
+
+                    $ms = $m;
+
+                } else if ($olist['class'] == 2) {
+
+                    $yj = ($m * $zfb / 100);
+
+                    $ms = $m;
+
+                } else if ($olist['class'] == 3) {
+
+                    $yj = ($m * $yl / 100);
+
+                    $ms = $m;
+                }
+
+
+                $psaves['status'] = 3;
+
+                $psaves['finishtime'] = time();
+                M('userrob')->where(array('id' => $id))->save($psaves);  //完成
+
+
+                $ewmzt1['zt1'] = 0;
+                //$ewmzt1['cgsk']=array('exp','cgsk+1');
+                $ewmzt1['gengxintime'] = time();
+                M('ewm')->where(array('id' => $olist['idewm']))->save($ewmzt1);
+
+
+                $pid = $olist['ppid'];
+                $psave['uid'] = $userid;
+                $psave['uname'] = $ulist['truename'];
+                $psave['umoney'] = $ulist['money'];
+                $psave['pipeitime'] = time();
+                $psave['status'] = 3;
+
+                $pipei_re = M('roborder')->where(array('id' => $pid))->save($psave);//完成
+//商户余额增加
+                $shanghu = M('roborder')->where(array('id' => $pid))->find();//完成
+                $shanghuxx = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->find();//完成
+                if ($olist['class'] == 1) {
+
+                    $shdz = $m - ($m * $shanghuxx['wx'] / 100);
+
+
+                } else if ($olist['class'] == 2) {
+
+                    $shdz = $m - ($m * $shanghuxx['zfb'] / 100);
+
+
+                } else if ($olist['class'] == 3) {
+
+                    $shdz = $m - ($m * $shanghuxx['sjm'] / 100);
+
+
+                }
+
+
+                $shye['money'] = $shanghuxx['money'] + $shdz;
+                $pipei_re = M('merchant')->where(array('names' => $shanghu['shanghu_name']))->save($shye);//完成
+
+
+                //总收益
+                $newss = $ulist['zsy'] + $yj;
+
+                $usss['zsy'] = $newss;
+                $usss['money'] = $ulist['money'] + $yj - $olist['price'];
+                M('user')->where(array('userid' => $userid))->save($usss);//完成
+
+
+                $mxs['uid'] = $userid;
+                $mxs['jl_class'] = 1;
+                $mxs['info'] = '佣金收入+';
+                $mxs['addtime'] = time();
+                $mxs['jc_class'] = '+';
+                $mxs['num'] = $yj;
+
+
+                $up_re = M('somebill')->add($mxs);
+
+
+                $mxss['uid'] = $userid;
+                $mxss['jl_class'] = 6;
+                $mxss['info'] = '充值' . $m . '确认-';
+                $mxss['addtime'] = time();
+                $mxss['jc_class'] = '-';
+                $mxss['num'] = $m;
+                $up_re = M('somebill')->add($mxss);
+                M('dj')->where(array('ppid' => $pid))->delete();
+
+                $clist = M('system')->where(array('id' => 1))->find();
+                $oneuser = M('user')->where(array('userid' => $ulist['pid']))->find();//上一代
+
+                //一代佣金奖励
+                if (!empty($oneuser)) {
+
+                    $oneyj_money = $yj * $clist['team_oneyj']; //上一代佣金
+
+                    $puser_inc_re = M('user')->where(array('userid' => $ulist['pid']))->setInc('money', $oneyj_money);
+
+                    if ($puser_inc_re) {
+                        $puser_bill['uid'] = $oneuser['userid'];
+                        $puser_bill['jl_class'] = 1; //佣金类型
+                        $puser_bill['info'] = '直推抢单成功佣金';
+                        $puser_bill['addtime'] = time();
+                        $puser_bill['jc_class'] = '+';
+                        $puser_bill['num'] = $oneyj_money;
+                        M('somebill')->add($puser_bill);
                     }
 
-                    $threeuser = M('user')->where(array('userid' => $twouser['pid']))->find();//上三代
-                    if (!empty($threeuser)) {
-                        $threeyj_money = $yj * $clist['team_threeyj']; //三代佣金
-                        $threeuser_inc_re = M('user')->where(array('userid' => $twouser['pid']))->setInc('money', $threeyj_money);
+                    $twouser = M('user')->where(array('userid' => $oneuser['pid']))->find();//上二代
 
-                        if ($threeuser_inc_re) {
-                            $threeuser_bill['uid'] = $threeuser['userid'];
-                            $threeuser_bill['jl_class'] = 1; //佣金类型
-                            $threeuser_bill['info'] = '三代抢单成功佣金';
-                            $threeuser_bill['addtime'] = time();
-                            $threeuser_bill['jc_class'] = '+';
-                            $threeuser_bill['num'] = $threeyj_money;
-                            M('somebill')->add($threeuser_bill);
+                    if (!empty($twouser)) {
+
+                        $twoyj_money = $yj * $clist['team_twoyj']; //二代佣金
+                        $twouser_inc_re = M('user')->where(array('userid' => $oneuser['pid']))->setInc('money', $twoyj_money);
+                        if ($twouser_inc_re) {
+                            $twouser_bill['uid'] = $twouser['userid'];
+                            $twouser_bill['jl_class'] = 1; //佣金类型
+                            $twouser_bill['info'] = '二代抢单成功佣金';
+                            $twouser_bill['addtime'] = time();
+                            $twouser_bill['jc_class'] = '+';
+                            $twouser_bill['num'] = $twoyj_money;
+                            M('somebill')->add($twouser_bill);
                         }
 
+                        $threeuser = M('user')->where(array('userid' => $twouser['pid']))->find();//上三代
+                        if (!empty($threeuser)) {
+                            $threeyj_money = $yj * $clist['team_threeyj']; //三代佣金
+                            $threeuser_inc_re = M('user')->where(array('userid' => $twouser['pid']))->setInc('money', $threeyj_money);
+
+                            if ($threeuser_inc_re) {
+                                $threeuser_bill['uid'] = $threeuser['userid'];
+                                $threeuser_bill['jl_class'] = 1; //佣金类型
+                                $threeuser_bill['info'] = '三代抢单成功佣金';
+                                $threeuser_bill['addtime'] = time();
+                                $threeuser_bill['jc_class'] = '+';
+                                $threeuser_bill['num'] = $threeyj_money;
+                                M('somebill')->add($threeuser_bill);
+                            }
+
+                        }
                     }
-
-
                 }
+                $Model->commit();
+                //zhifuchenggongtz($id);
+                $this->success('确认成功', U('robsucc2'));
+            } else {
 
 
             }
-
-
-            $Model = M()->commit();
-            //zhifuchenggongtz($id);
-            $this->success('确认成功', U('robsucc2'));
             // $this->success('确认成功');
         }
 
@@ -272,7 +263,7 @@ class RoborderController extends AdminController
     {
 
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
 
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
@@ -338,7 +329,7 @@ class RoborderController extends AdminController
     public function robsucc2()
     {
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
         if (I('get.class')) {
@@ -405,7 +396,7 @@ class RoborderController extends AdminController
     {
 
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
 
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
@@ -475,7 +466,7 @@ class RoborderController extends AdminController
     public function robsucc()
     {
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
         $coinpx = trim(I('get.coinpx'));
 
         $map['id'] = array('gt', 0);
@@ -546,7 +537,7 @@ class RoborderController extends AdminController
     public function ordersucc()
     {
 
-        $fy = I('get.fy',100);
+        $fy = I('get.fy', 100);
         $coinpx = trim(I('get.coinpx'));
         $map['id'] = array('gt', 0);
         if (I('get.class')) {
@@ -1391,11 +1382,11 @@ class RoborderController extends AdminController
 
     public function skyhk()
     {
-        if($_POST) {
+        if ($_POST) {
             $data['cz_yh'] = trim(I('post.cz_yh'));
             $data['cz_xm'] = trim(I('post.cz_xm'));
             $data['cz_kh'] = trim(I('post.cz_kh'));
-            $result = M('system')->where(array('id'=>1))->save($data);
+            $result = M('system')->where(array('id' => 1))->save($data);
             if ($result) {
                 $this->success('修改成功');
                 exit;

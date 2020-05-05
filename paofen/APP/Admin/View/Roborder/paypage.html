@@ -77,8 +77,19 @@
                                                     <img src="<?php echo getewminfo($info['idewm'],3);?>" style="width:15%"/>
                                                 </div>
                                             </div>
-
-             
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">投诉图片：</label>
+                                                <div class="right">
+                                                    <img src="<?php echo $info['tspic'];?>" style="width:15%"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group item_title ">
+                                                <label class="left control-label">投诉处理：</label>
+                                                <div class="right">
+                                                    <input type="radio" name="status" value="1" checked>&nbsp;解冻&nbsp;&nbsp;
+                                                    <input type="radio" name="status" value="0">&nbsp;确认收款
+                                                </div>
+                                            </div>
                                         <div class="form-group"></div>
                                         <div class="form-group bottom_button_list">
 											
