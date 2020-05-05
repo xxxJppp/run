@@ -868,7 +868,7 @@ class UserController extends AdminController
         }
 
 
-        $userobj = M('agent');
+        $userobj = M('merchant');
         $count = $userobj->where($map)->count();
         $p = getpagee($count, 50);
 
