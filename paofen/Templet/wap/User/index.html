@@ -69,7 +69,7 @@
             <span data-v-e8eda342="" style="color: rgb(153, 153, 153);">
              <if condition="$list['agent'] eq 1 ">  代理<else/>会员</if>
             </span></span></div>
-                        <div data-v-e8eda342="" style="color: rgb(89, 89, 89);">账号：{$list.account}</div>
+                        <div data-v-e8eda342="" style="color: rgb(89, 89, 89);">账号：<a style="color: #000" href="{:U('User/info')}">{$list.account}</a></div>
                         <div class="font-13 success-color">
                             <a href="{:U('User/password')}">重置密码</a>
                             <a style="margin-left: 30px" id="checkCode" href="javascript:;">查看二维码</a>

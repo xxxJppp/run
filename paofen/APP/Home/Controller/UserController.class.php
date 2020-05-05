@@ -134,7 +134,17 @@ class UserController extends CommonController
     {
         $uid = session('userid');
 
-        $ulist = M('user')->where(array('userid' => $uid))->find();
+        $ulist = M('user')->field('account')->where(array('userid' => $uid))->find();
+        $this->assign('info', $ulist);
+        $this->display();
+    }
+
+    //个人信息
+    public function info()
+    {
+        $uid = session('userid');
+
+        $ulist = M('user')->field('account,username,mobile')->where(array('userid' => $uid))->find();
         $this->assign('info', $ulist);
         $this->display();
     }
@@ -926,16 +936,19 @@ class UserController extends CommonController
         }
         $png_name = md5($uid . C('USER_KEY'));
         $filename = '/Public/qrcode/' . $png_name . '.png';
+        $content = $uid . '_' . $agent_id['agent'] . '_' . $_SERVER['REQUEST_TIME'];
+        $Crypt = new Crypt();
+        $value = $Crypt->encrypt($content, C('USER_KEY'));
+        $value = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $value;
         if (!is_file($_SERVER['DOCUMENT_ROOT'] . $filename)) {
-            $content = $uid . '_' . $agent_id['agent'] . '_' . $_SERVER['REQUEST_TIME'];
-            $Crypt = new Crypt();
-            $value = $Crypt->encrypt($content, C('USER_KEY'));
             require_cache(APP_PATH . 'Lib/phpqrcode.php');
             //生成二维码图片
-            \QRcode::png($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $value, $_SERVER['DOCUMENT_ROOT'] . $filename, 'L', 5, 2);
+            \QRcode::png($value, $_SERVER['DOCUMENT_ROOT'] . $filename, 'L', 5, 2);
         }
 
-        $this->success($filename, '', true);
+        $this->assign('value',$value);
+        $this->assign('filename',$filename);
+        $this->display();
 
     }
 

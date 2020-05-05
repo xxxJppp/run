@@ -19,6 +19,7 @@ class ApiController extends Controller
         $ret['timestamp'] = time();
         $ret['data'] = null;
         if(!$seretKey){
+            $ret['success'] = 'false';
             $ret['msg'] = 'error';
             echo json_encode($ret);exit;
         }
@@ -27,13 +28,14 @@ class ApiController extends Controller
         $key = explode('_',$key);
 
         if(!isset($key[0])){
-            $ret['msg'] = 'error';
+            $ret['success'] = 'false';
+            $ret['msg'] = '';
             echo json_encode($ret);exit;
         }
         $ulist = M('user')->field('userid')->where(array('userid' => $key[0]))->find();
 
         if(!$ulist){
-            $ret['msg'] = 'error';
+            $ret['msg'] = '';
             echo json_encode($ret);exit;
         }
         echo json_encode($ret);
