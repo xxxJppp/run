@@ -379,7 +379,7 @@ foreach ($listss as $k => $v) {
                         if (n.error == 1) {
                             //alert('尊敬的用户：'+str.name+' 已确认订单号:'+str.time+',充值成功 '+str.price + '元');
                             alert('支付超时，请重新发起订单！');
-                            location.href = 'pay_true.php';
+                            location.href = 'pay_true.php';return;
                             /*
                             layer.alert(msg, {
                                             skin: 'layui-layer-lan'

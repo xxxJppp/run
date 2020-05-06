@@ -252,11 +252,14 @@ class RoborderController extends AdminController
             } else {
                 //$system = M('system')->where(array('id' => 1))->find();
                 $user_order_dj = M('dj')->where(array('ppid'=>$olist['ppid']))->find();
-                M('user')->where(array('userid' => $user_order_dj['uid']))->setInc('money', $user_order_dj['money']);
-                M('dj')->where(array('id' => $user_order_dj['id']))->delete();
-                M('ewm')->where(array('id' => $olist['idewm']))->save(array('zt1' => 0));
-                M('userrob')->where(array('id' => $id))->delete();
+                if($user_order_dj){
+                    M('user')->where(array('userid' => $user_order_dj['uid']))->setInc('money', $user_order_dj['money']);
+                    M('dj')->where(array('id' => $user_order_dj['id']))->delete();
+                    M('ewm')->where(array('id' => $olist['idewm']))->save(array('zt1' => 0));
+                    M('userrob')->where(array('id' => $id))->delete();
                 $Model->commit();
+                }
+
                 $this->success('确认成功', U('robsucc2'));
             }
             // $this->success('确认成功');
