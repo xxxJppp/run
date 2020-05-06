@@ -654,7 +654,7 @@ class IndexController extends CommonController
                 $psave['ts'] = $tszt;
                 $psave['tspic'] = $tspic;
                 M('userrob')->where(array('ordernum' => $tsnum))->save($psave);
-                M('dj')->where(array('ppid' => $slist['ppid']))->delete();////不会自动返保证金
+                //M('dj')->where(array('ppid' => $slist['ppid']))->delete();////不会自动返保证金
                 $data['status'] = 1;
                 $data['message'] = '投诉成功！';
                 $data['url'] = '/Index/shoudan';
