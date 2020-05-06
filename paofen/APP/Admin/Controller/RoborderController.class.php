@@ -255,7 +255,7 @@ class RoborderController extends AdminController
                 if($user_order_dj){
                     $a = M('user')->where(array('userid' => $user_order_dj['uid']))->setInc('money', $user_order_dj['money']);
                     $b = M('dj')->where(array('id' => $user_order_dj['id']))->delete();
-                    $c = ('ewm')->where(array('id' => $olist['idewm']))->save(array('zt1' => 0));
+                    $c = M('ewm')->where(array('id' => $olist['idewm']))->save(array('zt1' => 0));
                     $d = M('userrob')->where(array('id' => $id))->delete();
                     if($a && $b && $c && $d){
                         $Model->commit();
