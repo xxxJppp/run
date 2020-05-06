@@ -58,11 +58,6 @@ class TimingController extends Controller
             $sheng = time() - $a;
             if ($sheng > $system['lose_time']) {
                 if ($v['uid'] != 0) {
-                    $data = array('uid' => $v['uid'], 'money' => $v['price'], 'addtime' => time(), 'ppid' => $v['id']);
-                    $lit = M('dj')->where(array('ppid' => $v['id']))->find();
-                    if (empty($lit)) {
-                        $dj = M('dj')->add($data);
-                    }
                     $order_status = M('roborder')->where(array('id' => $v['id']))->save(array('status' => 4));
                     if ($system['order_num'] > 0) {
                         $user = M('userrob')->where(array('uid' => $v['uid']))->order('addtime desc')->limit($system['order_num'])->select();
