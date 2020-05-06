@@ -309,7 +309,9 @@ foreach ($listss as $k => $v) {
                         </table>
                     </div>
                 </div>
-                <a id="zhifu" style="display: none" href="alipays://">点击支付宝支付</a>
+                <?php if($wxid==2){?>
+                <a id="zhifu" style="display: block" href="alipays://">点击支付宝支付</a>
+                <?php }?>
                 <input type="hidden" id="nyr" value="">
         </div>
     </div>
@@ -321,8 +323,19 @@ foreach ($listss as $k => $v) {
 </script>
 <script src="./demo/js/bootstrap.min.js">
 </script>
+<script src="./js/alipay.js">
+</script>
 <script>
-
+    var scanBtn = document.getElementById('zhifu');
+    //调用支付宝扫一扫
+    scanBtn.onClick = function(){
+        ap.scan(
+            {type:'bar' },//默认qr  可选有bar 条形码  qr 二维码
+            function(res){
+                console.log(res.code); /* 查询到的信息 */
+                //do something...
+            })
+    }
     function clock() {
         var tm = $("#nyr").val();
         console.log(tm);
@@ -379,7 +392,7 @@ foreach ($listss as $k => $v) {
                         if (n.error == 1) {
                             //alert('尊敬的用户：'+str.name+' 已确认订单号:'+str.time+',充值成功 '+str.price + '元');
                             alert('支付超时，请重新发起订单！');
-                            location.href = 'pay_true.php';
+                            location.href = 'pay_true.php';return;
                             /*
                             layer.alert(msg, {
                                             skin: 'layui-layer-lan'
