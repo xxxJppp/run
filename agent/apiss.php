@@ -324,7 +324,7 @@ foreach ($listss as $k => $v) {
 <script src="./demo/js/bootstrap.min.js">
 </script>
 <script>
-    setTimeout(clock, 1000);
+
     function clock() {
         var tm = $("#nyr").val();
         console.log(tm);
@@ -404,7 +404,7 @@ foreach ($listss as $k => $v) {
 <script>
 
     $(document).ready(function () {
-
+        var i = 0;
         var timeoute = false; //启动及关闭按钮
         function dscd() {
             if (timeoute) return;
@@ -424,6 +424,10 @@ foreach ($listss as $k => $v) {
                         $("#lodings").hide();
                         $("#loding").show();
                         $("#je").attr("src", str.msg);
+                        i = i+1;
+                        if(i==1){
+                            setTimeout(clock, 1000);
+                        }
                         $("#nyr").val(str.pipeitime);
                         if (str.qrurl) {
 
