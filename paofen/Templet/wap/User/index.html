@@ -71,9 +71,6 @@
             </span></span></div>
                         <div data-v-e8eda342="" style="color: rgb(89, 89, 89);">账号：<a style="color: #000" href="{:U('User/info')}">{$list.account}</a></div>
                         <div class="font-13 success-color">
-                            <a href="{:U('User/password')}">重置密码</a>
-                            <a class="user-congzhi" href="{:U('User/google')}">绑定谷歌验证码</a>
-                            <a style="margin-left: 30px" id="checkCode" href="javascript:;">查看二维码</a>
                             <if condition="$list['agent'] eq 1 ">
                                 <p style="line-height:0;color: #000;" onclick="copyUrl();">邀请码：{$list.u_yqm}</p>
                                 <span hidden id="txt">{$list.u_yqm}</span>
