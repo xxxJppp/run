@@ -240,7 +240,7 @@ $aaa = 1;
             $.ajax({
                 type: 'POST',
                 url: './jiedan.php?act=select',
-                data: {m: '<?php echo $m;?>', order: "<?=$oid?>", class: "<?=$wxid?>"},
+                data: {m: '<?php echo $m;?>', order: "<?=$oid?>", class: "<?=$wxid?>",key:"<?=$key?>",sh:"<?=$nas?>"},
                 dataType: 'json',
                 success: function (str) {
                     if (str.error == 0) {

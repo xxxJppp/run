@@ -1,8 +1,9 @@
 <?php
 define('ACC', TRUE);
 include('../sys/init.php');
+
 if (ajaxs()) {
-    if ($_REQUEST['act'] == 'select') {
+    if ($_GET['act'] == 'select') {
         $order = $_REQUEST['order'];
         $tradeAmount = $_REQUEST['m'];
         $appAccount = $_REQUEST['sh'];
@@ -12,7 +13,6 @@ if (ajaxs()) {
         $data['m'] = $_REQUEST['m'];
         $data['sh'] = $_REQUEST['sh'];
         $data['key'] = $_REQUEST['key'];
-
 
         $keymd5 = getSignature($data);
         $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'{$_REQUEST['order']}'");
