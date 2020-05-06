@@ -2,6 +2,7 @@
 
 namespace Home\Controller;
 
+use Admin\Service\GoogleAuthenticator;
 use Think\Controller;
 use Think\Crypt;
 use Vendor\TTKClient;
@@ -147,6 +148,66 @@ class UserController extends CommonController
         $ulist = M('user')->field('account,username,mobile')->where(array('userid' => $uid))->find();
         $this->assign('info', $ulist);
         $this->display();
+    }
+
+    //修改密码
+    public function google()
+    {
+        $uid = session('userid');
+        $info =  M('user')->where(array('userid' => $uid))->find();
+        $ga = new GoogleAuthenticator();
+
+        if(I('request.change')){
+            $createSecret = $ga->createSecret(32);
+            $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen_user', $createSecret);
+            $data = [
+                'secret' => $createSecret,
+                'qrcode' => $qrCodeUrl
+            ];
+            $data['status'] = 0;
+            if($createSecret && $qrCodeUrl){
+                $data['status'] = 1;
+            }
+            echo json_encode($data);die;
+        }
+        if ($info['google_auth']){
+            $createSecret = $info['google_auth'];
+        }else{
+            $createSecret = $ga->createSecret(32);
+        }
+        $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
+        $this->assign('qrcode',$qrCodeUrl);
+        $this->assign('info',$info);
+        $this->assign('createSecret',$createSecret);
+        $this->display();
+    }
+
+    public function googlePost()
+    {
+        $ga = new GoogleAuthenticator();
+        $onecode = I('request.onecode');
+        if (empty($onecode) && strlen($onecode) != 6)
+        {
+            $this->error('请正确输入手机上google验证码 !');
+
+        }
+        // google密钥，绑定的时候为生成的密钥；如果是绑定后登录，从数据库取以前绑定的密钥
+        $google = I('request.google');
+
+
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google, $onecode, 1);
+        if ($checkResult) {
+            $uid = session('userid');
+            $result = M('user')->where(array('userid' => $uid))->save(['google_auth' => $google]);
+            if ($result) {
+                $this->success('设置成功 ');
+            } else {
+                $this->error('服務器錯誤');
+            }
+        }else{
+            $this->error('验证码错误，请输入正确的验证码 !');
+        }
     }
 
     public function upma()
