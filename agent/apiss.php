@@ -93,6 +93,8 @@ foreach ($listss as $k => $v) {
         收银台
     </title>
     <link rel="stylesheet" href="./demo/css/bootstrap.min.css">
+    <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.inc.min.js">
+    </script>
 </head>
 <style>
     li {
@@ -323,19 +325,18 @@ foreach ($listss as $k => $v) {
 </script>
 <script src="./demo/js/bootstrap.min.js">
 </script>
-<script src="./js/alipay.js">
-</script>
+
 <script>
-    var scanBtn = document.getElementById('zhifu');
+    var btnScanQR = document.getElementById('#zhifu');
     //调用支付宝扫一扫
-    scanBtn.onClick = function(){
+    btnScanQR.onClick = function(){
         ap.scan(
-            {type:'bar' },//默认qr  可选有bar 条形码  qr 二维码
+            {type:'qr' },//默认qr  可选有bar 条形码  qr 二维码
             function(res){
                 console.log(res.code); /* 查询到的信息 */
                 //do something...
             })
-    }
+    };
     function clock() {
         var tm = $("#nyr").val();
         console.log(tm);
