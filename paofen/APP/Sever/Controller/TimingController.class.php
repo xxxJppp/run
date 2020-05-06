@@ -87,7 +87,7 @@ class TimingController extends Controller
         $model = M();
         $model->startTrans();
         $system = M('system')->where(array('id' => 1))->find();
-        /*$user_order_dj = M('dj')->select();
+        $user_order_dj = M('dj')->select();
         foreach ($user_order_dj as $val) {
             $time = time() - $val['addtime'];
             if ($time > $system['back_money_time']) {
@@ -98,7 +98,7 @@ class TimingController extends Controller
                 print_r($li);
                 M('userrob')->where(array('uid' => $val['uid'], 'ppid' => $val['id'], 'status' => 4))->delete();
             }
-        }*/
+        }
         $model->commit();
     }
 

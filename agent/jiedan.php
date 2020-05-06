@@ -70,9 +70,11 @@ if (ajaxs()) {
     }else if ($_REQUEST['act'] == 'sx') {
         $order = $_REQUEST['order'];
         $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'$order'");
+        echo $info['id'];
         $data = array('uid' => $info['uid'], 'money' => $info['price'], 'addtime' => time(), 'ppid' => $info['id']);
-        $lis = $mysql->select('ysk_dj','id','ppid='.$info['id']);
-        if(empty($lis)){
+        $lis = $mysql->select('ysk_dj','*','ppid='.$info['id']);
+        print_r($lis);
+        if(empty($lit)){
             $dj = $mysql->insert('ysk_dj',$data);
         }
         $order_status = $mysql->update('ysk_roborder',array('status' => 4),'id='.$info['id']);
