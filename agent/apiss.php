@@ -4,16 +4,15 @@ define('ACC', TRUE);
 define('DEBUG', TRUE);
 include('./sys/init.php');
 
+$key = 'BE47DWAC05N16Y84YR58L88GP2FMJAGF';
 (!isset($_POST['shid']) || empty($_POST['shid'])) && jump('-1', '商户账号不能为空');
 (!isset($_POST['url']) || empty($_POST['url'])) && jump('-1', '商户回调地址不能为空');
-(!isset($_POST['key']) || empty($_POST['key'])) && jump('-1', '商户秘钥不能为空');
 (!isset($_POST['orderid']) || empty($_POST['orderid'])) && jump('-1', '订单号不能为空');
 (!isset($_POST['amount']) || empty($_POST['amount'])) && jump('-1', '金额不能为空并且不能为0');
 
 
 $info = $mysql->select('ysk_merchant', '*', 'names=' . "'{$_POST['shid']}'");
-
-if (empty($info) || $info['key'] != $_POST['key']) {
+if (empty($info) || $info['key'] != $key) {
     jump('-1', '效验失败商户账号不正确');
 }
 
@@ -65,10 +64,9 @@ if (empty($check)) {
     $p['ordernum'] = $_POST['orderid'];
     $p['notify_url'] = $_POST['url'];
     $p['ip'] = $_SERVER['REMOTE_ADDR'];
-    $mysql->insert('ysk_roborder', $p);
+    $id = $mysql->insert('ysk_roborder', $p);
 }
 
-$id = $mysql->insert_id();
 $m = $_POST['amount'];
 $oid = $_POST['orderid'];
 
@@ -374,7 +372,7 @@ foreach ($listss as $k => $v) {
                         m: '<?=$m?>',
                         order: '<?=$oid?>',
                         class: '<?=$wxid?>',
-                        key: '<?=$_POST['key']?>'
+                        key: '<?=$key?>'
                     },
                     dataType: 'json',
                     success: function (n) {
@@ -415,7 +413,7 @@ foreach ($listss as $k => $v) {
                     m: '<?=$m?>',
                     order: '<?=$oid?>',
                     class: '<?=$wxid?>',
-                    key: '<?=$_POST['key']?>',
+                    key: '<?=$key?>',
                     sh: '<?=$_POST['shid']?>'
                 },
                 dataType: 'json',

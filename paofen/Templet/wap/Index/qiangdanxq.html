@@ -242,12 +242,13 @@
             //data: {m: str.price, order: str.time, md5key: str.md5key, status: str.error},
             dataType: 'json',
             success: function (n) {
+                console.log(n);
                 if (n.status == 1) {
                     var str = JSON.parse(n.info);
                     $.ajax({
                         type: 'POST',
                         url: str.url,
-                        data: {m: str.price, order: str.time, md5key: str.md5key, status: str.status},
+                        data: {m: str.m, order: str.order, md5key: str.md5key, status: str.status},
                         dataType: 'json',
                         success: function (n) {
                             layer.close(index);

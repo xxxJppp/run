@@ -32,7 +32,9 @@ class TimingController extends Controller
             $ret = array();
             $ret['m'] = $v['price'];
             $ret['order'] = $v['ordernum'];
-            $ret['md5key'] = md5(md5($v['ordernum'] . $v['price'] . $shanghuxx['names']) . $shanghuxx['key']);
+            $ret['sh'] = $shanghuxx['names'];
+            $ret['key'] = $shanghuxx['key'];
+            $ret['md5key'] = $this->getSignature($ret);
             $ret['status'] = $v['status'];
             $curl = self::sendCurl($v['notify_url'], $ret);
             $json_curl = json_decode($curl, true);
@@ -57,21 +59,21 @@ class TimingController extends Controller
             if ($sheng > $system['lose_time']) {
                 if ($v['uid'] != 0) {
                     $data = array('uid' => $v['uid'], 'money' => $v['price'], 'addtime' => time(), 'ppid' => $v['id']);
-                    $lit = M('dj')->where(array('ppid'=>$v['id']))->find();
-                    if(empty($lit)){
+                    $lit = M('dj')->where(array('ppid' => $v['id']))->find();
+                    if (empty($lit)) {
                         $dj = M('dj')->add($data);
                     }
                     $order_status = M('roborder')->where(array('id' => $v['id']))->save(array('status' => 4));
-                    if($system['order_num']>0){
-                        $user = M('userrob')->where(array('uid'=>$v['uid']))->order('addtime desc')->limit($system['order_num'])->select();
-                        $i=0;
-                        foreach($user as $it){
-                            if($it['status']==4){
+                    if ($system['order_num'] > 0) {
+                        $user = M('userrob')->where(array('uid' => $v['uid']))->order('addtime desc')->limit($system['order_num'])->select();
+                        $i = 0;
+                        foreach ($user as $it) {
+                            if ($it['status'] == 4) {
                                 $i += 1;
                             }
                         }
-                        if($i == $system['order_num']){
-                            M('user')->where(array('userid'=>$v['uid']))->save(array('order_status'=>0));
+                        if ($i == $system['order_num']) {
+                            M('user')->where(array('userid' => $v['uid']))->save(array('order_status' => 0));
                         }
                     }
                     $user_status = M('userrob')->where(array('uid' => $v['uid'], 'ppid' => $v['id']))->save(array('status' => 4));
@@ -81,6 +83,7 @@ class TimingController extends Controller
         $model->commit();
 
     }
+
     //释放冻结金额
     public function releaseBlockedAmount()
     {
@@ -114,6 +117,22 @@ class TimingController extends Controller
         curl_setopt($con, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($con, CURLOPT_TIMEOUT, (int)$timeout);
         return curl_exec($con);
+    }
+
+    private static function getSignature($params, $secret = 'GoCkn^*poqLyhp5hY(4<|qBR6.55[X$g')
+    {
+        $str = '';  //待签名字符串
+        //先将参数以其参数名的字典序升序进行排序
+        ksort($params);
+        //遍历排序后的参数数组中的每一个key/value对
+        foreach ($params as $k => $v) {
+            //为key/value对生成一个key=value格式的字符串，并拼接到待签名字符串后面
+            $str .= "$k=$v";
+        }
+        //将签名密钥拼接到签名字符串最后面
+        $str .= $secret;
+        //通过md5算法为签名字符串生成一个md5签名，该签名就是我们要追加的sign参数值
+        return md5($str);
     }
 
 }

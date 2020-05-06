@@ -350,6 +350,7 @@ class mysql extends db
     function insert($table, $field_arr, $alert = 0)
     {
         $s = '';
+        $re = '';
         foreach ($field_arr as $k => $v) {
             $s .= "`" . $k . "`=" . "'" . $v . "',";
         }
