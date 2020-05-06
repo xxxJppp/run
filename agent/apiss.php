@@ -65,8 +65,9 @@ if (empty($check)) {
     $p['notify_url'] = $_POST['url'];
     $p['ip'] = $_SERVER['REMOTE_ADDR'];
     $id = $mysql->insert('ysk_roborder', $p);
+} else {
+    $id = $check['id'];
 }
-
 $m = $_POST['amount'];
 $oid = $_POST['orderid'];
 
@@ -114,19 +115,12 @@ foreach ($listss as $k => $v) {
     }
 
     h1 {
-
         font-family: "微软雅黑";
-
         font-size: 40px;
-
         margin: 20px 0;
-
         border-bottom: solid 1px #ccc;
-
         padding-bottom: 20px;
-
         letter-spacing: 2px;
-
     }
 
     .time-item strong {
@@ -144,19 +138,12 @@ foreach ($listss as $k => $v) {
     }
 
     #day_show {
-
         float: left;
-
         line-height: 49px;
-
         color: #c71c60;
-
         font-size: 32px;
-
         margin: 0 10px;
-
         font-family: Arial, Helvetica, sans-serif;
-
     }
 </style>
 <script src="./public/ui/layer.js"></script>
@@ -253,17 +240,16 @@ foreach ($listss as $k => $v) {
                                                     <tbody>
                                                     <tr>
                                                         <td align="center" id="loding" style="display: none">
-                                                            <img id="je" src="<?= $erwei['ewm_url'] ?>"
-                                                                 height="230">
+                                                            <img style="width: 300px" id="je" src="" height="230">
                                                         </td>
                                                         <td align="center" id="lodings"
                                                             style="height: 135px;padding: 7px;">
                                                             <div class="time-item">
-                                                                                    <span style="display: none">
-                                                                                    <span id="day_show">0天</span>
-                                                                                    <strong id="hour_show">0时</strong>
-                                                                                    <strong id="minute_show">0分</strong>
-                                                                                    </span>
+                                                                        <span style="display: none">
+                                                                        <span id="day_show">0天</span>
+                                                                        <strong id="hour_show">0时</strong>
+                                                                        <strong id="minute_show">0分</strong>
+                                                                        </span>
                                                                 <strong>
                                                                     正在匹配订单
                                                                 </strong>
@@ -299,7 +285,6 @@ foreach ($listss as $k => $v) {
                                             </td>
                                         </tr>
                                         <tr>
-
                                         </tr>
                                         </tbody>
                                     </table>
@@ -309,9 +294,9 @@ foreach ($listss as $k => $v) {
                         </table>
                     </div>
                 </div>
-                <?php if($wxid==2){?>
-                <a id="zhifu" style="display: block" href="alipays://">点击支付宝支付</a>
-                <?php }?>
+                <?php if ($wxid == 2) { ?>
+                    <a id="zhifu" style="display: block" href="alipays://">点击支付宝支付</a>
+                <?php } ?>
                 <input type="hidden" id="nyr" value="">
         </div>
     </div>
@@ -328,33 +313,21 @@ foreach ($listss as $k => $v) {
 <script>
     var scanBtn = document.getElementById('zhifu');
     //调用支付宝扫一扫
-    scanBtn.onClick = function(){
+    scanBtn.onClick = function () {
         ap.scan(
-            {type:'bar' },//默认qr  可选有bar 条形码  qr 二维码
-            function(res){
+            {type: 'bar'},//默认qr  可选有bar 条形码  qr 二维码
+            function (res) {
                 console.log(res.code); /* 查询到的信息 */
                 //do something...
             })
     }
+
     function clock() {
         var tm = $("#nyr").val();
         console.log(tm);
         if (tm != '') {
-            var today = new Date(),//当前时间
-
-                h = today.getHours(),
-
-                m = today.getMinutes(),
-
-                s = today.getSeconds();
-
-            var stopTime = new Date("" + tm + ""),//结束时间
-
-                stopH = stopTime.getHours(),
-
-                stopM = stopTime.getMinutes(),
-
-                stopS = stopTime.getSeconds();
+            var today = new Date();//当前时间
+            var stopTime = new Date("" + tm + "");//结束时间
             var shenyu = stopTime.getTime() - today.getTime(),//倒计时毫秒数
 
                 shengyuD = parseInt(shenyu / (60 * 60 * 24 * 1000)),//转换为天
@@ -374,8 +347,6 @@ foreach ($listss as $k => $v) {
                 shengyuM = '0' + shengyuM;
             }
             document.getElementById("div").innerHTML = (shengyuH + ":" + shengyuM + ":" + S + "<br>");
-
-            // setTimeout("clock()",500);
             setTimeout(clock, 1000);
             if (shengyuM <= 0 && S <= 0) {
                 $.ajax({
@@ -392,7 +363,8 @@ foreach ($listss as $k => $v) {
                         if (n.error == 1) {
                             //alert('尊敬的用户：'+str.name+' 已确认订单号:'+str.time+',充值成功 '+str.price + '元');
                             alert('支付超时，请重新发起订单！');
-                            location.href = 'pay_true.php';return;
+                            location.href = 'pay_true.php';
+                            return;
                             /*
                             layer.alert(msg, {
                                             skin: 'layui-layer-lan'
@@ -435,8 +407,8 @@ foreach ($listss as $k => $v) {
                         $("#lodings").hide();
                         $("#loding").show();
                         $("#je").attr("src", str.msg);
-                        i = i+1;
-                        if(i==1){
+                        i = i + 1;
+                        if (i == 1) {
                             setTimeout(clock, 1000);
                         }
                         $("#nyr").val(str.pipeitime);
