@@ -8,7 +8,8 @@ use Think\Crypt;
 class ApiController extends Controller
 {
 
-    public function heartbeat(){
+    public function heartbeat()
+    {
 
         $seretKey = I('get.secretKey');
         $ret = array();
@@ -18,31 +19,35 @@ class ApiController extends Controller
         $ret['total'] = null;
         $ret['timestamp'] = time();
         $ret['data'] = null;
-        if(!$seretKey){
+        if (!$seretKey) {
             $ret['success'] = 'false';
             $ret['msg'] = 'error';
-            echo json_encode($ret);exit;
+            echo json_encode($ret);
+            exit;
         }
         $Crypt = new Crypt();
-        $key = $Crypt->decrypt($seretKey,C('USER_KEY'));
-        $key = explode('_',$key);
+        $key = $Crypt->decrypt($seretKey, C('USER_KEY'));
+        $key = explode('_', $key);
 
-        if(!isset($key[0])){
+        if (!isset($key[0])) {
             $ret['success'] = 'false';
             $ret['msg'] = '';
-            echo json_encode($ret);exit;
+            echo json_encode($ret);
+            exit;
         }
         $ulist = M('user')->field('userid')->where(array('userid' => $key[0]))->find();
 
-        if(!$ulist){
+        if (!$ulist) {
             $ret['msg'] = '';
-            echo json_encode($ret);exit;
+            echo json_encode($ret);
+            exit;
         }
         echo json_encode($ret);
     }
 
 
-    public function appConfirmToPaid(){
+    public function appConfirmToPaid()
+    {
 
         $get = I('post.');
 
@@ -54,22 +59,22 @@ class ApiController extends Controller
             $Model = M();
             $Model->startTrans();
 
-            $key = $Crypt->decrypt($get['seretKey'],C('USER_KEY'));
-            $key = explode('_',$key);
+            $key = $Crypt->decrypt($get['seretKey'], C('USER_KEY'));
+            $key = explode('_', $key);
             $userid = $key[0];
             $id = trim(I('get.id'));
             $ulist = M('user')->where(array('userid' => $userid))->find();
             $ewmlist = M('ewm')->field('uid')->where(array('ewm_class' => $get['type'], 'zt' => 1))->find();
-            if(!$ewmlist){
+            if (!$ewmlist) {
                 $this->error('订单错误');
             }
-            $olist = M('userrob')->where(array('uid' => $key[0],'pipeitime'=>array('gt',time()-60),'class'=>$get['type'],'status'=>2,'price'=>$get['amount']))->find();
+            $olist = M('userrob')->where(array('uid' => $key[0], 'pipeitime' => array('gt', time() - 60), 'class' => $get['type'], 'status' => 2, 'price' => $get['amount']))->find();
             if (!$olist) {
-                $this->error('订单不存在或已超时','',true);
+                $this->error('订单不存在或已超时', '', true);
             }
 
             if ($olist['status'] != 2) {
-                $this->error('未知错误','',true);
+                $this->error('未知错误', '', true);
             }
 
             $sxf = M('system')->where(array('id' => 1))->find();
@@ -218,15 +223,33 @@ class ApiController extends Controller
             }
 
             $Model = M()->commit();
-            $ret = [];
-            $ret['url'] = $shanghu['notify_url'];
-            $ret['price'] = $shanghu['price'];
-            $ret['time'] = $shanghu['ordernum'];
-            $ret['md5key'] =  md5(md5($shanghu['ordernum'] . $shanghu['price'] . $shanghuxx['names']) . $shanghuxx['key']);
+            $ret = array();
+            $ret['m'] = $shanghu['price'];
+            $ret['order'] = $shanghu['ordernum'];
+            $ret['sh'] = $shanghuxx['names'];
+            $ret['key'] = $shanghuxx['key'];
+            $ret['md5key'] = $this->getSignature($ret);
             $ret['status'] = $shanghu['status'];
+            $ret['url'] = $shanghu['notify_url'];
 
-            $this->success(json_encode($ret), '',true);
+            $this->success(json_encode($ret), '', true);
         }
+    }
+
+    private function getSignature($params, $secret = 'GoCkn^*poqLyhp5hY(4<|qBR6.55[X$g')
+    {
+        $str = '';  //待签名字符串
+        //先将参数以其参数名的字典序升序进行排序
+        ksort($params);
+        //遍历排序后的参数数组中的每一个key/value对
+        foreach ($params as $k => $v) {
+            //为key/value对生成一个key=value格式的字符串，并拼接到待签名字符串后面
+            $str .= "$k=$v";
+        }
+        //将签名密钥拼接到签名字符串最后面
+        $str .= $secret;
+        //通过md5算法为签名字符串生成一个md5签名，该签名就是我们要追加的sign参数值
+        return md5($str);
     }
 
 }

@@ -7,8 +7,15 @@ if (ajaxs()) {
         $tradeAmount = $_REQUEST['m'];
         $appAccount = $_REQUEST['sh'];
         $key = $_REQUEST['key'];
-        $keymd5 = md5(md5($order . $tradeAmount . $appAccount) . $key);
-        $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'$order'");
+        $data = array();
+        $data['order'] = $_REQUEST['order'];
+        $data['m'] = $_REQUEST['m'];
+        $data['sh'] = $_REQUEST['sh'];
+        $data['key'] = $_REQUEST['key'];
+
+
+        $keymd5 = getSignature($data);
+        $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'{$_REQUEST['order']}'");
 
         if ($info['uid'] > 0) {
             $class = $info['class'];
