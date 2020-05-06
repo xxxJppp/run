@@ -79,9 +79,7 @@ if (ajaxs()) {
         $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'{$_REQUEST['order']}'");
         $data = array('uid' => $info['uid'], 'money' => $info['price'], 'addtime' => time(), 'ppid' => $info['id']);
         $lis = $mysql->select('ysk_dj','*','ppid='.$info['id']);
-        if(empty($lit)){
-            $dj = $mysql->insert('ysk_dj',$data);
-        }
+
         $order_status = $mysql->update('ysk_roborder',array('status' => 4),'id='.$info['id']);
         $user_status = $mysql->update('ysk_userrob',array('status' => 4),'uid='.$info['uid'].' and ppid='.$info['id']);
         $d['error'] = 1;
