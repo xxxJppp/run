@@ -359,11 +359,9 @@ function clock() {
 
                 M = H - shengyuM * 60 * 1000;//除去天、小时、分的毫秒数
             S = parseInt((shenyu - shengyuD * 60 * 60 * 24 * 1000 - shengyuH * 60 * 60 * 1000 - shengyuM * 60 * 1000) / 1000)//除去天、小时、分的毫秒数转化为秒
-            console.log(shengyuM);
             if (shengyuM < 10) {
                 shengyuM = '0' + shengyuM;
             }
-            console.log(S);
             if (S < 10) {
                 S = '0' + S;
             }

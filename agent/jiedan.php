@@ -18,10 +18,18 @@ if (ajaxs()) {
 
             if ($info['uid'] > 0) {
                 $class = $info['class'];
-                $er = $mysql->select('ysk_ewm','*',' uid='.$info['uid']. ' and zt = 1  and ewm_class='.$class.' and id='.$info['idewm']);
                 $er = $mysql->select('ysk_ewm', '*', ' id=' . $info['idewm']);
                 $d['error'] = 0;
-                $d['msg'] = $er['ewm_url'];
+
+                //生成二维码图片
+                $filename = '/images/qrcode/' . md5($er['id']) . '.png';
+
+                if (!is_file($_SERVER['DOCUMENT_ROOT'] . $filename)) {
+                    require './Lib/phpqrcode.php';
+                    //生成二维码图片
+                    \QRcode::png($er['qrurl'], $_SERVER['DOCUMENT_ROOT'] . $filename, 'L', 5, 2);
+                }
+                $d['msg'] = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$filename;
                 $d['n'] = $er['uname'];
                 $time = $mysql->select('ysk_system','lose_time','id=1');
                 $d['pipeitime'] = date('Y-m-d H:i:s',$info['pipeitime']+$time);
@@ -42,6 +50,7 @@ if (ajaxs()) {
                     $d['name'] = $info['uname'];
 
                     $d['time'] = $info['ordernum'];
+
 
 
                     $d['price'] = intval($info['price']);
