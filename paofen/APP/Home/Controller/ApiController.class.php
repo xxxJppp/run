@@ -53,7 +53,12 @@ class ApiController extends Controller
 
         //amount=500&type=2&payee=张三丰&seretKey=gnd33ICnpa-wfHrdgqaErpGrsauQsqhmhHiZ3oF2dmOCnYOi
         //31_30_1588240423
-
+        /*if (!$get['seretKey']|| !$get['type'] || !$get['amount'] || !$get['payee']) {
+            $this->error('参数异常', '', true);
+        }
+        if (I('get.sign') != md5(I('get.type').I('get.amount').I('get.secretKey'))) {
+            $this->error('签名错误', '', true);
+        }*/
         if ($get) {
             $Crypt = new Crypt();
             $Model = M();

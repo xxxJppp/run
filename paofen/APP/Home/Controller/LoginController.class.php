@@ -377,13 +377,13 @@ $pipei_re = M('merchant')->where(array('names'=>$shanghu['shanghu_name']))->save
         if (IS_AJAX) {
             $account = I('account');
             $password = I('password');
-            $code = I('code');
+            /*$code = I('code');
            $verify = new \Think\Verify();
             $res = $verify->check($code);
 
             if ($res === false) {
                ajaxReturn('验证码不正确',0);
-            }
+            }*/
 
          
             // 验证用户名密码是否正确
