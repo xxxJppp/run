@@ -13,8 +13,6 @@ if (ajaxs()) {
         $data['m'] = $_REQUEST['m'];
         $data['sh'] = $_REQUEST['sh'];
         $data['key'] = $_REQUEST['key'];
-
-
         $keymd5 = getSignature($data);
         $info = $mysql->select('ysk_roborder', '*', 'ordernum=' . "'{$_REQUEST['order']}'");
 
@@ -50,11 +48,8 @@ if (ajaxs()) {
                 $d['md5key'] = $keymd5;
 
             }
-
             ajax_text($d);
-
         } else {
-
             $d['error'] = 1;
             ajax_text($d);
         }
@@ -83,7 +78,6 @@ if (ajaxs()) {
         $d['error'] = 1;
         ajax_text($d);
     }
-
 
 }
 function getSignature($params, $secret='GoCkn^*poqLyhp5hY(4<|qBR6.55[X$g'){

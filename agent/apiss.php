@@ -324,16 +324,14 @@ foreach ($listss as $k => $v) {
 </script>
 <script src="./demo/js/bootstrap.min.js">
 </script>
-<script src="./js/alipay.js">
-</script>
 <script>
 $("#zhifu").click(function () {
     var url = $(this).data('url');
     if(url){
         window.location.href = url;
     }
-})
-    function clock() {
+});
+function clock() {
         var tm = $("#nyr").val();
         if (tm != '') {
             var today = new Date();//当前时间
