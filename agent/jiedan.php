@@ -1,6 +1,7 @@
 <?php
 define('ACC', TRUE);
 include('./sys/init.php');
+
 if (ajaxs()) {
     if ($_REQUEST['act'] == 'select') {
         $order = $_REQUEST['order'];
@@ -19,7 +20,7 @@ if (ajaxs()) {
 
         if ($info['uid'] > 0) {
             $class = $info['class'];
-            //$er = $mysql->select('ysk_ewm','*',' uid='.$info['uid']. ' and zt = 1  and ewm_class='.$class);
+            $er = $mysql->select('ysk_ewm','*',' uid='.$info['uid']. ' and zt = 1  and ewm_class='.$class.' and id='.$info['idewm']);
             $er = $mysql->select('ysk_ewm', '*', ' id=' . $info['idewm']);
             $d['error'] = 0;
             $d['msg'] = $er['ewm_url'];
@@ -27,12 +28,10 @@ if (ajaxs()) {
             $time = $mysql->select('ysk_system','lose_time','id=1');
             $d['pipeitime'] = date('Y-m-d H:i:s',$info['pipeitime']+$time);
 
-            /* if ($class == 2  &&  $er['qrurl']  == '') {
+             if ($class == 2) {
                     $a =   json_decode(file_get_contents("https://api.uomg.com/api/qr.encode?url=".$er['ewm_url']),1);
-                $u['qrurl'] = $a['qrurl'];
-                    $mysql->update('ysk_ewm',$u,'id='.$info['idewm']);
                     $d['qrurl'] = $a['qrurl'];
-             }*/
+             }
 
             if ($info['status'] == 4) {
 

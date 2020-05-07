@@ -134,6 +134,7 @@ foreach ($listss as $k => $v) {
         color: #fff;
         cursor: pointer;
         margin: 2rem auto;
+        text-align: center;
     }
 
     .time-item strong {
@@ -310,7 +311,7 @@ foreach ($listss as $k => $v) {
                 </div>
             </div>
             <?php if ($wxid == 2) { ?>
-                <button id="zhifu" class="immediate_pay">点击支付宝支付</button>
+                <button id="zhifu" class="immediate_pay" onclick="window.location.href=">点击支付宝支付</button>
             <?php } ?>
             <input type="hidden" id="nyr" value="">
         </div>
@@ -326,16 +327,6 @@ foreach ($listss as $k => $v) {
 <script src="./js/alipay.js">
 </script>
 <script>
-    var scanBtn = document.getElementById('zhifu');
-    //调用支付宝扫一扫
-    scanBtn.onClick = function () {
-        ap.scan(
-            {type: 'bar'},//默认qr  可选有bar 条形码  qr 二维码
-            function (res) {
-                console.log(res.code); /* 查询到的信息 */
-                //do something...
-            })
-    }
 
     function clock() {
         var tm = $("#nyr").val();
