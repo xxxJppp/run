@@ -4,15 +4,21 @@ define('ACC', TRUE);
 define('DEBUG', TRUE);
 include('./sys/init.php');
 
-$key = 'BE47DWAC05N16Y84YR58L88GP2FMJAGF';
-(!isset($_POST['shid']) || empty($_POST['shid'])) && jump('-1', '商户账号不能为空');
+$sh_id = '222';
+$sh_key = 'BE47DWAC05N16Y84YR58L88GP2FMJAGF';
 (!isset($_POST['url']) || empty($_POST['url'])) && jump('-1', '商户回调地址不能为空');
 (!isset($_POST['orderid']) || empty($_POST['orderid'])) && jump('-1', '订单号不能为空');
 (!isset($_POST['amount']) || empty($_POST['amount'])) && jump('-1', '金额不能为空并且不能为0');
 
+$data = array();
+$data['order'] = $_POST['orderid'];
+$data['m'] = $_POST['amount'];
+$data['sh'] = $sh_id;
+$data['key'] = $sh_key;
 
+$keymd5 = getSignature($data);
 $info = $mysql->select('ysk_merchant', '*', 'names=' . "'{$_POST['shid']}'");
-if (empty($info) || $info['key'] != $key) {
+if (empty($info) || $info['key'] != $sh_key) {
     jump('-1', '效验失败商户账号不正确');
 }
 
@@ -372,7 +378,7 @@ $("#zhifu").click(function () {
                         m: '<?=$m?>',
                         order: '<?=$oid?>',
                         class: '<?=$wxid?>',
-                        key: '<?=$key?>'
+                        key: '<?=$sh_key?>'
                     },
                     dataType: 'json',
                     success: function (n) {
@@ -398,7 +404,8 @@ $("#zhifu").click(function () {
                     m: '<?=$m?>',
                     order: '<?=$oid?>',
                     class: '<?=$wxid?>',
-                    key: '<?=$key?>',
+                    key: '<?=$sh_key?>',
+                    keymd5:'<?=$keymd5?>',
                     sh: '<?=$_POST['shid']?>'
                 },
                 dataType: 'json',
@@ -451,6 +458,10 @@ $("#zhifu").click(function () {
                         });
                         timeoute = true;
                         //location.href='success.php';
+                    }else if(str.error == 2){
+                        alert('验证签名失败');
+                        window.clearInterval(dscd_time);
+                        return;
                     }
                 }
             });
