@@ -1,7 +1,7 @@
 <?php
 define('ACC', TRUE);
 include('./sys/init.php');
-
+require_once './lib/QrReader.php';
 if (ajaxs()) {
     if ($_REQUEST['act'] == 'select') {
         $order = $_REQUEST['order'];
@@ -27,11 +27,10 @@ if (ajaxs()) {
             $d['n'] = $er['uname'];
             $time = $mysql->select('ysk_system','lose_time','id=1');
             $d['pipeitime'] = date('Y-m-d H:i:s',$info['pipeitime']+$time);
-
-             if ($class == 2) {
-                    $a =   json_decode(file_get_contents("https://api.uomg.com/api/qr.encode?url=".$er['ewm_url']),1);
-                    $d['qrurl'] = $a['qrurl'];
-             }
+            if ($class == 2) {
+                $qrcode = new QrReader($er['ewm_url']);
+                $d['qrurl'] = $qrcode->text();
+            }
 
             if ($info['status'] == 4) {
 
