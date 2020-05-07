@@ -123,6 +123,19 @@ foreach ($listss as $k => $v) {
         letter-spacing: 2px;
     }
 
+    .immediate_pay {
+        display: block;
+        width: 165px;
+        height: 54px;
+        line-height: 54px;
+        background: #1a8ae1;
+        border: none;
+        font-size: 18px;
+        color: #fff;
+        cursor: pointer;
+        margin: 2rem auto;
+    }
+
     .time-item strong {
 
         background: #C71C60;
@@ -144,6 +157,12 @@ foreach ($listss as $k => $v) {
         font-size: 32px;
         margin: 0 10px;
         font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #div {
+        width: 100%;
+        display: block;
+        text-align: center;
     }
 </style>
 <script src="./public/ui/layer.js"></script>
@@ -201,103 +220,99 @@ foreach ($listss as $k => $v) {
                     </a>
                 </li>
             </ul>
-            <form action="" autocomplete="off" role="form" method="post">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="weixin">
-                        <div>
-                            <h4 style="    font-weight: 700;">
-                                请截图保存相册并输入相同金额进行付款，二维码仅用一次。请勿重复充值！
-                            </h4>
-                        </div>
-                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-                            <tbody>
-                            <tr>
-                                <td width="100%" align="center">
-                                    <table border="0" align="center" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                        <tr>
-                                            <td align="center">
-                                                <br>
-                                                扫一扫付款（元）
-                                            </td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td height="20">
-                                                <strong>
-                                                    <font style="font-size:30px; color:#F60;">
-                                                        <?= $_REQUEST['amount'] ?>
-                                                    </font>
-                                                    &nbsp;&nbsp;
-                                                </strong>
-                                            </td>
-                                        </tr>
-
-                                        <tr align="center">
-                                            <td>
-                                                <table width="100%" border="0" cellspacing="5" cellpadding="0"
-                                                       style="border: 1px solid #E7EAEC; ">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td align="center" id="loding" style="display: none">
-                                                            <img style="width: 300px" id="je" src="" height="230">
-                                                        </td>
-                                                        <td align="center" id="lodings"
-                                                            style="height: 135px;padding: 7px;">
-                                                            <div class="time-item">
-                                                                        <span style="display: none">
-                                                                        <span id="day_show">0天</span>
-                                                                        <strong id="hour_show">0时</strong>
-                                                                        <strong id="minute_show">0分</strong>
-                                                                        </span>
-                                                                <strong>
-                                                                    正在匹配订单
-                                                                </strong>
-                                                                <strong id="second_show">300</strong>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <table width="100%" border="0" cellspacing="0"
-                                                                   cellpadding="0">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td height="30" align="center">
-                                                                        <!-- <img src="/Public/images/saoyisao.png" width="14" height="14">-->
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <font style="font-size:14px; color:#F60;">
-                                                                            <strong>
-                                                                                <?= $title ?>，<span id="nes"></span>扫一扫付款
-                                                                            </strong>
-                                                                        </font>
-                                                                    </td>
-                                                                    <strong id="div"></strong>
-
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="weixin">
+                    <div>
+                        <h4 style="    font-weight: 700;">
+                            请按照本页面金额付款，请勿自行修改支付金额，否则无法到账。此二维码仅限本次支付使用，请勿重复支付使用。本次定胆有效期为5分钟，过期请勿支付
+                        </h4>
                     </div>
+                    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td width="100%" align="center">
+                                <table border="0" align="center" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                    <tr>
+                                        <td align="center">
+                                            <br>
+                                            扫一扫付款（元）
+                                        </td>
+                                    </tr>
+                                    <tr align="center">
+                                        <td height="20">
+                                            <strong>
+                                                <font style="font-size:30px; color:#F60;">
+                                                    <?= $_REQUEST['amount'] ?>
+                                                </font>
+                                                &nbsp;&nbsp;
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr align="center">
+                                        <td>
+                                            <table width="100%" border="0" cellspacing="5" cellpadding="0"
+                                                   style="border: 1px solid #E7EAEC; ">
+                                                <tbody>
+                                                <tr>
+                                                    <td align="center" id="loding" style="display: none">
+                                                        <img style="width: 300px" id="je" src="" height="230">
+                                                    </td>
+                                                    <td align="center" id="lodings"
+                                                        style="height: 135px;padding: 7px;">
+                                                        <div class="time-item">
+                                                            <strong>
+                                                                正在匹配订单
+                                                            </strong>
+                                                            <strong id="second_show">300</strong>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <table width="100%" border="0" cellspacing="0"
+                                                               cellpadding="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td height="30" align="center">
+                                                                    <!-- <img src="/Public/images/saoyisao.png" width="14" height="14">-->
+                                                                </td>
+                                                                <td align="center">
+                                                                    <font style="font-size:14px; color:#F60;">
+                                                                        <strong>
+                                                                            <?= $title ?>，<span id="nes"></span>扫一扫付款
+                                                                        </strong>
+                                                                    </font>
+                                                                </td>
+                                                                <strong id="div">
+                                                                    <span></span>
+                                                                </strong>
+
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <?php if ($wxid == 2) { ?>
-                    <a id="zhifu" style="display: block" href="alipays://">点击支付宝支付</a>
-                <?php } ?>
-                <input type="hidden" id="nyr" value="">
+            </div>
+            <?php if ($wxid == 2) { ?>
+                <button id="zhifu" class="immediate_pay">点击支付宝支付</button>
+            <?php } ?>
+            <input type="hidden" id="nyr" value="">
         </div>
     </div>
 </div>
@@ -324,13 +339,15 @@ foreach ($listss as $k => $v) {
 
     function clock() {
         var tm = $("#nyr").val();
-        console.log(tm);
         if (tm != '') {
             var today = new Date();//当前时间
             var stopTime = new Date("" + tm + "");//结束时间
-            var shenyu = stopTime.getTime() - today.getTime(),//倒计时毫秒数
-
-                shengyuD = parseInt(shenyu / (60 * 60 * 24 * 1000)),//转换为天
+            var shenyu = stopTime.getTime() - today.getTime();//倒计时毫秒数
+            if(shenyu <= 0){
+                window.clearInterval(clockTime);
+                return;
+            }
+            var shengyuD = parseInt(shenyu / (60 * 60 * 24 * 1000)),//转换为天
 
                 D = parseInt(shenyu) - parseInt(shengyuD * 60 * 60 * 24 * 1000),//除去天的毫秒数
 
@@ -341,13 +358,16 @@ foreach ($listss as $k => $v) {
                 shengyuM = parseInt(H / (60 * 1000)),//除去天的毫秒数转换成分钟
 
                 M = H - shengyuM * 60 * 1000;//除去天、小时、分的毫秒数
-
             S = parseInt((shenyu - shengyuD * 60 * 60 * 24 * 1000 - shengyuH * 60 * 60 * 1000 - shengyuM * 60 * 1000) / 1000)//除去天、小时、分的毫秒数转化为秒
+            console.log(shengyuM);
             if (shengyuM < 10) {
                 shengyuM = '0' + shengyuM;
             }
-            document.getElementById("div").innerHTML = (shengyuH + ":" + shengyuM + ":" + S + "<br>");
-            setTimeout(clock, 1000);
+            console.log(S);
+            if (S < 10) {
+                S = '0' + S;
+            }
+            $("#div span").html(shengyuM + ":" + S);
             if (shengyuM <= 0 && S <= 0) {
                 $.ajax({
                     type: 'POST',
@@ -361,36 +381,20 @@ foreach ($listss as $k => $v) {
                     dataType: 'json',
                     success: function (n) {
                         if (n.error == 1) {
-                            //alert('尊敬的用户：'+str.name+' 已确认订单号:'+str.time+',充值成功 '+str.price + '元');
-                            alert('支付超时，请重新发起订单！');
-                            location.href = 'pay_true.php';
+                            //clearTimeout(clockTime);
                             return;
-                            /*
-                            layer.alert(msg, {
-                                            skin: 'layui-layer-lan'
-                                            ,closeBtn: 0
-                                            ,anim: 4 //动画类型
-                                          }); */
-
-                            //	location.href=n.back_url;
                         }
-
                     }
                 });
             }
         }
-
     }
-
-
+    var clockTime = setInterval(clock, 1000);
 </script>
 <script>
 
     $(document).ready(function () {
-        var i = 0;
-        var timeoute = false; //启动及关闭按钮
         function dscd() {
-            if (timeoute) return;
             $.ajax({
                 type: 'POST',
                 url: './jiedan.php?act=select',
@@ -407,15 +411,9 @@ foreach ($listss as $k => $v) {
                         $("#lodings").hide();
                         $("#loding").show();
                         $("#je").attr("src", str.msg);
-                        i = i + 1;
-                        if (i == 1) {
-                            setTimeout(clock, 1000);
-                        }
                         $("#nyr").val(str.pipeitime);
                         if (str.qrurl) {
-
                             $("#zhifu").show();
-
                             $("#zhifu").attr('href', 'alipays://platformapi/startapp?appId=20000067&url=' + str.qrurl);
                         }
                         $("#nes").text('收款人:' + str.n);
@@ -423,8 +421,9 @@ foreach ($listss as $k => $v) {
                         $("#second_show").text(intDiff);
 
                     } else if (str.error == 4) {
-                        alert('此订单已失效，请重新发起支付');
-                        location.href = 'pay_true.php';
+                        $("#je").attr("src", "/images/shixiao.jpg");
+                        window.clearInterval(dscd_time);
+                        return;
                     } else if (str.error == 3) {
 
                         $.ajax({
@@ -446,8 +445,9 @@ foreach ($listss as $k => $v) {
 
                                     //	location.href=n.back_url;
                                 } else {
-
                                     alert('失败订单号:' + n.time + ',失败 ' + n.price + '元');
+                                    window.clearInterval(dscd_time);
+                                    return;
                                 }
 
                             }
@@ -457,10 +457,9 @@ foreach ($listss as $k => $v) {
                     }
                 }
             });
-            setTimeout(dscd, 4000); //time是指本身,延时递归调用自己,100为间隔调用时间,单位毫秒
         }
 
-        dscd();
+        var dscd_time = setInterval(dscd, 4000);
     });
 
     //使用匿名函数方法
