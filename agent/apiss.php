@@ -311,7 +311,7 @@ foreach ($listss as $k => $v) {
                 </div>
             </div>
             <?php if ($wxid == 2) { ?>
-                <button id="zhifu" class="immediate_pay" onclick="window.location.href=">点击支付宝支付</button>
+                <button id="zhifu" style="display: none" class="immediate_pay">点击支付宝支付</button>
             <?php } ?>
             <input type="hidden" id="nyr" value="">
         </div>
@@ -327,7 +327,12 @@ foreach ($listss as $k => $v) {
 <script src="./js/alipay.js">
 </script>
 <script>
-
+$("#zhifu").click(function () {
+    var url = $(this).data('url');
+    if(url){
+        window.location.href = url;
+    }
+})
     function clock() {
         var tm = $("#nyr").val();
         if (tm != '') {
@@ -405,13 +410,14 @@ foreach ($listss as $k => $v) {
                         $("#nyr").val(str.pipeitime);
                         if (str.qrurl) {
                             $("#zhifu").show();
-                            $("#zhifu").attr('href', 'alipays://platformapi/startapp?appId=20000067&url=' + str.qrurl);
+                            $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url=' + str.qrurl);
                         }
                         $("#nes").text('收款人:' + str.n);
                         var intDiff = parseInt(1800);//倒计时总秒数量
                         $("#second_show").text(intDiff);
 
                     } else if (str.error == 4) {
+                        $("#zhifu").hide();
                         $("#je").attr("src", "/images/shixiao.jpg");
                         window.clearInterval(dscd_time);
                         return;
