@@ -955,8 +955,12 @@ class UserController extends CommonController
             $data['city'] = str_replace("市", "", $city);;
             $data['addtime'] = time();
             $data['gengxintime'] = time();
+            if($ewmclass==2){
+                require_cache(APP_PATH . 'Lib/qrcode/lib/QrReader.php');
+                $qrcurl = new \QrReader($data['ewm_url']);
+                $data['qrurl'] = $qrcurl->text();
+            }
             $ewm = M('ewm');
-
             $result = $ewm->add($data);
             if ($result) {
                 ajaxReturn("上传成功", 1, '/User/erweima');
