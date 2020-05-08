@@ -11,3 +11,8 @@
 /agent/sys/config.inc.php
 /pay/sys/config.inc.php
 /paofen/Public/attached
+/pf/.idea/
+/pf/config.php
+/pf/socket/config.php
+/pf/socket/db.class.php
+/pf/log/

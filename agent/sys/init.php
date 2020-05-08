@@ -53,12 +53,12 @@ $_POST = _addslashes($_POST);
 $_COOKIE = _addslashes($_COOKIE);
  
 session_start();
-
+/*
 if(defined('DEBUG')) {
     error_reporting(E_ALL);
 } else {
     error_reporting(0);
-}
+}*/
 
 $mysql = mysql::getIns();
 if(count($_GET)>0)

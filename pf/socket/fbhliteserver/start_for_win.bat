@@ -1,0 +1,2 @@
+php Applications\fbhelper\start_register.php Applications\fbhelper\start_gateway.php Applications\fbhelper\start_businessworker.php Applications\fbhelper\start_text.php
+pause

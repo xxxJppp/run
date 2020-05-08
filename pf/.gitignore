@@ -1,0 +1,4 @@
+.idea
+download/*
+*/download/*
+!download/demo.zip
