@@ -22,8 +22,8 @@ use xh\library\url;
 					isPc: isPc
 				};
 			}();
-
 			if (os.isAndroid) {
+                return true;
 				var url = 'alipayqr://platformapi/startapp?appId=20000123&actionType=scan&biz_data={\"s\": \"money\",\"u\": \"<?php echo $pid;?>\",\"a\": \"<?php echo $amount;?>\",\"m\": \"<?php echo $trade_no;?>\"}';
 					location.href= url ;
 				return false;

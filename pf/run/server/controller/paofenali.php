@@ -20,6 +20,45 @@ class paofenali{
         $this->mysql = new mysql();
     }
     
+    
+    public function fang()
+    {
+    	
+    	 $resWxIds = $this->mysql->query("client_paofen_automatic_account","status=4 and training=1 and receiving=1 and type={$type}","user_id");
+    	 $begin = strtotime("2020-04-12 14:15:00"); #在这个时间后的订单
+    	 $chaoshi = time()-300;
+    	 $orders = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and creation_time > $begin and  creation_time <= $chaoshi  and backed = 0"  );
+    	 
+     
+    	 foreach( $orders as $order )
+    	 {
+    	 	$this->mysql->update("client_paofen_automatic_orders", ['status' => 3, 'backed' => 1 ], "id={$order['id']}"); 	//设置订单超时
+    	 
+    	 	$user_id = $order['user_id'];
+    	 	$puser = $this->mysql->query("client_user", "id={$user_id}")[0];
+    	 	$mashang_balance = $puser['balance'] +  $order['amount']; // 用户最终余额
+    		$mashang_balance = floatval($mashang_balance);
+    		$updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+    	
+    		
+    		$p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
+    		
+    		$ya = $this->mysql->insert("mashang_yajin_log", [
+                          'uid' => $user_id,
+                          'trade_no' =>$order['trade_no'],
+                          'money'    => $order['amount'],
+                          'old_balance'    =>  $puser['balance'],
+                         'new_balance'    => $p2user['balance'],
+                         'remark'    =>'订单超时解冻押金！订单号：'.$order['trade_no'].',冻结金额：'.$order['amount'].'元，冻结前余额：'. $puser['balance'].'元，解结后余额：'. $p2user['balance'].'元',
+                         'time' => time(),
+                        'status' => 1
+                       
+                  ]);
+    	 	
+    	 }
+    	 echo 'success';
+     
+    }
 
  public function update(){
 		 

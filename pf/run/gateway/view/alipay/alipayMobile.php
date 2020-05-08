@@ -179,7 +179,7 @@ use xh\library\url;
                                     position: relative;
                                    text-decoration: none;
                                    color:white;
-    margin: 6% 2.5%;" class="btn-success" href="alipays://platformapi/startapp?saId=20000067&amp;url=http://<?php echo DOMAINS_URL;?>/gateway/pay/zzh5.do?id=<?php echo $id; ?>">点击打开支付宝支付</a></p>
+    margin: 6% 2.5%;" class="btn-success" href="alipays://platformapi/startapp?saId=20000067&amp;url=http://<?php echo DOMAINS_URL;?>/gateway/pay/alipayselect.do?id=<?php echo $id; ?>">点击打开支付宝支付</a></p>
                                                                                                      
                </div>
 		  <div class="time-item" style="padding-top: 10px;">            
@@ -253,7 +253,7 @@ window.location.href = "alipays://platformapi/startapp?url=" + escape("<?php ech
 
 
 
-  qrcode =  "http://<?php echo DOMAINS_URL;?>/gateway/pay/zzh5.do?id=<?php echo $id; ?>";
+  qrcode =  "http://<?php echo DOMAINS_URL;?>/gateway/pay/alipayselect.do?id=<?php echo $id; ?>";
   
     
   

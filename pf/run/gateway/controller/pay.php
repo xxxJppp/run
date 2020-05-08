@@ -8,7 +8,8 @@ use xh\library\functions;
 use xh\library\url;
 use xh\library\view;
 use xh\library\ip;
-
+use xh\library\QRtools;
+use xh\library\QRcode;
 class pay
 {
 
@@ -28,54 +29,54 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['account'];
         $order['ewm_url'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['ewm_url'];
         $order['app_user'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['app_user'];
         $order['type'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['type'];
         $order['typename'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['typename'];
-       $order['pid'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['pid'];
+        $order['pid'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['pid'];
         $order['gathering_name'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['gathering_name'];
         $order['cardid'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['cardid'];
         $order['bank_id'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['bank_id'];
         $order['account_no'] = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0]['account_no'];
 
-       $bank_name = $this->mysql->query("bank_id", "bank_id='{$order['bank_id'] }'")[0]['bank_name'];
+        $bank_name = $this->mysql->query("bank_id", "bank_id='{$order['bank_id'] }'")[0]['bank_name'];
         //检测是否手机访问
         if (ip::isMobile()){
-                   if($order['type'] == 1){
-                    $path = 'paofen/alipayMobile';
-                   }else if($order['type'] == 2){
-                    $path = 'paofen/wechatMobile';
-                   }else if($order['type'] == 4){
-                    $path = 'paofen/alipaypidMobile';
-                   }else if($order['type'] == 5){
-                    $path = 'paofen/bankMobile';
-                   }else if($order['type'] == 6){
-                    $path = 'paofen/wechatdyMobile';
-                   }else{
-                    $path = 'paofen/other';
-                   }
+            if($order['type'] == 1){
+                $path = 'paofen/alipayMobile';
+            }else if($order['type'] == 2){
+                $path = 'paofen/wechatMobile';
+            }else if($order['type'] == 4){
+                $path = 'paofen/alipaypidMobile';
+            }else if($order['type'] == 5){
+                $path = 'paofen/bankMobile';
+            }else if($order['type'] == 6){
+                $path = 'paofen/wechatdyMobile';
+            }else{
+                $path = 'paofen/other';
+            }
         }else{
-           if($order['type'] == 1){
-                    $path = 'paofen/alipay';
-                   }else if($order['type'] == 2){
-                    $path = 'paofen/wechat';
-                   }else if($order['type'] == 4){
-                    $path = 'paofen/alipaypid';
-                   }else if($order['type'] == 5){
-                    $path = 'paofen/bank';
-                   }else if($order['type'] == 6){
-                    $path = 'paofen/wechatdy';
-                   }else{
-                    $path = 'paofen/other';
-                   }
-           
+            if($order['type'] == 1){
+                $path = 'paofen/alipay';
+            }else if($order['type'] == 2){
+                $path = 'paofen/wechat';
+            }else if($order['type'] == 4){
+                $path = 'paofen/alipaypid';
+            }else if($order['type'] == 5){
+                $path = 'paofen/bank';
+            }else if($order['type'] == 6){
+                $path = 'paofen/wechatdy';
+            }else{
+                $path = 'paofen/other';
+            }
+
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'ewm_url' => $order['ewm_url'],
+            'name' => $order['name'],
+            'ewm_url' => $order['ewm_url'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -84,18 +85,18 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'type' => $order['type'],
-           'typename' => $order['typename'],
-          'account' => $order['account'],
-          'pid' => $order['pid'],
-           'gathering_namee' => urlencode(trim($order['gathering_name'])),
-           'gathering_name' => trim($order['gathering_name']),
-          'cardid'=>$order['cardid'],
-          'bank_id'=>$order['bank_id'],
-           'bank_name'=>$bank_name,
-          'account_no'=>$order['account_no']
-            
+            'app_user' => $order['app_user'],
+            'type' => $order['type'],
+            'typename' => $order['typename'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
+            'gathering_namee' => urlencode(trim($order['gathering_name'])),
+            'gathering_name' => trim($order['gathering_name']),
+            'cardid'=>$order['cardid'],
+            'bank_id'=>$order['bank_id'],
+            'bank_name'=>$bank_name,
+            'account_no'=>$order['account_no']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -105,8 +106,8 @@ class pay
         }
     }
 
-  
-   //订单查询
+
+    //订单查询
     public function automaticpaofenQuery()
     {
         $id = intval(request::filter('get.id'));
@@ -133,28 +134,28 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-  
-  //话费
-  
+
+
+    //话费
+
     public function automatichuafei(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('client_huafei_automatic_orders',"id={$id}")[0];
-     //   if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-     //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-       // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //   if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
         $order['huafei_name'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['name'];
-       $order['key_id'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['key_id'];
+        $order['key_id'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['key_id'];
         $order['phone'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['phone'];
-       $order['app_user'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['app_user'];
+        $order['app_user'] = $this->mysql->query("client_huafei_automatic_account","id={$order['huafei_id']}")[0]['app_user'];
         //检测是否手机访问
-       
-            $path = 'huafei/huafei';
-       
+
+        $path = 'huafei/huafei';
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'huafei_name' => $order['huafei_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -165,9 +166,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
+            'app_user' => $order['app_user'],
             'phone' => $order['phone']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -203,7 +204,7 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
     //全自动版微信 v1.0
-  //全自动版微信 v1.0
+    //全自动版微信 v1.0
     public function automaticWechat(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -221,10 +222,10 @@ class pay
         }else{
             $path = 'automatic/wechat';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'wechat_name' => $order['wechat_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -235,7 +236,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -281,7 +282,7 @@ class pay
         //查询微信信息
         $order['wechatphone_name'] = $this->mysql->query("client_wechatphone_automatic_account","id={$order['wechatphone_id']}")[0]['name'];
         $order['account'] = $this->mysql->query("client_wechatphone_automatic_account","id={$order['wechatphone_id']}")[0]['account'];
-       $order['phone'] = $this->mysql->query("client_wechatphone_automatic_account","id={$order['wechatphone_id']}")[0]['phone'];
+        $order['phone'] = $this->mysql->query("client_wechatphone_automatic_account","id={$order['wechatphone_id']}")[0]['phone'];
         //检测是否手机访问
         //检测是否手机访问
         if (ip::isMobile()){
@@ -289,10 +290,10 @@ class pay
         }else{
             $path = 'wechatphone/wechat';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'wechatphone_name' => $order['wechatphone_name'],
             'account' => $order['account'],
             'creation_time' => $order['creation_time'],
@@ -303,7 +304,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'phone' => $order['phone']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -358,10 +359,10 @@ class pay
         }else{
             $path = 'wechatsj/wechatsj';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'wechatsj_name' => $order['wechatsj_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -372,7 +373,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -408,8 +409,8 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
 
-  
-  //全自动版微信赞赏 v1.0
+
+    //全自动版微信赞赏 v1.0
     public function automaticwechatzs(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -427,10 +428,10 @@ class pay
         }else{
             $path = 'wechatzs/wechat';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'wechatzs_name' => $order['wechatzs_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -441,7 +442,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -477,7 +478,14 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
 
-  //全自动版微信店员固码 v1.0
+
+    public function getqr()
+    {
+        echo QRcode::png($_GET['qrcode'],false,'H',5);die;
+    }
+
+
+    //全自动版微信店员固码 v1.0
     public function automaticwechatdy(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -495,10 +503,10 @@ class pay
         }else{
             $path = 'wechatdy/wechatdy';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'wechatdy_name' => $order['wechatdy_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -509,7 +517,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -546,7 +554,7 @@ class pay
     }
 
 
-  //全自动版微信商家固码 v1.0
+    //全自动版微信商家固码 v1.0
     public function automaticpddgm(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -564,10 +572,10 @@ class pay
         }else{
             $path = 'pddgm/pddgm';
         }
-           
-       
+
+
         $pay_data = [
-            'id' => $order['id'], 
+            'id' => $order['id'],
             'pddgm_name' => $order['pddgm_name'],
             'ewmurl' => $order['ewmurl'],
             'creation_time' => $order['creation_time'],
@@ -578,7 +586,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -615,6 +623,92 @@ class pay
     }
 
 
+
+
+
+
+    public function alipayselect()
+    {
+        $type = request::filter('get.content_type','','htmlspecialchars');
+        $id = intval(request::filter('get.id'));
+        $order = $this->mysql->query('client_alipay_automatic_orders',"id={$id}")[0];
+        if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //查询微信信息
+        $order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
+        $order['pid'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['pid'];
+        $order['app_user'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['app_user'];
+        $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
+
+
+
+
+
+        $pay_data = [
+            'id' => $order['id'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
+            'creation_time' => $order['creation_time'],
+            'status' => $order['status'],
+            'amount' => $order['amount'],
+            'success_url' => $order['success_url'],
+            'error_url' => $order['error_url'],
+            'out_trade_no' => $order['out_trade_no'],
+            'trade_no' => $order['trade_no'],
+            'qrcode' => $order['qrcode'],
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
+        ];
+
+        $path = 'alipay/select';
+        new view($path,$pay_data);
+    }
+
+
+    //延时
+    public function delayAlipay()
+    {
+
+        $type = request::filter('get.content_type','','htmlspecialchars');
+        $id = intval(request::filter('get.id'));
+        $order = $this->mysql->query('client_alipay_automatic_orders',"id={$id}")[0];
+        if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //查询微信信息
+        $order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
+        $order['pid'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['pid'];
+        $order['app_user'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['app_user'];
+        $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
+
+        $pay_data = [
+            'id' => $order['id'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
+            'creation_time' => $order['creation_time'],
+            'status' => $order['status'],
+            'amount' => $order['amount'],
+            'success_url' => $order['success_url'],
+            'error_url' => $order['error_url'],
+            'out_trade_no' => $order['out_trade_no'],
+            'trade_no' => $order['trade_no'],
+            'qrcode' => $order['qrcode'],
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
+        ];
+
+        $path = 'alipay/delay';
+        new view($path,$pay_data);
+    }
+
+
     //全自动版支付宝 v1.0
     public function automaticAlipay(){
         $type = request::filter('get.content_type','','htmlspecialchars');
@@ -624,15 +718,15 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['app_user'];
         $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
-      
 
-		
-		
+
+
+
         //检测是否手机访问
         if (ip::isMobile()){
             $path = 'alipay/alipayMobile';
@@ -641,9 +735,9 @@ class pay
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -652,9 +746,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -664,7 +758,7 @@ class pay
         }
     }
 
-  //红包
+    //红包
     public function hbh5(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -673,14 +767,14 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['app_user'];
-       $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
+        $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
 
-		
-		
+
+
         //检测是否手机访问
         if (ip::isMobile()){
             $path = 'alipay/hbh5';
@@ -689,9 +783,9 @@ class pay
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -700,9 +794,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -711,7 +805,7 @@ class pay
             new view($path,$pay_data);
         }
     }
-  
+
     public function zzh5(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -720,14 +814,14 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['app_user'];
-       $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
+        $order['is_hongbao'] = $this->mysql->query("client_alipay_automatic_account","id={$order['alipay_id']}")[0]['is_hongbao'];
 
-		
-		
+
+
         //检测是否手机访问
         if (ip::isMobile()){
             $path = 'alipay/zzh5';
@@ -736,9 +830,9 @@ class pay
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -747,9 +841,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -786,7 +880,7 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
 
-  
+
     //全自动版支付宝 v1.0
     public function automaticalipaygm(){
         $type = request::filter('get.content_type','','htmlspecialchars');
@@ -796,15 +890,15 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['app_user'];
         $order['is_hongbao'] = $this->mysql->query("client_alipaygm_automatic_account","id={$order['alipaygm_id']}")[0]['is_hongbao'];
-      
 
-		
-		
+
+
+
         //检测是否手机访问
         if (ip::isMobile()){
             $path = 'alipaygm/alipayMobile';
@@ -813,9 +907,9 @@ class pay
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -824,9 +918,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -836,8 +930,8 @@ class pay
         }
     }
 
-  
-   //订单查询
+
+    //订单查询
     public function automaticalipaygmQuery()
     {
         $id = intval(request::filter('get.id'));
@@ -864,9 +958,9 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-  
-   //全自动版支付宝 v1.0
+
+
+    //全自动版支付宝 v1.0
     public function automatictaobaodf(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -875,16 +969,16 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['app_user'];
         $order['is_hongbao'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['is_hongbao'];
-        
-      
 
-		
-		
+
+
+
+
         //检测是否手机访问
         if (ip::isMobile()){
             $path = 'taobaodf/alipayMobile';
@@ -893,9 +987,9 @@ class pay
         }
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -904,9 +998,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -916,8 +1010,8 @@ class pay
         }
     }
 
-  
-  //全自动版支付宝 v1.0
+
+    //全自动版支付宝 v1.0
     public function taobaodfh5(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -926,25 +1020,25 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['app_user'];
         $order['is_hongbao'] = $this->mysql->query("client_taobaodf_automatic_account","id={$order['taobaodf_id']}")[0]['is_hongbao'];
-        
-      
 
-		
-		
+
+
+
+
         //检测是否手机访问
 
-            $path = 'taobaodf/taobaodfh5';
-      
+        $path = 'taobaodf/taobaodfh5';
+
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -953,9 +1047,9 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -965,8 +1059,8 @@ class pay
         }
     }
 
-  
-   //订单查询
+
+    //订单查询
     public function automatictaobaodfQuery()
     {
         $id = intval(request::filter('get.id'));
@@ -996,20 +1090,20 @@ class pay
     //服务版
     public function service()
     {
-      
+
         $type = request::filter('request.content_type', 'text', 'htmlspecialchars');
 
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('service_order', "id={$id}")[0];
         //print_r($order);die;
-       // if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-       // if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-     //   if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
-     //   if (($order['creation_time'] + 599) < time()) {
+        // if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        // if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        //   if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //   if (($order['creation_time'] + 599) < time()) {
         //    $this->mysql->update('service_order', ['status' => 3], "id={$order['id']}");
 
         //    functions::json(-2, '当前订单已经过期,请重新发起支付');
-    //    }
+        //    }
         $pay_url = '';
         $order['method'] = '';
         //查询服务信息
@@ -1018,15 +1112,15 @@ class pay
         if (ip::isMobile()) {
             if ($service['types'] == 1) $path = 'service/wechatMobile';
             if ($service['types'] == 4) $path = 'service/lakala';
-           if ($service['types'] == 5) $path = 'service/yunshanfu';
-          if ($service['types'] == 6) $path = 'service/nxys';
-          if ($service['types'] == 7) $path = 'service/nxys';
-          if ($service['types'] == 8) $path = 'service/nxysyl';
-           if ($service['types'] == 9) $path = 'service/wechatdyMobile';
-          if ($service['types'] == 10) $path = 'service/wechatsjMobile';
-          if ($service['types'] == 11) $path = 'service/wechatbank';
-          if ($service['types'] == 12) $path = 'service/pddgmMobile';
-          if ($service['types'] == 13) $path = 'service/alipaygmMobile';
+            if ($service['types'] == 5) $path = 'service/yunshanfu';
+            if ($service['types'] == 6) $path = 'service/nxys';
+            if ($service['types'] == 7) $path = 'service/nxys';
+            if ($service['types'] == 8) $path = 'service/nxysyl';
+            if ($service['types'] == 9) $path = 'service/wechatdyMobile';
+            if ($service['types'] == 10) $path = 'service/wechatsjMobile';
+            if ($service['types'] == 11) $path = 'service/wechatbank';
+            if ($service['types'] == 12) $path = 'service/pddgmMobile';
+            if ($service['types'] == 13) $path = 'service/alipaygmMobile';
             if ($service['types'] == 2) {
 
                 if ($service['is_new_version'] == 1) {
@@ -1036,25 +1130,25 @@ class pay
                     $order['mark'] =  $order['trade_no'];
                     $order['method'] = url::s('gateway/pay/serviceQuery', "id={$id}");
                     $pay_url = 'alipays://platformapi/startapp?appId=20000123&actionType=scan&biz_data={"s": "money","u": "' . $service['alipay_pid'] . '","a": "' . $order['amount'] . '","m": "' . $mark . '"}';
-                         
+
                     $path = 'service/alipayMobile';
-                  
+
                 }else if ($service['is_hongbao']== 1) {
                     $mark =  $order['service_id'] . '|' . $order['id'];
                     $order['user_id'] = $service['alipay_pid'];
                     $order['mark'] = $order['trade_no'];
                     $order['method'] = url::s('gateway/pay/serviceQuery', "id={$id}");
                     $pay_url = 'alipays://platformapi/startapp?appId=20000123&actionType=scan&biz_data={"s": "money","u": "' . $service['alipay_pid'] . '","a": "' . $order['amount'] . '","m": "' . $mark . '"}';
-                          if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') == true){
-                           $path = 'service/alipayHongbao';
-                           }else{
-                            $path = 'service/alipay';
-                           }
-                   
-                } 
+                    if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') == true){
+                        $path = 'service/alipayHongbao';
+                    }else{
+                        $path = 'service/alipay';
+                    }
+
+                }
             }
-          
-   
+
+
             if($service['types'] == 3){
 
                 if($this->isInAlipayClient()){
@@ -1080,22 +1174,22 @@ class pay
             }
         } else {
             if ($service['types'] == 1) $path = 'service/wechat';
-          if ($service['types'] == 2 && $service['is_hongbao']== 1 ) $path = 'service/alipay';
+            if ($service['types'] == 2 && $service['is_hongbao']== 1 ) $path = 'service/alipay';
             if ($service['types'] == 2) $path = 'service/alipay';
             if ($service['types'] == 3) $path = 'service/bank';
-           if ($service['types'] == 4) $path = 'service/lakala';
-           if ($service['types'] == 5) $path = 'service/yunshanfu';
-          if ($service['types'] == 6) $path = 'service/nxys';
-          if ($service['types'] == 7) $path = 'service/nxys';
-          if ($service['types'] == 8) $path = 'service/nxysyl';
+            if ($service['types'] == 4) $path = 'service/lakala';
+            if ($service['types'] == 5) $path = 'service/yunshanfu';
+            if ($service['types'] == 6) $path = 'service/nxys';
+            if ($service['types'] == 7) $path = 'service/nxys';
+            if ($service['types'] == 8) $path = 'service/nxysyl';
             if ($service['types'] == 9) $path = 'service/wechatdy';
-          if ($service['types'] == 10) $path = 'service/wechatsj';
-          if ($service['types'] == 11) $path = 'service/wechatbank';
-          if ($service['types'] == 12) $path = 'service/pddgm';
-          if ($service['types'] == 13) $path = 'service/alipaygm';
+            if ($service['types'] == 10) $path = 'service/wechatsj';
+            if ($service['types'] == 11) $path = 'service/wechatbank';
+            if ($service['types'] == 12) $path = 'service/pddgm';
+            if ($service['types'] == 13) $path = 'service/alipaygm';
 
         }
-      
+
         if (empty($order['qrcode'])) {
 
             $paytypes = ['1' => 'wechat', '2' => 'alipay'];
@@ -1126,20 +1220,20 @@ class pay
             'pay_url'       => $pay_url,
             'method'        => $order['method'],
             'user_id'       => $service['alipay_pid'],
-           'account'       => $service['account'],
-           'ewmurl'       => $service['ewmurl'],
+            'account'       => $service['account'],
+            'ewmurl'       => $service['ewmurl'],
             'mark'          => $mark,
             'gathering_name'=> $service['gathering_name'],
-           'app_user'=> $order['app_user'],
-          'is_new_version'=>$service['is_new_version'],
-           'is_hongbao'=>$service['is_hongbao'],
-          'nx_type'=>$service['nx_type'],
+            'app_user'=> $order['app_user'],
+            'is_new_version'=>$service['is_new_version'],
+            'is_hongbao'=>$service['is_hongbao'],
+            'nx_type'=>$service['nx_type'],
             'account_no'     => trim($service['account_no']),
-                        //'gathering_name' => urlencode(trim($service['gathering_name'])),
-                        'gathering_name' => trim($service['gathering_name']),
-                        'bank_id'        => $order['bank_id'],
-                        'bank_name'      => $order['bank_name'],
-                        'bank_acount'         => trim($order['bank_acount']),
+            //'gathering_name' => urlencode(trim($service['gathering_name'])),
+            'gathering_name' => trim($service['gathering_name']),
+            'bank_id'        => $order['bank_id'],
+            'bank_name'      => $order['bank_name'],
+            'bank_acount'         => trim($order['bank_acount']),
         ];
 
         //检测网页类型是否为json
@@ -1156,24 +1250,24 @@ class pay
         }
 
     }
-  
+
     //服务版
     public function bankH5()
     {
-      
+
         $type = request::filter('request.content_type', 'text', 'htmlspecialchars');
 
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('service_order', "id={$id}")[0];
         //print_r($order);die;
-       // if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-       // if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-     //   if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
-     //   if (($order['creation_time'] + 599) < time()) {
+        // if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        // if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        //   if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //   if (($order['creation_time'] + 599) < time()) {
         //    $this->mysql->update('service_order', ['status' => 3], "id={$order['id']}");
 
         //    functions::json(-2, '当前订单已经过期,请重新发起支付');
-    //    }
+        //    }
         $pay_url = '';
         $order['method'] = '';
         //查询服务信息
@@ -1182,15 +1276,15 @@ class pay
         if (ip::isMobile()) {
             if ($service['types'] == 1) $path = 'service/wechatMobile';
             if ($service['types'] == 4) $path = 'service/lakala';
-           if ($service['types'] == 5) $path = 'service/yunshanfu';
-          if ($service['types'] == 6) $path = 'service/nxys';
-          if ($service['types'] == 7) $path = 'service/nxys';
-          if ($service['types'] == 8) $path = 'service/nxysyl';
-           if ($service['types'] == 9) $path = 'service/wechatdyMobile';
-          if ($service['types'] == 10) $path = 'service/wechatsjMobile';
-          if ($service['types'] == 11) $path = 'service/wechatbank';
-          if ($service['types'] == 12) $path = 'service/pddgmMobile';
-          if ($service['types'] == 13) $path = 'service/alipaygmMobile';
+            if ($service['types'] == 5) $path = 'service/yunshanfu';
+            if ($service['types'] == 6) $path = 'service/nxys';
+            if ($service['types'] == 7) $path = 'service/nxys';
+            if ($service['types'] == 8) $path = 'service/nxysyl';
+            if ($service['types'] == 9) $path = 'service/wechatdyMobile';
+            if ($service['types'] == 10) $path = 'service/wechatsjMobile';
+            if ($service['types'] == 11) $path = 'service/wechatbank';
+            if ($service['types'] == 12) $path = 'service/pddgmMobile';
+            if ($service['types'] == 13) $path = 'service/alipaygmMobile';
             if ($service['types'] == 2) {
 
                 if ($service['is_new_version'] == 1) {
@@ -1200,25 +1294,25 @@ class pay
                     $order['mark'] =  $order['trade_no'];
                     $order['method'] = url::s('gateway/pay/serviceQuery', "id={$id}");
                     $pay_url = 'alipays://platformapi/startapp?appId=20000123&actionType=scan&biz_data={"s": "money","u": "' . $service['alipay_pid'] . '","a": "' . $order['amount'] . '","m": "' . $mark . '"}';
-                         
+
                     $path = 'service/alipayMobile';
-                  
+
                 }else if ($service['is_hongbao']== 1) {
                     $mark =  $order['service_id'] . '|' . $order['id'];
                     $order['user_id'] = $service['alipay_pid'];
                     $order['mark'] = $order['trade_no'];
                     $order['method'] = url::s('gateway/pay/serviceQuery', "id={$id}");
                     $pay_url = 'alipays://platformapi/startapp?appId=20000123&actionType=scan&biz_data={"s": "money","u": "' . $service['alipay_pid'] . '","a": "' . $order['amount'] . '","m": "' . $mark . '"}';
-                          if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') == true){
-                           $path = 'service/alipayHongbao';
-                           }else{
-                            $path = 'service/alipay';
-                           }
-                   
-                } 
+                    if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') == true){
+                        $path = 'service/alipayHongbao';
+                    }else{
+                        $path = 'service/alipay';
+                    }
+
+                }
             }
-          
-   
+
+
             if($service['types'] == 3){
 
                 if($this->isInAlipayClient()){
@@ -1244,22 +1338,22 @@ class pay
             }
         } else {
             if ($service['types'] == 1) $path = 'service/wechat';
-          if ($service['types'] == 2 && $service['is_hongbao']== 1 ) $path = 'service/alipay';
+            if ($service['types'] == 2 && $service['is_hongbao']== 1 ) $path = 'service/alipay';
             if ($service['types'] == 2) $path = 'service/alipay';
             if ($service['types'] == 3) $path = 'service/bankH5';
-           if ($service['types'] == 4) $path = 'service/lakala';
-           if ($service['types'] == 5) $path = 'service/yunshanfu';
-          if ($service['types'] == 6) $path = 'service/nxys';
-          if ($service['types'] == 7) $path = 'service/nxys';
-          if ($service['types'] == 8) $path = 'service/nxysyl';
+            if ($service['types'] == 4) $path = 'service/lakala';
+            if ($service['types'] == 5) $path = 'service/yunshanfu';
+            if ($service['types'] == 6) $path = 'service/nxys';
+            if ($service['types'] == 7) $path = 'service/nxys';
+            if ($service['types'] == 8) $path = 'service/nxysyl';
             if ($service['types'] == 9) $path = 'service/wechatdy';
-          if ($service['types'] == 10) $path = 'service/wechatsj';
-          if ($service['types'] == 11) $path = 'service/wechatbank';
-          if ($service['types'] == 12) $path = 'service/pddgm';
-          if ($service['types'] == 13) $path = 'service/alipaygm';
+            if ($service['types'] == 10) $path = 'service/wechatsj';
+            if ($service['types'] == 11) $path = 'service/wechatbank';
+            if ($service['types'] == 12) $path = 'service/pddgm';
+            if ($service['types'] == 13) $path = 'service/alipaygm';
 
         }
-      
+
         if (empty($order['qrcode'])) {
 
             $paytypes = ['1' => 'wechat', '2' => 'alipay'];
@@ -1290,21 +1384,21 @@ class pay
             'pay_url'       => $pay_url,
             'method'        => $order['method'],
             'user_id'       => $service['alipay_pid'],
-           'account'       => $service['account'],
-           'ewmurl'       => $service['ewmurl'],
+            'account'       => $service['account'],
+            'ewmurl'       => $service['ewmurl'],
             'mark'          => $mark,
             'gathering_name'=> $service['gathering_name'],
-           'cardid'         => trim($service['cardid']),
-           'app_user'=> $order['app_user'],
-          'is_new_version'=>$service['is_new_version'],
-           'is_hongbao'=>$service['is_hongbao'],
-          'nx_type'=>$service['nx_type'],
+            'cardid'         => trim($service['cardid']),
+            'app_user'=> $order['app_user'],
+            'is_new_version'=>$service['is_new_version'],
+            'is_hongbao'=>$service['is_hongbao'],
+            'nx_type'=>$service['nx_type'],
             'account_no'     => trim($service['account_no']),
-                        //'gathering_name' => urlencode(trim($service['gathering_name'])),
-                        'gathering_name' => trim($service['gathering_name']),
-                        'bank_id'        => $order['bank_id'],
-                        'bank_name'      => $order['bank_name'],
-                        'bank_acount'         => trim($order['bank_acount']),
+            //'gathering_name' => urlencode(trim($service['gathering_name'])),
+            'gathering_name' => trim($service['gathering_name']),
+            'bank_id'        => $order['bank_id'],
+            'bank_name'      => $order['bank_name'],
+            'bank_acount'         => trim($order['bank_acount']),
         ];
 
         //检测网页类型是否为json
@@ -1321,9 +1415,9 @@ class pay
         }
 
     }
-  
-  
-   public function szzh5(){
+
+
+    public function szzh5(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('service_order',"id={$id}")[0];
@@ -1332,21 +1426,21 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询服务信息
         $service = $this->mysql->query("service_account","id={$order['service_id']}")[0];
-      
-      	$order['name'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['account'];
+
+        $order['name'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['account'];
         $order['alipay_pid'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['alipay_pid'];
 
-		
-     
-            if ($service['types'] == 2) $path = 'service/szzh5';
-       
+
+
+        if ($service['types'] == 2) $path = 'service/szzh5';
+
         $pay_data = [
             'id' => $order['id'],
-         
-			'name' => $order['name'],
+
+            'name' => $order['name'],
             'account' => $order['account'],
-			'pid' => $order['alipay_pid'],
+            'pid' => $order['alipay_pid'],
             'service_name' => $service['alipay_name'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
@@ -1356,7 +1450,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -1366,8 +1460,8 @@ class pay
         }
     }
 
-  
-     public function shbh5(){
+
+    public function shbh5(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('service_order',"id={$id}")[0];
@@ -1376,21 +1470,21 @@ class pay
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询服务信息
         $service = $this->mysql->query("service_account","id={$order['service_id']}")[0];
-      
-      	$order['name'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['account'];
+
+        $order['name'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("service_account","id={$order['service_id']}")[0]['pid'];
 
-		
-     
-            if ($service['types'] == 2) $path = 'service/shbh5';
-       
+
+
+        if ($service['types'] == 2) $path = 'service/shbh5';
+
         $pay_data = [
             'id' => $order['id'],
-         
-			'name' => $order['name'],
-          'account' => $order['account'],
-			'pid' => $order['pid'],
+
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'service_name' => $service['alipay_name'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
@@ -1400,7 +1494,7 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode']
-            
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
@@ -1757,15 +1851,15 @@ class pay
         // $order['alipay_name'] = $this->mysql->query("client_bank_automatic_account", "id={$order['alipay_id']}")[0]['name'];
         $find_alipay = $this->mysql->query('client_bank_automatic_account', "id={$order['alipay_id']}")[0];
 
- //检测是否手机访问
+        //检测是否手机访问
         if (ip::isMobile()){
             $path = 'bank/bank';
         }else{
-             $path = 'bank/bank';
+            $path = 'bank/bank';
         }
-       
-           
-      
+
+
+
         if (empty($order['qrcode'])) {
 
         }
@@ -1784,9 +1878,9 @@ class pay
             'account_no'     => trim($find_alipay['account_no']),
             'gathering_namee' => urlencode(trim($order['gathering_name'])),
             'gathering_name' => trim($find_alipay['gathering_name']),
-           'bank_id'        => $order['bank_id'],
-           'bank_name'      => $order['bank_name'],
-             'cardid'         => trim($find_alipay['cardid']),
+            'bank_id'        => $order['bank_id'],
+            'bank_name'      => $order['bank_name'],
+            'cardid'         => trim($find_alipay['cardid']),
             'bank_acount'         => trim($order['bank_acount']),
             'location_url'  => url::s("gateway/pay/automaticAlipay", "id={$order['id']}"),
         ];
@@ -1804,8 +1898,8 @@ class pay
             new view($path, $pay_data);
         }
     }
-  
-     public function tobank()
+
+    public function tobank()
     {
         $type = request::filter('get.content_type', '', 'htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -1830,9 +1924,9 @@ class pay
         $find_alipay = $this->mysql->query('client_bank_automatic_account', "id={$order['alipay_id']}")[0];
 
 
-       
-            $path = 'bank/tobank';
-      
+
+        $path = 'bank/tobank';
+
         if (empty($order['qrcode'])) {
 
         }
@@ -1849,12 +1943,12 @@ class pay
             'trade_no'      => $order['trade_no'],
             'qrcode'        => $order['qrcode'],
             'account_no'     => trim($find_alipay['account_no']),
-           'gathering_name2' => urlencode(trim($order['bank_name'])),
+            'gathering_name2' => urlencode(trim($order['bank_name'])),
             //'gathering_name' => urlencode(trim($service['gathering_name'])),
             'gathering_name' => trim($find_alipay['gathering_name']),
-           'bank_id'        => $order['bank_id'],
-           'bank_name'      => $order['bank_name'],
-             'cardid'         => trim($find_alipay['cardid']),
+            'bank_id'        => $order['bank_id'],
+            'bank_name'      => $order['bank_name'],
+            'cardid'         => trim($find_alipay['cardid']),
             'bank_acount'         => trim($order['bank_acount']),
             'location_url'  => url::s("gateway/pay/automaticAlipay", "id={$order['id']}"),
         ];
@@ -1872,9 +1966,9 @@ class pay
             new view($path, $pay_data);
         }
     }
-  
-  
-  
+
+
+
     public function automatiBankQuery()
     {
         $id = intval(request::filter('get.id'));
@@ -1894,10 +1988,10 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-  
-  
-   public function automaticwechatbank()
+
+
+
+    public function automaticwechatbank()
     {
         $type = request::filter('get.content_type', '', 'htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -1922,9 +2016,9 @@ class pay
         $find_alipay = $this->mysql->query('client_wechatbank_automatic_account', "id={$order['alipay_id']}")[0];
 
 
-       
-            $path = 'wechatbank/wechatbank';
-      
+
+        $path = 'wechatbank/wechatbank';
+
         if (empty($order['qrcode'])) {
 
         }
@@ -1943,9 +2037,9 @@ class pay
             'account_no'     => trim($find_alipay['account_no']),
             //'gathering_name' => urlencode(trim($service['gathering_name'])),
             'gathering_name' => trim($find_alipay['gathering_name']),
-           'bank_id'        => $order['bank_id'],
-           'bank_name'      => $order['bank_name'],
-             'cardid'         => trim($find_alipay['cardid']),
+            'bank_id'        => $order['bank_id'],
+            'bank_name'      => $order['bank_name'],
+            'cardid'         => trim($find_alipay['cardid']),
             'bank_acount'         => trim($order['bank_acount']),
             'location_url'  => url::s("gateway/pay/automaticAlipay", "id={$order['id']}"),
         ];
@@ -1963,9 +2057,9 @@ class pay
             new view($path, $pay_data);
         }
     }
-  
-  
-  
+
+
+
     public function automatiwechatbankQuery()
     {
         $id = intval(request::filter('get.id'));
@@ -1985,9 +2079,9 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-  
-  
+
+
+
     //全自动版云闪付
     public function automaticyunshanfu()
     {
@@ -1997,16 +2091,16 @@ class pay
 
 
         //print_r($order);die;
-      //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-     //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-       // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
 
 
-      //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
-         //   $res = $this->mysql->update('client_yunshanfu_automatic_orders', ['status' => 3], "id={$order['id']}");
+        //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
+        //   $res = $this->mysql->update('client_yunshanfu_automatic_orders', ['status' => 3], "id={$order['id']}");
 
-  //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
-    //    }
+        //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
+        //    }
         $pay_url = '';
         $order['method'] = '';
         //查询微信信息
@@ -2014,14 +2108,14 @@ class pay
         $find_yunshanfu = $this->mysql->query('client_yunshanfu_automatic_account', "id={$order['yunshanfu_id']}")[0];
 
 
-      
-            $path = 'yunshanfu/yunshanfu';
-      
+
+        $path = 'yunshanfu/yunshanfu';
+
 
         $pay_data = [
             'id'            => $order['id'],
-          'user_id'            => $order['user_id'],
-           'yunshanfu_id' => $order['yunshanfu_id'],
+            'user_id'            => $order['user_id'],
+            'yunshanfu_id' => $order['yunshanfu_id'],
             'creation_time' => $order['creation_time'],
             'status'        => $order['status'],
             'amount'        => $order['amount'],
@@ -2031,7 +2125,7 @@ class pay
             'trade_no'      => $order['trade_no'],
             'qrcode'        => $order['qrcode'],
             'location_url'  => url::s("gateway/pay/automaticyunshanfu", "id={$order['id']}"),
-          'app_user'=> $find_yunshanfu['app_user']
+            'app_user'=> $find_yunshanfu['app_user']
         ];
 
         //检测网页类型是否为json
@@ -2047,7 +2141,7 @@ class pay
             new view($path, $pay_data);
         }
     }
- public function automaticyunshanfuQuery()
+    public function automaticyunshanfuQuery()
     {
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('client_yunshanfu_automatic_orders', "id ={$id}", 'status,creation_time,expire_time,qrcode,yunshanfu_id')[0];
@@ -2066,9 +2160,9 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-  
-   //全自动版云闪付
+
+
+    //全自动版云闪付
     public function automaticlakala()
     {
         $type = request::filter('get.content_type', '', 'htmlspecialchars');
@@ -2077,16 +2171,16 @@ class pay
 
 
         //print_r($order);die;
-      //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-     //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-       // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
 
 
-      //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
-         //   $res = $this->mysql->update('client_lakala_automatic_orders', ['status' => 3], "id={$order['id']}");
+        //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
+        //   $res = $this->mysql->update('client_lakala_automatic_orders', ['status' => 3], "id={$order['id']}");
 
-  //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
-    //    }
+        //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
+        //    }
         $pay_url = '';
         $order['method'] = '';
         //查询微信信息
@@ -2094,13 +2188,13 @@ class pay
         $find_lakala = $this->mysql->query('client_lakala_automatic_account', "id={$order['lakala_id']}")[0];
 
 
-    
-            $path = 'lakala/lakala';
-      
+
+        $path = 'lakala/lakala';
+
 
         $pay_data = [
             'id'            => $order['id'],
-           'lakala_id' => $order['lakala_id'],
+            'lakala_id' => $order['lakala_id'],
             'creation_time' => $order['creation_time'],
             'status'        => $order['status'],
             'amount'        => $order['amount'],
@@ -2110,7 +2204,7 @@ class pay
             'trade_no'      => $order['trade_no'],
             'qrcode'        => $order['qrcode'],
             'location_url'  => url::s("gateway/pay/automaticlakala", "id={$order['id']}"),
-           'app_user'=> $find_lakala['app_user']
+            'app_user'=> $find_lakala['app_user']
         ];
 
         //检测网页类型是否为json
@@ -2126,7 +2220,7 @@ class pay
             new view($path, $pay_data);
         }
     }
- public function automaticlakalaQuery()
+    public function automaticlakalaQuery()
     {
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('client_lakala_automatic_orders', "id ={$id}", 'status,creation_time,expire_time,qrcode,lakala_id')[0];
@@ -2145,7 +2239,7 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-   //全自动版云闪付
+    //全自动版云闪付
     public function automaticnxys()
     {
         $type = request::filter('get.content_type', '', 'htmlspecialchars');
@@ -2154,16 +2248,16 @@ class pay
 
 
         //print_r($order);die;
-      //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
-     //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
-       // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
+        //  if (!is_array($order)) functions::json(-1, '当前交易号不存在');
+        //   if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
+        // if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
 
 
-      //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
-         //   $res = $this->mysql->update('client_nxys_automatic_orders', ['status' => 3], "id={$order['id']}");
+        //  if (($order['creation_time'] + 599) < time()  || $order['expire_time'] < time()) {
+        //   $res = $this->mysql->update('client_nxys_automatic_orders', ['status' => 3], "id={$order['id']}");
 
-  //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
-    //    }
+        //       //   functions::json(-2, '当前订单已经过期,请重新发起支付');
+        //    }
         $pay_url = '';
         $order['method'] = '';
         //查询微信信息
@@ -2171,13 +2265,13 @@ class pay
         $find_nxys = $this->mysql->query('client_nxys_automatic_account', "id={$order['nxys_id']}")[0];
 
 
-              if($find_nxys['type'] == 0){
-                    $path = 'nxys/nxys';
-             }else if($find_nxys['type'] == 1){
-				 $path = 'nxys/nxys';
-				}else{
-				 $path = 'nxys/nxysyl';
-				}
+        if($find_nxys['type'] == 0){
+            $path = 'nxys/nxys';
+        }else if($find_nxys['type'] == 1){
+            $path = 'nxys/nxys';
+        }else{
+            $path = 'nxys/nxysyl';
+        }
 
         $pay_data = [
             'id'            => $order['id'],
@@ -2192,7 +2286,7 @@ class pay
             'qrcode'        => $order['qrcode'],
             'location_url'  => url::s("gateway/pay/automaticnxys", "id={$order['id']}"),
             'app_user'=> $find_nxys['app_user'],
-			'type'=>$order['type']
+            'type'=>$order['type']
         ];
 
         //检测网页类型是否为json
@@ -2208,8 +2302,8 @@ class pay
             new view($path, $pay_data);
         }
     }
-	
- public function automaticnxysQuery()
+
+    public function automaticnxysQuery()
     {
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('client_nxys_automatic_orders', "id ={$id}", 'status,creation_time,expire_time,qrcode,nxys_id')[0];
@@ -2228,8 +2322,8 @@ class pay
         if ($order['status'] == 3) functions::json(-2, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
     }
-  
-   //收钱吧
+
+    //收钱吧
     public function automaticshouqianba(){
         $type = request::filter('get.content_type','','htmlspecialchars');
         $id = intval(request::filter('get.id'));
@@ -2238,21 +2332,21 @@ class pay
         if ($order['status'] == 3) functions::json(-1, '当前订单已经过期,请重新发起支付');
         if ($order['status'] == 4) functions::json(200, '当前订单已经支付成功!');
         //查询微信信息
-		$order['name'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['name'];
-		$order['account'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['account'];
+        $order['name'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['name'];
+        $order['account'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['account'];
         $order['pid'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['pid'];
         $order['app_user'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['app_user'];
         $order['is_hongbao'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['is_hongbao'];
-       $order['type'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['type'];
-      
-		$order['qrcode'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $order['type'] = $this->mysql->query("client_shouqianba_automatic_account","id={$order['shouqianba_id']}")[0]['type'];
 
-      	$path = 'shouqianba/sqb_alipay';
+        $order['qrcode'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+        $path = 'shouqianba/sqb_alipay';
         $pay_data = [
             'id' => $order['id'],
-			'name' => $order['name'],
-			'account' => $order['account'],
-			'pid' => $order['pid'],
+            'name' => $order['name'],
+            'account' => $order['account'],
+            'pid' => $order['pid'],
             'creation_time' => $order['creation_time'],
             'status' => $order['status'],
             'amount' => $order['amount'],
@@ -2261,90 +2355,90 @@ class pay
             'out_trade_no' => $order['out_trade_no'],
             'trade_no' => $order['trade_no'],
             'qrcode' => $order['qrcode'],
-           'app_user' => $order['app_user'],
-           'is_hongbao' => $order['is_hongbao']
-            
+            'app_user' => $order['app_user'],
+            'is_hongbao' => $order['is_hongbao']
+
         ];
         //检测网页类型是否为json
         if ($type == 'json'){
             functions::json(200, 'success', $pay_data);
         }else{
-           if (ip::isMobile()){
-             
-              if($order['type'] == 2){
-                
-              	$path = 'shouqianba/sqb_wechat';
-                new view($path,$pay_data);
-                exit;
-              }
-              $payurl = $pay_data['qrcode'];
-              if(strpos($_SERVER['HTTP_USER_AGENT'], 'Alipay') === false){
-                  header("location: https://render.alipay.com/p/s/i?scheme=".urlencode("alipays://platformapi/startapp?saId=10000007&qrcode=".urlencode($payurl)));
-              }else{
-                if(!empty($order['pno'])){
-                	$pay_data['tradeNo'] = $order['pno'];
-      				$path = 'shouqianba/sqb_alipay_h5';
+            if (ip::isMobile()){
+
+                if($order['type'] == 2){
+
+                    $path = 'shouqianba/sqb_wechat';
+                    new view($path,$pay_data);
+                    exit;
+                }
+                $payurl = $pay_data['qrcode'];
+                if(strpos($_SERVER['HTTP_USER_AGENT'], 'Alipay') === false){
+                    header("location: https://render.alipay.com/p/s/i?scheme=".urlencode("alipays://platformapi/startapp?saId=10000007&qrcode=".urlencode($payurl)));
                 }else{
-                    $auth_code = $_GET['auth_code'];
-                    if(empty($auth_code)){
-                      header("location: https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2019051064472036&scope=auth_base&redirect_uri=".urlencode($payurl)."&state=1");
-                      exit;
-                    }
-                    $userid = file_get_contents("http://xx.erinqak.cn/alipay_user.php?code=".$auth_code);
-                    $url = 'https://qr.shouqianba.com/qr/api/pay?_='.time();
-                  	$qrcodeId = $order['pid'];
-                    $post = '{"amount":'.$order['amount'].',"qrCodeId":"'.$qrcodeId.'","remark":"'.$order['trade_no'].'"}';
-                    $ch = curl_init(); 
-                    curl_setopt($ch, CURLOPT_URL, $url); 
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    $header = array ();
-                    $header [] = 'Host:qr.shouqianba.com';
-                    $header [] = 'Accept: application/json';
-                    $header [] = 'X-QRCODE-ID: '.$qrcodeId.'';
-                    $header [] = 'X-Requested-With: XMLHttpRequest';
-                    $header [] = 'Accept-Language: zh-cn';
-                    $header [] = 'Accept-Encoding: br, gzip, deflate';
-                    $header [] = 'Content-Type: application/json; charset=UTF-8';
-                    $header [] = 'Origin: https://qr.shouqianba.com';
-                    $header [] = 'User-Agent: '.$_SERVER['HTTP_USER_AGENT'];
-                    $header [] = 'Content-Length: '.strlen($post);
-                    $header [] = 'Referer: https://qr.shouqianba.com/'.$qrcodeId.'';
-                    $header [] = 'Connection: keep-alive';
-                    $header [] = 'X-OPEN-ID: '.$userid;
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header );   
-                    curl_setopt($ch, CURLOPT_POST, 1);  
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);  
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie); 
-                    $login = curl_exec($ch); 
-                    curl_close($ch);
-                    $resp = json_decode($login,true);
-                    if($resp['code'] == 200 && !empty($resp['data']['wapPayRequest']['tradeNO'])){
-                        $tradeNo = $resp['data']['wapPayRequest']['tradeNO'];
-		                $fa = $this->mysql->update('client_shouqianba_automatic_orders', ['pno' => $tradeNo,'sqbno' => $resp['data']['sn']], "id={$order['id']}");
-                        $pay_data['tradeNo'] = $tradeNo;
+                    if(!empty($order['pno'])){
+                        $pay_data['tradeNo'] = $order['pno'];
                         $path = 'shouqianba/sqb_alipay_h5';
                     }else{
-                        $path = 'shouqianba/sqb_alipay_h5';
+                        $auth_code = $_GET['auth_code'];
+                        if(empty($auth_code)){
+                            header("location: https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2019051064472036&scope=auth_base&redirect_uri=".urlencode($payurl)."&state=1");
+                            exit;
+                        }
+                        $userid = file_get_contents("http://xx.erinqak.cn/alipay_user.php?code=".$auth_code);
+                        $url = 'https://qr.shouqianba.com/qr/api/pay?_='.time();
+                        $qrcodeId = $order['pid'];
+                        $post = '{"amount":'.$order['amount'].',"qrCodeId":"'.$qrcodeId.'","remark":"'.$order['trade_no'].'"}';
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        $header = array ();
+                        $header [] = 'Host:qr.shouqianba.com';
+                        $header [] = 'Accept: application/json';
+                        $header [] = 'X-QRCODE-ID: '.$qrcodeId.'';
+                        $header [] = 'X-Requested-With: XMLHttpRequest';
+                        $header [] = 'Accept-Language: zh-cn';
+                        $header [] = 'Accept-Encoding: br, gzip, deflate';
+                        $header [] = 'Content-Type: application/json; charset=UTF-8';
+                        $header [] = 'Origin: https://qr.shouqianba.com';
+                        $header [] = 'User-Agent: '.$_SERVER['HTTP_USER_AGENT'];
+                        $header [] = 'Content-Length: '.strlen($post);
+                        $header [] = 'Referer: https://qr.shouqianba.com/'.$qrcodeId.'';
+                        $header [] = 'Connection: keep-alive';
+                        $header [] = 'X-OPEN-ID: '.$userid;
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $header );
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+                        $login = curl_exec($ch);
+                        curl_close($ch);
+                        $resp = json_decode($login,true);
+                        if($resp['code'] == 200 && !empty($resp['data']['wapPayRequest']['tradeNO'])){
+                            $tradeNo = $resp['data']['wapPayRequest']['tradeNO'];
+                            $fa = $this->mysql->update('client_shouqianba_automatic_orders', ['pno' => $tradeNo,'sqbno' => $resp['data']['sn']], "id={$order['id']}");
+                            $pay_data['tradeNo'] = $tradeNo;
+                            $path = 'shouqianba/sqb_alipay_h5';
+                        }else{
+                            $path = 'shouqianba/sqb_alipay_h5';
+                        }
                     }
+                    new view($path,$pay_data);
                 }
-            	new view($path,$pay_data);
-              }
-           }else{
-             
-              if($order['type'] == 2){
-                
-              	$path = 'shouqianba/sqb_wechat';
+            }else{
+
+                if($order['type'] == 2){
+
+                    $path = 'shouqianba/sqb_wechat';
+                    new view($path,$pay_data);
+                    exit;
+                }
                 new view($path,$pay_data);
-                exit;
-              }
-             	new view($path,$pay_data);
-           }
+            }
         }
     }
-  
+
     //订单查询
     public function automaticshouqianbaQuery()
     {

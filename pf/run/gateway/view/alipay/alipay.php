@@ -214,7 +214,7 @@ isMobile = isIphone || isAndroid;
 
 
 
-  qrcode =  "http://<?php echo DOMAINS_URL;?>/gateway/pay/zzh5.do?id=<?php echo $id; ?>";
+  qrcode =  "http://<?php echo DOMAINS_URL;?>/gateway/pay/alipayselect.do?id=<?php echo $id; ?>";
   
     
   
