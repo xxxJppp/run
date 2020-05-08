@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50553
+Source Server         : localhost
+Source Server Version : 50726
 Source Host           : localhost:3306
 Source Database       : main
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-05-05 20:10:46
+Date: 2020-05-08 10:57:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -140,14 +140,29 @@ CREATE TABLE `ysk_dj` (
   `money` decimal(10,2) DEFAULT '0.00',
   `addtime` int(11) DEFAULT NULL,
   `ppid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `ppid` (`ppid`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of ysk_dj
 -- ----------------------------
-INSERT INTO `ysk_dj` VALUES ('1', '21', '500.00', '1588663713', '438');
-INSERT INTO `ysk_dj` VALUES ('2', '21', '500.00', '1588675321', '440');
+INSERT INTO `ysk_dj` VALUES ('31', '31', '500.00', '1588754035', '488');
+INSERT INTO `ysk_dj` VALUES ('33', '31', '500.00', '1588755332', '496');
+INSERT INTO `ysk_dj` VALUES ('34', '31', '500.00', '1588755692', '497');
+INSERT INTO `ysk_dj` VALUES ('35', '31', '500.00', '1588756025', '498');
+INSERT INTO `ysk_dj` VALUES ('39', '31', '500.00', '1588815130', '505');
+INSERT INTO `ysk_dj` VALUES ('40', '31', '500.00', '1588815420', '506');
+INSERT INTO `ysk_dj` VALUES ('41', '31', '500.00', '1588817764', '508');
+INSERT INTO `ysk_dj` VALUES ('42', '31', '500.00', '1588817849', '509');
+INSERT INTO `ysk_dj` VALUES ('44', '31', '500.00', '1588818116', '511');
+INSERT INTO `ysk_dj` VALUES ('45', '31', '500.00', '1588818306', '512');
+INSERT INTO `ysk_dj` VALUES ('47', '31', '500.00', '1588819778', '514');
+INSERT INTO `ysk_dj` VALUES ('48', '31', '500.00', '1588821262', '517');
+INSERT INTO `ysk_dj` VALUES ('50', '31', '500.00', '1588830969', '519');
+INSERT INTO `ysk_dj` VALUES ('51', '31', '500.00', '1588833974', '520');
+INSERT INTO `ysk_dj` VALUES ('52', '31', '500.00', '1588834640', '521');
+INSERT INTO `ysk_dj` VALUES ('55', '31', '500.00', '1588836830', '524');
 
 -- ----------------------------
 -- Table structure for ysk_ewm
@@ -170,50 +185,54 @@ CREATE TABLE `ysk_ewm` (
   `province` varchar(255) NOT NULL COMMENT '二维码省份',
   `city` varchar(255) NOT NULL COMMENT '二维码所属市',
   `audit_status` tinyint(1) DEFAULT '0' COMMENT '0待审核1已审核',
+  `qrurl` varchar(255) DEFAULT '' COMMENT '二维码解码路径',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`,`ewm_class`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二维码管理';
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='二维码管理';
 
 -- ----------------------------
 -- Records of ysk_ewm
 -- ----------------------------
-INSERT INTO `ysk_ewm` VALUES ('86', '159', '2', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb92719c890.jpg', '0.00', '', '13931091933', '六熊猫', '1574670970', '1575311032', '1575310992', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('88', '157', '1', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb953522bdb.jpg', '0.00', '', '18731028899', '刘海', '1574671681', '1574673233', '1574673222', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('89', '160', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcb9cd7018c.jpg', '0.00', '', '14033033330', '啊就好', '1574746579', '1574746934', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('90', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcbce2a255f.jpg', '0.00', '', '13100007777', '123', '1574747367', '1575297453', '1575297317', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('91', '1', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de514b6df7c9.png', '0.00', '', '13100000000', '567', '1575294141', '1575294181', '1575294174', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('92', '152', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de516b31cd4c.png', '0.00', '', '13111112222', 'sdfsdf', '1575294646', '1575296589', '1575297395', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('93', '155', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de51c1e8bcdd.png', '0.00', '', '13100006666', '121212', '1575296031', '1575296668', '1575296663', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('94', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de5210b315cf.png', '0.00', '', '13100007777', '士大夫大师傅', '1575297293', '1578045913', '1575304897', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('95', '9', '1', 'http://p.nanguang998.com/Public/attached/2019/12/09/5dee1c3875156.png', '0.00', '', '13800138000', '张三', '1575886416', '1578017400', '1578017467', '1', '1', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('96', '164', '1', 'http://p.nanguang998.com/Public/attached/2019/12/11/5df0e6cd8749b.jpeg', '0.00', '', '13783914073', '张磊', '1576068816', '1576069337', '1576069324', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('97', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb04b652507.jpg', '0.00', '', '13800138000', '多得到', '1576731834', '1578045884', '1576820862', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('98', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb05fd79696.png', '0.00', '', '13800138000', '孙鹏', '1576732205', '1578045866', '1577455905', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('99', '9', '3', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb3b8a2beca.png', '0.00', '456456', '13800138000', '456', '1576745867', '1576745867', '1577977047', '0', '1', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('100', '9', '3', 'http://pao.h8pay.com/Public/attached/2019/12/21/5dfde01ec7613.jpg', '0.00', '6123359123569621', '13800138000', '张梦磊', '1576919082', '1578047939', '1579634027', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('105', '176', '2', 'http://www.h8pay.com/Public/attached/2020/01/01/5e0ca15cdfb8e.jpeg', '0.00', '', '17521149197', '王新钘', '1577886053', '1577886053', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('107', '165', '2', 'http://www.h8pay.com/Public/attached/2020/01/02/5e0e04b995899.png', '0.00', '', '14725836900', '我现在', '1577977021', '1577977042', '0', '0', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('109', '165', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0e8fae6c259.png', '0.00', '4657286488500964', '14725836900', '刘亮', '1578012610', '1578044401', '1578044390', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('111', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebba6be664.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023848', '1578023848', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('112', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebbdff05b9.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023906', '1578023906', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('113', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebf17138d1.jpg', '0.00', '', '15665431432', '合肥水润网络信息科技有限公司', '1578024764', '1578024764', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('114', '186', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ec9a833e5a.jpeg', '0.00', '6217923671554615', '13386909567', '纪仁泽', '1578027508', '1578027508', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('116', '179', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ecea003115.jpg', '0.00', '', '15665431432', '来都借', '1578028709', '1578028709', '1578028868', '0', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('117', '165', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed535c4244.png', '0.00', '', '14725836900', '个地方', '1578030393', '1578040970', '1578040919', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('118', '186', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed54cb8019.jpeg', '0.00', '', '13386909567', '纪平凡', '1578030429', '1578030429', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('119', '172', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed53bdde74.jpeg', '0.00', '6217001780006760433', '18075031017', '荣发涛', '1578030467', '1578034129', '1578034029', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('121', '169', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0658ac1d.jpg', '0.00', '6212262013027479790', '18928696507', '陈超威', '1578037371', '1578037371', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('122', '169', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0cf0fe64.jpeg', '0.00', '', '18928696507', '陈超威', '1578037458', '1578037458', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('123', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0f03a4ed820.jpg', '0.00', '6230580000232230487', '15838717882', '秦守博', '1578042280', '1578317016', '1578048788', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('124', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0fe9499e071.jpg', '0.00', '6221804910002203671', '15838717882', '秦守博', '1578101097', '1578101097', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('125', '166', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0ff40050267.jpeg', '0.00', '6215581510007874434', '18022484190', '陈冬明', '1578103870', '1578103870', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('127', '201', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e12fd2af2a06.jpg', '0.00', '6216695000012002859', '18831206543', '胡子明', '1578302807', '1578302807', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('128', '199', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e131b570ae1f.jpg', '0.00', '6217996750001251446', '13398322087', '欧波', '1578310519', '1578318944', '1578318797', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('129', '167', '3', 'http://www.h8pay.com/Public/attached/2020/01/07/5e13d5382eb32.jpg', '0.00', '6230520060085161877', '15715928077', '范孝鑫', '1578358074', '1578358074', '0', '1', '0', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588562575', '1588675321', '1', '1', '', '', '1');
-INSERT INTO `ysk_ewm` VALUES ('134', '21', '3', 'http://fast.com/Public/attached/2020/04/26/5ea4ed7c97336.png', '0.00', '123873474829839', '13888888888', 'XIA', '1587867014', '1587867014', '1587868297', '1', '0', '', '', '0');
-INSERT INTO `ysk_ewm` VALUES ('135', '21', '2', 'http://fast.com/Public/attached/2020/04/26/5ea5223112385.png', '0.00', '', '13888888888', '小虾', '1587880529', '1588582588', '1588576044', '1', '0', '浙江省', '杭州市', '1');
-INSERT INTO `ysk_ewm` VALUES ('136', '21', '1', 'http://fast.com/Public/attached/2020/04/30/5eaa43850ed31.png', '0.00', '', '13888888888', '小虾1', '1588216713', '1588216713', '1588219072', '1', '0', '浙江', '杭州', '0');
+INSERT INTO `ysk_ewm` VALUES ('86', '159', '2', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb92719c890.jpg', '0.00', '', '13931091933', '六熊猫', '1574670970', '1575311032', '1575310992', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('88', '157', '1', 'http://p.nanguang998.com/Public/attached/2019/11/25/5ddb953522bdb.jpg', '0.00', '', '18731028899', '刘海', '1574671681', '1574673233', '1574673222', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('89', '160', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcb9cd7018c.jpg', '0.00', '', '14033033330', '啊就好', '1574746579', '1574746934', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('90', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/11/26/5ddcbce2a255f.jpg', '0.00', '', '13100007777', '123', '1574747367', '1575297453', '1575297317', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('91', '1', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de514b6df7c9.png', '0.00', '', '13100000000', '567', '1575294141', '1575294181', '1575294174', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('92', '152', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de516b31cd4c.png', '0.00', '', '13111112222', 'sdfsdf', '1575294646', '1575296589', '1575297395', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('93', '155', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de51c1e8bcdd.png', '0.00', '', '13100006666', '121212', '1575296031', '1575296668', '1575296663', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('94', '156', '2', 'http://p.nanguang998.com/Public/attached/2019/12/02/5de5210b315cf.png', '0.00', '', '13100007777', '士大夫大师傅', '1575297293', '1578045913', '1575304897', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('95', '9', '1', 'http://p.nanguang998.com/Public/attached/2019/12/09/5dee1c3875156.png', '0.00', '', '13800138000', '张三', '1575886416', '1578017400', '1578017467', '1', '1', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('96', '164', '1', 'http://p.nanguang998.com/Public/attached/2019/12/11/5df0e6cd8749b.jpeg', '0.00', '', '13783914073', '张磊', '1576068816', '1576069337', '1576069324', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('97', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb04b652507.jpg', '0.00', '', '13800138000', '多得到', '1576731834', '1578045884', '1576820862', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('98', '9', '2', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb05fd79696.png', '0.00', '', '13800138000', '孙鹏', '1576732205', '1578045866', '1577455905', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('99', '9', '3', 'http://p.nanguang998.com/Public/attached/2019/12/19/5dfb3b8a2beca.png', '0.00', '456456', '13800138000', '456', '1576745867', '1576745867', '1577977047', '0', '1', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('100', '9', '3', 'http://pao.h8pay.com/Public/attached/2019/12/21/5dfde01ec7613.jpg', '0.00', '6123359123569621', '13800138000', '张梦磊', '1576919082', '1578047939', '1579634027', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('105', '176', '2', 'http://www.h8pay.com/Public/attached/2020/01/01/5e0ca15cdfb8e.jpeg', '0.00', '', '17521149197', '王新钘', '1577886053', '1577886053', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('107', '165', '2', 'http://www.h8pay.com/Public/attached/2020/01/02/5e0e04b995899.png', '0.00', '', '14725836900', '我现在', '1577977021', '1577977042', '0', '0', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('109', '165', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0e8fae6c259.png', '0.00', '4657286488500964', '14725836900', '刘亮', '1578012610', '1578044401', '1578044390', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('111', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebba6be664.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023848', '1578023848', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('112', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebbdff05b9.jpg', '0.00', '', '15665431432', '周口蜂琴航空票务代理有限公司', '1578023906', '1578023906', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('113', '179', '2', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ebf17138d1.jpg', '0.00', '', '15665431432', '合肥水润网络信息科技有限公司', '1578024764', '1578024764', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('114', '186', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ec9a833e5a.jpeg', '0.00', '6217923671554615', '13386909567', '纪仁泽', '1578027508', '1578027508', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('116', '179', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ecea003115.jpg', '0.00', '', '15665431432', '来都借', '1578028709', '1578028709', '1578028868', '0', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('117', '165', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed535c4244.png', '0.00', '', '14725836900', '个地方', '1578030393', '1578040970', '1578040919', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('118', '186', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed54cb8019.jpeg', '0.00', '', '13386909567', '纪平凡', '1578030429', '1578030429', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('119', '172', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ed53bdde74.jpeg', '0.00', '6217001780006760433', '18075031017', '荣发涛', '1578030467', '1578034129', '1578034029', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('121', '169', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0658ac1d.jpg', '0.00', '6212262013027479790', '18928696507', '陈超威', '1578037371', '1578037371', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('122', '169', '1', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0ef0cf0fe64.jpeg', '0.00', '', '18928696507', '陈超威', '1578037458', '1578037458', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('123', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/03/5e0f03a4ed820.jpg', '0.00', '6230580000232230487', '15838717882', '秦守博', '1578042280', '1578317016', '1578048788', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('124', '193', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0fe9499e071.jpg', '0.00', '6221804910002203671', '15838717882', '秦守博', '1578101097', '1578101097', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('125', '166', '3', 'http://www.h8pay.com/Public/attached/2020/01/04/5e0ff40050267.jpeg', '0.00', '6215581510007874434', '18022484190', '陈冬明', '1578103870', '1578103870', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('127', '201', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e12fd2af2a06.jpg', '0.00', '6216695000012002859', '18831206543', '胡子明', '1578302807', '1578302807', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('128', '199', '3', 'http://www.h8pay.com/Public/attached/2020/01/06/5e131b570ae1f.jpg', '0.00', '6217996750001251446', '13398322087', '欧波', '1578310519', '1578318944', '1578318797', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('129', '167', '3', 'http://www.h8pay.com/Public/attached/2020/01/07/5e13d5382eb32.jpg', '0.00', '6230520060085161877', '15715928077', '范孝鑫', '1578358074', '1578358074', '0', '1', '0', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('133', '21', '1', 'http://fast.com/Public/attached/2020/04/19/5e9c006c24a8b.png', '0.00', '', '13888888888', 'xiaxia', '1587282033', '1588562575', '1588675321', '1', '1', '', '', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('134', '21', '3', 'http://fast.com/Public/attached/2020/04/26/5ea4ed7c97336.png', '0.00', '123873474829839', '13888888888', 'XIA', '1587867014', '1587867014', '1587868297', '1', '0', '', '', '0', '');
+INSERT INTO `ysk_ewm` VALUES ('135', '21', '2', 'http://fast.com/Public/attached/2020/04/26/5ea5223112385.png', '0.00', '', '13888888888', '小虾', '1587880529', '1588582588', '1588576044', '1', '0', '浙江省', '杭州市', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('136', '21', '1', 'http://fast.com/Public/attached/2020/04/30/5eaa43850ed31.png', '0.00', '', '13888888888', '小虾1', '1588216713', '1588216713', '1588219072', '1', '0', '浙江', '杭州', '0', '');
+INSERT INTO `ysk_ewm` VALUES ('137', '31', '1', 'http://paofen.com/Public/attached/2020/05/05/5eb15672a2a94.png', '0.00', '', '15555555555', '张三丰', '1588680306', '1588681308', '1588681299', '1', '0', '吉林', '白城', '1', '');
+INSERT INTO `ysk_ewm` VALUES ('138', '31', '2', 'http://paofen.com/Public/attached/2020/05/06/5eb2133b56282.png', '0.00', '', '15555555555', '张三丰', '1588728646', '1588836367', '1588836026', '0', '0', '上海', '虹桥', '1', 'alipays://platformapi/startapp?appId=20000067&url=http://fast.com/sXhy24WnpbCFqnGnr3Z5rL2zfpZ9jY5stKe_a4N2ot6ydW6h');
+INSERT INTO `ysk_ewm` VALUES ('139', '31', '2', 'http://paofen.com/Public/attached/2020/05/07/5eb3b69e0799a.jpg', '0.00', '', '15555555555', '张三丰', '1588836010', '1588836010', '1588836830', '1', '1', '上海', '虹桥', '1', 'https://qr.alipay.com/fkx04575t7el3atwkoax2e3?t=1588746503354');
 
 -- ----------------------------
 -- Table structure for ysk_group
@@ -340,7 +359,7 @@ CREATE TABLE `ysk_merchant` (
 -- ----------------------------
 -- Records of ysk_merchant
 -- ----------------------------
-INSERT INTO `ysk_merchant` VALUES ('1', 'shh001', 'e10adc3949ba59abbe56e057f20f883e', '1', '1582357884', '10.168.1.132', '1785', '1582357890', '0', '工行', '建设路 支行', '李天一', '111000999', 'admin', 'PSK3A8AHLP6CP3ES1X63MJN1JQR8R9OF', '2', '2', '2', '10798.92', '');
+INSERT INTO `ysk_merchant` VALUES ('1', 'shh001', 'e10adc3949ba59abbe56e057f20f883e', '1', '1582357884', '10.168.1.132', '1785', '1582357890', '0', '工行', '建设路 支行', '李天一', '111000999', 'admin', 'PSK3A8AHLP6CP3ES1X63MJN1JQR8R9OF', '2', '2', '2', '12758.92', '');
 INSERT INTO `ysk_merchant` VALUES ('2', 'shh002', 'e10adc3949ba59abbe56e057f20f883e', '1', '1560590181', '112.207.3.180', '1', '1567759579', '0', null, null, null, null, 'ceshi001.com', 'A8NYX3H381D3S9APXN64EMWIQ0SDP1I8', '2.8', '2.6', '1.2', '972.00', '');
 INSERT INTO `ysk_merchant` VALUES ('3', '', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563019042', null, '0', '0', '0', null, null, null, null, 'admin', '', '0', '0', '0', '0.00', '');
 INSERT INTO `ysk_merchant` VALUES ('4', 'jiejie0595', 'e10adc3949ba59abbe56e057f20f883e', '1', '1563532599', null, '0', '0', '0', null, null, null, null, 'admin', 'aa112233', '0.1', '0.1', '0.1', '0.00', '');
@@ -365,7 +384,7 @@ INSERT INTO `ysk_merchant` VALUES ('26', 'ZHUYI', '1dfc269f9a745a95802a4af561764
 INSERT INTO `ysk_merchant` VALUES ('27', '111', 'e10adc3949ba59abbe56e057f20f883e', '1', '1571381333', '117.181.81.112', '1', '1571381542', '0', null, null, null, null, '13100000000', 'RUD85ZL5XF15Y91SSJ7WM1Q045875SAJ', '1', '0.1', '0.1', '0.00', '');
 INSERT INTO `ysk_merchant` VALUES ('28', 'gghun1', 'c8837b23ff8aaa8a2dde915473ce0991', '1', '1571392634', null, '0', '0', '0', '', '', '', '', '112233', 'GCZ3YYJO9GCNWQQAVD1QL40M3MWKWFAY', '0', '0', '0', '0.00', '');
 INSERT INTO `ysk_merchant` VALUES ('29', 'ddss667788', 'e10adc3949ba59abbe56e057f20f883e', '1', '1571531393', null, '0', '0', '0', '', '', '', '', '13100000000', 'HKPWGBNHWE4PYMK6X8O37QVPMFGIDJNA', '0', '0', '0', '0.00', '');
-INSERT INTO `ysk_merchant` VALUES ('30', '222', 'e10adc3949ba59abbe56e057f20f883e', '1', '1577977529', '115.53.107.121', '1', '1577977535', '0', '', '', '', '', 'www.99t.com', 'BE47DWAC05N16Y84YR58L88GP2FMJAGF', '1.2', '1.2', '1.5', '8595.60', '');
+INSERT INTO `ysk_merchant` VALUES ('30', '222', 'e10adc3949ba59abbe56e057f20f883e', '1', '1577977529', '115.53.107.121', '1', '1577977535', '0', '', '', '', '', 'www.99t.com', 'BE47DWAC05N16Y84YR58L88GP2FMJAGF', '1.2', '1.2', '1.5', '9293.20', '');
 INSERT INTO `ysk_merchant` VALUES ('31', 'ceshishangjia1', 'e10adc3949ba59abbe56e057f20f883e', '0', '1577890466', '1.198.29.29', '1', '1575121381', '0', '', '', '', '', 'http://api.gnqtl.xyz/api1', 'P7Q94UXOR56LVE8II23IPXSWL9SYMLEF', '1.2', '1.2', '1.2', '0.00', '');
 INSERT INTO `ysk_merchant` VALUES ('32', 'merchant', 'e10adc3949ba59abbe56e057f20f883e', '1', '1587530898', '127.0.0.1', '11', '1587707361', '0', null, null, null, null, '', '', '0', '0', '0', '0.00', '');
 INSERT INTO `ysk_merchant` VALUES ('33', 'merchantlist', 'e10adc3949ba59abbe56e057f20f883e', '1', '1588582542', null, '0', '0', '0', null, null, null, null, 'www.ceshi.com', 'DMPPTZEVNUHPNU6CG73GELBTY5PWF5F4', '1.2', '2.1', '1.1', '0.00', '');
@@ -583,190 +602,238 @@ CREATE TABLE `ysk_roborder` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `class` (`class`,`price`,`addtime`) USING BTREE,
   KEY `status` (`status`,`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
+) ENGINE=InnoDB AUTO_INCREMENT=524 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='抢单表';
 
 -- ----------------------------
 -- Records of ysk_roborder
 -- ----------------------------
-INSERT INTO `ysk_roborder` VALUES ('139', '85', '2', '100.00', '1574928276', '3', '9', '56700000', '95134.57', '1574943983', '', 'N408660869886', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('140', '86', '2', '200.00', '1575002761', '3', '159', '', '6015.50', '1575002777', '', 'N023791160203', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('141', '86', '2', '200.00', '1575002761', '3', '159', '', '5817.50', '1575002838', '', 'N023791160203', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('142', '86', '2', '200.00', '1575002761', '3', '159', '', '5619.50', '1575002995', '', 'N023791160203', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('143', '86', '2', '300.00', '1575003047', '3', '159', '', '5221.50', '1575003401', '', 'N109067989069', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('144', '86', '2', '300.00', '1575003047', '3', '159', '', '4924.50', '1575003459', '', 'N109067989069', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('145', '85', '2', '300.00', '1575003047', '2', '9', '15566667777', '95135.57', '1575011432', '', 'N109067989069', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('146', '86', '2', '300.00', '1575003047', '2', '159', '13931091933', '1027.50', '1575018691', '', 'N109067989069', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('147', '85', '2', '300.00', '1575003047', '2', '9', '15566667777', '94838.57', '1575018289', '', 'N109067989069', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('148', '85', '2', '300.00', '1575011475', '3', '9', '56700000', '94835.57', '1575013189', '', 'N293306150044', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('149', '86', '2', '900.00', '1575019217', '3', '159', '', '127.50', '1575019243', '', 'N518617975266', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('151', '85', '2', '500.00', '1575122004', '2', '9', '15566667777', '94838.57', '1575162866', '', 'E15751220029183', null, '1.198.29.29', 'ceshishangjia1', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('152', '86', '2', '1000.00', '1575261341', '3', '159', '', '1137.50', '1575261375', '', 'N555316056669', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('153', '86', '2', '1000.00', '1575261341', '3', '159', '', '147.50', '1575261432', '', 'N555316056669', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('154', '86', '2', '1000.00', '1575261341', '3', '159', '', '1058.50', '1575270367', '', 'N555316056669', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('155', '85', '2', '1000.00', '1575261341', '3', '9', '56700000', '93838.57', '1575276021', '', 'N555316056669', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('156', '86', '2', '1000.00', '1575261341', '2', '159', '13931091933', '1109.50', '1575276066', '', 'N555316056669', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('159', '86', '2', '4000.00', '1575271779', '3', '159', '', '1069.50', '1575271792', '', 'N067202184675', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('160', '86', '2', '1000.00', '1575277236', '3', '159', '', '16514.50', '1575293822', '', 'N291543218524', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('161', '93', '2', '1200.00', '1575291497', '3', '155', 'As', '3825.90', '1575296082', '', 'N690919360450', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('164', '93', '2', '1000.00', '1575294093', '3', '155', 'As', '2895.40', '1575296668', '', 'N881764183372', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('165', '86', '2', '1000.00', '1575294093', '3', '159', '', '97022.00', '1575311032', '', 'N881764183372', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('166', '86', '2', '1000.00', '1575294093', '3', '159', '', '18629.50', '1575303581', '', 'N881764183372', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('167', '92', '2', '1000.00', '1575294093', '3', '152', '王时尚', '2810.70', '1575294671', '', 'N881764183372', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('168', '91', '2', '1000.00', '1575294093', '3', '1', '', '5765.44', '1575294181', '', 'N881764183372', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('169', '90', '2', '100.00', '1575294905', '3', '156', '1', '6080.00', '1575297453', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('170', '85', '2', '100.00', '1575294905', '2', '9', '15566667777', '1000.00', '1575364667', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('171', '85', '2', '100.00', '1575294905', '2', '9', '15566667777', '1000.00', '1575431209', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('173', '94', '2', '100.00', '1575294905', '3', '156', '1', '6081.50', '1578045913', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('174', '92', '2', '100.00', '1575294905', '2', '152', '13111112222', '2758.05', '1575297395', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('175', '93', '2', '100.00', '1575294905', '3', '155', 'As', '3743.90', '1575296256', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('176', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2528.70', '1575295892', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('177', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2627.20', '1575295363', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('178', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2725.70', '1575294927', '', 'N008023427277', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('181', '90', '2', '10000.00', '1575296459', '3', '156', '1', '6030.00', '1575296812', '', 'N958899380943', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('182', '92', '2', '10000.00', '1575296459', '3', '152', '王时尚', '2581.05', '1575296589', '', 'N958899380943', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('183', '93', '2', '10000.00', '1575296459', '3', '155', 'As', '3745.40', '1575296475', '', 'N958899380943', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('184', null, '2', '0.00', '1575303608', '2', '159', '13931091933', '19629.50', '1575303608', '', 'N824529841547', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('188', null, '2', '0.00', '1575737919', '2', '159', '13931091933', '98022.00', '1575737919', '', 'N513463935322', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('189', null, '2', '0.00', '1575737928', '2', '159', '13931091933', '98022.00', '1575737928', '', 'N513463935322', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('194', '95', '1', '500.00', '1575886712', '3', '9', '56700000', '500.00', '1575886862', '', 'E15758867096396', null, '58.57.39.236', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('195', '95', '1', '500.00', '1575886927', '3', '9', '56700000', '508.50', '1575887300', '', 'E15758869243156', null, '58.57.39.236', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('196', '95', '1', '500.00', '1575887350', '3', '9', '56700000', '16.00', '1575887384', '', 'E15758873482276', null, '58.57.39.236', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('198', '95', '1', '500.00', '1575887790', '3', '9', '56700000', '24.50', '1575887930', '', 'E15758877851077', null, '103.137.63.190', 'shh002', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('199', null, '1', '0.00', '1575966056', '2', '9', '15566667777', '524.50', '1575966056', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('200', null, '1', '0.00', '1575966057', '2', '9', '15566667777', '524.50', '1575966057', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('201', null, '1', '0.00', '1575966058', '2', '9', '15566667777', '524.50', '1575966058', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('202', null, '1', '0.00', '1575966059', '2', '9', '15566667777', '524.50', '1575966059', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('203', null, '1', '0.00', '1575966060', '2', '9', '15566667777', '524.50', '1575966060', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('204', null, '1', '0.00', '1575966061', '2', '9', '15566667777', '524.50', '1575966061', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('205', null, '1', '0.00', '1575966062', '2', '9', '15566667777', '524.50', '1575966062', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('206', null, '1', '0.00', '1575966064', '2', '9', '15566667777', '524.50', '1575966064', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('207', null, '1', '0.00', '1575966065', '3', '9', '56700000', '32.00', '1576006869', '', 'N080163910709', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('209', '96', '1', '1000.00', '1576066562', '3', '164', '张磊', '9000.00', '1576068910', '', 'N666502582464', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('210', '96', '1', '1000.15', '1576068997', '3', '164', '张磊', '8014.85', '1576069063', '', 'N902479199491', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('211', '96', '1', '500.00', '1576069184', '3', '164', '张磊', '7544.85', '1576069194', '', 'N513394259180', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('212', '96', '1', '1000.13', '1576069321', '3', '164', '张磊', '6559.72', '1576069337', '', 'N185423050755', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('230', '95', '1', '500.00', '1576731812', '3', '9', '56700000', '9566.50', '1576732053', '', 'E15767318102742', null, '36.34.29.92', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('243', '97', '2', '500.00', '1576732784', '3', '9', '56700000', '9081.50', '1576732897', '', 'E15767327827598', null, '36.34.29.92', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('244', '95', '1', '5000.00', '1576733086', '3', '9', '56700000', '763.50', '1576733118', '', 'N345807357629', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('245', '97', '2', '1.00', '1576733163', '3', '9', '56700000', '177032.41', '1578045884', '', 'E15767331625108', null, '36.34.29.92', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('259', '98', '2', '500.00', '1576733621', '2', '9', '15566667777', '112075.50', '1576733840', '', 'E15767335934271', null, '36.34.29.92', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('260', '97', '2', '500.00', '1576735106', '3', '9', '56700000', '191400.50', '1576747082', '', 'E15767351058537', null, '36.34.29.92', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('268', '97', '2', '500.00', '1576758881', '2', '9', '15566667777', '191415.50', '1576761140', '', 'E15767588801690', null, '36.34.28.135', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('269', '98', '2', '500.00', '1576762604', '2', '9', '15566667777', '190915.50', '1576762606', '', 'E15767626037253', null, '36.34.28.135', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('279', '97', '2', '500.00', '1576779843', '3', '9', '56700000', '190415.50', '1576820902', '', 'E15767798411628', null, '36.34.28.135', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('280', '98', '2', '500.00', '1577455605', '3', '9', '56700000', '177526.91', '1578045866', '', 'E15774556023730', null, '115.53.104.202', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('282', '103', '2', '500.00', '1577890427', '3', '171', '', '501.00', '1577929159', '', 'E15778904233362', null, '115.53.67.180', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('284', '106', '3', '2000.00', '1577976415', '3', '165', '', '28000.00', '1577976462', '', 'N192884671792', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('286', null, '3', '0.00', '1577976511', '2', '165', '14725836900', '30000.00', '1577976511', '', 'N243224867838', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('287', '106', '3', '2000.00', '1577976584', '3', '165', '', '26020.00', '1577976606', '', 'N923733761342', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('288', null, '3', '0.00', '1577976673', '2', '165', '14725836900', '30000.00', '1577976673', '', 'N243224867838', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('289', '99', '3', '10000.00', '1577977043', '2', '9', '15566667777', '190430.50', '1577977047', '', 'N713415154236', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('290', null, '3', '0.00', '1577977106', '2', '9', '15566667777', '190430.50', '1577977106', '', 'N276463817000', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('291', null, '3', '0.00', '1577977147', '2', '9', '15566667777', '190430.50', '1577977147', '', 'N276463817000', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('292', null, '3', '0.00', '1577977194', '2', '9', '15566667777', '190430.50', '1577977194', '', 'N276463817000', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('294', '106', '3', '10000.00', '1577977398', '2', '165', '14725836900', '26040.00', '1577977411', '', 'N008824784745', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('295', '100', '3', '10000.00', '1577977426', '2', '9', '15566667777', '180430.50', '1577977468', '', 'N160820079821', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('296', null, '3', '0.00', '1577977609', '3', '9', '56700000', '180430.50', '1577977650', '', 'N496775261031', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('297', null, '3', '0.00', '1577977615', '2', '165', '14725836900', '26040.00', '1577977615', '', 'N203031086675', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('298', '100', '3', '10000.00', '1577977718', '3', '9', '56700000', '170530.50', '1577977728', '', 'N555769532297', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('299', '109', '3', '2000.00', '1577978675', '3', '165', '', '24040.00', '1578012639', '', 'N785576694388', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('300', '100', '3', '3000.00', '1577978760', '3', '9', '56700000', '177680.50', '1577978775', '', 'N992906686706', null, null, null, '9', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('301', '109', '3', '10000.00', '1578016141', '3', '165', '', '14070.00', '1578016166', '', 'N855415491647', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('302', '109', '3', '3000.00', '1578016240', '3', '165', '', '11220.00', '1578016255', '', 'N168439070202', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('303', '109', '3', '5000.00', '1578016274', '3', '165', '', '6265.00', '1578016292', '', 'N218979350751', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('304', '95', '1', '100.00', '1578017386', '3', '9', '56700000', '177625.50', '1578017400', '', 'N085456447568', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('306', '109', '3', '2500.00', '1578017533', '3', '165', '', '3840.00', '1578018369', '', 'N552462446647', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('307', '109', '3', '2500.00', '1578017578', '3', '165', '', '1377.50', '1578018381', '', 'N472540809532', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('308', '109', '3', '10000.00', '1578026822', '3', '165', '', '91415.00', '1578027266', '', 'N808862424535', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('309', '101', '1', '350.00', '1578027349', '2', '166', '陈冬明', '501.00', '1578027557', '', 'N489270169329', null, null, null, '166', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('310', null, '1', '0.00', '1578027684', '3', '166', '', '151.00', '1578027688', '', 'N545175041604', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('311', '109', '3', '8000.00', '1578027722', '3', '165', '', '83566.47', '1578027750', '', 'N803312486644', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('312', '109', '3', '12000.00', '1578027744', '3', '165', '', '71686.47', '1578027764', '', 'N017737359555', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('313', '109', '3', '9500.00', '1578027758', '3', '165', '', '62366.47', '1578028672', '', 'N756647462778', null, null, null, '165', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('314', '109', '3', '10000.00', '1578027822', '3', '165', '', '52508.97', '1578028687', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('315', '109', '3', '10000.00', '1578027822', '3', '165', '', '42658.97', '1578028779', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('316', '109', '3', '10000.00', '1578027822', '3', '165', '', '32808.97', '1578028793', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('317', '109', '3', '10000.00', '1578027822', '3', '165', '', '22958.97', '1578028805', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('318', '109', '3', '10000.00', '1578027822', '3', '165', '', '13108.97', '1578029141', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('319', '109', '3', '10000.00', '1578027822', '3', '165', '', '43410.67', '1578043016', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('320', '109', '3', '10000.00', '1578027822', '3', '165', '', '33560.67', '1578043035', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('321', '100', '3', '10000.00', '1578027822', '3', '9', '56700000', '167131.42', '1578047939', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('322', '100', '3', '10000.00', '1578027822', '2', '9', '15566667777', '167281.42', '1578047944', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('323', '100', '3', '10000.00', '1578027822', '2', '9', '15566667777', '167281.42', '1578302042', '', 'N587721382716', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('324', '115', '1', '3500.00', '1578027846', '2', '179', '余晨曦', '5001.00', '1578028548', '', 'N925049230786', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('325', '116', '1', '3500.00', '1578027846', '2', '179', '余晨曦', '5001.00', '1578028868', '', 'N925049230786', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('326', '117', '1', '3500.00', '1578027846', '3', '165', '', '9758.97', '1578030408', '', 'N925049230786', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('327', '117', '1', '5000.00', '1578027862', '3', '165', '', '4807.97', '1578030420', '', 'N463680259578', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('328', '109', '3', '4500.00', '1578030828', '3', '165', '', '21626.17', '1578043157', '', 'N810348302983', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('329', '100', '3', '8500.00', '1578030841', '2', '9', '15566667777', '167281.42', '1579085206', '', 'N997188653735', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('330', '109', '3', '8500.00', '1578030841', '3', '165', '', '13193.67', '1578044401', '', 'N997188653735', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('331', '117', '1', '1500.00', '1578030857', '3', '165', '', '3389.67', '1578040970', '', 'N486015351237', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('332', '109', '3', '7700.00', '1578030869', '3', '165', '', '26010.67', '1578043075', '', 'N365341959467', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('333', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '167281.42', '1579278749', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('334', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '167281.42', '1579279150', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('335', '126', '3', '10000.00', '1578031269', '2', '9', '15566667777', '157281.42', '1579279161', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('336', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '157281.42', '1579368932', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('337', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '147281.42', '1579413246', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('338', '126', '3', '10000.00', '1578031269', '3', '9', '56700000', '127281.42', '1579413267', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('339', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579427243', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('340', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579584611', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('341', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579634027', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('342', '126', '3', '10000.00', '1578031269', '2', '9', '15566667777', '147281.42', '1579368943', '', 'N895504489999', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('343', '119', '3', '700.00', '1578031401', '3', '172', '', '301.00', '1578031789', '', 'N891855167816', null, null, null, '172', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('344', '119', '3', '900.00', '1578032397', '3', '172', '', '412.50', '1578032525', '', 'N772066746751', null, null, null, '172', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('350', '119', '3', '500.00', '1578033156', '3', '172', '', '927.00', '1578033253', '', 'N241482595936', null, null, null, '172', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('351', '119', '3', '500.00', '1578034004', '3', '172', '', '434.50', '1578034129', '', 'N490521744878', null, null, null, '172', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('352', '123', '3', '5000.00', '1578045998', '3', '193', '', '1.00', '1578317016', '', 'N103610514613', null, null, null, '193', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('353', '123', '3', '5000.00', '1578047450', '2', '193', '秦守博', '5001.00', '1578048285', '', 'N995136209522', null, null, null, '193', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('354', '128', '3', '3000.00', '1578317002', '3', '199', '', '0.00', '1578317555', '', 'N702094962345', null, null, null, '199', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('355', '128', '3', '2500.00', '1578318795', '3', '199', '', '500.00', '1578318944', '', 'N005415200054', null, null, null, '199', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('356', '133', '1', '500.00', '1587867059', '3', '21', '谢', '22597.60', '1587867502', '', 'N722794217288', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('357', '133', '1', '500.00', '1587867059', '3', '21', '谢', '23105.60', '1587867711', '', 'N722794217288', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('358', '133', '1', '500.00', '1587867059', '3', '21', '谢', '22612.60', '1587868262', '', 'N722794217288', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('364', '134', '3', '100.00', '1587868288', '4', '21', '13033556688', '22619.60', '1587868297', '', 'N663946979633', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('370', '133', '1', '1000.00', '1587870259', '3', '21', '谢', '21519.60', '1587870711', '', 'E1587870257189', null, '127.0.0.1', 'shh001', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('371', '133', '1', '1000.00', '1587871068', '3', '21', '谢', '20633.60', '1587871105', '', 'E15878710659963', null, '127.0.0.1', 'admin', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('383', '133', '1', '500.00', '1587951167', '4', '21', '13033556688', '20647.60', '1587951194', '', 'E1587951166809', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('384', '133', '1', '500.00', '1587952523', '3', '21', '谢', '20147.60', '1587956123', '', 'E15879525223887', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('385', '133', '1', '500.00', '1587956151', '3', '21', '谢', '19654.60', '1587956166', '', 'E15879561471039', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('386', '135', '2', '500.00', '1587971608', '4', '21', '13033556688', '19661.60', '1587971633', '', 'E15879716075171', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('390', '133', '1', '500.00', '1588039778', '3', '21', '谢', '19161.60', '1588039946', '', 'E15880397789009', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('391', '133', '1', '500.00', '1588064719', '3', '21', '谢', '22669.60', '1588064741', '', 'E15880647190001379', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('392', '135', '2', '500.00', '1588064750', '3', '21', '谢', '22176.60', '1588064764', '', 'E15880647500006391', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('394', '133', '1', '500.00', '1588123357', '3', '21', '谢', '21682.10', '1588123718', '', 'N398166344525', null, null, null, '21', null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('395', null, '2', '0.00', '1588123370', '3', '21', '谢', '21689.10', '1588123726', '', 'N061617129936', null, null, null, null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('396', '133', '1', '500.00', '1588131003', '3', '21', '谢', '21194.60', '1588131091', '', 'E15881309980006329', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('398', '135', '2', '500.00', '1588131083', '3', '21', '谢', '20701.60', '1588131108', '', 'E15881310570005760', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('399', '135', '2', '500.00', '1588132017', '4', '21', '13033556688', '20707.10', '1588132021', '', 'E15881320160003175', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('402', '133', '1', '500.00', '1588149458', '3', '21', '谢', '19207.10', '1588229230', '', 'E15881494550002986', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('403', '135', '2', '500.00', '1588219032', '4', '21', '13033556688', '20207.10', '1588219037', '', 'E15882190270001779', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('406', '133', '1', '500.00', '1588229253', '3', '21', '谢', '18714.10', '1588229272', '', 'E15882292530007375', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('409', '133', '1', '500.00', '1588230167', '3', '21', '谢', '18221.10', '1588230331', '', 'E15882301650003330', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('410', '133', '1', '700.00', '1588231615', '3', '21', '谢', '17528.10', '1588231632', '', 'E15882316140002869', null, '127.0.0.1', '222', null, null, null, '', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('411', '133', '1', '500.00', '1588410835', '3', '21', '谢', '16539.90', '1588410896', '', 'E15884108330003430', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('413', '133', '1', '500.00', '1588413900', '3', '21', '谢', '16046.90', '1588413926', '', 'E15884138960008666', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('414', '133', '1', '500.00', '1588413931', '3', '21', '谢', '15553.90', '1588413970', '', 'E15884139270006681', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('415', '133', '1', '500.00', '1588415528', '3', '21', '谢', '15060.90', '1588415541', '', 'E15884155260006198', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('416', '133', '1', '500.00', '1588415546', '3', '21', '谢', '14567.90', '1588485968', '', 'E15884155430001520', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('417', '133', '1', '500.00', '1588485950', '3', '21', '谢', '14074.90', '1588487920', '', 'E15884859470006606', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('418', '133', '1', '500.00', '1588487926', '3', '21', '谢', '13581.90', '1588489257', '', 'E15884879240008461', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('419', '133', '1', '500.00', '1588489266', '4', '21', '13033556688', '13588.90', '1588489289', '', 'E15884892660001338', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('420', '133', '1', '500.00', '1588490091', '4', '21', '13033556688', '13088.90', '1588490253', '', 'E15884900870008117', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('422', '133', '1', '500.00', '1588562467', '3', '21', '谢', '12088.90', '1588562575', '', 'E15885624640008374', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('423', '133', '1', '500.00', '1588563762', '4', '21', '13033556688', '12095.90', '1588563764', '', 'E15885637610002317', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('424', '133', '1', '500.00', '1588564440', '4', '21', '13033556688', '11595.90', '1588564454', '', 'E15885644370009083', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('425', '133', '1', '500.00', '1588570297', '4', '21', '13033556688', '11095.90', '1588570336', '', 'E15885702960002431', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('426', '133', '1', '500.00', '1588570813', '4', '21', '13033556688', '10595.90', '1588570844', '', 'E15885708090001465', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('427', '133', '1', '500.00', '1588571290', '4', '21', '13033556688', '10095.90', '1588571292', '', 'E15885712860004267', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('428', '133', '1', '500.00', '1588571466', '4', '21', '13033556688', '9595.90', '1588571477', '', 'E15885714620005347', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('429', '133', '1', '500.00', '1588571858', '4', '21', '13033556688', '9095.90', '1588571862', '', 'E15885718570004431', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('430', '133', '1', '500.00', '1588571993', '4', '21', '13033556688', '8595.90', '1588572003', '', 'E15885719920006492', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('431', '133', '1', '500.00', '1588572313', '4', '21', '13033556688', '8095.90', '1588572316', '', 'E15885723120006484', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('432', '133', '1', '500.00', '1588572609', '4', '21', '13033556688', '7595.90', '1588572609', '', 'E15885726050004666', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('433', '133', '1', '500.00', '1588572683', '4', '21', '13033556688', '7095.90', '1588572692', '', 'E15885726800009875', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('435', '135', '2', '500.00', '1588576037', '3', '21', '谢', '6095.90', '1588582588', '', 'E15885760340003835', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('438', '133', '1', '500.00', '1588663680', '4', '21', '13033556688', '6101.40', '1588663713', '', 'E15886636750008328', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
-INSERT INTO `ysk_roborder` VALUES ('440', '133', '1', '500.00', '1588675294', '4', '21', '13033556688', '5601.40', '1588675321', '', 'E15886752920004397', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('139', '85', '2', '100.00', '1574928276', '3', '9', '56700000', '95134.57', '1574943983', '', 'N408660869886', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('140', '86', '2', '200.00', '1575002761', '3', '159', '', '6015.50', '1575002777', '', 'N023791160203', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('141', '86', '2', '200.00', '1575002761', '3', '159', '', '5817.50', '1575002838', '', 'N023791160203', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('142', '86', '2', '200.00', '1575002761', '3', '159', '', '5619.50', '1575002995', '', 'N023791160203', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('143', '86', '2', '300.00', '1575003047', '3', '159', '', '5221.50', '1575003401', '', 'N109067989069', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('144', '86', '2', '300.00', '1575003047', '3', '159', '', '4924.50', '1575003459', '', 'N109067989069', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('145', '85', '2', '300.00', '1575003047', '2', '9', '15566667777', '95135.57', '1575011432', '', 'N109067989069', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('146', '86', '2', '300.00', '1575003047', '2', '159', '13931091933', '1027.50', '1575018691', '', 'N109067989069', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('147', '85', '2', '300.00', '1575003047', '2', '9', '15566667777', '94838.57', '1575018289', '', 'N109067989069', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('148', '85', '2', '300.00', '1575011475', '3', '9', '56700000', '94835.57', '1575013189', '', 'N293306150044', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('149', '86', '2', '900.00', '1575019217', '3', '159', '', '127.50', '1575019243', '', 'N518617975266', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('151', '85', '2', '500.00', '1575122004', '2', '9', '15566667777', '94838.57', '1575162866', '', 'E15751220029183', null, '1.198.29.29', 'ceshishangjia1', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('152', '86', '2', '1000.00', '1575261341', '3', '159', '', '1137.50', '1575261375', '', 'N555316056669', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('153', '86', '2', '1000.00', '1575261341', '3', '159', '', '147.50', '1575261432', '', 'N555316056669', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('154', '86', '2', '1000.00', '1575261341', '3', '159', '', '1058.50', '1575270367', '', 'N555316056669', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('155', '85', '2', '1000.00', '1575261341', '3', '9', '56700000', '93838.57', '1575276021', '', 'N555316056669', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('156', '86', '2', '1000.00', '1575261341', '2', '159', '13931091933', '1109.50', '1575276066', '', 'N555316056669', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('159', '86', '2', '4000.00', '1575271779', '3', '159', '', '1069.50', '1575271792', '', 'N067202184675', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('160', '86', '2', '1000.00', '1575277236', '3', '159', '', '16514.50', '1575293822', '', 'N291543218524', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('161', '93', '2', '1200.00', '1575291497', '3', '155', 'As', '3825.90', '1575296082', '', 'N690919360450', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('164', '93', '2', '1000.00', '1575294093', '3', '155', 'As', '2895.40', '1575296668', '', 'N881764183372', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('165', '86', '2', '1000.00', '1575294093', '3', '159', '', '97022.00', '1575311032', '', 'N881764183372', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('166', '86', '2', '1000.00', '1575294093', '3', '159', '', '18629.50', '1575303581', '', 'N881764183372', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('167', '92', '2', '1000.00', '1575294093', '3', '152', '王时尚', '2810.70', '1575294671', '', 'N881764183372', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('168', '91', '2', '1000.00', '1575294093', '3', '1', '', '5765.44', '1575294181', '', 'N881764183372', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('169', '90', '2', '100.00', '1575294905', '3', '156', '1', '6080.00', '1575297453', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('170', '85', '2', '100.00', '1575294905', '2', '9', '15566667777', '1000.00', '1575364667', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('171', '85', '2', '100.00', '1575294905', '2', '9', '15566667777', '1000.00', '1575431209', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('173', '94', '2', '100.00', '1575294905', '3', '156', '1', '6081.50', '1578045913', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('174', '92', '2', '100.00', '1575294905', '2', '152', '13111112222', '2758.05', '1575297395', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('175', '93', '2', '100.00', '1575294905', '3', '155', 'As', '3743.90', '1575296256', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('176', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2528.70', '1575295892', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('177', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2627.20', '1575295363', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('178', '92', '2', '100.00', '1575294905', '3', '152', '王时尚', '2725.70', '1575294927', '', 'N008023427277', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('181', '90', '2', '10000.00', '1575296459', '3', '156', '1', '6030.00', '1575296812', '', 'N958899380943', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('182', '92', '2', '10000.00', '1575296459', '3', '152', '王时尚', '2581.05', '1575296589', '', 'N958899380943', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('183', '93', '2', '10000.00', '1575296459', '3', '155', 'As', '3745.40', '1575296475', '', 'N958899380943', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('184', null, '2', '0.00', '1575303608', '2', '159', '13931091933', '19629.50', '1575303608', '', 'N824529841547', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('188', null, '2', '0.00', '1575737919', '2', '159', '13931091933', '98022.00', '1575737919', '', 'N513463935322', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('189', null, '2', '0.00', '1575737928', '2', '159', '13931091933', '98022.00', '1575737928', '', 'N513463935322', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('194', '95', '1', '500.00', '1575886712', '3', '9', '56700000', '500.00', '1575886862', '', 'E15758867096396', null, '58.57.39.236', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('195', '95', '1', '500.00', '1575886927', '3', '9', '56700000', '508.50', '1575887300', '', 'E15758869243156', null, '58.57.39.236', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('196', '95', '1', '500.00', '1575887350', '3', '9', '56700000', '16.00', '1575887384', '', 'E15758873482276', null, '58.57.39.236', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('198', '95', '1', '500.00', '1575887790', '3', '9', '56700000', '24.50', '1575887930', '', 'E15758877851077', null, '103.137.63.190', 'shh002', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('199', null, '1', '0.00', '1575966056', '2', '9', '15566667777', '524.50', '1575966056', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('200', null, '1', '0.00', '1575966057', '2', '9', '15566667777', '524.50', '1575966057', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('201', null, '1', '0.00', '1575966058', '2', '9', '15566667777', '524.50', '1575966058', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('202', null, '1', '0.00', '1575966059', '2', '9', '15566667777', '524.50', '1575966059', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('203', null, '1', '0.00', '1575966060', '2', '9', '15566667777', '524.50', '1575966060', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('204', null, '1', '0.00', '1575966061', '2', '9', '15566667777', '524.50', '1575966061', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('205', null, '1', '0.00', '1575966062', '2', '9', '15566667777', '524.50', '1575966062', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('206', null, '1', '0.00', '1575966064', '2', '9', '15566667777', '524.50', '1575966064', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('207', null, '1', '0.00', '1575966065', '3', '9', '56700000', '32.00', '1576006869', '', 'N080163910709', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('209', '96', '1', '1000.00', '1576066562', '3', '164', '张磊', '9000.00', '1576068910', '', 'N666502582464', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('210', '96', '1', '1000.15', '1576068997', '3', '164', '张磊', '8014.85', '1576069063', '', 'N902479199491', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('211', '96', '1', '500.00', '1576069184', '3', '164', '张磊', '7544.85', '1576069194', '', 'N513394259180', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('212', '96', '1', '1000.13', '1576069321', '3', '164', '张磊', '6559.72', '1576069337', '', 'N185423050755', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('230', '95', '1', '500.00', '1576731812', '3', '9', '56700000', '9566.50', '1576732053', '', 'E15767318102742', null, '36.34.29.92', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('243', '97', '2', '500.00', '1576732784', '3', '9', '56700000', '9081.50', '1576732897', '', 'E15767327827598', null, '36.34.29.92', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('244', '95', '1', '5000.00', '1576733086', '3', '9', '56700000', '763.50', '1576733118', '', 'N345807357629', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('245', '97', '2', '1.00', '1576733163', '3', '9', '56700000', '177032.41', '1578045884', '', 'E15767331625108', null, '36.34.29.92', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('259', '98', '2', '500.00', '1576733621', '2', '9', '15566667777', '112075.50', '1576733840', '', 'E15767335934271', null, '36.34.29.92', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('260', '97', '2', '500.00', '1576735106', '3', '9', '56700000', '191400.50', '1576747082', '', 'E15767351058537', null, '36.34.29.92', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('268', '97', '2', '500.00', '1576758881', '2', '9', '15566667777', '191415.50', '1576761140', '', 'E15767588801690', null, '36.34.28.135', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('269', '98', '2', '500.00', '1576762604', '2', '9', '15566667777', '190915.50', '1576762606', '', 'E15767626037253', null, '36.34.28.135', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('279', '97', '2', '500.00', '1576779843', '3', '9', '56700000', '190415.50', '1576820902', '', 'E15767798411628', null, '36.34.28.135', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('280', '98', '2', '500.00', '1577455605', '3', '9', '56700000', '177526.91', '1578045866', '', 'E15774556023730', null, '115.53.104.202', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('282', '103', '2', '500.00', '1577890427', '3', '171', '', '501.00', '1577929159', '', 'E15778904233362', null, '115.53.67.180', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('284', '106', '3', '2000.00', '1577976415', '3', '165', '', '28000.00', '1577976462', '', 'N192884671792', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('286', null, '3', '0.00', '1577976511', '2', '165', '14725836900', '30000.00', '1577976511', '', 'N243224867838', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('287', '106', '3', '2000.00', '1577976584', '3', '165', '', '26020.00', '1577976606', '', 'N923733761342', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('288', null, '3', '0.00', '1577976673', '2', '165', '14725836900', '30000.00', '1577976673', '', 'N243224867838', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('289', '99', '3', '10000.00', '1577977043', '2', '9', '15566667777', '190430.50', '1577977047', '', 'N713415154236', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('290', null, '3', '0.00', '1577977106', '2', '9', '15566667777', '190430.50', '1577977106', '', 'N276463817000', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('291', null, '3', '0.00', '1577977147', '2', '9', '15566667777', '190430.50', '1577977147', '', 'N276463817000', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('292', null, '3', '0.00', '1577977194', '2', '9', '15566667777', '190430.50', '1577977194', '', 'N276463817000', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('294', '106', '3', '10000.00', '1577977398', '2', '165', '14725836900', '26040.00', '1577977411', '', 'N008824784745', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('295', '100', '3', '10000.00', '1577977426', '2', '9', '15566667777', '180430.50', '1577977468', '', 'N160820079821', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('296', null, '3', '0.00', '1577977609', '3', '9', '56700000', '180430.50', '1577977650', '', 'N496775261031', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('297', null, '3', '0.00', '1577977615', '2', '165', '14725836900', '26040.00', '1577977615', '', 'N203031086675', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('298', '100', '3', '10000.00', '1577977718', '3', '9', '56700000', '170530.50', '1577977728', '', 'N555769532297', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('299', '109', '3', '2000.00', '1577978675', '3', '165', '', '24040.00', '1578012639', '', 'N785576694388', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('300', '100', '3', '3000.00', '1577978760', '3', '9', '56700000', '177680.50', '1577978775', '', 'N992906686706', null, null, null, '9', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('301', '109', '3', '10000.00', '1578016141', '3', '165', '', '14070.00', '1578016166', '', 'N855415491647', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('302', '109', '3', '3000.00', '1578016240', '3', '165', '', '11220.00', '1578016255', '', 'N168439070202', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('303', '109', '3', '5000.00', '1578016274', '3', '165', '', '6265.00', '1578016292', '', 'N218979350751', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('304', '95', '1', '100.00', '1578017386', '3', '9', '56700000', '177625.50', '1578017400', '', 'N085456447568', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('306', '109', '3', '2500.00', '1578017533', '3', '165', '', '3840.00', '1578018369', '', 'N552462446647', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('307', '109', '3', '2500.00', '1578017578', '3', '165', '', '1377.50', '1578018381', '', 'N472540809532', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('308', '109', '3', '10000.00', '1578026822', '3', '165', '', '91415.00', '1578027266', '', 'N808862424535', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('309', '101', '1', '350.00', '1578027349', '2', '166', '陈冬明', '501.00', '1578027557', '', 'N489270169329', null, null, null, '166', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('310', null, '1', '0.00', '1578027684', '3', '166', '', '151.00', '1578027688', '', 'N545175041604', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('311', '109', '3', '8000.00', '1578027722', '3', '165', '', '83566.47', '1578027750', '', 'N803312486644', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('312', '109', '3', '12000.00', '1578027744', '3', '165', '', '71686.47', '1578027764', '', 'N017737359555', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('313', '109', '3', '9500.00', '1578027758', '3', '165', '', '62366.47', '1578028672', '', 'N756647462778', null, null, null, '165', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('314', '109', '3', '10000.00', '1578027822', '3', '165', '', '52508.97', '1578028687', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('315', '109', '3', '10000.00', '1578027822', '3', '165', '', '42658.97', '1578028779', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('316', '109', '3', '10000.00', '1578027822', '3', '165', '', '32808.97', '1578028793', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('317', '109', '3', '10000.00', '1578027822', '3', '165', '', '22958.97', '1578028805', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('318', '109', '3', '10000.00', '1578027822', '3', '165', '', '13108.97', '1578029141', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('319', '109', '3', '10000.00', '1578027822', '3', '165', '', '43410.67', '1578043016', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('320', '109', '3', '10000.00', '1578027822', '3', '165', '', '33560.67', '1578043035', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('321', '100', '3', '10000.00', '1578027822', '3', '9', '56700000', '167131.42', '1578047939', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('322', '100', '3', '10000.00', '1578027822', '2', '9', '15566667777', '167281.42', '1578047944', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('323', '100', '3', '10000.00', '1578027822', '2', '9', '15566667777', '167281.42', '1578302042', '', 'N587721382716', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('324', '115', '1', '3500.00', '1578027846', '2', '179', '余晨曦', '5001.00', '1578028548', '', 'N925049230786', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('325', '116', '1', '3500.00', '1578027846', '2', '179', '余晨曦', '5001.00', '1578028868', '', 'N925049230786', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('326', '117', '1', '3500.00', '1578027846', '3', '165', '', '9758.97', '1578030408', '', 'N925049230786', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('327', '117', '1', '5000.00', '1578027862', '3', '165', '', '4807.97', '1578030420', '', 'N463680259578', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('328', '109', '3', '4500.00', '1578030828', '3', '165', '', '21626.17', '1578043157', '', 'N810348302983', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('329', '100', '3', '8500.00', '1578030841', '2', '9', '15566667777', '167281.42', '1579085206', '', 'N997188653735', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('330', '109', '3', '8500.00', '1578030841', '3', '165', '', '13193.67', '1578044401', '', 'N997188653735', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('331', '117', '1', '1500.00', '1578030857', '3', '165', '', '3389.67', '1578040970', '', 'N486015351237', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('332', '109', '3', '7700.00', '1578030869', '3', '165', '', '26010.67', '1578043075', '', 'N365341959467', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('333', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '167281.42', '1579278749', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('334', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '167281.42', '1579279150', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('335', '126', '3', '10000.00', '1578031269', '2', '9', '15566667777', '157281.42', '1579279161', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('336', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '157281.42', '1579368932', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('337', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '147281.42', '1579413246', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('338', '126', '3', '10000.00', '1578031269', '3', '9', '56700000', '127281.42', '1579413267', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('339', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579427243', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('340', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579584611', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('341', '100', '3', '10000.00', '1578031269', '2', '9', '15566667777', '137431.42', '1579634027', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('342', '126', '3', '10000.00', '1578031269', '2', '9', '15566667777', '147281.42', '1579368943', '', 'N895504489999', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('343', '119', '3', '700.00', '1578031401', '3', '172', '', '301.00', '1578031789', '', 'N891855167816', null, null, null, '172', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('344', '119', '3', '900.00', '1578032397', '3', '172', '', '412.50', '1578032525', '', 'N772066746751', null, null, null, '172', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('350', '119', '3', '500.00', '1578033156', '3', '172', '', '927.00', '1578033253', '', 'N241482595936', null, null, null, '172', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('351', '119', '3', '500.00', '1578034004', '3', '172', '', '434.50', '1578034129', '', 'N490521744878', null, null, null, '172', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('352', '123', '3', '5000.00', '1578045998', '3', '193', '', '1.00', '1578317016', '', 'N103610514613', null, null, null, '193', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('353', '123', '3', '5000.00', '1578047450', '2', '193', '秦守博', '5001.00', '1578048285', '', 'N995136209522', null, null, null, '193', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('354', '128', '3', '3000.00', '1578317002', '3', '199', '', '0.00', '1578317555', '', 'N702094962345', null, null, null, '199', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('355', '128', '3', '2500.00', '1578318795', '3', '199', '', '500.00', '1578318944', '', 'N005415200054', null, null, null, '199', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('356', '133', '1', '500.00', '1587867059', '3', '21', '谢', '22597.60', '1587867502', '', 'N722794217288', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('357', '133', '1', '500.00', '1587867059', '3', '21', '谢', '23105.60', '1587867711', '', 'N722794217288', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('358', '133', '1', '500.00', '1587867059', '3', '21', '谢', '22612.60', '1587868262', '', 'N722794217288', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('364', '134', '3', '100.00', '1587868288', '4', '21', '13033556688', '22619.60', '1587868297', '', 'N663946979633', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('370', '133', '1', '1000.00', '1587870259', '3', '21', '谢', '21519.60', '1587870711', '', 'E1587870257189', null, '127.0.0.1', 'shh001', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('371', '133', '1', '1000.00', '1587871068', '3', '21', '谢', '20633.60', '1587871105', '', 'E15878710659963', null, '127.0.0.1', 'admin', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('383', '133', '1', '500.00', '1587951167', '4', '21', '13033556688', '20647.60', '1587951194', '', 'E1587951166809', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('384', '133', '1', '500.00', '1587952523', '3', '21', '谢', '20147.60', '1587956123', '', 'E15879525223887', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('385', '133', '1', '500.00', '1587956151', '3', '21', '谢', '19654.60', '1587956166', '', 'E15879561471039', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('386', '135', '2', '500.00', '1587971608', '4', '21', '13033556688', '19661.60', '1587971633', '', 'E15879716075171', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('390', '133', '1', '500.00', '1588039778', '3', '21', '谢', '19161.60', '1588039946', '', 'E15880397789009', null, '127.0.0.1', 'admin', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('391', '133', '1', '500.00', '1588064719', '3', '21', '谢', '22669.60', '1588064741', '', 'E15880647190001379', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('392', '135', '2', '500.00', '1588064750', '3', '21', '谢', '22176.60', '1588064764', '', 'E15880647500006391', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('394', '133', '1', '500.00', '1588123357', '3', '21', '谢', '21682.10', '1588123718', '', 'N398166344525', null, null, null, '21', null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('395', null, '2', '0.00', '1588123370', '3', '21', '谢', '21689.10', '1588123726', '', 'N061617129936', null, null, null, null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('396', '133', '1', '500.00', '1588131003', '3', '21', '谢', '21194.60', '1588131091', '', 'E15881309980006329', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('398', '135', '2', '500.00', '1588131083', '3', '21', '谢', '20701.60', '1588131108', '', 'E15881310570005760', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('399', '135', '2', '500.00', '1588132017', '4', '21', '13033556688', '20707.10', '1588132021', '', 'E15881320160003175', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('402', '133', '1', '500.00', '1588149458', '3', '21', '谢', '19207.10', '1588229230', '', 'E15881494550002986', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('403', '135', '2', '500.00', '1588219032', '4', '21', '13033556688', '20207.10', '1588219037', '', 'E15882190270001779', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('406', '133', '1', '500.00', '1588229253', '3', '21', '谢', '18714.10', '1588229272', '', 'E15882292530007375', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('409', '133', '1', '500.00', '1588230167', '3', '21', '谢', '18221.10', '1588230331', '', 'E15882301650003330', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('410', '133', '1', '700.00', '1588231615', '3', '21', '谢', '17528.10', '1588231632', '', 'E15882316140002869', null, '127.0.0.1', '222', null, null, null, '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('411', '133', '1', '500.00', '1588410835', '3', '21', '谢', '16539.90', '1588410896', '', 'E15884108330003430', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('413', '133', '1', '500.00', '1588413900', '3', '21', '谢', '16046.90', '1588413926', '', 'E15884138960008666', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('414', '133', '1', '500.00', '1588413931', '3', '21', '谢', '15553.90', '1588413970', '', 'E15884139270006681', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('415', '133', '1', '500.00', '1588415528', '3', '21', '谢', '15060.90', '1588415541', '', 'E15884155260006198', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('416', '133', '1', '500.00', '1588415546', '3', '21', '谢', '14567.90', '1588485968', '', 'E15884155430001520', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('417', '133', '1', '500.00', '1588485950', '3', '21', '谢', '14074.90', '1588487920', '', 'E15884859470006606', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('418', '133', '1', '500.00', '1588487926', '3', '21', '谢', '13581.90', '1588489257', '', 'E15884879240008461', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('419', '133', '1', '500.00', '1588489266', '4', '21', '13033556688', '13588.90', '1588489289', '', 'E15884892660001338', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('420', '133', '1', '500.00', '1588490091', '4', '21', '13033556688', '13088.90', '1588490253', '', 'E15884900870008117', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('422', '133', '1', '500.00', '1588562467', '3', '21', '谢', '12088.90', '1588562575', '', 'E15885624640008374', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('423', '133', '1', '500.00', '1588563762', '4', '21', '13033556688', '12095.90', '1588563764', '', 'E15885637610002317', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('424', '133', '1', '500.00', '1588564440', '4', '21', '13033556688', '11595.90', '1588564454', '', 'E15885644370009083', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('425', '133', '1', '500.00', '1588570297', '4', '21', '13033556688', '11095.90', '1588570336', '', 'E15885702960002431', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('426', '133', '1', '500.00', '1588570813', '4', '21', '13033556688', '10595.90', '1588570844', '', 'E15885708090001465', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('427', '133', '1', '500.00', '1588571290', '4', '21', '13033556688', '10095.90', '1588571292', '', 'E15885712860004267', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('428', '133', '1', '500.00', '1588571466', '4', '21', '13033556688', '9595.90', '1588571477', '', 'E15885714620005347', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('429', '133', '1', '500.00', '1588571858', '4', '21', '13033556688', '9095.90', '1588571862', '', 'E15885718570004431', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('430', '133', '1', '500.00', '1588571993', '4', '21', '13033556688', '8595.90', '1588572003', '', 'E15885719920006492', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('431', '133', '1', '500.00', '1588572313', '4', '21', '13033556688', '8095.90', '1588572316', '', 'E15885723120006484', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('432', '133', '1', '500.00', '1588572609', '4', '21', '13033556688', '7595.90', '1588572609', '', 'E15885726050004666', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('433', '133', '1', '500.00', '1588572683', '4', '21', '13033556688', '7095.90', '1588572692', '', 'E15885726800009875', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('435', '135', '2', '500.00', '1588576037', '3', '21', '谢', '6095.90', '1588582588', '', 'E15885760340003835', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('438', '133', '1', '500.00', '1588663680', '4', '21', '13033556688', '6101.40', '1588663713', '', 'E15886636750008328', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('440', '133', '1', '500.00', '1588675294', '2', '21', '13033556688', '5601.40', '1588675321', '', 'E15886752920004397', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('448', '137', '1', '500.00', '1588680545', '3', '31', '', '99500.00', '1588680648', null, 'E15886805420003768', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('449', '137', '1', '500.00', '1588681258', '3', '31', '', '99007.00', '1588681308', null, 'E15886812560007475', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('450', '138', '2', '500.00', '1588728548', '3', '31', '', '98514.00', '1588728764', null, 'E15887285440003662', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('451', '138', '2', '500.00', '1588729151', '3', '31', '', '98019.50', '1588729186', null, 'E15887291500006776', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('452', '138', '2', '500.00', '1588729407', '3', '31', '', '97525.00', '1588729419', null, 'E15887294060008333', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('453', '138', '2', '500.00', '1588729621', '3', '31', '', '97030.50', '1588729634', null, 'E15887296170006748', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('454', '138', '2', '500.00', '1588729700', '3', '31', '', '96536.00', '1588729715', null, 'E15887296990004439', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('455', '138', '2', '500.00', '1588729860', '3', '31', '', '96041.50', '1588729869', null, 'E15887298580002794', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('456', '138', '2', '500.00', '1588730106', '3', '31', '', '95547.00', '1588730681', null, 'E15887301040005393', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('457', '138', '2', '500.00', '1588730622', '3', '31', '', '95052.50', '1588730837', null, 'E15887306181882', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('458', '138', '2', '500.00', '1588730862', '3', '31', '', '94558.00', '1588730880', null, 'E15887308585766', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('459', '138', '2', '500.00', '1588731398', '3', '31', '', '94063.50', '1588731407', null, 'E15887313950004566', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('460', '138', '2', '500.00', '1588731414', '3', '31', '', '93569.00', '1588731468', null, 'E15887314117989', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('461', '138', '2', '500.00', '1588731707', '3', '31', '', '93074.50', '1588731754', null, 'E15887317064403', null, '127.0.0.1', 'shh001', null, '广东', '广州', '', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('462', '138', '2', '500.00', '1588732481', '3', '31', '', '92580.00', '1588732585', null, 'E15887324790001046', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('463', '138', '2', '500.00', '1588732591', '3', '31', '', '92085.50', '1588732644', null, 'E15887325900004720', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '1', '0');
+INSERT INTO `ysk_roborder` VALUES ('468', '138', '2', '500.00', '1588745803', '3', '31', '', '91096.50', '1588745832', null, 'E15887458026815', null, '127.0.0.1', '222', null, '广东', '广州', '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('469', '138', '2', '500.00', '1588745844', '3', '31', '', '90602.00', '1588746632', null, 'E15887458434562', null, '127.0.0.1', '222', null, '广东', '广州', '', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('472', '138', '2', '500.00', '1588747062', '3', '31', '', '90107.50', '1588747112', null, 'E15887470581401', null, '127.0.0.1', '222', null, '广东', '广州', 'http://pay.com/app/motify_true', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('473', '138', '2', '500.00', '1588747185', '3', '31', '', '89613.00', '1588747197', null, 'E1588747183725', null, '127.0.0.1', '222', null, '广东', '广州', 'http://pay.com/app/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('475', '138', '2', '400.00', '1588747358', '3', '31', '', '89218.50', '1588747374', null, 'E15887473565092', null, '127.0.0.1', '222', null, '广东', '广州', 'http://pay.com/app/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('476', '138', '2', '500.00', '1588747400', '3', '31', '', '88722.90', '1588747461', null, 'E15887473993895', null, '127.0.0.1', '222', null, '广东', '广州', 'http://pay.com/app/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('477', '138', '2', '500.00', '1588749202', '3', '31', '', '88228.40', '1588749335', null, 'E15887492010003956', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('478', '138', '2', '500.00', '1588749339', '3', '31', '', '87733.90', '1588749845', null, 'E15887493380009879', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('481', '138', '2', '500.00', '1588749930', '4', '31', '15555555555', '87739.40', '1588749933', null, 'E15887498500008386', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('483', '138', '2', '500.00', '1588751494', '4', '31', '15555555555', '87239.40', '1588751706', null, 'E15887514920003830', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('484', '138', '2', '500.00', '1588752096', '4', '31', '15555555555', '86739.40', '1588752101', null, 'E15887520930006179', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('488', '138', '2', '500.00', '1588753893', '4', '31', '15555555555', '86239.40', '1588754035', null, 'E15887538890005466', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('489', '138', '2', '500.00', '1588754745', '3', '31', '', '85239.40', '1588755287', null, 'E15887547450006715', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('496', '138', '2', '500.00', '1588755276', '4', '31', '15555555555', '85244.90', '1588755332', null, 'E15887549130003783', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('497', '138', '2', '500.00', '1588755688', '4', '31', '15555555555', '84744.90', '1588755692', null, 'E15887556840001931', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('499', '138', '2', '500.00', '1588758569', '3', '31', '', '83244.90', '1588814170', null, 'E15887585680002834', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('502', '138', '2', '500.00', '1588814433', '3', '31', '', '82750.40', '1588814455', null, 'E15888138400006863', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('503', '138', '2', '500.00', '1588814479', '3', '31', '', '82255.90', '1588815072', null, 'E15888144750007078', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('505', '138', '2', '500.00', '1588815128', '4', '31', '15555555555', '82261.40', '1588815130', null, 'E15888150830002011', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('508', '138', '2', '500.00', '1588817739', '4', '31', '15555555555', '81261.40', '1588817764', null, 'E15888175950004733', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('509', '138', '2', '500.00', '1588817837', '4', '31', '15555555555', '80761.40', '1588817849', null, 'E15888178360006505', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('510', '138', '2', '500.00', '1588817992', '3', '31', '', '78761.40', '1588819671', null, 'E15888179910005644', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('511', '138', '2', '500.00', '1588818112', '4', '31', '15555555555', '79761.40', '1588818116', null, 'E15888181080001873', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('512', '138', '2', '500.00', '1588818294', '4', '31', '15555555555', '79261.40', '1588818306', null, 'E15888182890007622', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('513', '138', '2', '500.00', '1588819657', '3', '31', '', '78266.90', '1588819746', null, 'E15888196560004280', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('514', '138', '2', '500.00', '1588819757', '4', '31', '15555555555', '78272.40', '1588819778', null, 'E15888197540009015', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('517', '138', '2', '500.00', '1588821219', '4', '31', '15555555555', '77772.40', '1588821262', null, 'E15888211740006872', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('518', '138', '2', '500.00', '1588821537', '3', '31', '', '76772.40', '1588821554', null, 'E15888215360009923', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('520', '138', '2', '500.00', '1588833960', '4', '31', '15555555555', '76277.90', '1588833974', null, 'E15888339590008110', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('521', '138', '2', '500.00', '1588834638', '4', '31', '15555555555', '75777.90', '1588834640', null, 'E15888346360007607', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('522', '138', '2', '500.00', '1588835757', '3', '31', '', '74777.90', '1588835970', null, 'E15888357530007211', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
+INSERT INTO `ysk_roborder` VALUES ('523', '138', '2', '500.00', '1588836014', '3', '31', '', '74283.40', '1588836367', null, 'E15888360100008085', null, '127.0.0.1', '222', null, null, null, 'http://agent.com/notify_true.php', '0', '0');
 
 -- ----------------------------
 -- Table structure for ysk_skm
@@ -800,7 +867,7 @@ CREATE TABLE `ysk_somebill` (
   `xjuid` int(10) DEFAULT NULL COMMENT '来自谁的提成',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `jc_class` (`jc_class`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=458 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员流水账单';
+) ENGINE=InnoDB AUTO_INCREMENT=526 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员流水账单';
 
 -- ----------------------------
 -- Records of ysk_somebill
@@ -1260,6 +1327,74 @@ INSERT INTO `ysk_somebill` VALUES ('454', '1', '1', '直推抢单成功佣金', 
 INSERT INTO `ysk_somebill` VALUES ('455', '21', '1', '佣金收入+', '1588582588', '+', '5.50', null);
 INSERT INTO `ysk_somebill` VALUES ('456', '21', '6', '充值500.00确认-', '1588582588', '-', '500.00', null);
 INSERT INTO `ysk_somebill` VALUES ('457', '1', '1', '直推抢单成功佣金', '1588582588', '+', '1.65', '21');
+INSERT INTO `ysk_somebill` VALUES ('458', '31', '1', '佣金收入+', '1588680648', '+', '7.00', null);
+INSERT INTO `ysk_somebill` VALUES ('459', '31', '6', '充值500.00确认-', '1588680648', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('460', '31', '1', '佣金收入+', '1588681308', '+', '7.00', null);
+INSERT INTO `ysk_somebill` VALUES ('461', '31', '6', '充值500.00确认-', '1588681308', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('462', '31', '1', '佣金收入+', '1588728764', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('463', '31', '6', '充值500.00确认-', '1588728764', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('464', '31', '1', '佣金收入+', '1588729186', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('465', '31', '6', '充值500.00确认-', '1588729186', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('466', '31', '1', '佣金收入+', '1588729419', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('467', '31', '6', '充值500.00确认-', '1588729419', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('468', '31', '1', '佣金收入+', '1588729634', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('469', '31', '6', '充值500.00确认-', '1588729634', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('470', '31', '1', '佣金收入+', '1588729715', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('471', '31', '6', '充值500.00确认-', '1588729715', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('472', '31', '1', '佣金收入+', '1588729869', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('473', '31', '6', '充值500.00确认-', '1588729869', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('474', '31', '1', '佣金收入+', '1588730681', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('475', '31', '6', '充值500.00确认-', '1588730681', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('476', '31', '1', '佣金收入+', '1588730837', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('477', '31', '6', '充值500.00确认-', '1588730837', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('478', '31', '1', '佣金收入+', '1588730880', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('479', '31', '6', '充值500.00确认-', '1588730880', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('480', '31', '1', '佣金收入+', '1588731407', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('481', '31', '6', '充值500.00确认-', '1588731407', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('482', '31', '1', '佣金收入+', '1588731468', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('483', '31', '6', '充值500.00确认-', '1588731468', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('484', '31', '1', '佣金收入+', '1588731754', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('485', '31', '6', '充值500.00确认-', '1588731754', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('486', '31', '1', '佣金收入+', '1588732585', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('487', '31', '6', '充值500.00确认-', '1588732585', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('488', '31', '1', '佣金收入+', '1588732644', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('489', '31', '6', '充值500.00确认-', '1588732644', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('490', '31', '1', '佣金收入+', '1588745445', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('491', '31', '6', '充值500.00确认-', '1588745445', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('492', '31', '1', '佣金收入+', '1588745832', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('493', '31', '6', '充值500.00确认-', '1588745832', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('494', '31', '1', '佣金收入+', '1588746632', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('495', '31', '6', '充值500.00确认-', '1588746632', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('496', '31', '1', '佣金收入+', '1588747112', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('497', '31', '6', '充值500.00确认-', '1588747112', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('498', '31', '1', '佣金收入+', '1588747197', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('499', '31', '6', '充值500.00确认-', '1588747197', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('500', '31', '1', '佣金收入+', '1588747374', '+', '4.40', null);
+INSERT INTO `ysk_somebill` VALUES ('501', '31', '6', '充值400.00确认-', '1588747374', '-', '400.00', null);
+INSERT INTO `ysk_somebill` VALUES ('502', '31', '1', '佣金收入+', '1588747461', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('503', '31', '6', '充值500.00确认-', '1588747461', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('504', '31', '1', '佣金收入+', '1588749335', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('505', '31', '6', '充值500.00确认-', '1588749335', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('506', '31', '1', '佣金收入+', '1588749845', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('507', '31', '6', '充值500.00确认-', '1588749845', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('508', '31', '1', '佣金收入+', '1588755287', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('509', '31', '6', '充值500.00确认-', '1588755287', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('510', '31', '1', '佣金收入+', '1588814170', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('511', '31', '6', '充值500.00确认-', '1588814170', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('512', '31', '1', '佣金收入+', '1588814455', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('513', '31', '6', '充值500.00确认-', '1588814455', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('514', '31', '1', '佣金收入+', '1588815072', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('515', '31', '6', '充值500.00确认-', '1588815072', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('516', '31', '1', '佣金收入+', '1588819671', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('517', '31', '6', '充值500.00确认-', '1588819671', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('518', '31', '1', '佣金收入+', '1588819746', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('519', '31', '6', '充值500.00确认-', '1588819746', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('520', '31', '1', '佣金收入+', '1588821554', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('521', '31', '6', '充值500.00确认-', '1588821554', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('522', '31', '1', '佣金收入+', '1588835970', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('523', '31', '6', '充值500.00确认-', '1588835970', '-', '500.00', null);
+INSERT INTO `ysk_somebill` VALUES ('524', '31', '1', '佣金收入+', '1588836367', '+', '5.50', null);
+INSERT INTO `ysk_somebill` VALUES ('525', '31', '6', '充值500.00确认-', '1588836367', '-', '500.00', null);
 
 -- ----------------------------
 -- Table structure for ysk_store
@@ -1273,7 +1408,7 @@ CREATE TABLE `ysk_store` (
   `huafei_total` decimal(13,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '施肥累计',
   `vip_grade` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`uid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of ysk_store
@@ -1313,13 +1448,14 @@ CREATE TABLE `ysk_system` (
   `lose_time` int(10) DEFAULT '60' COMMENT '订单失效时间',
   `back_money_time` int(10) DEFAULT '120' COMMENT '失效后退还押金时间',
   `order_num` int(10) DEFAULT '0' COMMENT '收款次数达到N次后禁止抢单',
+  `web_title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='游戏参数设置表';
 
 -- ----------------------------
 -- Records of ysk_system
 -- ----------------------------
-INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '100', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888', '600', '180', '3');
+INSERT INTO `ysk_system` VALUES ('1', '0', '', '100', '0', '0.014', '0.014', '0.014', '0', '0', '100', '1000.000', '100.000', '50000.000', '0', '0.300', '0.150', '0.08', '中国工商银行', '老王', '34534523434534521', '1.4', '1.1', '1.5', '0.00', '13888888888', '600', '180', '3', null);
 
 -- ----------------------------
 -- Table structure for ysk_tixian
@@ -1446,7 +1582,7 @@ INSERT INTO `ysk_user` VALUES ('23', '1', '0', '0', '15637897332', '15637897332'
 INSERT INTO `ysk_user` VALUES ('24', '0', '0', '0', 'momo624', 'momo624', 'evMfpkbMX3YZ', 'momo624', '54fefe6a8dcfc185d7ad9d11485eaa51', '6421', '0.00', '1563444962', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', null, '0', '', '1', '0');
 INSERT INTO `ysk_user` VALUES ('27', '0', '0', '0', '13599217309', '13599217309', 'SYL88d6AzoaS', '13599217309', '520191a5af5473475d04058ee366a7b2', '8396', '0.00', '1563532779', '', '1', '0', 'v42v2l6ghu8ove68k6edagka62', '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '0', '0', '', '1', '0');
 INSERT INTO `ysk_user` VALUES ('28', '0', '0', '0', '1256744534', '1256744534', 'ZMTCwgdWobUZ', '1256744534', '14cc7b6019a4449f4a35871c5f56df3c', '1425', '0.00', '1563551675', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', null, '0', '', '1', '0');
-INSERT INTO `ysk_user` VALUES ('31', '0', '0', '0', '15555555555', '15555555555', '2n0fUWnOcPQZ', '15555555555', 'ad38ff20d62df28081d7f7e5f2f06138', '167', '0.00', '1563760407', '', '1', '0', 's35dk6kdlvhoh59cn40i0b5vh5', null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', null, null, '0', '', '1', '0');
+INSERT INTO `ysk_user` VALUES ('31', '0', '0', '0', '15555555555', '15555555555', '2n0fUWnOcPQZ', '15555555555', 'ad38ff20d62df28081d7f7e5f2f06138', '167', '73788.90', '1563760407', '', '1', '0', 's4cnsdg8uivhtj45hneg5977t1', '', '', '', '', '', '', null, '0', '0', '1', '1', '188.90', '1', '1111', '1', '34', '', '1', '0');
 INSERT INTO `ysk_user` VALUES ('32', '0', '0', '0', '16666666666', '16666666666', 'VeNrSeNDMwwW', '16666666666', 'fd8fa02fdbf86e2e72f86240d1ed02b6', '8960', '1500.00', '1563804071', '', '1', '0', '559iao25aft84ovf6j550e28q5', '', '', '', '', '', '', null, '0', '0', '1', '1', '0.00', '1', '10', '1', '0', '', '1', '0');
 INSERT INTO `ysk_user` VALUES ('33', '0', '0', '0', '1870608', '1870608', 'hRdFFzHeBSQ6', '1870608', '5c3f83ce904a20d5f61e9ef03eb0b63e', '8095', '3210.40', '1563861223', '', '1', '0', '9e5v6t51lg5oamnef2btdju2v4', null, null, null, '', '', '', null, '0', '0', '1', '1', '22.40', '1', null, '1', '0', '', '1', '0');
 INSERT INTO `ysk_user` VALUES ('34', '0', '0', '0', '13212312312', '13212312312', 'WPGhMddC8TIZ', '13212312312', '46b8525f34b0ea0534addff4778f2f23', '8346', '0.01', '1563892909', '', '1', '0', null, null, null, null, '', '', '', null, '0', '0', '1', '1', '0.00', '1', null, null, '0', '', '1', '0');
@@ -1645,7 +1781,7 @@ CREATE TABLE `ysk_userrob` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`,`class`) USING BTREE,
   KEY `ordernum` (`ordernum`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
+) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='会员抢单表前台发起的';
 
 -- ----------------------------
 -- Records of ysk_userrob
@@ -1821,7 +1957,60 @@ INSERT INTO `ysk_userrob` VALUES ('188', '21', '1', '500.00', '0.00', '7595.90',
 INSERT INTO `ysk_userrob` VALUES ('189', '21', '1', '500.00', '0.00', '7095.90', '13888888888', '13033556688', '433', '4', '1588572692', '1588572692', '', 'N102447533684', 'E15885726800009875', '500.00', '133', '2', '/Public/attached/2020/05/05/5eb13b762c69b.png');
 INSERT INTO `ysk_userrob` VALUES ('190', '21', '2', '500.00', '0.00', '6595.90', '13888888888', '13033556688', '435', '3', '1588576044', '1588576044', '1588582588', 'N905718833116', 'E15885760340003835', '500.00', '135', '0', null);
 INSERT INTO `ysk_userrob` VALUES ('191', '21', '1', '500.00', '0.00', '6101.40', '13888888888', '13033556688', '438', '4', '1588663713', '1588663713', '', 'N428623147029', 'E15886636750008328', '500.00', '133', '0', null);
-INSERT INTO `ysk_userrob` VALUES ('192', '21', '1', '500.00', '0.00', '5601.40', '13888888888', '13033556688', '440', '4', '1588675321', '1588675321', '', 'N268956948482', 'E15886752920004397', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('192', '21', '1', '500.00', '0.00', '5601.40', '13888888888', '13033556688', '440', '2', '1588675321', '1588675321', '', 'N268956948482', 'E15886752920004397', '500.00', '133', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('193', '31', '1', '500.00', '0.00', '100000.00', '15555555555', '15555555555', '448', '3', '1588680609', '1588680609', '1588680648', 'N015212010460', 'E15886805420003768', '500.00', '137', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('194', '31', '1', '500.00', '0.00', '99507.00', '15555555555', '15555555555', '449', '3', '1588681299', '1588681299', '1588681308', 'N415007911194', 'E15886812560007475', '500.00', '137', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('195', '31', '2', '500.00', '0.00', '99014.00', '15555555555', '15555555555', '450', '3', '1588728731', '1588728731', '1588728764', 'N619863773381', 'E15887285440003662', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('196', '31', '2', '500.00', '0.00', '98519.50', '15555555555', '15555555555', '451', '3', '1588729165', '1588729165', '1588729186', 'N209469142453', 'E15887291500006776', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('197', '31', '2', '500.00', '0.00', '98025.00', '15555555555', '15555555555', '452', '3', '1588729411', '1588729411', '1588729419', 'N886454538182', 'E15887294060008333', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('198', '31', '2', '500.00', '0.00', '97530.50', '15555555555', '15555555555', '453', '3', '1588729626', '1588729626', '1588729634', 'N758447911494', 'E15887296170006748', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('199', '31', '2', '500.00', '0.00', '97036.00', '15555555555', '15555555555', '454', '3', '1588729709', '1588729709', '1588729715', 'N510073372979', 'E15887296990004439', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('200', '31', '2', '500.00', '0.00', '96541.50', '15555555555', '15555555555', '455', '3', '1588729863', '1588729863', '1588729869', 'N603392192475', 'E15887298580002794', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('201', '31', '2', '500.00', '0.00', '96047.00', '15555555555', '15555555555', '456', '3', '1588730115', '1588730115', '1588730681', 'N516059298667', 'E15887301040005393', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('202', '31', '2', '500.00', '0.00', '95552.50', '15555555555', '15555555555', '457', '3', '1588730732', '1588730732', '1588730837', 'N260599297302', 'E15887306181882', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('203', '31', '2', '500.00', '0.00', '95058.00', '15555555555', '15555555555', '458', '3', '1588730874', '1588730874', '1588730880', 'N652979077988', 'E15887308585766', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('204', '31', '2', '500.00', '0.00', '94563.50', '15555555555', '15555555555', '459', '3', '1588731401', '1588731401', '1588731407', 'N724281496863', 'E15887313950004566', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('205', '31', '2', '500.00', '0.00', '94069.00', '15555555555', '15555555555', '460', '3', '1588731457', '1588731457', '1588731468', 'N244330119544', 'E15887314117989', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('206', '31', '2', '500.00', '0.00', '93574.50', '15555555555', '15555555555', '461', '3', '1588731719', '1588731719', '1588731754', 'N350343873951', 'E15887317064403', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('207', '31', '2', '500.00', '0.00', '93080.00', '15555555555', '15555555555', '462', '3', '1588732493', '1588732493', '1588732585', 'N216029050845', 'E15887324790001046', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('208', '31', '2', '500.00', '0.00', '92585.50', '15555555555', '15555555555', '463', '3', '1588732636', '1588732636', '1588732644', 'N802246491631', 'E15887325900004720', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('209', '31', '2', '500.00', '0.00', '92091.00', '15555555555', '15555555555', '466', '3', '1588745440', '1588745440', '1588745445', 'N493531570020', 'E15887451864050', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('210', '31', '2', '500.00', '0.00', '91596.50', '15555555555', '15555555555', '468', '3', '1588745817', '1588745817', '1588745832', 'N735119194462', 'E15887458026815', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('211', '31', '2', '500.00', '0.00', '91102.00', '15555555555', '15555555555', '469', '3', '1588745953', '1588745953', '1588746632', 'N210842673653', 'E15887458434562', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('212', '31', '2', '500.00', '0.00', '90607.50', '15555555555', '15555555555', '472', '3', '1588747065', '1588747065', '1588747112', 'N983519972049', 'E15887470581401', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('213', '31', '2', '500.00', '0.00', '90113.00', '15555555555', '15555555555', '473', '3', '1588747190', '1588747190', '1588747197', 'N345398753214', 'E1588747183725', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('214', '31', '2', '400.00', '0.00', '89618.50', '15555555555', '15555555555', '475', '3', '1588747366', '1588747366', '1588747374', 'N836893242830', 'E15887473565092', '400.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('215', '31', '2', '500.00', '0.00', '89222.90', '15555555555', '15555555555', '476', '3', '1588747448', '1588747448', '1588747461', 'N037543032073', 'E15887473993895', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('216', '31', '2', '500.00', '0.00', '88728.40', '15555555555', '15555555555', '477', '3', '1588749237', '1588749237', '1588749335', 'N965780266912', 'E15887492010003956', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('217', '31', '2', '500.00', '0.00', '88233.90', '15555555555', '15555555555', '478', '3', '1588749366', '1588749366', '1588749845', 'N826512494914', 'E15887493380009879', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('218', '31', '2', '500.00', '0.00', '87739.40', '15555555555', '15555555555', '481', '4', '1588749933', '1588749933', null, 'N725705422465', 'E15887498500008386', '500.00', '138', '1', '/Public/attached/2020/05/06/5eb26c327f1e1.png');
+INSERT INTO `ysk_userrob` VALUES ('219', '31', '2', '500.00', '0.00', '87239.40', '15555555555', '15555555555', '483', '4', '1588751706', '1588751706', null, 'N202393353917', 'E15887514920003830', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('220', '31', '2', '500.00', '0.00', '86739.40', '15555555555', '15555555555', '484', '4', '1588752101', '1588752101', null, 'N853965887372', 'E15887520930006179', '500.00', '138', '1', '/Public/attached/2020/05/06/5eb26f66b1168.png');
+INSERT INTO `ysk_userrob` VALUES ('221', '31', '2', '500.00', '0.00', '86239.40', '15555555555', '15555555555', '488', '4', '1588754035', '1588754035', null, 'N168086064913', 'E15887538890005466', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('222', '31', '2', '500.00', '0.00', '85739.40', '15555555555', '15555555555', '489', '3', '1588754764', '1588754764', '1588755287', 'N648292576045', 'E15887547450006715', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('223', '31', '2', '500.00', '0.00', '85244.90', '15555555555', '15555555555', '496', '4', '1588755332', '1588755332', null, 'N868629503674', 'E15887549130003783', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('224', '31', '2', '500.00', '0.00', '84744.90', '15555555555', '15555555555', '497', '4', '1588755692', '1588755692', null, 'N514968177855', 'E15887556840001931', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('225', '31', '2', '500.00', '0.00', '84244.90', '15555555555', '15555555555', '498', '4', '1588756025', '1588756025', null, 'N860663370140', 'E15887560200005813', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('226', '31', '2', '500.00', '0.00', '83744.90', '15555555555', '15555555555', '499', '3', '1588758572', '1588758572', '1588814170', 'N668526155855', 'E15887585680002834', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('227', '31', '2', '500.00', '0.00', '83250.40', '15555555555', '15555555555', '502', '3', '1588814444', '1588814444', '1588814455', 'N495699566373', 'E15888138400006863', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('228', '31', '2', '500.00', '0.00', '82755.90', '15555555555', '15555555555', '503', '3', '1588814485', '1588814485', '1588815072', 'N728684631163', 'E15888144750007078', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('229', '31', '2', '500.00', '0.00', '82261.40', '15555555555', '15555555555', '505', '4', '1588815130', '1588815130', null, 'N145646840317', 'E15888150830002011', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('230', '31', '2', '500.00', '0.00', '81761.40', '15555555555', '15555555555', '506', '4', '1588815420', '1588815420', null, 'N300724372247', 'E15888154130009731', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('231', '31', '2', '500.00', '0.00', '81261.40', '15555555555', '15555555555', '508', '4', '1588817764', '1588817764', null, 'N072381904719', 'E15888175950004733', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('232', '31', '2', '500.00', '0.00', '80761.40', '15555555555', '15555555555', '509', '4', '1588817849', '1588817849', null, 'N354799870050', 'E15888178360006505', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('233', '31', '2', '500.00', '0.00', '80261.40', '15555555555', '15555555555', '510', '3', '1588818004', '1588818004', '1588819671', 'N503869703070', 'E15888179910005644', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('234', '31', '2', '500.00', '0.00', '79761.40', '15555555555', '15555555555', '511', '4', '1588818116', '1588818116', null, 'N679693813055', 'E15888181080001873', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('235', '31', '2', '500.00', '0.00', '79261.40', '15555555555', '15555555555', '512', '4', '1588818306', '1588818306', null, 'N049910090649', 'E15888182890007622', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('236', '31', '2', '500.00', '0.00', '78766.90', '15555555555', '15555555555', '513', '3', '1588819703', '1588819703', '1588819746', 'N951145107438', 'E15888196560004280', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('237', '31', '2', '500.00', '0.00', '78272.40', '15555555555', '15555555555', '514', '4', '1588819778', '1588819778', null, 'N808192947809', 'E15888197540009015', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('238', '31', '2', '500.00', '0.00', '77772.40', '15555555555', '15555555555', '517', '4', '1588821262', '1588821262', null, 'N349535720180', 'E15888211740006872', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('239', '31', '2', '500.00', '0.00', '77272.40', '15555555555', '15555555555', '518', '3', '1588821545', '1588821545', '1588821554', 'N584534901598', 'E15888215360009923', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('240', '31', '2', '500.00', '0.00', '76777.90', '15555555555', '15555555555', '519', '4', '1588830969', '1588830969', null, 'N807345666323', 'E15888309620002103', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('241', '31', '2', '500.00', '0.00', '76277.90', '15555555555', '15555555555', '520', '4', '1588833974', '1588833974', null, 'N522486936471', 'E15888339590008110', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('242', '31', '2', '500.00', '0.00', '75777.90', '15555555555', '15555555555', '521', '4', '1588834640', '1588834640', null, 'N569991852104', 'E15888346360007607', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('243', '31', '2', '500.00', '0.00', '75277.90', '15555555555', '15555555555', '522', '3', '1588835759', '1588835759', '1588835970', 'N883001348640', 'E15888357530007211', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('244', '31', '2', '500.00', '0.00', '74783.40', '15555555555', '15555555555', '523', '3', '1588836026', '1588836026', '1588836367', 'N439918315202', 'E15888360100008085', '500.00', '138', '0', null);
+INSERT INTO `ysk_userrob` VALUES ('245', '31', '2', '500.00', '0.00', '74288.90', '15555555555', '15555555555', '524', '4', '1588836830', '1588836830', null, 'N097958837345', 'E15888368120007842', '500.00', '139', '0', null);
 
 -- ----------------------------
 -- Table structure for ysk_withdraw
