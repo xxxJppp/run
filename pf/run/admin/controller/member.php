@@ -146,6 +146,7 @@ class member
             'pwd'        => functions::pwd($pwd, $token),
             'balance'    => $balance,
             'money'      => $money,
+            'yajin'     =>0,
             'token'      => $token,
             'ip'         => '8.8.8.8',
              'group_id'   => $group_id,

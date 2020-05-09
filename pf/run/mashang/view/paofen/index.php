@@ -33,7 +33,7 @@ $fix = DB_PREFIX;
           <div class="section">
 
             <p class="caption">
-            <a href="<?php echo url::s("index/paofen/automaticOrder");?>" style="font-size: 14px;" class="btn waves-effect waves-light  cyan darken-2"><i class="mdi-editor-border-all left" style="width: 10px;"></i>全部订单</a>
+            <a href="<?php echo url::s("mashang/paofen/automaticOrder");?>" style="font-size: 14px;" class="btn waves-effect waves-light  cyan darken-2"><i class="mdi-editor-border-all left" style="width: 10px;"></i>全部订单</a>
          
             <a onclick="addalipay();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝固码收款</a>
               
