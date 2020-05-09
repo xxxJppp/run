@@ -48,7 +48,7 @@ class session{
 //            }
 //        }
         //检测ip是否异地登录（能够百分百防御XSS攻击）
-        $mysql = new mysql();
+        /*$mysql = new mysql();
         $find_user = $mysql->query('mgt',"id={$_SESSION['USER_MGT']['uid']}")[0];
         if (!is_array($find_user) || md5($Loca_ip) !== md5($_SESSION['USER_MGT']['ip']) || md5($Loca_ip) !== md5($find_user['ip'])) {
             unset($_SESSION['USER_MGT']);
@@ -57,7 +57,7 @@ class session{
             }else{
                 url::address(url::s('admin/user/login'),'账户登录异常!',3);
             }
-        }
+        }*/
         
         //检测用户组权限是否被banned
         if (!is_array($_SESSION['USER_MGT']['group']) || $_SESSION['USER_MGT']['group']['authority'] == -1){
