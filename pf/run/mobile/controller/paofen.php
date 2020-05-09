@@ -31,45 +31,45 @@ class paofen
     public function automatic()
     {
         (new model())->load('user', 'group')->review('paofen_auto');
-       $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-       $code = request::filter('get.code', '', 'htmlspecialchars');
-       //筛选
+        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
+        $code = request::filter('get.code', '', 'htmlspecialchars');
+        //筛选
         if ($sorting == 'type') {
-            $list = [1, 2,3,4,5,6,7,8];
+            $list = [1, 2, 3, 4, 5, 6, 7, 8];
             if (in_array($code, $list)) {
-               $where .= "and type = {$code}";
+                $where .= "and type = {$code}";
             } else {
                 unset($_SESSION['SERVICE_ACCOUNT']['WHERE']);
             }
         }
-      
-                   //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+
+        //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, "user_id={$_SESSION['MEMBER']['uid']} " . $where, null, 'id', 'asc');
         //获取城市
         $areaList = $this->mysql->query('city');
         $areaStr = '';
-         foreach($areaList as $bk=>$bv){
-             $areaStr .= "<option value='".$bv['cityname']."'>".$bv['cityname']."</option>";
-         }
-      
-      //获取银行id（简称）
+        foreach ($areaList as $bk => $bv) {
+            $areaStr .= "<option value='" . $bv['cityname'] . "'>" . $bv['cityname'] . "</option>";
+        }
+
+        //获取银行id（简称）
         $bankList = $this->mysql->query('bank_id');
         //print_r($bankList);die;
         $bankStr = '';
-         foreach($bankList as $bk=>$bv){
-             $bankStr .= "<option value='".$bv['bank_id']."'>".$bv['bank_name']."</option>";
-         }
-      
+        foreach ($bankList as $bk => $bv) {
+            $bankStr .= "<option value='" . $bv['bank_id'] . "'>" . $bv['bank_name'] . "</option>";
+        }
+
         new view('paofen/index', [
             'result' => $result,
             'areaStr' => $areaStr,
-           'bankStr' => $bankStr,
-            'mysql'  => $this->mysql
+            'bankStr' => $bankStr,
+            'mysql' => $this->mysql
         ]);
     }
 
-  //上传图片解析二维码
-   public function jiexiup()
+    //上传图片解析二维码
+    public function jiexiup()
     {
         $id = $_SESSION['MEMBER']['uid'];
         $emp = $this->mysql->query("client_user", "id={$id}")[0];
@@ -79,115 +79,102 @@ class paofen
         $upload = (new upload())->run($_FILES['avatar'], $path, array('jpg', 'png'), 1000);
         if (!is_array($upload)) functions::json(-2, '上传时错误,请选择一张小于1M的图片,注意只能是二维码图片!');
         //$this->mysql->update('client_user', array('avatar' => '/run/upload/view/qrcode/'.$upload['new']), "id={$id}");
-     
-                   //初始化
-                    $curl = curl_init();
-                    //设置抓取的url
-                    curl_setopt($curl, CURLOPT_URL, 'http://qrcode.erinqak.cn/index.php?imgurl=http://'.DOMAINS_URL.'/run/upload/view/qrcode/'.$upload['new']);
-                    //设置头文件的信息作为数据流输出
-                    curl_setopt($curl, CURLOPT_HEADER, 1);
-                    //设置获取的信息以文件流的形式返回，而不是直接输出。
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($curl, CURLOPT_HEADER, FALSE);    //表示需要response header
-                   curl_setopt($curl, CURLOPT_NOBODY, FALSE); //表示需要response body
 
-                    //执行命令
-                    $data = curl_exec($curl);
-                    //关闭URL请求
-                    curl_close($curl);
-                    //显示获得的数据
-   
-           $arr = json_decode($data,1); // $str 代表json字符串
-     if( $arr['status'] == 1){
-     
-       functions::json(200, '二维码解析成功!', array('img' => $arr['qrtext']));
-     
-     }else{
-        functions::json(100, '二维码解析失败，请重新上传!', array('img' => 0));
-     }
+        $data = functions::checkCode('http://' . DOMAINS_URL . '/run/upload/view/qrcode/' . $upload['new']);
+
+        if ($data) {
+            functions::json(200, '二维码解析成功!', array('img' => $data));
+        } else {
+            functions::json(100, '二维码解析失败，请重新上传!', array('img' => 0));
+        }
     }
-  
-  
-     //全自动版
+
+
+    //全自动版
     public function search()
     {
         (new model())->load('user', 'group')->review('paofen_auto');
-       $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-       $code = request::filter('get.code', '', 'htmlspecialchars');
-       //筛选
+        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
+        $code = request::filter('get.code', '', 'htmlspecialchars');
+        //筛选
         if ($sorting == 'type') {
 
-               $where .= "and id = {$code}";
-        
+            $where .= "and id = {$code}";
+
         }
-      
-                   //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+
+        //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, "user_id={$_SESSION['MEMBER']['uid']} " . $where, null, 'id', 'asc');
         //获取城市
         $areaList = $this->mysql->query('city');
         $areaStr = '';
-         foreach($areaList as $bk=>$bv){
-             $areaStr .= "<option value='".$bv['cityname']."'>".$bv['cityname']."</option>";
-         }
-      
-      //获取银行id（简称）
+        foreach ($areaList as $bk => $bv) {
+            $areaStr .= "<option value='" . $bv['cityname'] . "'>" . $bv['cityname'] . "</option>";
+        }
+
+        //获取银行id（简称）
         $bankList = $this->mysql->query('bank_id');
         //print_r($bankList);die;
         $bankStr = '';
-         foreach($bankList as $bk=>$bv){
-             $bankStr .= "<option value='".$bv['bank_id']."'>".$bv['bank_name']."</option>";
-         }
-      
+        foreach ($bankList as $bk => $bv) {
+            $bankStr .= "<option value='" . $bv['bank_id'] . "'>" . $bv['bank_name'] . "</option>";
+        }
+
         new view('paofen/search', [
             'result' => $result,
             'areaStr' => $areaStr,
-           'bankStr' => $bankStr,
-            'mysql'  => $this->mysql
+            'bankStr' => $bankStr,
+            'mysql' => $this->mysql
         ]);
     }
 
-  
-  
-  
-   public function addwechat(){
+
+    public function addwechat()
+    {
 
         new view("paofen/addwechat");
     }
-  public function addalipay(){
+
+    public function addalipay()
+    {
 
         new view("paofen/addalipay");
     }
-  
-  public function addalipaypid(){
+
+    public function addalipaypid()
+    {
 
         new view("paofen/addalipaypid");
     }
-  
-  public function addbank(){
-    
-     //获取银行id（简称）
+
+    public function addbank()
+    {
+
+        //获取银行id（简称）
         $bankList = $this->mysql->query('bank_id');
         //print_r($bankList);die;
         $bankStr = '';
-         foreach($bankList as $bk=>$bv){
-             $bankStr .= "<option value='".$bv['bank_id']."'>".$bv['bank_name']."</option>";
-         }
- new view('paofen/addbank', [
-           'bankStr' => $bankStr,
-            'mysql'  => $this->mysql
+        foreach ($bankList as $bk => $bv) {
+            $bankStr .= "<option value='" . $bv['bank_id'] . "'>" . $bv['bank_name'] . "</option>";
+        }
+        new view('paofen/addbank', [
+            'bankStr' => $bankStr,
+            'mysql' => $this->mysql
         ]);
-    
+
     }
-  
-  public function addwechatdy(){
+
+    public function addwechatdy()
+    {
 
         new view("paofen/addwechatdy");
     }
-  
-   public function type(){
+
+    public function type()
+    {
         new view("paofen/type");
     }
-  
+
     public function editdyname()
     {
         $id = intval(request::filter('get.id'));
@@ -339,8 +326,8 @@ class paofen
             $money = $find_order['money'];
             if (is_array($find_order)) {
                 $update = $this->mysql->update("client_paofen_automatic_orders", [
-                    'status'        => 4,
-                    'pay_time'      => time(),
+                    'status' => 4,
+                    'pay_time' => time(),
                     'callback_from' => 'index',
                 ], "id={$find_order['id']}");
                 $remark = ' - 订单信息：' . $find_order['id'];
@@ -354,13 +341,13 @@ class paofen
                 $find_uid = $this->mysql->query("client_paofen_automatic_account", "id={$id}")[0]['user_id'];
                 //写到交易记录
                 $this->mysql->insert("client_pay_record", [
-                    'pay_time'     => time(),
-                    'amount'       => $money,
-                    'user_id'      => $find_uid,
-                    'pay_note'     => '[后台补单]跑分ID：' . $find_order['id'] . $remark,
-                    'types'        => 2,
+                    'pay_time' => time(),
+                    'amount' => $money,
+                    'user_id' => $find_uid,
+                    'pay_note' => '[后台补单]跑分ID：' . $find_order['id'] . $remark,
+                    'types' => 2,
                     'version_code' => 'paofen_auto',
-                    'average'      => $average
+                    'average' => $average
                 ]);
                 callbacks::curl(URL_ROOT . '/server/callback/paofen', http_build_query(['id' => $id]));
                 $successCount += 1;
@@ -386,8 +373,8 @@ class paofen
 
     /**
      * @param string $name
-     * @param array  $expCellName
-     * @param array  $expTableData
+     * @param array $expCellName
+     * @param array $expTableData
      *
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
@@ -483,8 +470,8 @@ class paofen
         $mysql->update("client_paofen_automatic_account", $update, "id={$id}");
         functions::json(200, '成功');
     }
-  
-   public function areaAdd()
+
+    public function areaAdd()
     {
         $mysql = new mysql();
         $id = intval(request::filter('get.id'));
@@ -494,6 +481,7 @@ class paofen
         $mysql->update("client_paofen_automatic_account", $update, "id={$id}");
         functions::json(200, '成功');
     }
+
     /**
      * 修改备注
      */

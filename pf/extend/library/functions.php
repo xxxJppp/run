@@ -505,4 +505,14 @@ class functions
         return '';
 
     }
+
+    static function checkCode($value)
+    {
+        require_once ROOT_PATH . "/extend/unity/phpqrreader/QrReader.php";
+
+        $qrcode = new \QrReader($value);
+        $data = $qrcode->text();
+
+        return $data;
+    }
 }
