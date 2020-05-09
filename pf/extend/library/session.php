@@ -48,9 +48,9 @@ class session{
 //            }
 //        }
         //检测ip是否异地登录（能够百分百防御XSS攻击）
-        /*$mysql = new mysql();
+        $mysql = new mysql();
         $find_user = $mysql->query('mgt',"id={$_SESSION['USER_MGT']['uid']}")[0];
-        if (!is_array($find_user) || md5($Loca_ip) !== md5($_SESSION['USER_MGT']['ip']) || md5($Loca_ip) !== md5($find_user['ip'])) {
+        /*if (!is_array($find_user) || md5($Loca_ip) !== md5($_SESSION['USER_MGT']['ip']) || md5($Loca_ip) !== md5($find_user['ip'])) {
             unset($_SESSION['USER_MGT']);
             if ($callType == 'json'){
                 functions::json(403, '账户异常,请重新登录',array('url'=>url::s('admin/user/login'),'time'=>date('Y/m/d H:i:s',time()),'ip'=>$Loca_ip));
