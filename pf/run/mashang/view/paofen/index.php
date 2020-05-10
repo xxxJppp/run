@@ -37,15 +37,15 @@ $fix = DB_PREFIX;
          
             <a onclick="addalipay();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝固码收款</a>
               
-            <a onclick="addwechat();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加微信收款</a>
+<!--            <a onclick="addwechat();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加微信收款</a>-->
               
-            <a onclick="addwechatdy();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加微信店员模式收款</a>
+<!--            <a onclick="addwechatdy();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加微信店员模式收款</a>-->
               
             <a onclick="addqita();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加其他收款码</a>
 
           <a onclick="addalipaypid();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝转账模式</a>
               
-              <a onclick="addbank();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝微信转卡</a>
+<!--              <a onclick="addbank();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝微信转卡</a>-->
             </p>
         
 
