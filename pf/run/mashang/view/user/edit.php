@@ -24,14 +24,6 @@ use xh\library\url;
     <link href="<?php echo URL_VIEW;?>/static/js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="<?php echo URL_VIEW;?>/static/js/plugins/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
   
-  <script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/ace-extra.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/jquery-1.9.1.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/bootstrap.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/typeahead-bs2.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/ace-elements.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/ace.min.js"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/layer.js" type="text/javascript"></script>
-<script src="http://xxa.erinqak.cn/run/index/view/static/js/assset/laydate.js" type="text/javascript"></script>
     <link rel="icon" href="<?php echo URL_ROOT;?>/favicon.ico" />
 </head>
 <body>
