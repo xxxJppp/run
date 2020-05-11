@@ -1,2 +1,2 @@
-alter table ysk_ewm add qrurl VARCHAR(255) DEFAULT '' COMMENT '二维码解码路径';
+alter table xh_client_user add status TINYINT(1) DEFAULT '1' COMMENT '软删除：1正常，2已删除';
 

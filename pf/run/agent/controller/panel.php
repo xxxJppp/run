@@ -55,24 +55,10 @@ class panel{
     }
   
   //会员列表
-    public function userlist1(){
-  
-         $member_id = request::filter('get.member_id');
-        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
-        $where="level_id =".$_SESSION['MEMBER']['uid'];
-        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
-        $groups = $this->mysql->query("client_group");
-        new view('panel/userlist1', [
-            'mysql'  => $this->mysql,
-            'member' => $member,
-            'groups' => $groups
-        ]);
-  }
   public function userlist(){
-
       $member_id = request::filter('get.member_id');
       if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-      $where="level_id =".$_SESSION['MEMBER']['uid'];
+      $where="level_id =".$_SESSION['MEMBER']['uid']." and is_mashang=1 and status=1";
       $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
       $groups = $this->mysql->query("client_group");
       new view('panel/userlist', [
@@ -81,14 +67,79 @@ class panel{
           'groups' => $groups
       ]);
   }
-  
+  public function offrobin(){
+        $member_id = request::filter('post.member_id');
+        $off = 2;
+        $where = "user_id =".$member_id;
+        $data = ['training'=>$off];
+        $result = $this->mysql->update('client_paofen_automatic_account',$data,$where);
+        if ($result > 0) functions::json(200, '安全下线成功!');
+        functions::json(-2, '下线失败!');
+  }
+    public function openrobin(){
+        $member_id = request::filter('post.member_id');
+        $off = 1;
+        $where = "user_id =".$member_id;
+        $data = ['training'=>$off];
+        $result = $this->mysql->update('client_paofen_automatic_account',$data,$where);
+        if ($result > 0) functions::json(200, '安全上线成功!');
+        functions::json(-2, '上线失败!');
+    }
+    public function delquotient(){
+        $member_id = request::filter('post.member_id');
+        $where = "id =".$member_id;
+        $result = $this->mysql->update('client_user',[
+            'status'=>2
+        ],$where);
+        if ($result > 0) functions::json(200, '删除成功!');
+        functions::json(-2, '删除失败!');
+
+    }
+    public function editdeposit(){
+        $id = request::filter('get.id');
+        $result = $this->mysql->query("client_user", "id={$id}")[0];
+        if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
+
+        //权限查询
+        $groups = $this->mysql->query("client_group");
+        //加载视图
+        new view('panel/editdeposit', [
+            'result' => $result,
+            'groups' => $groups
+        ]);
+
+    }
+    public function editpositResult(){
+
+        $id = intval(request::filter("post.id"));
+        $username = strip_tags(request::filter('post.username'));
+        $yajin = request::filter('post.yajin');
+
+        //判断用户名是否存在
+        $user = $this->mysql->query("client_user", "username='{$username}'")[0];
+        //判断手机是否存在
+        $inArray = ['yajin'=>$yajin];
+
+        $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
+
+        // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
+        if ($Insert > 0) {
+
+            functions::json(200,'修改成功');
+            exit;
+        }else{
+
+
+            functions::json(100,'当前没有做任何修改');
+            exit;
+        }
+    }
       //添加会员
    public function useradd()
     {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
      //   if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
-    
         //权限查询
         $groups = $this->mysql->query("client_group");
         //加载视图
