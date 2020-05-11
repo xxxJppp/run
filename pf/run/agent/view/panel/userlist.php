@@ -53,11 +53,12 @@ $fix = DB_PREFIX;
                 <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
                     <thead>
                     <tr>
-                        <th lay-data="{field:'key',width:90}">用户名</th>
-                        <th lay-data="{field:'key1',width:140}">ID</th>
-                        <th lay-data="{field:'out_trade_id', width:240,style:'color:#060;'}">用户组</th>
+                        <th lay-data="{field:'check',width:80,checkbox:true}">></th>
+                        <th lay-data="{field:'key',width:130}">用户名</th>
+                        <th lay-data="{field:'key1',width:90}">ID</th>
+                        <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
                         <th lay-data="{field:'memberid', width:140}">用户余额</th>
-                        <th lay-data="{field:'amount', width:180,style:'color:#060;'}">IP地址</th>
+                        <th lay-data="{field:'amount', width:120,style:'color:#060;'}">IP地址</th>
                         <th lay-data="{field:'rate', width:120}">今日跑量</th>
                         <th lay-data="{field:'bbb', width:120,style:'color:#C00;'}">今日下发金额</th>
                         <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>
@@ -78,6 +79,7 @@ $fix = DB_PREFIX;
                     <tbody>
                     <?php foreach ($member['result'] as $em) { ?>
                         <tr>
+                            <td></td>
                             <td><?php echo $em['username']; ?> </td>
 
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
