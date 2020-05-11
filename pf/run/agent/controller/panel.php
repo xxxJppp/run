@@ -55,20 +55,32 @@ class panel{
     }
   
   //会员列表
-    public function userlist(){
+    public function userlist1(){
   
          $member_id = request::filter('get.member_id');
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
         $where="level_id =".$_SESSION['MEMBER']['uid'];
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
-        new view('panel/userlist', [
+        new view('panel/userlist1', [
             'mysql'  => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
   }
-  
+  public function userlist(){
+
+      $member_id = request::filter('get.member_id');
+      if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
+      $where="level_id =".$_SESSION['MEMBER']['uid'];
+      $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+      $groups = $this->mysql->query("client_group");
+      new view('panel/userlist', [
+          'mysql'  => $this->mysql,
+          'member' => $member,
+          'groups' => $groups
+      ]);
+  }
   
       //添加会员
    public function useradd()

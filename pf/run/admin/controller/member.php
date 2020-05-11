@@ -82,7 +82,22 @@ class member
             'groups' => $groups
         ]);
     }
+    public function mashang2()
+    {
+        $this->powerLogin(20);
 
+        $member_id = request::filter('get.member_id');
+
+        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
+        $where .= " is_mashang = 1";
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $groups = $this->mysql->query("client_group");
+        new view('member/mashang2', [
+            'mysql'  => $this->mysql,
+            'member' => $member,
+            'groups' => $groups
+        ]);
+    }
   
    public function pankou()
     {

@@ -73,7 +73,9 @@ $fix = DB_PREFIX;
                 <td>
                     <p><b>ID：</b><?php echo $em['id'];?> </p>
                     <p><b>会员名：</b><span style="color:red;"><?php echo $em['username'];?></span></p>
-                    <p><b>用户组：</b><?php $group = $mysql->query("client_group","id={$em['group_id']}")[0]; echo is_array($group) ? '<span style="color:orange;"><b>'.$group['name'].'</b></span>' : '<span style="color:red;">未分配</span>'; ?></p>
+                    <p><b>用户组：</b>
+                        <?php $group = $mysql->query("client_group","id={$em['group_id']}")[0]; echo is_array($group) ? '<span style="color:orange;"><b>'.$group['name'].'</b></span>' : '<span style="color:red;">未分配</span>'; ?>
+                    </p>
                 </td>
                 
                 <td>

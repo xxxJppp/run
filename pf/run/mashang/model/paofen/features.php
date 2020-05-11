@@ -30,71 +30,71 @@ class features
         if ($swrc['quantity'] != 0) {
             if ($find_paofen_auto_count >= $swrc['quantity']) functions::json(-2, '您当前只有' . $swrc['quantity'] . '条通道,无法再继续新增!');
         }
-        
+
         $name = request::filter('get.name', ' ', 'htmlspecialchars');
         $ewm_url = request::filter('get.ewm_url', ' ', 'htmlspecialchars');
         $type = request::filter('get.type', ' ', 'htmlspecialchars');
-       
-      if($type == 3){
-      
-       $typename = request::filter('get.typename', ' ', 'htmlspecialchars');
-      }else{
-      
-       $typename = 0;
-      }
 
-      if($type == 4){
-        
-      $account = request::filter('get.account', ' ', 'htmlspecialchars');
-     $pid = request::filter('get.pid', ' ', 'htmlspecialchars');
-      $ewm_url = 0;
-      $typename = 0;
-         $gathering_name=0;
-      $cardid=0;
-      $bank_id=0;
-      $account_no=0;  
-        
-      }else if($type == 5){
-       $gathering_name = request::filter('get.gathering_name', ' ', 'htmlspecialchars');
-       $cardid = request::filter('get.cardid', ' ', 'htmlspecialchars');
-       $bank_id = request::filter('get.bank_id', ' ', 'htmlspecialchars');
-       $account_no = request::filter('get.account_no', ' ', 'htmlspecialchars');
-     
-       $ewm_url = 0;
-       $typename = 0; 
-       $account = 0;
-       $pid=0;
-      }else{
-      $account = 0;
-      $typename = 0;
-      $pid=0;
-      $gathering_name=0;
-      $cardid=0;
-      $bank_id=0;
-      $account_no=0;  
-      }
+        if ($type == 3) {
+
+            $typename = request::filter('get.typename', ' ', 'htmlspecialchars');
+        } else {
+
+            $typename = 0;
+        }
+
+        if ($type == 4) {
+
+            $account = request::filter('get.account', ' ', 'htmlspecialchars');
+            $pid = request::filter('get.pid', ' ', 'htmlspecialchars');
+            $ewm_url = 0;
+            $typename = 0;
+            $gathering_name = 0;
+            $cardid = 0;
+            $bank_id = 0;
+            $account_no = 0;
+
+        } else if ($type == 5) {
+            $gathering_name = request::filter('get.gathering_name', ' ', 'htmlspecialchars');
+            $cardid = request::filter('get.cardid', ' ', 'htmlspecialchars');
+            $bank_id = request::filter('get.bank_id', ' ', 'htmlspecialchars');
+            $account_no = request::filter('get.account_no', ' ', 'htmlspecialchars');
+
+            $ewm_url = 0;
+            $typename = 0;
+            $account = 0;
+            $pid = 0;
+        } else {
+            $account = 0;
+            $typename = 0;
+            $pid = 0;
+            $gathering_name = 0;
+            $cardid = 0;
+            $bank_id = 0;
+            $account_no = 0;
+        }
         $key_id = strtoupper(substr(md5(mt_rand((mt_rand(1000, 9999) + mt_rand(1000, 9999)), mt_rand(1000000, 99999999))), 0, 18));
-     
+
 
         $in = $mysql->insert("client_paofen_automatic_account", [
-            'name'              => $name,
-            'status'            => 4,
-            'login_time'        => 0,
-            'heartbeats'        => 0,
-            'active_time'       => 0,
-            'user_id'           => $_SESSION['MEMBER']['uid'],
-            'key_id'            => $key_id,
-            'training'          => 1,
-            'receiving'         => 1,
-            'ewm_url'         => $ewm_url,
-           'type'         => $type,
-           'typename'         => $typename,
-          'account'         => $account,
-          'pid'         => $pid,
-           'gathering_name'     => $gathering_name,
-           'cardid'       => $cardid,
-           'bank_id'     => $bank_id,
-           'account_no'    => $account_no,
+            'name' => $name,
+            'status' => 4,
+            'login_time' => 0,
+            'heartbeats' => 0,
+            'active_time' => 0,
+            'user_id' => $_SESSION['MEMBER']['uid'],
+            'key_id' => $key_id,
+            'training' => 1,
+            'receiving' => 1,
+            'ewm_url' => $ewm_url,
+            'type' => $type,
+            'typename' => $typename,
+            'account' => $account,
+            'pid' => $pid,
+            'gathering_name' => $gathering_name,
+            'cardid' => $cardid,
+            'bank_id' => $bank_id,
+            'account_no' => $account_no,
         ]);
 
         if ($in > 0) {
@@ -105,19 +105,19 @@ class features
         functions::json(-3, '新增通道失败,请联系客服!');
     }
 
- 
+
     public function startRb($mysql)
     {
         $id = intval(request::filter('get.id'));
         //检查该支付宝
         $find_wechat = $mysql->query("client_paofen_automatic_account", "id={$id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
-     //   if (!is_array($find_wechat)) functions::json(-3, '更改异常,请联系客服!');
+        //   if (!is_array($find_wechat)) functions::json(-3, '更改异常,请联系客服!');
         $training = 2;
         if ($find_wechat['training'] == 2) {
             //开启状态
             $training = 1;
             //检测账号是否异常
-         //   if ($find_wechat['status'] != 4) functions::json(-3, '更改失败,当前支付宝没有在线!');
+            //   if ($find_wechat['status'] != 4) functions::json(-3, '更改失败,当前支付宝没有在线!');
         } else {
             functions::delRobin('paofen_' . $_SESSION['MEMBER']['uid'], $find_wechat['key_id']);
         }
@@ -148,17 +148,17 @@ class features
         $id = intval(request::filter('get.id'));
         //检查该支付宝
         $find_wechat = $mysql->query("client_paofen_automatic_account", "id={$id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
-    //    if (!is_array($find_wechat)) functions::json(-3, '更改异常,请联系客服!');
+        //    if (!is_array($find_wechat)) functions::json(-3, '更改异常,请联系客服!');
         $receiving = 2;
         if ($find_wechat['receiving'] == 2) {
             //开启状态
             $receiving = 1;
             //检测账号是否异常
-         //   if ($find_wechat['status'] != 4) functions::json(-3, '更改失败,当前支付宝没有在线!');
+            //   if ($find_wechat['status'] != 4) functions::json(-3, '更改失败,当前支付宝没有在线!');
         } else {
             functions::delRobin('paofen_' . $_SESSION['MEMBER']['uid'], $find_wechat['key_id']);
         }
-        if( $receiving == 2 ){
+        if ($receiving == 2) {
             functions::delRobin('paofen_' . $find_wechat['user_id'], $find_wechat['key_id']);
         }
         $update = $mysql->update("client_paofen_automatic_account", [
@@ -190,7 +190,7 @@ class features
         if (!is_array($find_wechat)) functions::json(-3, '当前支付宝出现异常,请联系客服!');
         if ($find_wechat['status'] == 4 || $find_wechat['status'] == 6) functions::json(-3, '当前支付宝账号状态无法进行登录,请稍后重试!');
         $update = $mysql->update("client_paofen_automatic_account", [
-            'status'     => 2,
+            'status' => 2,
             'login_time' => time()
         ], "id={$id}");
         functions::json(200, '正在获取登录信息..');
@@ -224,9 +224,9 @@ class features
         if ($pwd != $pwd_server) functions::json(-1, '您的密码输入有误!');
         //检查该支付宝
         $find_wechat = $mysql->query("client_paofen_automatic_account", "id={$id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
-       // if (!is_array($find_wechat)) functions::json(-2, '删除该支付宝号时出现一个错误,请及时联系客服!');
-      //  if ($find_wechat['status'] == 6) functions::json(-2, '当前支付宝正在进行安全注销,请耐心等待注销完成后再进行删除!');
-       // if ($find_wechat['status'] != 1) functions::json(-2, '请将支付宝安全下线后再进行删除!');
+        // if (!is_array($find_wechat)) functions::json(-2, '删除该支付宝号时出现一个错误,请及时联系客服!');
+        //  if ($find_wechat['status'] == 6) functions::json(-2, '当前支付宝正在进行安全注销,请耐心等待注销完成后再进行删除!');
+        // if ($find_wechat['status'] != 1) functions::json(-2, '请将支付宝安全下线后再进行删除!');
         $mysql->delete("client_paofen_automatic_account", "id={$id} and user_id={$_SESSION['MEMBER']['uid']}");
         functions::json(200, '您成功的删除了该支付宝!');
     }
@@ -276,7 +276,7 @@ class features
         if ($sorting == 'trade_no') {
             if ($code != '') {
                 $code = trim($code);
-               $where .= " and (trade_no like '%{$code}%' or out_trade_no like '%{$code}%')";
+                $where .= " and (trade_no like '%{$code}%' or out_trade_no like '%{$code}%')";
             }
         }
 
@@ -286,14 +286,14 @@ class features
         $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
         new view('paofen/order', [
-            'result'  => $result,
-            'mysql'   => $mysql,
+            'result' => $result,
+            'mysql' => $mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'wechat'  => $wechat,
-            'where'   => $where
+            'wechat' => $wechat,
+            'where' => $where
         ]);
     }
 
@@ -345,7 +345,7 @@ class features
         if ($sorting == 'trade_no') {
             if ($code != '') {
                 $code = trim($code);
-               $where .= " and (trade_no like '%{$code}%' or out_trade_no like '%{$code}%')";
+                $where .= " and (trade_no like '%{$code}%' or out_trade_no like '%{$code}%')";
             }
         }
         if ($start_time && $end_time) {
@@ -357,18 +357,18 @@ class features
         $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
         new view('paofen/statistic', [
-            'result'  => $result,
-            'mysql'   => $mysql,
+            'result' => $result,
+            'mysql' => $mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'wechat'  => $wechat,
-            'where'   => $where
+            'wechat' => $wechat,
+            'where' => $where
         ]);
     }
 
-  public function reissue($mysql)
+    public function reissue($mysql)
     {
         $module_name = 'paofen_auto';
         $order_id = request::filter('get.id');
@@ -376,244 +376,237 @@ class features
         $order = $mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
 
-         $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($user)) functions::json(-1, '商户错误');
-            
-    //得到用户组
+
+        //得到用户组
         $group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}")[0];
-    
-        $agent_group = $mysql->query('agent_rate',"uid={$_SESSION['MEMBER']['uid']}")[0];
-      
+
+        $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}")[0];
+
         //解析数据
         $authority = json_decode($group['authority'], true)[$module_name];
         if (!is_array($group) || $group['authority'] == -1 || $authority['open'] != 1) functions::json(-1, '用户组错误');
-    
-      //获取上级用户组
-        $shangji=$user['level_id'];
-    
-          
-   
 
-        if($shangji !== '0' ){
-          
-                  //得到用户组
-      
-        $agent_group = $mysql->query('agent_rate',"uid={$_SESSION['MEMBER']['uid']}")[0];
-      
-        
-        $duser = $mysql->query("client_user", "id={$shangji}")[0];
-      $dailigroup = $mysql->query('client_group', "id={$duser['group_id']}")[0];
-     //获取盘口用户组
-       $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
-       $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
-       $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
-        //解析数据
-        $dailiauthority = json_decode($dailigroup['authority'], true)[$module_name];
-          //获取代理给商户的费率
-         $shanghuauthority = json_decode($agent_group['authority'], true);
-      
-           //代理的获利    代理的费率-给商户的费率
-        $fess2= $dailiauthority['cost'] - $shanghuauthority{$module_name};
-    
-      //系统对代理的费率
-       $dailifees = $order['amount'] * $dailiauthority['cost'];
-      
-       $dailihuoli = $order['amount'] * $fess2;
+        //获取上级用户组
+        $shangji = $user['level_id'];
 
 
-       $shanghufees = $order['amount'] * $shanghuauthority{$module_name};
-       
-      $pankoufees = $order['amount'] * $pankouauthority['cost'];
-     
-    $pankouhuoli = $order['amount'] - $pankoufees;
-    
-      
-        $isCallback = 0;
+        if ($shangji !== '0') {
 
-        if ($order['reached'] == 1) {
-            $isCallback = 1;
-        } else {
-          
-             $shanghu_balance = $user['balance'] +  $shanghufees; // 用户最终余额
-            $user_balance = floatval($shanghu_balance);
-          
-                $daili_balance = $duser['balance'] +  $dailihuoli; // 代理最终余额
+            //得到用户组
+
+            $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}")[0];
+
+
+            $duser = $mysql->query("client_user", "id={$shangji}")[0];
+            $dailigroup = $mysql->query('client_group', "id={$duser['group_id']}")[0];
+            //获取盘口用户组
+            $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
+            $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
+            $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
+            //解析数据
+            $dailiauthority = json_decode($dailigroup['authority'], true)[$module_name];
+            //获取代理给商户的费率
+            $shanghuauthority = json_decode($agent_group['authority'], true);
+
+            //代理的获利    代理的费率-给商户的费率
+            $fess2 = $dailiauthority['cost'] - $shanghuauthority{$module_name};
+
+            //系统对代理的费率
+            $dailifees = $order['amount'] * $dailiauthority['cost'];
+
+            $dailihuoli = $order['amount'] * $fess2;
+
+
+            $shanghufees = $order['amount'] * $shanghuauthority{$module_name};
+
+            $pankoufees = $order['amount'] * $pankouauthority['cost'];
+
+            $pankouhuoli = $order['amount'] - $pankoufees;
+
+
+            $isCallback = 0;
+
+            if ($order['reached'] == 1) {
+                $isCallback = 1;
+            } else {
+
+                $shanghu_balance = $user['balance'] + $shanghufees; // 用户最终余额
+                $user_balance = floatval($shanghu_balance);
+
+                $daili_balance = $duser['balance'] + $dailihuoli; // 代理最终余额
                 $daili_balance = floatval($daili_balance);
-          
-          
-                $pankou_balance = $puser['balance'] +  $pankouhuoli; // 代理最终余额
+
+
+                $pankou_balance = $puser['balance'] + $pankouhuoli; // 代理最终余额
                 $pankou_balance = floatval($pankou_balance);
-          
-          
-            if ($user_balance >= 0) {
-                $isCallback = 1;
 
-                $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
-             
-               $agentlog = $mysql->query('agent_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-              
-                if (!is_array($agentlog)){
-              
+
+                if ($user_balance >= 0) {
+                    $isCallback = 1;
+
+                    $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
+
+                    $agentlog = $mysql->query('agent_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
+
+                    if (!is_array($agentlog)) {
+
                         //写代理获利记录
-                    $alog= $mysql->insert("agent_huoli_log", [
-                          'uid' => $_SESSION['MEMBER']['uid'],
-                          'agent_id' =>$duser['id'],
-                          'orderid' => $order_id,
-                          'amount'    => $order['amount'],
-                          'huoli'  => $dailihuoli,
-                          'trade_no' =>$order['trade_no'],
-                          'daili_balance' =>$daili_balance,
-                         'shanghu_fees' =>$shanghufees,
-                        'type' =>'跑分模式',
-                         'time' => time()
-                  ]);
-          
-                if ($alog > 0) {
+                        $alog = $mysql->insert("agent_huoli_log", [
+                            'uid' => $_SESSION['MEMBER']['uid'],
+                            'agent_id' => $duser['id'],
+                            'orderid' => $order_id,
+                            'amount' => $order['amount'],
+                            'huoli' => $dailihuoli,
+                            'trade_no' => $order['trade_no'],
+                            'daili_balance' => $daili_balance,
+                            'shanghu_fees' => $shanghufees,
+                            'type' => '跑分模式',
+                            'time' => time()
+                        ]);
 
-              $updateStatus_daili =$mysql->update("client_user", ['balance' => $daili_balance], "id={$duser['id']}");
-        }
-                }
-               //写盘口获利记录
-                $pankoulog = $mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-              
-                if (!is_array($pankoulog)){
-                   $plog=  $mysql->insert("pankou_huoli_log", [
-                          'uid' => $puser['id'],
-                          'orderid' => $order_id,
-                          'amount'    => $order['amount'],
-                          'balance'  => $pankou_balance,
-                          'trade_no' =>$order['trade_no'],
-                          'old_balance' =>$puser['balance'],
-                         'pankou_fees' =>$pankoufees,
-                        'type' =>$order['type'],
-                         'time' => time()
-                  ]);
-          
-                if ($plog > 0) {
+                        if ($alog > 0) {
 
-              $updateStatus_pankou =$mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
-        }
+                            $updateStatus_daili = $mysql->update("client_user", ['balance' => $daili_balance], "id={$duser['id']}");
+                        }
+                    }
+                    //写盘口获利记录
+                    $pankoulog = $mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
+
+                    if (!is_array($pankoulog)) {
+                        $plog = $mysql->insert("pankou_huoli_log", [
+                            'uid' => $puser['id'],
+                            'orderid' => $order_id,
+                            'amount' => $order['amount'],
+                            'balance' => $pankou_balance,
+                            'trade_no' => $order['trade_no'],
+                            'old_balance' => $puser['balance'],
+                            'pankou_fees' => $pankoufees,
+                            'type' => $order['type'],
+                            'time' => time()
+                        ]);
+
+                        if ($plog > 0) {
+
+                            $updateStatus_pankou = $mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
+                        }
+                    }
+
+                    if ($updateStatus !== false) {
+                        $_SESSION['MEMBER']['balance'] = $user_balance;
+                        $mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
+                    }
+                } else {
+                    functions::json(-1, '账户余额不足，回调失败');
                 }
-              
-                if ($updateStatus !== false) {
-                    $_SESSION['MEMBER']['balance'] = $user_balance;
-                    $mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
-                }
-            } else {
-                functions::json(-1, '账户余额不足，回调失败');
             }
-        }
-        
-        }else {
-          
-          
-          //获取盘口用户组
-       $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
-       $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
-       $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
-       
-          $pankoufees = $order['amount'] * $pankouauthority['cost'];
-     
-         $pankouhuoli = $order['amount'] - $pankoufees;
-        
-         
-          $fees = $order['amount'] * $authority['cost'];
-          
-             $dailifees = 0;
-              $shanghufees = $fees;
-              $dailihuoli = 0;
-              
-          
-        
-        $isCallback = 0;
 
-        if ($order['reached'] == 1) {
-            $isCallback = 1;
         } else {
-            $user_balance = $user['balance'] + $fees; // 用户最终余额
-            $user_balance = floatval($user_balance);
 
-          
-            $pankou_balance = $puser['balance'] +  $pankouhuoli; // 盘口最终余额
-            $pankou_balance = floatval($pankou_balance);
-          
-          
-            if ($user_balance >= 0) {
+
+            //获取盘口用户组
+            $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
+            $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
+            $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
+
+            $pankoufees = $order['amount'] * $pankouauthority['cost'];
+
+            $pankouhuoli = $order['amount'] - $pankoufees;
+
+
+            $fees = $order['amount'] * $authority['cost'];
+
+            $dailifees = 0;
+            $shanghufees = $fees;
+            $dailihuoli = 0;
+
+
+            $isCallback = 0;
+
+            if ($order['reached'] == 1) {
                 $isCallback = 1;
-                
-                $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
-              
-              
-                 //写盘口获利记录
-                 $pankoulog = $mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-              
-                if (!is_array($pankoulog)){
-                    $plog= $mysql->insert("pankou_huoli_log", [
-                          'uid' => $puser['id'],
-                          'orderid' => $order_id,
-                          'amount'    => $order['amount'],
-                          'balance'  => $pankou_balance,
-                          'trade_no' =>$order['trade_no'],
-                          'old_balance' =>$puser['balance'],
-                         'pankou_fees' =>$pankoufees,
-                        'type' =>$order['type'],
-                         'time' => time()
-                  ]);
-              
-              if ($plog > 0) {
-
-             $updateStatus_pankou =$mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
-        } 
-                }
-    
-       $mauser = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
-        //写押金记录 冻结金额
-                     $mysql->insert("mashang_yajin_log", [
-                          'uid' => $_SESSION['MEMBER']['uid'],
-                          'trade_no' =>$order['trade_no'],
-                          'money'    => $order['amount'],
-                          'old_balance'    =>  $user['balance'],
-                         'new_balance'    => $mauser['balance'],
-                         'remark'    =>'补发订单成功！订单号：'.$order['trade_no'].',扣除金额：'.$order['amount'].'元，扣除前余额：'. $user['balance'].'元，扣除后余额：'. $mauser['balance'].'元',
-                         'time' => time(),
-                        'status' => 2
-                       
-                  ]);
-              
-              
-              
-
-                if ($updateStatus !== false) {
-                    $_SESSION['MEMBER']['balance'] = $user_balance;
-                    $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
-                }
             } else {
-                functions::json(-1, '账户余额不足，回调失败');
-            }
-        }
+                $user_balance = $user['balance'] + $fees; // 用户最终余额
+                $user_balance = floatval($user_balance);
 
-        
-        
+
+                $pankou_balance = $puser['balance'] + $pankouhuoli; // 盘口最终余额
+                $pankou_balance = floatval($pankou_balance);
+
+
+                if ($user_balance >= 0) {
+                    $isCallback = 1;
+
+                    $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
+
+
+                    //写盘口获利记录
+                    $pankoulog = $mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
+
+                    if (!is_array($pankoulog)) {
+                        $plog = $mysql->insert("pankou_huoli_log", [
+                            'uid' => $puser['id'],
+                            'orderid' => $order_id,
+                            'amount' => $order['amount'],
+                            'balance' => $pankou_balance,
+                            'trade_no' => $order['trade_no'],
+                            'old_balance' => $puser['balance'],
+                            'pankou_fees' => $pankoufees,
+                            'type' => $order['type'],
+                            'time' => time()
+                        ]);
+
+                        if ($plog > 0) {
+
+                            $updateStatus_pankou = $mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
+                        }
+                    }
+
+                    $mauser = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+                    //写押金记录 冻结金额
+                    $mysql->insert("mashang_yajin_log", [
+                        'uid' => $_SESSION['MEMBER']['uid'],
+                        'trade_no' => $order['trade_no'],
+                        'money' => $order['amount'],
+                        'old_balance' => $user['balance'],
+                        'new_balance' => $mauser['balance'],
+                        'remark' => '补发订单成功！订单号：' . $order['trade_no'] . ',扣除金额：' . $order['amount'] . '元，扣除前余额：' . $user['balance'] . '元，扣除后余额：' . $mauser['balance'] . '元',
+                        'time' => time(),
+                        'status' => 2
+
+                    ]);
+
+
+                    if ($updateStatus !== false) {
+                        $_SESSION['MEMBER']['balance'] = $user_balance;
+                        $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
+                    }
+                } else {
+                    functions::json(-1, '账户余额不足，回调失败');
+                }
+            }
+
+
         }
-    
 
 
         //检测订单是否为未支付
         if ($order['status'] != 4) {
             $mysql->update("client_paofen_automatic_orders", [
-                'pay_time'         => time(),
-                'status'           => 4,
-                'callback_time'    => time(),
-                'callback_status'  => 1,
+                'pay_time' => time(),
+                'status' => 4,
+                'callback_time' => time(),
+                'callback_status' => 1,
                 'callback_content' => '商户后台回调',
-               'reached'         =>1
+                'reached' => 1
             ], "id={$order['id']}");
         } else {
             $mysql->update("client_paofen_automatic_orders", [
-                'callback_time'    => time(),
-                'callback_status'  => 1,
+                'callback_time' => time(),
+                'callback_status' => 1,
                 'callback_content' => '商户后台回调',
-               'reached'         =>1
+                'reached' => 1
             ], "id={$order['id']}");
         }
 
@@ -621,27 +614,27 @@ class features
             $pay_time = $order['pay_time'] == 0 ? time() : $order['pay_time'];
 
             $result = callbacks::curl($order['callback_url'], http_build_query([
-                'account_name'  => $_SESSION['MEMBER']['username'],
-                'pay_time'      => $pay_time,
-                'status'        => 'success',
-                'amount'        => $order['amount'],
-                'out_trade_no'  => $order['out_trade_no'],
-                'trade_no'      => $order['trade_no'],
-                'fees'          => $shanghufees,
-                'sign'          => functions::sign($puser['key_id'], [
-                    'amount'       => $order['amount'],
+                'account_name' => $_SESSION['MEMBER']['username'],
+                'pay_time' => $pay_time,
+                'status' => 'success',
+                'amount' => $order['amount'],
+                'out_trade_no' => $order['out_trade_no'],
+                'trade_no' => $order['trade_no'],
+                'fees' => $shanghufees,
+                'sign' => functions::sign($puser['key_id'], [
+                    'amount' => $order['amount'],
                     'out_trade_no' => $order['out_trade_no']
                 ]),
                 'callback_time' => time(),
-                'type'          => 1,
-                'account_key'   =>$puser['key_id']
+                'type' => 1,
+                'account_key' => $puser['key_id']
             ]));
             $mysql->update("client_paofen_automatic_orders", [
                 'fees' => $shanghufees,
-               'xitong_fees'   => $dailifees,
-               'agent_rate'     => $dailihuoli,
-              'pankou_fees'     => $pankoufees,
-               'reached'         =>1
+                'xitong_fees' => $dailifees,
+                'agent_rate' => $dailihuoli,
+                'pankou_fees' => $pankoufees,
+                'reached' => 1
             ], "id={$order['id']}");
         }
 
