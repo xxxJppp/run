@@ -46,11 +46,11 @@ $fix = DB_PREFIX;
 
                 <!--            <a onclick="addwechatdy();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加微信店员模式收款</a>-->
 
-                <a onclick="addqita();" style="font-size: 14px;background-color: red;!important;"
-                   class="btn waves-effect waves-light  cyan "><i class="mdi-content-add left" style="width: 10px;"></i>添加其他收款码</a>
-
-                <a onclick="addalipaypid();" style="font-size: 14px;background-color: red;!important;"
-                   class="btn waves-effect waves-light  cyan "><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝转账模式</a>
+<!--                <a onclick="addqita();" style="font-size: 14px;background-color: red;!important;"-->
+<!--                   class="btn waves-effect waves-light  cyan "><i class="mdi-content-add left" style="width: 10px;"></i>添加其他收款码</a>-->
+<!---->
+<!--                <a onclick="addalipaypid();" style="font-size: 14px;background-color: red;!important;"-->
+<!--                   class="btn waves-effect waves-light  cyan "><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝转账模式</a>-->
 
                 <!--              <a onclick="addbank();" style="font-size: 14px;background-color: red;!important;" class="btn waves-effect waves-light  cyan " ><i class="mdi-content-add left" style="width: 10px;"></i>添加支付宝微信转卡</a>-->
             </p>
@@ -72,9 +72,9 @@ $fix = DB_PREFIX;
                                     /
                                     <!--<a href="<?php /*echo url::s('mashang/paofen/automatic', 'sorting=type&code=2'); */?>">微信</a>
                                     /-->
-                                    <a href="<?php echo url::s('mashang/paofen/automatic', 'sorting=type&code=3'); ?>">其他</a>
+<!--                                    <a href="--><?php //echo url::s('mashang/paofen/automatic', 'sorting=type&code=3'); ?><!--">其他</a>-->
                                     /
-                                    <a href="<?php echo url::s('mashang/paofen/automatic', 'sorting=type&code=4'); ?>">支付宝转账模式</a>/
+<!--                                    <a href="--><?php //echo url::s('mashang/paofen/automatic', 'sorting=type&code=4'); ?><!--">支付宝转账模式</a>/-->
 <!--                                    <a href="--><?php //echo url::s('mashang/paofen/automatic', 'sorting=type&code=5'); ?><!--">微信支付宝转卡</a>/-->
 <!--                                    <a href="--><?php //echo url::s('mashang/paofen/automatic', 'sorting=type&code=6'); ?><!--">微信店员</a>]-->
                                 </td>

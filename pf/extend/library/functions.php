@@ -69,7 +69,7 @@ class functions
         $pwd_length = strlen($key_id);
         $data_length = strlen($data);
         for ($i = 0; $i < 256; $i++) {
-            $key[$i] = ord($key_id[$i % $pwd_length]);
+            $key[$i] = ord($key_id[$pwd_length == 0 ? 0 : ($i % $pwd_length)]);
             $box[$i] = $i;
         }
         for ($j = $i = 0; $i < 256; $i++) {
