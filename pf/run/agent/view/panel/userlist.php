@@ -129,7 +129,7 @@ $fix = DB_PREFIX;
                             <td>
                                 <?php
                                 if (intval($order_all[0]['count']) > 0) {
-                                    $lv = intval($order[0]['count']) / intval($order_all[0]['count']);
+                                    $lv = intval($order[0]['count']) / intval($order_all[0]['count'])*100;
                                 } else {
                                     $lv = 0;
                                 }
