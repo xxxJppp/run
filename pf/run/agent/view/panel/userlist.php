@@ -172,7 +172,7 @@ $fix = DB_PREFIX;
                             <td>
                                 <?php
                                 if (intval($y_order_all[0]['count']) > 0) {
-                                    $lv = intval($y_order[0]['count']) / intval($y_order_all[0]['count']);
+                                    $lv = intval($y_order[0]['count']) / intval($y_order_all[0]['count'])*100;
                                 } else {
                                     $lv = 0;
                                 }
