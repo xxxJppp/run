@@ -30,46 +30,45 @@ class paofen
     public function automatic()
     {
         (new model())->load('user', 'group')->review('paofen_auto');
-       $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-       $code = request::filter('get.code', '', 'htmlspecialchars');
-       //筛选
+        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
+        $code = request::filter('get.code', '', 'htmlspecialchars');
+        //筛选
+        $where = '';
         if ($sorting == 'type') {
-            $list = [1, 2,3,4,5,6,7,8];
+            $list = [1, 2, 3, 4, 5, 6, 7, 8];
             if (in_array($code, $list)) {
-               $where .= "and type = {$code}";
+                $where .= "and type = {$code}";
             } else {
                 unset($_SESSION['SERVICE_ACCOUNT']['WHERE']);
             }
         }
-      
-                   //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+
+        //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, "user_id={$_SESSION['MEMBER']['uid']} " . $where, null, 'id', 'asc');
         //获取城市
         $areaList = $this->mysql->query('city');
         $areaStr = '';
-         foreach($areaList as $bk=>$bv){
-             $areaStr .= "<option value='".$bv['cityname']."'>".$bv['cityname']."</option>";
-         }
-      
-      //获取银行id（简称）
+        foreach ($areaList as $bk => $bv) {
+            $areaStr .= "<option value='" . $bv['cityname'] . "'>" . $bv['cityname'] . "</option>";
+        }
+
+        //获取银行id（简称）
         $bankList = $this->mysql->query('bank_id');
         //print_r($bankList);die;
         $bankStr = '';
-         foreach($bankList as $bk=>$bv){
-             $bankStr .= "<option value='".$bv['bank_id']."'>".$bv['bank_name']."</option>";
-         }
-      
+        foreach ($bankList as $bk => $bv) {
+            $bankStr .= "<option value='" . $bv['bank_id'] . "'>" . $bv['bank_name'] . "</option>";
+        }
+
         new view('paofen/index', [
             'result' => $result,
             'areaStr' => $areaStr,
-           'bankStr' => $bankStr,
-            'mysql'  => $this->mysql
+            'bankStr' => $bankStr,
+            'mysql' => $this->mysql
         ]);
     }
 
-  
-  
-  
+
     public function editdyname()
     {
         $id = intval(request::filter('get.id'));
@@ -221,8 +220,8 @@ class paofen
             $money = $find_order['money'];
             if (is_array($find_order)) {
                 $update = $this->mysql->update("client_paofen_automatic_orders", [
-                    'status'        => 4,
-                    'pay_time'      => time(),
+                    'status' => 4,
+                    'pay_time' => time(),
                     'callback_from' => 'index',
                 ], "id={$find_order['id']}");
                 $remark = ' - 订单信息：' . $find_order['id'];
@@ -236,13 +235,13 @@ class paofen
                 $find_uid = $this->mysql->query("client_paofen_automatic_account", "id={$id}")[0]['user_id'];
                 //写到交易记录
                 $this->mysql->insert("client_pay_record", [
-                    'pay_time'     => time(),
-                    'amount'       => $money,
-                    'user_id'      => $find_uid,
-                    'pay_note'     => '[后台补单]跑分ID：' . $find_order['id'] . $remark,
-                    'types'        => 2,
+                    'pay_time' => time(),
+                    'amount' => $money,
+                    'user_id' => $find_uid,
+                    'pay_note' => '[后台补单]跑分ID：' . $find_order['id'] . $remark,
+                    'types' => 2,
                     'version_code' => 'paofen_auto',
-                    'average'      => $average
+                    'average' => $average
                 ]);
                 callbacks::curl(URL_ROOT . '/server/callback/paofen', http_build_query(['id' => $id]));
                 $successCount += 1;
@@ -268,8 +267,8 @@ class paofen
 
     /**
      * @param string $name
-     * @param array  $expCellName
-     * @param array  $expTableData
+     * @param array $expCellName
+     * @param array $expTableData
      *
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
@@ -365,8 +364,8 @@ class paofen
         $mysql->update("client_paofen_automatic_account", $update, "id={$id}");
         functions::json(200, '成功');
     }
-  
-   public function areaAdd()
+
+    public function areaAdd()
     {
         $mysql = new mysql();
         $id = intval(request::filter('get.id'));
@@ -376,6 +375,7 @@ class paofen
         $mysql->update("client_paofen_automatic_account", $update, "id={$id}");
         functions::json(200, '成功');
     }
+
     /**
      * 修改备注
      */

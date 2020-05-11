@@ -103,7 +103,7 @@ $fix = DB_PREFIX;
                     ?>
                     ] <?php if ($sorting['name'] == 'user' && $_GET['code'] != '' && $_SESSION['paofen']['WHERE'] == '') { ?> [
                         <a href="<?php echo url::s("admin/paofen/statisticOrder", "sorting=user&code={$_GET['code']}&locking=true"); ?>"
-                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if ($_SESSION['paofen']['WHERE'] != '') { ?>  [
+                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if (isset($_SESSION['paofen']['WHERE']) && $_SESSION['paofen']['WHERE'] != '') { ?>  [
                         <a href="<?php echo url::s("admin/paofen/statisticOrder", "sorting=user&code={$_GET['code']}&locking=false"); ?>"
                            style="color: red;">查询全部</a> ] <?php } ?></span>
             </p>
@@ -143,7 +143,7 @@ $fix = DB_PREFIX;
                                                 <option value="<?php echo $wx['id']; ?>"><?php echo $wx['name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        <label>选择通道来查看<?php if ($_SESSION['paofen']['ORDER']['WHERE'] == '') { ?>(<a
+                                        <label>选择通道来查看<?php if (isset($_SESSION['paofen']['ORDER']['WHERE']) && $_SESSION['paofen']['ORDER']['WHERE'] == '') { ?>(<a
                                                     href="#" onclick="paofen();">开始查询</a>)<?php } else { ?>(<a
                                                     href="<?php echo url::s('mashang/paofen/statisticOrder', "sorting=paofen&locking=closed"); ?>">取消锁定</a>)<?php } ?>
                                         </label>

@@ -257,7 +257,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['paofen']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['paofen']['ORDER']['WHERE']) ? $_SESSION['paofen']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -304,8 +304,8 @@ class features
         $code = request::filter('get.code', '', 'htmlspecialchars');
 //        $start_time = request::filter('get.start_time','','htmlspecialchars');
 //        $end_time = request::filter('get.end_time','','htmlspecialchars');
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
+        $start_time = strtotime(request::filter('get.start_time'));
+        $end_time = strtotime(request::filter('get.end_time'));
         //wechat
         if ($sorting == 'paofen') {
             if ($code != '' && $_SESSION['paofen']['ORDER']['WHERE'] == '') {
@@ -326,7 +326,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['paofen']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['paofen']['ORDER']['WHERE']) ? $_SESSION['paofen']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序

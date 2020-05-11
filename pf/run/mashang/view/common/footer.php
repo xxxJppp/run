@@ -39,10 +39,10 @@ use xh\library\url;
     <script src="<?php echo URL_STATIC . 'js/layer/layer.js';?>" charset="utf-8"></script>
     
   	<script type="text/javascript" src ="<?php echo URL_STATIC . '/js/jike.js'?>"></script>
-  	<?php if ($_SESSION['ADD_GATEWAY'] == 2) echo "<script>play(['" . FILE_CACHE . "/download/sound/多一条支付宝1.mp3']);</script>"; ?>
-  	<?php if ($_SESSION['ADD_GATEWAY'] == 1) echo "<script>play(['" . FILE_CACHE . "/download/sound/多一条微信1.mp3']);</script>"; ?>
-  	<?php if ($_SESSION['GATEWAY_LOGIN'] == 2) echo "<script>play(['" . FILE_CACHE . "/download/sound/支付宝登录成功1.mp3']);</script>"; ?>
-  	<?php if ($_SESSION['GATEWAY_LOGIN'] == 1) echo "<script>play(['" . FILE_CACHE . "/download/sound/微信登录成功1.mp3']);</script>"; ?>
+  	<?php if (isset($_SESSION['ADD_GATEWAY']) && $_SESSION['ADD_GATEWAY'] == 2) echo "<script>play(['" . FILE_CACHE . "/download/sound/多一条支付宝1.mp3']);</script>"; ?>
+  	<?php if (isset($_SESSION['ADD_GATEWAY']) && $_SESSION['ADD_GATEWAY'] == 1) echo "<script>play(['" . FILE_CACHE . "/download/sound/多一条微信1.mp3']);</script>"; ?>
+  	<?php if (isset($_SESSION['GATEWAY_LOGIN']) && $_SESSION['GATEWAY_LOGIN'] == 2) echo "<script>play(['" . FILE_CACHE . "/download/sound/支付宝登录成功1.mp3']);</script>"; ?>
+  	<?php if (isset($_SESSION['GATEWAY_LOGIN']) && $_SESSION['GATEWAY_LOGIN'] == 1) echo "<script>play(['" . FILE_CACHE . "/download/sound/微信登录成功1.mp3']);</script>"; ?>
   	<?php unset($_SESSION['ADD_GATEWAY']);unset($_SESSION['GATEWAY_LOGIN']);?>
   	
   	<script type="text/javascript">

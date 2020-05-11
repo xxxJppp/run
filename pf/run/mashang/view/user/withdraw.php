@@ -56,7 +56,7 @@ $fix = DB_PREFIX;
                     </thead>
                     <tbody>
                     
-                    <?php if (!is_array($result['result'][0])) echo '<tr><td colspan="4" style="text-align: center;">暂时没有查询到您的提现记录!</td></tr>';?>
+                    <?php if (isset($result['result'][0]) && !is_array($result['result'][0])) echo '<tr><td colspan="4" style="text-align: center;">暂时没有查询到您的提现记录!</td></tr>';?>
                     
                     <?php foreach ($result['result'] as $ru){?>
                       <tr>
