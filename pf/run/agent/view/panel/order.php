@@ -61,18 +61,18 @@ $fix = DB_PREFIX;
             <div class="layui-inline">
               <div class="layui-input-inline">
                 <select name="tongdao">
-                  <option  value="wechat" <?php if($_GET['tongdao'] == 'wechat'){  echo "selected";} ?>>微信固码</option>
-                  <option  value="wechatdy" <?php if($_GET['tongdao'] == 'wechatdy'){  echo "selected";} ?>>微信店员</option>
-                  <option  value="wechatsj" <?php if($_GET['tongdao'] == 'wechatsj'){  echo "selected";} ?>>微信商户</option>  
+                  <!--<option  value="wechat" <?php /*if($_GET['tongdao'] == 'wechat'){  echo "selected";} */?>>微信固码</option>
+                  <option  value="wechatdy" <?php /*if($_GET['tongdao'] == 'wechatdy'){  echo "selected";} */?>>微信店员</option>
+                  <option  value="wechatsj" <?php /*if($_GET['tongdao'] == 'wechatsj'){  echo "selected";} */?>>微信商户</option>  -->
                    <option  value="alipaygm" <?php if($_GET['tongdao'] == 'alipaygm'){  echo "selected";} ?>>支付宝固码</option>
-                  <option  value="alipay" <?php if($_GET['tongdao'] == 'alipay'){  echo "selected";} ?>>支付宝转账</option>
-                  <option  value="bank" <?php if($_GET['tongdao'] == 'bank'){  echo "selected";} ?>>支付宝/微信转卡</option>  
-                   <option  value="yunshanfu" <?php if($_GET['tongdao'] == 'yunshanfu'){  echo "selected";} ?>>云闪付</option>
-                  <option  value="lakala" <?php if($_GET['tongdao'] == 'lakala'){  echo "selected";} ?>>拉卡拉</option>
-                  <option  value="nxys" <?php if($_GET['tongdao'] == 'nxys'){  echo "selected";} ?>>农信易扫</option>  
-                   <option  value="shouqianba" <?php if($_GET['tongdao'] == 'shouqianba'){  echo "selected";} ?>>收钱吧</option>
-                  <option  value="taobaodf" <?php if($_GET['tongdao'] == 'taobaodf'){  echo "selected";} ?>>淘宝代付</option>
-                  <option  value="pddgm" <?php if($_GET['tongdao'] == 'pddgm'){  echo "selected";} ?>>拼多多固码</option>  
+                  <!--<option  value="alipay" <?php /*if($_GET['tongdao'] == 'alipay'){  echo "selected";} */?>>支付宝转账</option>
+                  <option  value="bank" <?php /*if($_GET['tongdao'] == 'bank'){  echo "selected";} */?>>支付宝/微信转卡</option>
+                   <option  value="yunshanfu" <?php /*if($_GET['tongdao'] == 'yunshanfu'){  echo "selected";} */?>>云闪付</option>
+                  <option  value="lakala" <?php /*if($_GET['tongdao'] == 'lakala'){  echo "selected";} */?>>拉卡拉</option>
+                  <option  value="nxys" <?php /*if($_GET['tongdao'] == 'nxys'){  echo "selected";} */?>>农信易扫</option>
+                   <option  value="shouqianba" <?php /*if($_GET['tongdao'] == 'shouqianba'){  echo "selected";} */?>>收钱吧</option>
+                  <option  value="taobaodf" <?php /*if($_GET['tongdao'] == 'taobaodf'){  echo "selected";} */?>>淘宝代付</option>
+                  <option  value="pddgm" <?php /*if($_GET['tongdao'] == 'pddgm'){  echo "selected";} */?>>拼多多固码</option>  -->
                 </select>
               </div>
 
@@ -111,7 +111,7 @@ $fix = DB_PREFIX;
                <?php foreach ($result['result'] as $ru) { ?>
           <tr>
               <td><?php echo $ru['id']; ?></td>
-              <td><?php if(!empty($_GET['tongdao'])){  echo $_GET['tongdao']; }else{echo "wechat";} ?></td>
+              <td><?php if(!empty($_GET['tongdao'])){  echo $_GET['tongdao']; }else{echo "alipaygm";} ?></td>
               <td style="text-align:center; color:#090;"><?php echo $ru['trade_no']; ?></td>
              <td style="text-align:center; color:#090;"><?php echo $ru['out_trade_no']; ?></td>
             <td style="text-align:center; color:#090;"> <?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>

@@ -71,7 +71,7 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">昨日成功数</th>
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
                         <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
-                        <th lay-data="{field:'actualamount', width:150,style:'color:#C00;'}">所有码上下线</th>
+                        <th lay-data="{field:'actualamount', width:100,style:'color:#C00;'}">所有码上下线</th>
                         <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
@@ -104,7 +104,7 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <?php
-                                $tody = floatval($order[0]['amount'])-$em['yajin'];
+                                $tody = $em['yajin']-floatval($order[0]['amount']);
                                 if($tody>0){
                                 echo $tody;
                                 }else{
@@ -117,7 +117,7 @@ $fix = DB_PREFIX;
 
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
 
-                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime} and status=4 ");
+                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime}");
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order_all[0]['count']) . ' </span>' ?>
                             </td>
@@ -185,14 +185,24 @@ $fix = DB_PREFIX;
                                 ?>
                             </td>
                             <td>
-                                <button class="layui-btn layui-btn-small"
-                                        onclick="open_erweima('<?php echo $em['id']; ?>')">
-                                    上线
-                                </button>
+
+
+                                <?php
+                                $zong_erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id={$em['id']}");
+                                if($zong_erweima[0]['count']>0){
+                                if($erweima[0]['count']>0){ ?>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="off_erweima('<?php echo $em['id']; ?>')">
                                     下线
                                 </button>
+                                <?php }else{ ?>
+                                <button class="layui-btn layui-btn-small"
+                                        onclick="open_erweima('<?php echo $em['id']; ?>')">
+                                    上线
+                                </button>
+                                <?php }}else{?>
+                                没有收款码
+                                <?php }?>
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
@@ -283,6 +293,7 @@ $fix = DB_PREFIX;
                 success: function (res) {
                     if (res.code == 200) {
                         layer.msg(res.msg, {icon: 1, time: 1000});
+                        window.location.href = "/agent/panel/userlist.do";
                     }
                 }
             });
@@ -298,6 +309,7 @@ $fix = DB_PREFIX;
                 success: function (res) {
                     if (res.code == 200) {
                         layer.msg(res.msg, {icon: 1, time: 1000});
+                        window.location.href = "/agent/panel/userlist.do";
                     }
                 }
             });

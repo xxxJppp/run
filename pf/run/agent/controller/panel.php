@@ -595,7 +595,7 @@ class panel
         }
         //查询自己的所有支付宝
 
-        $tongdao = request::filter('get.tongdao', '', 'htmlspecialchars');
+        $tongdao = request::filter('get.tongdao', 'alipaygm', 'htmlspecialchars');
         if ($tongdao) {
 
             $wechat = $this->mysql->query("client_" . $tongdao . "_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
@@ -689,7 +689,7 @@ class panel
             $where .= " and creation_time BETWEEN " . $start_time . " AND " . $end_time;
         }
         //查询自己的所有支付宝
-        $tongdao = request::filter('get.tongdao', '', 'htmlspecialchars');
+        $tongdao = request::filter('get.tongdao', 'alipaygm', 'htmlspecialchars');
         if ($tongdao) {
 
             $wechat = $this->mysql->query("client_" . $tongdao . "_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
