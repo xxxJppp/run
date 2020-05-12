@@ -43,7 +43,7 @@ $fix = DB_PREFIX;
             <div class="ibox float-e-margins">
                 <!--条件查询-->
                 <div class="ibox-title">
-                    <h5>获利订单</h5>
+                    <h5>码商管理</h5>
                     <div class="ibox-tools">
                         <i class="layui-icon" onclick="location.replace(location.href);" title="刷新"
                            style="cursor:pointer;">ဂ</i>
@@ -58,8 +58,8 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'key1',width:90}">ID</th>
                         <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
                         <th lay-data="{field:'memberid', width:140}">用户余额</th>
-                        <th lay-data="{field:'amount', width:120,style:'color:#060;'}">IP地址</th>
-                        <th lay-data="{field:'rate', width:120}">今日跑量</th>
+                        <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
+                        <th lay-data="{field:'rate', width:100}">今日跑量</th>
                         <th lay-data="{field:'bbb', width:120,style:'color:#C00;'}">今日下发金额</th>
                         <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>
                         <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日订单数</th>
@@ -71,72 +71,137 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">昨日成功数</th>
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
                         <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
-                        <th lay-data="{field:'cvb', width:120,style:'color:#C00;'}">操作</th>
                         <th lay-data="{field:'actualamount', width:150,style:'color:#C00;'}">所有码上下线</th>
-
+                        <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($member['result'] as $em) { ?>
-                        <tr>
+                        <tr id="user_<?php echo $em['id']; ?>">
                             <td></td>
                             <td><?php echo $em['username']; ?> </td>
 
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                             <td style="text-align:center; color:#090;">
-                                <?php $group = $mysql->query("client_group","id={$em['group_id']}")[0]; echo is_array($group) ? '<span style="color:orange;"><b>'.$group['name'].'</b></span>' : '<span style="color:red;">未分配</span>'; ?>
+                                <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
+                                echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
                             </td>
-                            <td style="text-align:center;"><?php echo $em['balance'];?></td>
+                            <td style="text-align:center;"><?php echo $em['balance']; ?></td>
                             <td style="text-align:center; color:#060"><?php echo $em['ip']; ?> </td>
                             <td style="text-align:center; color:#666">
-
-
-                            </td>
-                            <td style="text-align:center;">0.00</td>
-                            <td>0</td>
-                            <td>
                                 <?php //查询今日收入
 
-                                $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
-
-                                $order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime}");
-
-                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['count']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php //查询今日收入
-
-                                $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
 
                                 $order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime} and status=4 ");
 
-                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['count']) .' </span>' ?>
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td></td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td style="text-align:center;">
+                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/agent/panel/editdeposit.do?id=<?php echo $em['id']; ?>',780,630)" class="btn btn-danger btn-xs">
+                                <?php echo $em['yajin'];?>
+                                </a>
+                            </td>
                             <td>
                                 <?php
-
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['fees']) .' </span>'
+                                $tody = floatval($order[0]['amount'])-$em['yajin'];
+                                if($tody>0){
+                                echo $tody;
+                                }else{
+                                    echo 0;
+                                }
                                 ?>
                             </td>
                             <td>
-                                <input onclick="showBtn()" name="items" value="<?php echo $em['id'];?>" id="checkbox<?php echo $em['id'];?>" type="checkbox">
-                                <label for="checkbox<?php echo $em['id'];?>">
-                                    删
-                                </label></td>
+                                <?php
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+
+                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime} and status=4 ");
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order_all[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php
+                                if (intval($order_all[0]['count']) > 0) {
+                                    $lv = intval($order[0]['count']) / intval($order_all[0]['count'])*100;
+                                } else {
+                                    $lv = 0;
+                                }
+                                echo $lv;
+                                ?>%
+                            </td>
+                            <td>
+                                <?php
+                                echo floatval($order[0]['fees']);
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                $erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id={$em['id']} and training=1");
+                                echo $erweima[0]['count'];
+                                ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
+
+                                $y_order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
+
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order_all[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
+
+                                $y_order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
+
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php
+                                if (intval($y_order_all[0]['count']) > 0) {
+                                    $lv = intval($y_order[0]['count']) / intval($y_order_all[0]['count'])*100;
+                                } else {
+                                    $lv = 0;
+                                }
+                                echo $lv;
+                                ?>%
+                            </td>
+                            <td>
+                                <?php
+                                echo '<span style="color:red;font-weight:bold;"> ' . floatval($y_order[0]['fees']) . ' </span>'
+                                ?>
+                            </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->上线','/agent/panel/moneyedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                        onclick="open_erweima('<?php echo $em['id']; ?>')">
                                     上线
                                 </button>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->下线','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                        onclick="off_erweima('<?php echo $em['id']; ?>')">
                                     下线
+                                </button>
+                            </td>
+                            <td>
+                                <button class="layui-btn layui-btn-small"
+                                        onclick="order_view('<?php echo $em['username']; ?>->修改密码','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                    修改密码
+                                </button>
+                                <button class="layui-btn layui-btn-small"
+                                        onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
+                                    删除
                                 </button>
                             </td>
                         </tr>
@@ -192,6 +257,52 @@ $fix = DB_PREFIX;
     function order_view(title, url, w, h) {
         x_admin_show(title, url, w, h);
     }
+    function del_mashang(obj,uid) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                url: "/agent/panel/delquotient",
+                type: 'post',
+                data: 'member_id=' + uid,
+                success: function (res) {
+                    if (res.code == 200) {
+                        $(obj).parents("tr").remove();
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                    }else{
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    }
+    function open_erweima(uid) {
+        layer.confirm('确认要上线吗？', function (index) {
+            $.ajax({
+                url: "/agent/panel/openrobin",
+                type: 'post',
+                data: 'member_id=' + uid,
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    }
+
+    function off_erweima(uid) {
+        layer.confirm('确认要下线吗？', function (index) {
+            $.ajax({
+                url: "/agent/panel/offrobin",
+                type: 'post',
+                data: 'member_id=' + uid,
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    }
 
     /*订单-删除*/
     function order_del(obj, id) {
@@ -217,7 +328,8 @@ $fix = DB_PREFIX;
     $('#pageList').change(function () {
         $('#pageForm').submit();
     });
-    function deletes(){
+
+    function deletes() {
         swal({
                 title: "非常危险",
                 text: "你确定要批量删除已选中的会员吗？",
@@ -227,27 +339,30 @@ $fix = DB_PREFIX;
                 confirmButtonText: "是的,我要删除这些会员!",
                 closeOnConfirm: false
             },
-            function(){
-                $("input[name='items']:checked").each(function(){
-                    $.get("<?php echo url::s('admin/member/delete','id=');?>" + $(this).val(), function(result){
+            function () {
+                $("input[name='items']:checked").each(function () {
+                    $.get("<?php echo url::s('admin/member/delete', 'id=');?>" + $(this).val(), function (result) {
                         swal("操作提示", '当前操作已经执行完毕!', "success");
-                        setTimeout(function(){location.href = '';},1500);
+                        setTimeout(function () {
+                            location.href = '';
+                        }, 1500);
                     });
                 });
 
             });
 
     }
-    function showBtn(){
+
+    function showBtn() {
         var Inc = 0;
-        $("input[name='items']:checkbox").each(function(){
-            if(this.checked){
+        $("input[name='items']:checkbox").each(function () {
+            if (this.checked) {
                 $('#deletes').show();
                 return true;
             }
             Inc++;
         });
-        if($("input[name='items']:checkbox").length == Inc){
+        if ($("input[name='items']:checkbox").length == Inc) {
             $('#deletes').hide();
         }
     }
