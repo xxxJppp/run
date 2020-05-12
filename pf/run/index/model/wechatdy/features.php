@@ -195,7 +195,7 @@ class features{
         
         
         
-        $where = $where . $_SESSION['wechatdy']['ORDER']['WHERE'];
+        $where = $where . isset($_SESSION['wechatdy']['ORDER']['WHERE']) ? $_SESSION['wechatdy']['ORDER']['WHERE'] : '';
         $where = trim(trim($where),'and');
         
         //排序

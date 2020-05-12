@@ -102,7 +102,7 @@ $fix = DB_PREFIX;
                     ?>
                     ] <?php if ($sorting['name'] == 'user' && $_GET['code'] != '' && $_SESSION['alipaygm']['WHERE'] == '') { ?> [
                         <a href="<?php echo url::s("admin/alipaygm/automaticOrder", "sorting=user&code={$_GET['code']}&locking=true"); ?>"
-                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if ($_SESSION['alipaygm']['WHERE'] != '') { ?>  [
+                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if (isset($_SESSION['alipaygm']['WHERE']) && $_SESSION['alipaygm']['WHERE'] != '') { ?>  [
                         <a href="<?php echo url::s("admin/alipaygm/automaticOrder", "sorting=user&code={$_GET['code']}&locking=false"); ?>"
                            style="color: red;">查询全部</a> ] <?php } ?></span>
             </p>
@@ -126,7 +126,7 @@ $fix = DB_PREFIX;
                                                 <option value="<?php echo $wx['id']; ?>"><?php echo $wx['name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        <label>选择通道来查看<?php if ($_SESSION['alipaygm']['ORDER']['WHERE'] == '') { ?>(<a
+                                        <label>选择通道来查看<?php if (isset($_SESSION['alipaygm']['ORDER']['WHERE']) && $_SESSION['alipaygm']['ORDER']['WHERE'] == '') { ?>(<a
                                                     href="#" onclick="alipaygm();">开始查询</a>)<?php } else { ?>(<a
                                                     href="<?php echo url::s('index/alipaygm/automaticOrder', "sorting=alipaygm&locking=closed"); ?>">取消锁定</a>)<?php } ?>
                                         </label>

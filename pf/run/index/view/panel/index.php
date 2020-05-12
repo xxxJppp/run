@@ -3,6 +3,8 @@ use xh\library\url;
 use xh\unity\cog;
 use xh\library\model;
 $fix = DB_PREFIX;
+$nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
+$zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
 ?>
 
 <!DOCTYPE html>
@@ -230,10 +232,10 @@ $fix = DB_PREFIX;
                              <span style="color:blue;font-weight:bold;">
                                <?php
                                 $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
-                               $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_taobaodf_automatic_orders where creation_time > {$zrTime} and creation_time<{$nowTime} and status=4 and user_id={$_SESSION['MEMBER']['uid']}")[0];
-                                ?> <?php  echo $order['count']; ?> 单</span>，
+                               $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_taobaodf_automatic_orders where creation_time > {$zrTime} and creation_time<{$nowTime} and status=4 and user_id={$_SESSION['MEMBER']['uid']}");
+                               ?> <?php  echo $order[0]['count']; ?> 单</span>，
                                  <span style="color:red;font-weight:bold;">
-                                  <?php  echo number_format($order['money'],3); ?> 元</span>
+                                  <?php  echo number_format($order[0]['money'],3); ?> 元</span>
         </h1>
         
          <h1 class="no-margins">微信固码订单数：
@@ -657,9 +659,6 @@ $fix = DB_PREFIX;
   </div> -->
 
 <!-- 全局js -->
-<script src="http://kehu.erinqak.cn/Public/Front/js/jquery.min.js"></script>
-<script src="http://kehu.erinqak.cn/Public/Front/js/bootstrap.min.js"></script>
-<script src="http://kehu.erinqak.cn/Public/Front/js/content.js?v=1.0.0"></script>
 <script src="/Public/Front/js/echarts.common.min.js"></script>
 
 <script src="/Public/Front/js/plugins/peity/jquery.peity.min.js"></script>
@@ -717,7 +716,6 @@ $fix = DB_PREFIX;
     $('#pageList').change(function(){
         $('#pageForm').submit();
     });
-</script>
 </script>
 </body>
 </html>

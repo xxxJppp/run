@@ -7,6 +7,7 @@ class turn{
     public function auto($count, $page, $num)
     {
         if ($count!=1){
+            $url = '';
             if (strstr(url::get(),"?")){
                 //正则解决重复page
                 $url = preg_replace("/page=[\s\S]+/", "", url::get());//正则处理当前页面

@@ -103,7 +103,7 @@ $fix = DB_PREFIX;
                     ?>
                     ] <?php if ($sorting['name'] == 'user' && $_GET['code'] != '' && $_SESSION['ALIPAY']['WHERE'] == '') { ?> [
                         <a href="<?php echo url::s("admin/alipay/statisticOrder", "sorting=user&code={$_GET['code']}&locking=true"); ?>"
-                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if ($_SESSION['ALIPAY']['WHERE'] != '') { ?>  [
+                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if (isset($_SESSION['ALIPAY']['WHERE']) && $_SESSION['ALIPAY']['WHERE'] != '') { ?>  [
                         <a href="<?php echo url::s("admin/alipay/statisticOrder", "sorting=user&code={$_GET['code']}&locking=false"); ?>"
                            style="color: red;">查询全部</a> ] <?php } ?></span>
             </p>
@@ -143,7 +143,7 @@ $fix = DB_PREFIX;
                                                 <option value="<?php echo $wx['id']; ?>"><?php echo $wx['name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        <label>选择通道来查看<?php if ($_SESSION['ALIPAY']['ORDER']['WHERE'] == '') { ?>(<a
+                                        <label>选择通道来查看<?php if (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) && $_SESSION['ALIPAY']['ORDER']['WHERE'] == '') { ?>(<a
                                                     href="#" onclick="alipay();">开始查询</a>)<?php } else { ?>(<a
                                                     href="<?php echo url::s('index/alipay/statisticOrder', "sorting=alipay&locking=closed"); ?>">取消锁定</a>)<?php } ?>
                                         </label>
@@ -181,7 +181,7 @@ $fix = DB_PREFIX;
                             </thead>
                             <tbody>
 
-                            <?php if (!is_array($result['result'][0])) echo '<tr><td colspan="5" style="text-align: center;">暂时没有查询到订单!</td></tr>'; ?>
+                            <?php if (isset($result['result'][0]) && !is_array($result['result'][0])) echo '<tr><td colspan="5" style="text-align: center;">暂时没有查询到订单!</td></tr>'; ?>
 
                             <?php foreach ($result['result'] as $ru) { ?>
                                 <tr>

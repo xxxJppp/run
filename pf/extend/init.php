@@ -107,9 +107,11 @@ class init{
             $_gk[] = $key;
         }
         // 0 - 模块   1 - 控制器  2 - 方法
-        $arg = explode("_", str_replace('.', '_', $_gk[0]));
+        $arg = $_gk ? explode("_", str_replace('.', '_', $_gk[0])) : [];
         //删除arg 0 路由信息，防止出错
-        unset($_GET[$_gk[0]]);
+        if(isset($_gk[0])){
+            unset($_GET[$_gk[0]]);
+        }
         //构造路由信息
         $routingInfo = $this->routingAuto(array(
             //路径权重
@@ -147,19 +149,19 @@ class init{
             //权0 满配
             case 0:
                 //模块
-                if ($params['visit'][0] != ''){
+                if (isset($params['visit'][0]) && $params['visit'][0] != ''){
                     $routingArray['module'] = $params['visit'][0];
                 }else{
                     $routingArray['module'] = $params['default'][0];
                 }
                 //控制器
-                if ($params['visit'][1] != ''){
+                if (isset($params['visit'][1]) && $params['visit'][1] != ''){
                     $routingArray['controller'] = $params['visit'][1];
                 }else{
                     $routingArray['controller'] = $params['default'][1];
                 }
                 //方法
-                if ($params['visit'][2] != ''){
+                if (isset($params['visit'][2]) && $params['visit'][2] != ''){
                     $routingArray['action'] = $params['visit'][2];
                 }else{
                     $routingArray['action'] = $params['default'][2];

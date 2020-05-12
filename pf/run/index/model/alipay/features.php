@@ -217,7 +217,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -262,10 +262,10 @@ class features
         $where = "user_id={$_SESSION['MEMBER']['uid']} and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-//        $start_time = request::filter('get.start_time','','htmlspecialchars');
-//        $end_time = request::filter('get.end_time','','htmlspecialchars');
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
+        $start_time = request::filter('get.start_time','','htmlspecialchars');
+        $end_time = request::filter('get.end_time','','htmlspecialchars');
+        //$start_time = strtotime($_GET['start_time']);;
+        //$end_time = strtotime($_GET['end_time']);
         //wechat
         if ($sorting == 'alipay') {
             if ($code != '' && $_SESSION['ALIPAY']['ORDER']['WHERE'] == '') {
@@ -286,7 +286,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序

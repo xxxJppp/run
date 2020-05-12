@@ -198,9 +198,6 @@ $fix = DB_PREFIX;
   </div> -->
 
 <!-- 全局js -->
-<script src="http://kehu.erinqak.cn/Public/Front/js/jquery.min.js"></script>
-<script src="http://kehu.erinqak.cn/Public/Front/js/bootstrap.min.js"></script>
-<script src="http://kehu.erinqak.cn/Public/Front/js/content.js?v=1.0.0"></script>
 <script src="/Public/Front/js/echarts.common.min.js"></script>
 
 <script src="/Public/Front/js/plugins/peity/jquery.peity.min.js"></script>
@@ -258,7 +255,6 @@ $fix = DB_PREFIX;
     $('#pageList').change(function(){
         $('#pageForm').submit();
     });
-</script>
 </script>
 </body>
 </html>

@@ -34,10 +34,10 @@ class features
         $name = request::filter('get.name', ' ', 'htmlspecialchars');
         $account = request::filter('get.account', ' ', 'htmlspecialchars');
         $pid = request::filter('get.pid', ' ', 'htmlspecialchars');
-      
+
 
         $key_id = strtoupper(substr(md5(mt_rand((mt_rand(1000, 9999) + mt_rand(1000, 9999)), mt_rand(1000000, 99999999))), 0, 18));
-     
+
 
         $in = $mysql->insert("client_alipaygm_automatic_account", [
             'name'              => $name,
@@ -215,7 +215,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['alipaygm']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['alipaygm']) ? $_SESSION['alipaygm']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -260,10 +260,8 @@ class features
         $where = "user_id={$_SESSION['MEMBER']['uid']} and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-//        $start_time = request::filter('get.start_time','','htmlspecialchars');
-//        $end_time = request::filter('get.end_time','','htmlspecialchars');
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
+        $start_time = request::filter('get.start_time','','htmlspecialchars');
+        $end_time = request::filter('get.end_time','','htmlspecialchars');
         //wechat
         if ($sorting == 'alipaygm') {
             if ($code != '' && $_SESSION['alipaygm']['ORDER']['WHERE'] == '') {
@@ -284,7 +282,7 @@ class features
         }
 
 
-        $where = $where . $_SESSION['alipaygm']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['alipaygm']['ORDER']['WHERE']) ? $_SESSION['alipaygm']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -337,7 +335,7 @@ class features
         //得到用户组
         $group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}")[0];
         $agent_group = $mysql->query('agent_rate',"uid={$_SESSION['MEMBER']['uid']}")[0];
-      
+
         //解析数据
         $authority = json_decode($group['authority'], true)[$module_name];
         if (!is_array($group) || $group['authority'] == -1 || $authority['open'] != 1) functions::json(-1, '用户组错误');
@@ -354,38 +352,38 @@ class features
         $dailiauthority = json_decode($dailigroup['authority'], true)[$module_name];
           //获取代理给商户的费率
         $shanghuauthority = json_decode($agent_group['authority'], true);
-      
+
            //代理的获利    给商户的费率-代理的费率
         $fess2= $shanghuauthority{$module_name}- $dailiauthority['cost'];
-    
+
       //系统对代理的费率
        $dailifees = $order['amount'] * $dailiauthority['cost'];
-      
+
        $dailihuoli = $order['amount'] * $fess2;
 
 
        $shanghufees = $order['amount'] * $shanghuauthority{$module_name};
-     
 
-      
+
+
         $isCallback = 0;
 
         if ($order['reached'] == 1) {
             $isCallback = 1;
         } else {
-          
+
              $shanghu_balance = $user['balance'] -  $shanghufees; // 用户最终余额
             $user_balance = floatval($shanghu_balance);
-          
+
                 $daili_balance = $duser['balance'] +  $dailihuoli; // 代理最终余额
                 $daili_balance = floatval($daili_balance);
-          
+
             if ($user_balance >= 0) {
                 $isCallback = 1;
 
                 $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
                 $updateStatus_daili =$mysql->update("client_user", ['balance' => $daili_balance], "id={$duser['id']}");
-              
+
                         //写代理获利记录
                      $mysql->insert("agent_huoli_log", [
                           'uid' => $_SESSION['MEMBER']['uid'],
@@ -399,9 +397,9 @@ class features
                         'type' =>'支付宝固码',
                          'time' => time()
                   ]);
-          
-             
-              
+
+
+
                 if ($updateStatus !== false) {
                     $_SESSION['MEMBER']['balance'] = $user_balance;
                     $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
@@ -411,16 +409,16 @@ class features
             }
         }
        }else {
-          
-         
+
+
           $fees = $order['amount'] * $authority['cost'];
-          
+
              $dailifees = 0;
               $shanghufees = $fees;
               $dailihuoli = 0;
-              
-          
-        
+
+
+
         $isCallback = 0;
 
         if ($order['reached'] == 1) {
@@ -429,15 +427,15 @@ class features
             $user_balance = $user['balance'] - $fees; // 用户最终余额
             $user_balance = floatval($user_balance);
 
-          
-          
+
+
             if ($user_balance >= 0) {
                 $isCallback = 1;
-                
+
                 $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
 
-              
-              
+
+
                 if ($updateStatus !== false) {
                     $_SESSION['MEMBER']['balance'] = $user_balance;
                     $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
@@ -447,10 +445,10 @@ class features
             }
         }
 
-        
-        
+
+
         }
-    
+
 
         //检测订单是否为未支付
         if ($order['status'] != 4) {
