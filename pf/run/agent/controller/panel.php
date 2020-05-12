@@ -189,12 +189,15 @@ class panel{
             'phone'      => $phone,
             'pwd'        => functions::pwd($pwd, $token),
             'token'      => $token,
+            'yajin'     =>'0',
             'ip'         => '8.8.8.8',
             'group_id'   => $group_id,
             'level_id'   => $level_id,
             'login_time' => 0,
             'key_id'     => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
             'avatar'     => 0,
+            'is_agent'      =>0,
+            'is_pankou'     =>0,
             'is_mashang'     => $is_mashang
         ]);
 
