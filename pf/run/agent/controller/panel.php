@@ -1,5 +1,7 @@
 <?php
+
 namespace xh\run\agent\controller;
+
 use xh\library\model;
 use xh\library\mysql;
 use xh\library\view;
@@ -10,92 +12,105 @@ use xh\library\ip;
 use xh\library\request;
 use xh\library\functions;
 
-class panel{
-    
-    private $mysql;
-    
-    //初始化
-    public function __construct(){
-        (new model())->load('user', 'session')->check();    
-        $this->mysql = new mysql();
-      
-        $checkuser = $this->mysql->query("client_user","id={$_SESSION['MEMBER']['uid']}")[0];
-      if($checkuser['is_agent'] == 0){
-         unset($_SESSION['MEMBER']);
-        unset($_SESSION);
-        url::address(url::s('agent/user/login'), '您不是代理，请重新登录!', 0);
-    
-      }
-    }
-    
-    public function home(){
-        
-        //查询我的服务订单五条信息
-        $service_order = $this->mysql->query("service_order","user_id={$_SESSION['MEMBER']['uid']}",null,"id","desc","0,5");
-        //查询提现5条
-        $withdrawal = $this->mysql->query("client_withdraw","user_id={$_SESSION['MEMBER']['uid']}",null,"id","desc","0,5");
-        
-        new view("panel/home",['mysql'=>$this->mysql,'service_order'=>$service_order,'withdrawal'=>$withdrawal]);
-    }
-    
-    public function index(){
-        //查询我的服务订单五条信息
-        $service_order = $this->mysql->query("service_order","user_id={$_SESSION['MEMBER']['uid']}",null,"id","desc","0,5");
-        //查询提现5条
-        $withdrawal = $this->mysql->query("client_agentwithdraw","user_id={$_SESSION['MEMBER']['uid']}",null,"id","desc","0,5");
+class panel
+{
 
-       $where="agent_id =".$_SESSION['MEMBER']['uid'];
-        $member = page::conduct('agent_huoli_log', request::filter('get.page'), 10, $where, null, 'id', 'desc',"0,10");
+    private $mysql;
+
+    //初始化
+    public function __construct()
+    {
+        (new model())->load('user', 'session')->check();
+        $this->mysql = new mysql();
+
+        $checkuser = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        if ($checkuser['is_agent'] == 0) {
+            unset($_SESSION['MEMBER']);
+            unset($_SESSION);
+            url::address(url::s('agent/user/login'), '您不是代理，请重新登录!', 0);
+
+        }
+    }
+
+    public function home()
+    {
+
+        //查询我的服务订单五条信息
+        $service_order = $this->mysql->query("service_order", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
+        //查询提现5条
+        $withdrawal = $this->mysql->query("client_withdraw", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
+
+        new view("panel/home", ['mysql' => $this->mysql, 'service_order' => $service_order, 'withdrawal' => $withdrawal]);
+    }
+
+    public function index()
+    {
+        //查询我的服务订单五条信息
+        $service_order = $this->mysql->query("service_order", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
+        //查询提现5条
+        $withdrawal = $this->mysql->query("client_agentwithdraw", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
+
+        $where = "agent_id =" . $_SESSION['MEMBER']['uid'];
+        $member = page::conduct('agent_huoli_log', request::filter('get.page'), 10, $where, null, 'id', 'desc', "0,10");
         new view('panel/index', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member
         ]);
-      
+
 
     }
-  
-  //会员列表
-  public function userlist(){
-      $member_id = request::filter('get.member_id');
-      if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-      $where="level_id =".$_SESSION['MEMBER']['uid']." and is_mashang=1 and status=1";
-      $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
-      $groups = $this->mysql->query("client_group");
-      new view('panel/userlist', [
-          'mysql'  => $this->mysql,
-          'member' => $member,
-          'groups' => $groups
-      ]);
-  }
-  public function offrobin(){
+
+    //会员列表
+    public function userlist()
+    {
+        $member_id = request::filter('get.member_id');
+        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
+        $where = "level_id =" . $_SESSION['MEMBER']['uid'] . " and is_mashang=1 and status=1";
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $groups = $this->mysql->query("client_group");
+        new view('panel/userlist', [
+            'mysql' => $this->mysql,
+            'member' => $member,
+            'groups' => $groups
+        ]);
+    }
+
+    public function offrobin()
+    {
         $member_id = request::filter('post.member_id');
         $off = 2;
-        $where = "user_id =".$member_id;
-        $data = ['training'=>$off];
-        $result = $this->mysql->update('client_paofen_automatic_account',$data,$where);
+        $where = "user_id =" . $member_id;
+        $data = ['training' => $off];
+        $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
         if ($result > 0) functions::json(200, '安全下线成功!');
         functions::json(-2, '下线失败!');
-  }
-    public function openrobin(){
+    }
+
+    public function openrobin()
+    {
         $member_id = request::filter('post.member_id');
         $off = 1;
-        $where = "user_id =".$member_id;
-        $data = ['training'=>$off];
-        $result = $this->mysql->update('client_paofen_automatic_account',$data,$where);
+        $where = "user_id =" . $member_id;
+        $data = ['training' => $off];
+        $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
         if ($result > 0) functions::json(200, '安全上线成功!');
         functions::json(-2, '上线失败!');
     }
-    public function delquotient(){
+
+    public function delquotient()
+    {
         $member_id = request::filter('post.member_id');
-        $where = "id =".$member_id;
-        $result = $this->mysql->update('client_user',[
-            'status'=>2
-        ],$where);
+        $where = "id =" . $member_id;
+        $result = $this->mysql->update('client_user', [
+            'status' => 2
+        ], $where);
         if ($result > 0) functions::json(200, '删除成功!');
         functions::json(-2, '删除失败!');
 
     }
-    public function editdeposit(){
+
+    public function editdeposit()
+    {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
@@ -109,7 +124,9 @@ class panel{
         ]);
 
     }
-    public function editpositResult(){
+
+    public function editpositResult()
+    {
 
         $id = intval(request::filter("post.id"));
         $username = strip_tags(request::filter('post.username'));
@@ -118,28 +135,30 @@ class panel{
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         //判断手机是否存在
-        $inArray = ['yajin'=>$yajin];
+        $inArray = ['yajin' => $yajin];
 
         $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
 
         // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
         if ($Insert > 0) {
 
-            functions::json(200,'修改成功');
+            functions::json(200, '修改成功');
             exit;
-        }else{
+        } else {
 
 
-            functions::json(100,'当前没有做任何修改');
+            functions::json(100, '当前没有做任何修改');
             exit;
         }
     }
-      //添加会员
-   public function useradd()
+
+    //添加会员
+    public function useradd()
     {
         $id = request::filter('get.id');
-        $result = $this->mysql->query("client_user", "id={$id}")[0];
-     //   if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
+        $result = $this->mysql->query("client_user", "id={$id}");
+        isset($result[0]) && $result = $result[0];
+        //   if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
         //权限查询
         $groups = $this->mysql->query("client_group");
         //加载视图
@@ -148,19 +167,19 @@ class panel{
             'groups' => $groups
         ]);
     }
-  
-  
-   public function userddsave()
+
+
+    public function userddsave()
     {
-      
+
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
         $group_id = $_SESSION['MEMBER']['group']['id'];
         $phone = request::filter('post.phone');
         $level_id = $_SESSION['MEMBER']['uid'];
-        $is_mashang =  request::filter('post.is_mashang');
-      //  $balance = floatval(request::filter('get.balance'));
-      //  $yajin = floatval(request::filter('get.yajin'));
+        $is_mashang = request::filter('post.is_mashang');
+        //  $balance = floatval(request::filter('get.balance'));
+        //  $yajin = floatval(request::filter('get.yajin'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
@@ -185,17 +204,17 @@ class panel{
             if ($find_level['level_id'] != 0) functions::json(-3, '上级ID填写有误,该上级会员不支持直接在后台添加下级');
         }
         $Insert = $this->mysql->insert("client_user", [
-            'username'   => $username,
-            'phone'      => $phone,
-            'pwd'        => functions::pwd($pwd, $token),
-            'token'      => $token,
-            'ip'         => '8.8.8.8',
-            'group_id'   => $group_id,
-            'level_id'   => $level_id,
+            'username' => $username,
+            'phone' => $phone,
+            'pwd' => functions::pwd($pwd, $token),
+            'token' => $token,
+            'ip' => '8.8.8.8',
+            'group_id' => $group_id,
+            'level_id' => $level_id,
             'login_time' => 0,
-            'key_id'     => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
-            'avatar'     => 0,
-            'is_mashang'     => $is_mashang
+            'key_id' => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
+            'avatar' => 0,
+            'is_mashang' => $is_mashang
         ]);
 
         if ($Insert > 0) functions::json(200, '添加成功!请到会员列表设置费率');
@@ -203,13 +222,13 @@ class panel{
         functions::json(-3, '添加失败,请检查资料是否有误');
     }
 
-     //余额编辑
-   public function moneyedit()
+    //余额编辑
+    public function moneyedit()
     {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
-    
+
         //权限查询
         $groups = $this->mysql->query("client_group");
         //加载视图
@@ -218,85 +237,87 @@ class panel{
             'groups' => $groups
         ]);
     }
-  
-   public function moneyeditResult()
+
+    public function moneyeditResult()
     {
-       
+
         $id = intval(request::filter("post.id"));
         $username = strip_tags(request::filter('post.username'));
         $money = request::filter('post.money');
-      
+
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user) && $username != $user['username']) functions::json(-3, '当前用户名已经存在,请更换重试');
         //判断手机是否存在
-         $umoney=$user['balance'];
+        $umoney = $user['balance'];
         //判断密码
         if ($money > 0) {
-          $smoney = $umoney + $money;
-          $inArray['balance'] = $smoney;
+            $smoney = $umoney + $money;
+            $inArray['balance'] = $smoney;
         }
         if ($money < 0) {
-             $smoney = $umoney - abs($money);
-            if($smoney > 0){
-             $inArray['balance'] = $smoney;
-            }else{
-           
-             functions::json(300,'用户余额不能为负数');
-          exit;
+            $smoney = $umoney - abs($money);
+            if ($smoney > 0) {
+                $inArray['balance'] = $smoney;
+            } else {
+
+                functions::json(300, '用户余额不能为负数');
+                exit;
             }
         }
-     
+
         $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
 
-     
-      // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
-      if ($Insert > 0) {
-        
-         //写到交易记录
-        $this->mysql->insert("client_usermoney_log", [
-            'user_id'=>$id,
-            'username'=>$username,
-            'agent_id'=> $_SESSION['MEMBER']['uid'],
-            'info'=>'[操作金额]：'.$money.'元，操作后用户余额：'.$smoney,
-            'addtime'=>time(),
-            'ip'=>ip::get()
-          
-        ]);
 
-      
-        functions::json(200,'操作成功');
-         
-      }else{
-      
-      
-         functions::json(100,'当前没有做任何修改');
-        
-        
-      }
+        // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
+        if ($Insert > 0) {
+
+            //写到交易记录
+            $this->mysql->insert("client_usermoney_log", [
+                'user_id' => $id,
+                'username' => $username,
+                'agent_id' => $_SESSION['MEMBER']['uid'],
+                'info' => '[操作金额]：' . $money . '元，操作后用户余额：' . $smoney,
+                'addtime' => time(),
+                'ip' => ip::get()
+
+            ]);
+
+
+            functions::json(200, '操作成功');
+
+        } else {
+
+
+            functions::json(100, '当前没有做任何修改');
+
+
+        }
     }
 
-  
-   //代理操作客户的余额日志
-    public function moneylog(){
-  
-         $member_id = request::filter('get.member_id');
+
+    //代理操作客户的余额日志
+    public function moneylog()
+    {
+
+        $where = '';
+        $member_id = request::filter('get.member_id');
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
 
         $member = page::conduct('client_usermoney_log', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         new view('panel/moneylog', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member
         ]);
-  }
-  
-     //修改密码
-   public function passwordedit()
+    }
+
+    //修改密码
+    public function passwordedit()
     {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
-    
+
         //权限查询
         $groups = $this->mysql->query("client_group");
         //加载视图
@@ -305,19 +326,19 @@ class panel{
             'groups' => $groups
         ]);
     }
-  
+
     public function passwordeditResult()
     {
-       
+
         $id = intval(request::filter("post.id"));
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
-      
+
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user) && $username != $user['username']) functions::json(-3, '当前用户名已经存在,请更换重试');
         //判断手机是否存在
-       
+
         //判断密码
         if (!empty($pwd)) {
             if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
@@ -329,26 +350,26 @@ class panel{
 
         $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
 
-      // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
-      if ($Insert > 0) {
- 
-        functions::json(200,'修改成功');
-          exit;
-      }else{
-      
-   
-          functions::json(100,'当前没有做任何修改');
-          exit;
-      }
+        // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
+        if ($Insert > 0) {
+
+            functions::json(200, '修改成功');
+            exit;
+        } else {
+
+
+            functions::json(100, '当前没有做任何修改');
+            exit;
+        }
     }
 
     //费率设置
-   public function feilv2()
+    public function feilv2()
     {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
-    
+
         //权限查询
         $groups = $this->mysql->query("client_group");
         //加载视图
@@ -357,8 +378,8 @@ class panel{
             'groups' => $groups
         ]);
     }
-  
-   public function feilv()
+
+    public function feilv()
     {
         $id = request::filter('get.id');
         $uid = $_SESSION['MEMBER']['uid'];
@@ -380,102 +401,101 @@ class panel{
             $pddgm_cost = $data['wechat_auto']['cost'];
             $nxyswx_cost = $data['wechat_auto']['cost'];
             $bank_cost = $data['bank_auto']['cost'];
-           $paofen_cost = $data['paofen_auto']['cost'];
-          
-            
-          
+            $paofen_cost = $data['paofen_auto']['cost'];
+
+
             if ($_REQUEST['wechat_auto'] > $wechat_cost) {
-              
-                functions::json(100,'微信费率不能大于总平台的费率（总平台费率 ' .$wechat_cost .'）');
+
+                functions::json(100, '微信费率不能大于总平台的费率（总平台费率 ' . $wechat_cost . '）');
                 exit;
             }
-          
-           if ($_REQUEST['wechatdy_auto'] > $wechatdy_cost) {
-             
-            functions::json(100,'微信店员费率不能大于总平台的费率（总平台费率' .$wechatdy_cost.'）');
+
+            if ($_REQUEST['wechatdy_auto'] > $wechatdy_cost) {
+
+                functions::json(100, '微信店员费率不能大于总平台的费率（总平台费率' . $wechatdy_cost . '）');
                 exit;
             }
-          
-           if ($_REQUEST['wechatsj_auto'] > $wechatsj_cost) {
-               functions::json(100,'微信商户费率不能大于总平台的费率（总平台费率 '.$wechatsj_cost.'）');
+
+            if ($_REQUEST['wechatsj_auto'] > $wechatsj_cost) {
+                functions::json(100, '微信商户费率不能大于总平台的费率（总平台费率 ' . $wechatsj_cost . '）');
                 exit;
             }
-          
-           if ($_REQUEST['alipaygm_auto'] > $alipaygm_cost) {
-              functions::json(100,'支付宝固码费率不能大于总平台的费率（总平台费率{'.$alipaygm_cost.'）');
+
+            if ($_REQUEST['alipaygm_auto'] > $alipaygm_cost) {
+                functions::json(100, '支付宝固码费率不能大于总平台的费率（总平台费率{' . $alipaygm_cost . '）');
                 exit;
 
             }
-          
-          
-           if ($_REQUEST['alipay_auto'] > $alipay_cost) {
-             
-               functions::json(100,'支付宝转账费率不能大于总平台的费率（总平台费率'.$alipay_cost.'）');
+
+
+            if ($_REQUEST['alipay_auto'] > $alipay_cost) {
+
+                functions::json(100, '支付宝转账费率不能大于总平台的费率（总平台费率' . $alipay_cost . '）');
                 exit;
             }
-          
-           if ($_REQUEST['bank_auto'] > $bank_cost) {
-              functions::json(100,'微信/支付宝转卡费率不能大于总平台的费率（总平台费率'.$bank_cost.'）');
+
+            if ($_REQUEST['bank_auto'] > $bank_cost) {
+                functions::json(100, '微信/支付宝转卡费率不能大于总平台的费率（总平台费率' . $bank_cost . '）');
                 exit;
-              
+
             }
-          
-           if ($_REQUEST['yunshanfu_auto'] > $yunshanfu_cost) {
-              functions::json(100,'云闪付费率不能大于总平台的费率（总平台费率'.$yunshanfu_cost.'）');
+
+            if ($_REQUEST['yunshanfu_auto'] > $yunshanfu_cost) {
+                functions::json(100, '云闪付费率不能大于总平台的费率（总平台费率' . $yunshanfu_cost . '）');
                 exit;
-               
+
             }
-          
-           if ($_REQUEST['nxyswx_auto'] > $nxyswx_cost) {
-              functions::json(100,'农信易扫费率不能大于总平台的费率（总平台费率'.$nxyswx_cost.'）');
+
+            if ($_REQUEST['nxyswx_auto'] > $nxyswx_cost) {
+                functions::json(100, '农信易扫费率不能大于总平台的费率（总平台费率' . $nxyswx_cost . '）');
                 exit;
-               
+
             }
-          
-           if ($_REQUEST['shouqianba_auto'] > $shouqianba_cost) {
-              functions::json(100,'收钱吧费率不能大于总平台的费率（总平台费率'.$shouqianba_cost.'）');
+
+            if ($_REQUEST['shouqianba_auto'] > $shouqianba_cost) {
+                functions::json(100, '收钱吧费率不能大于总平台的费率（总平台费率' . $shouqianba_cost . '）');
                 exit;
-               
+
             }
-          
-           if ($_REQUEST['taobaodf_auto'] > $taobaodf_cost) {
-             functions::json(100,'淘宝代付费率不能大于总平台的费率（总平台费率'.$taobaodf_cost.'）');
+
+            if ($_REQUEST['taobaodf_auto'] > $taobaodf_cost) {
+                functions::json(100, '淘宝代付费率不能大于总平台的费率（总平台费率' . $taobaodf_cost . '）');
                 exit;
-               
+
             }
-          
-           if ($_REQUEST['pddgm_auto'] > $pddgm_cost) {
-             functions::json(100,'拼多多固码费率不能大于总平台的费率（总平台费率'.$pddgm_cost.'）');
+
+            if ($_REQUEST['pddgm_auto'] > $pddgm_cost) {
+                functions::json(100, '拼多多固码费率不能大于总平台的费率（总平台费率' . $pddgm_cost . '）');
                 exit;
-               
+
             }
-          
-           if ($_REQUEST['lakala_auto'] > $lakala_cost) {
-              functions::json(100,'拉卡拉费率不能大于总平台的费率（总平台费率'.$lakala_cost.'）');
+
+            if ($_REQUEST['lakala_auto'] > $lakala_cost) {
+                functions::json(100, '拉卡拉费率不能大于总平台的费率（总平台费率' . $lakala_cost . '）');
                 exit;
-               
+
             }
-           if ($_REQUEST['paofen_auto'] > $paofen_cost) {
-              functions::json(100,'跑分费率不能大于总平台的费率（总平台费率'.$paofen_cost.'）');
+            if ($_REQUEST['paofen_auto'] > $paofen_cost) {
+                functions::json(100, '跑分费率不能大于总平台的费率（总平台费率' . $paofen_cost . '）');
                 exit;
-               
+
             }
-          
-       
+
+
             $insert['wechat_auto'] = $_REQUEST['wechat_auto'];
-           $insert['wechatdy_auto'] = $_REQUEST['wechatdy_auto'];
-           $insert['wechatsj_auto'] = $_REQUEST['wechatsj_auto'];
-           $insert['alipaygm_auto'] = $_REQUEST['alipaygm_auto'];
-           $insert['alipay_auto'] = $_REQUEST['alipay_auto'];
-           $insert['bank_auto'] = $_REQUEST['bank_auto'];
-           $insert['yunshanfu_auto'] = $_REQUEST['yunshanfu_auto'];
-           $insert['lakala_auto'] = $_REQUEST['lakala_auto'];
-           $insert['nxyswx_auto'] = $_REQUEST['nxyswx_auto'];
-           $insert['nxysyl_auto'] = $_REQUEST['nxyswx_auto'];
-           $insert['taobaodf_auto'] = $_REQUEST['taobaodf_auto'];
+            $insert['wechatdy_auto'] = $_REQUEST['wechatdy_auto'];
+            $insert['wechatsj_auto'] = $_REQUEST['wechatsj_auto'];
+            $insert['alipaygm_auto'] = $_REQUEST['alipaygm_auto'];
+            $insert['alipay_auto'] = $_REQUEST['alipay_auto'];
+            $insert['bank_auto'] = $_REQUEST['bank_auto'];
+            $insert['yunshanfu_auto'] = $_REQUEST['yunshanfu_auto'];
+            $insert['lakala_auto'] = $_REQUEST['lakala_auto'];
+            $insert['nxyswx_auto'] = $_REQUEST['nxyswx_auto'];
+            $insert['nxysyl_auto'] = $_REQUEST['nxyswx_auto'];
+            $insert['taobaodf_auto'] = $_REQUEST['taobaodf_auto'];
             $insert['shouqianba_auto'] = $_REQUEST['shouqianba_auto'];
             $insert['pddgm_auto'] = $_REQUEST['pddgm_auto'];
-          $insert['paofen_auto'] = $_REQUEST['paofen_auto'];
+            $insert['paofen_auto'] = $_REQUEST['paofen_auto'];
             $json_encode_data = json_encode($insert);
             if (!$info) {
                 $insert_data['parent_id'] = $uid;
@@ -490,45 +510,40 @@ class panel{
                 $update_data['update_time'] = time();
                 $this->mysql->update('agent_rate', $update_data, $where);
             }
-           functions::json(200, '修改成功');
-          
-          exit;
-      
+            functions::json(200, '修改成功');
+
+            exit;
+
         }
         $result = json_decode($info[0]['authority'], true);
         //查询所有的交易记录
         new view('panel/feilv', [
             'result' => $result,
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
         ]);
     }
-  
-  
-  //订单列表
-   public function order()
+
+
+    //订单列表
+    public function order()
     {
-     
-       $user = $this->mysql->query("client_user", "level_id='{$_SESSION['MEMBER']['uid']}'");
-     
-         $wxIdsArr = array_column($user, 'id');
-       
-      //去重
-      $wxIds = array_unique($wxIdsArr);
-      //将id组转化成字符串
-      $userIdInStr = implode(",",$wxIds);
-       // var_dump($userIdInStr);
-       
-       
+
+        $user = $this->mysql->query("client_user", "level_id='{$_SESSION['MEMBER']['uid']}'");
+
+        $wxIdsArr = array_column($user, 'id');
+
+        //去重
+        $wxIds = array_unique($wxIdsArr);
+        //将id组转化成字符串
+        $userIdInStr = implode(",", $wxIds);
+        // var_dump($userIdInStr);
+
+
         $where = "status = 4 and user_id in ($userIdInStr) and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-     
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
-      
-     
-     
-       
+        $start_time = request::filter('get.start_time', '', 'htmlspecialchars');
+        $end_time = request::filter('get.end_time', '', 'htmlspecialchars');
 
         //wechat
         if ($sorting == 'alipay') {
@@ -550,7 +565,7 @@ class panel{
         }
 
 
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -572,56 +587,56 @@ class panel{
                 $where .= " and (trade_no like '%{$code}%' or out_trade_no like '%{$code}%')";
             }
         }
-       if ($start_time && $end_time) {
+        if ($start_time && $end_time) {
             $where .= " and creation_time BETWEEN " . $start_time . " AND " . $end_time;
         }
         //查询自己的所有支付宝
-     
-       $tongdao = request::filter('get.tongdao', '', 'htmlspecialchars');
-     if($tongdao){
-     
-       $wechat = $this->mysql->query("client_".$tongdao."_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
 
-        $result = page::conduct('client_'.$tongdao.'_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
-       
-     }else{
-        $wechat = $this->mysql->query("client_wechat_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+        $tongdao = request::filter('get.tongdao', '', 'htmlspecialchars');
+        if ($tongdao) {
 
-        $result = page::conduct('client_wechat_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
-     }
+            $wechat = $this->mysql->query("client_" . $tongdao . "_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+
+            $result = page::conduct('client_' . $tongdao . '_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+
+        } else {
+            $wechat = $this->mysql->query("client_wechat_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+
+            $result = page::conduct('client_wechat_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        }
 
         new view('panel/order', [
-            'result'  => $result,
-            'mysql'   => $mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'wechat'  => $wechat,
-            'where'   => $where
+            'wechat' => $wechat,
+            'where' => $where
         ]);
     }
-  
-   //订单列表 没付款
-   public function orderweifu()
+
+    //订单列表 没付款
+    public function orderweifu()
     {
-     
-       $user = $this->mysql->query("client_user", "level_id='{$_SESSION['MEMBER']['uid']}'");
-     
-         $wxIdsArr = array_column($user, 'id');
-       
-      //去重
-      $wxIds = array_unique($wxIdsArr);
-      //将id组转化成字符串
-      $userIdInStr = implode(",",$wxIds);
-       // var_dump($userIdInStr);
-       
-       
+
+        $user = $this->mysql->query("client_user", "level_id='{$_SESSION['MEMBER']['uid']}'");
+
+        $wxIdsArr = array_column($user, 'id');
+
+        //去重
+        $wxIds = array_unique($wxIdsArr);
+        //将id组转化成字符串
+        $userIdInStr = implode(",", $wxIds);
+        // var_dump($userIdInStr);
+
+
         $where = "status != 4 and user_id in ($userIdInStr) and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
+        $start_time = request::filter('get.start_time', '', 'htmlspecialchars');
+        $end_time = request::filter('get.end_time', '', 'htmlspecialchars');
 
         //wechat
         if ($sorting == 'alipay') {
@@ -643,7 +658,7 @@ class panel{
         }
 
 
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -666,66 +681,67 @@ class panel{
             }
         }
 
-     
-      if ($start_time && $end_time) {
+
+        if ($start_time && $end_time) {
             $where .= " and creation_time BETWEEN " . $start_time . " AND " . $end_time;
         }
         //查询自己的所有支付宝
         $tongdao = request::filter('get.tongdao', '', 'htmlspecialchars');
-     if($tongdao){
-     
-       $wechat = $this->mysql->query("client_".$tongdao."_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+        if ($tongdao) {
 
-        $result = page::conduct('client_'.$tongdao.'_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
-       
-     }else{
-        $wechat = $this->mysql->query("client_wechat_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+            $wechat = $this->mysql->query("client_" . $tongdao . "_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
 
-        $result = page::conduct('client_wechat_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
-     }
+            $result = page::conduct('client_' . $tongdao . '_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+
+        } else {
+            $wechat = $this->mysql->query("client_wechat_automatic_account", "name != '0' and user_id={$_SESSION['MEMBER']['uid']}");
+
+            $result = page::conduct('client_wechat_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        }
         new view('panel/orderweifu', [
-            'result'  => $result,
-            'mysql'   => $mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'wechat'  => $wechat,
-            'where'   => $where
+            'wechat' => $wechat,
+            'where' => $where
         ]);
     }
-  
-   //会员列表
-    public function dailihuoli(){
-  
-         $member_id = request::filter('get.member_id');
+
+    //会员列表
+    public function dailihuoli()
+    {
+
+        $member_id = request::filter('get.member_id');
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
-      
-        $where="agent_id =".$_SESSION['MEMBER']['uid'];
+
+        $where = "agent_id =" . $_SESSION['MEMBER']['uid'];
         $member = page::conduct('agent_huoli_log', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('panel/dailihuoli', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
-  }
-  
-  
+    }
+
+
     //修改资料
     public function useredit()
     {
         new view('panel/useredit');
     }
-  
-   //修改
+
+    //修改
     public function editResult()
     {
         //验证码
         $code = intval(request::filter('post.code', '', 'htmlspecialchars'));
         $now_time = time() - 300;
         $find_code = $this->mysql->query("client_code", "phone={$_SESSION['MEMBER']['phone']} and codec={$code} and {$now_time}<get_time and state=1 and typec='edit'")[0];
-       // if (!is_array($find_code)) functions::json(-3, '短信验证码不正确');
+        // if (!is_array($find_code)) functions::json(-3, '短信验证码不正确');
         //初始化修改参数
         $edit = [];
         $renew = intval(request::filter('post.renew', '', 'htmlspecialchars'));
@@ -791,8 +807,8 @@ class panel{
         }
         $result = page::conduct('client_withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('user/withdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting

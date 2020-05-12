@@ -94,17 +94,10 @@ class panel{
         $where = "status = 4 and pankou_id ={$_SESSION['MEMBER']['uid']} and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-     
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
-      
-     
-     
-       
+        $start_time = request::filter('get.start_time', '', 'htmlspecialchars');
+        $end_time = request::filter('get.end_time', '', 'htmlspecialchars');
 
-      
-
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -137,7 +130,7 @@ class panel{
 
         new view('panel/order', [
             'result'  => $result,
-            'mysql'   => $mysql,
+            'mysql'   => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -149,15 +142,11 @@ class panel{
    //订单列表 没付款
    public function orderweifu()
     {
-     
-    
-       
-       
         $where = "status != 4 and pankou_id = {$_SESSION['MEMBER']['uid']} and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-        $start_time = strtotime($_GET['start_time']);;
-        $end_time = strtotime($_GET['end_time']);
+        $start_time = request::filter('get.start_time', '', 'htmlspecialchars');
+        $end_time = request::filter('get.end_time', '', 'htmlspecialchars');
 
         //wechat
         if ($sorting == 'alipay') {
@@ -179,7 +168,7 @@ class panel{
         }
 
 
-        $where = $where . $_SESSION['ALIPAY']['ORDER']['WHERE'];
+        $where = $where . (isset($_SESSION['ALIPAY']['ORDER']['WHERE']) ? $_SESSION['ALIPAY']['ORDER']['WHERE'] : '');
         $where = trim(trim($where), 'and');
 
         //排序
@@ -221,7 +210,7 @@ class panel{
      }
         new view('panel/orderweifu', [
             'result'  => $result,
-            'mysql'   => $mysql,
+            'mysql'   => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting

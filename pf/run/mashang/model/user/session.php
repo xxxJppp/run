@@ -89,7 +89,7 @@ class session{
         $Loca_ip = ip::get();
         //判断数据是否存在
 
-        if (is_array($_SESSION['MEMBER'])) {
+        if (isset($_SESSION['MEMBER']) && is_array($_SESSION['MEMBER'])) {
             //检测数据是否过期 30分钟无操作
             if (($_SESSION['MEMBER']['time'] + 1800) > time()) {
                 //检测ip是否异地登录（能够百分百防御XSS攻击）

@@ -25,7 +25,7 @@ class cog{
     //读取配置
     static public function read($name){
         //检测缓存中是否有配置，如果没有自动读取
-        if (is_array($_SESSION[$name])) return $_SESSION[$name];
+        if (isset($_SESSION[$name]) && is_array($_SESSION[$name])) return $_SESSION[$name];
         //读取数据库
         $mysql = new mysql();
         $Cog = json_decode($mysql->query("variable","name='{$name}'")[0]['value'],true);

@@ -21,7 +21,8 @@ class page{
         //加入判断条件
         if (!empty($where)) $whereEx = 'where ' . $where;
         //计算全部记录数量
-        $dataAllnum = $mysql->select("select count(id) as NUM from ". DB_PREFIX ."{$table} {$whereEx}")[0]['NUM'];
+        $dataAllnum = $mysql->select("select count(id) as NUM from ". DB_PREFIX ."{$table} {$whereEx}");
+        $dataAllnum = isset($dataAllnum[0]['NUM']) ? $dataAllnum[0]['NUM'] : 0;
         //计算总页数
         $pageAll = ceil($dataAllnum / $allPage);
         //假设当前页面大于总页数
