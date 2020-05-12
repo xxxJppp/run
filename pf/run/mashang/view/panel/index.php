@@ -37,7 +37,7 @@ $fix = DB_PREFIX;
       </div>
 
       <div class="ibox-content">
-        <p>余额：<?php echo $_SESSION['MEMBER']['balance'];?> 元  <button class="layui-btn layui-btn-small" style="margin-left:30px" onclick="order_view('充值','/mashang/member/pay',680,450)">充值</button></p>
+        <p>余额：<?php echo $_SESSION['MEMBER']['balance'];?> 元  <!--<button class="layui-btn layui-btn-small" style="margin-left:30px" onclick="order_view('充值','/mashang/member/pay',680,450)">充值</button>--></p>
               </div>
     </div>
   </div>
