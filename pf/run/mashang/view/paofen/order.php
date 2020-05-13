@@ -207,7 +207,11 @@ $fix = DB_PREFIX;
                                     <?php if ($ru['callback_status'] == 1 ){ echo '<span style="color:red;">已回调</span>';}else{ ?>
                                       <a onclick="reissue('<?php echo $ru['id']; ?>');" style="font-size: 14px;"
                                            class="btn waves-effect waves-light indigo"><i
-                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a>
+                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a><br/><br/>
+                                        <!--<button style="background-color: red !important;" class="btn waves-effect waves-light indigo"
+                                                onclick="order_view('<?php /*echo $em['username']; */?>->发起申诉','/agent/panel/passwordedit.do?id=<?php /*echo $em['id']; */?>',780,630)">
+                                            <i class="mdi-action-lock-open left" style="width: 10px;"></i>发起申诉
+                                        </button>-->
                                       <?php } ?>
                                     </td>
                                 </tr>
@@ -268,7 +272,9 @@ $fix = DB_PREFIX;
         location.href = "<?php echo url::s('mashang/paofen/automaticOrder', "sorting=paofen&code=");?>" + paofen;
 
     }
-
+    function order_view(title, url, w, h) {
+        x_admin_show(title, url, w, h);
+    }
 
 </script>
 <?php include_once(PATH_VIEW . 'common/footer.php'); ?>

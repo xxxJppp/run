@@ -140,7 +140,8 @@ $fix = DB_PREFIX;
                                 <?php
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$nowTime}");
-                                echo floatval($huoli[0]['huoli']);
+                               // echo floatval($huoli[0]['huoli']);
+                                echo floatval($order[0]['fees']);
                                 ?>
                             </td>
                             <td>
@@ -187,7 +188,8 @@ $fix = DB_PREFIX;
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
                                 $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$zrTime} and time < {$nowTime}");
-                                echo floatval($huoli[0]['huoli']);
+                                //echo floatval($huoli[0]['huoli']);
+                                echo floatval($y_order[0]['fees']);
                                 ?>
                             </td>
                             <td>

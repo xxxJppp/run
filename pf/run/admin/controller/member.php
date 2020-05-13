@@ -65,7 +65,22 @@ class member
             'groups' => $groups
         ]);
     }
+    public function daili2()
+    {
+        $this->powerLogin(20);
 
+        $member_id = request::filter('get.member_id');
+
+        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
+        $where .= " is_agent = 1";
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $groups = $this->mysql->query("client_group");
+        new view('member/daili2', [
+            'mysql'  => $this->mysql,
+            'member' => $member,
+            'groups' => $groups
+        ]);
+    }
    public function mashang()
     {
         $this->powerLogin(20);
@@ -279,7 +294,7 @@ class member
     public function delete()
     {
         $this->powerLogin(20);
-        $id = intval(request::filter('get.id'));
+        $id = intval(request::filter('post.id'));
         //查询当前用户组是否存在
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前会员不存在');
