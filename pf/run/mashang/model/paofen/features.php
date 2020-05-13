@@ -95,6 +95,10 @@ class features
             'cardid' => $cardid,
             'bank_id' => $bank_id,
             'account_no' => $account_no,
+            'account_user_id'  => '',
+            'app_user'   => '',
+            'max_dd'   => 0,
+            'dy_name'   => '',
         ]);
 
         if ($in > 0) {
@@ -368,7 +372,7 @@ class features
         ]);
     }
 
-    public function reissue($mysql)
+                                                                                                                                                                                                            public function reissue($mysql)
     {
         $module_name = 'paofen_auto';
         $order_id = request::filter('get.id');
@@ -380,9 +384,10 @@ class features
         if (!is_array($user)) functions::json(-1, '商户错误');
 
         //得到用户组
-        $group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}")[0];
-
-        $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}")[0];
+        $group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}");
+        $group && $group = $group[0];
+        $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}");
+        $agent_group && $agent_group = $agent_group[0];
 
         //解析数据
         $authority = json_decode($group['authority'], true)[$module_name];
@@ -504,16 +509,14 @@ class features
 
         } else {
 
-
             //获取盘口用户组
-            $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
-            $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
+            $puser = $mysql->query("client_user", "id={$order['pankou_id']}");
+            $puser && $puser = $puser[0];
+            $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}");
+            $pankougroup && $pankougroup = $pankougroup[0];
             $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
-
             $pankoufees = $order['amount'] * $pankouauthority['cost'];
-
             $pankouhuoli = $order['amount'] - $pankoufees;
-
 
             $fees = $order['amount'] * $authority['cost'];
 
@@ -533,7 +536,6 @@ class features
 
                 $pankou_balance = $puser['balance'] + $pankouhuoli; // 盘口最终余额
                 $pankou_balance = floatval($pankou_balance);
-
 
                 if ($user_balance >= 0) {
                     $isCallback = 1;

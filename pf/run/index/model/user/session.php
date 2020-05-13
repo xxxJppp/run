@@ -19,7 +19,7 @@ class session{
     public function check($callType=''){
         $Loca_ip = ip::get();
         //判断数据是否存在
-        if (!is_array($_SESSION['MEMBER'])) {
+        if (isset($_SESSION['MEMBER']) && !is_array($_SESSION['MEMBER'])) {
             unset($_SESSION['MEMBER']);
             if ($callType == 'json'){
                 functions::json(403, '暂未登录,请登录后再访问',array('url'=>url::s('index/user/login'),'time'=>date('Y/m/d H:i:s',time()),'ip'=>$Loca_ip));
