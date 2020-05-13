@@ -173,7 +173,67 @@ class member
             exit;
         }
     }
-  
+
+    //修改密码
+    public function passwordedit()
+    {
+        $this->powerLogin(20);
+        $id = request::filter('get.id');
+        $result = $this->mysql->query("client_user", "id={$id}")[0];
+        if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
+
+        //权限查询
+        $groups = $this->mysql->query("client_group");
+        //加载视图
+        new view('member/passwordedit', [
+            'result' => $result,
+            'groups' => $groups
+        ]);
+    }
+
+    public function passwordeditResult()
+    {
+
+        $this->powerLogin(20);
+        $id = intval(request::filter("post.id"));
+        $username = strip_tags(request::filter('post.username'));
+        $pwd = request::filter('post.pwd');
+        $rebate = request::filter('post.mashang_rebate');
+
+        //判断用户名是否存在
+        $user = $this->mysql->query("client_user", "username='{$username}'")[0];
+        if (is_array($user) && $username != $user['username']) functions::json(-3, '当前用户名已经存在,请更换重试');
+        //判断手机是否存在
+
+        //判断密码
+        if (!empty($pwd)) {
+            if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
+            //生成密码盐值
+            $token = substr(md5(mt_rand(10000, mt_rand(100000, 9999999))), 0, 9);
+            $inArray['pwd'] = functions::pwd($pwd, $token);
+            $inArray['token'] = $token;
+        }
+        if($rebate != $user['mashang_rebate']){
+            if($rebate>=100) functions::json(-1, '码商返点小于100%');
+            $inArray['mashang_rebate'] = $rebate;
+        }
+
+        $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
+
+        // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
+        if ($Insert > 0) {
+
+            functions::json(200, '修改成功');
+            exit;
+        } else {
+
+
+            functions::json(100, '当前没有做任何修改');
+            exit;
+        }
+    }
+
+
     //权限ID：20
     public function add()
     {
