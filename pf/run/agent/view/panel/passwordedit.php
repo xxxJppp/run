@@ -30,7 +30,7 @@ $fix = DB_PREFIX;
     <div class="col-md-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>修改密码</h5>
+                <h5>编辑</h5>
             </div>
             <div class="ibox-content">
                 <!--用户信息-->
