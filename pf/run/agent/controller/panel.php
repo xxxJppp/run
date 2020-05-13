@@ -56,8 +56,6 @@ class panel
             'mysql' => $this->mysql,
             'member' => $member
         ]);
-
-
     }
 
     //会员列表
@@ -72,7 +70,7 @@ class panel
             'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups,
-            'userid'=>$member_id
+            'userid' => $member_id
         ]);
     }
 
@@ -146,8 +144,6 @@ class panel
             functions::json(200, '修改成功');
             exit;
         } else {
-
-
             functions::json(100, '当前没有做任何修改');
             exit;
         }
@@ -832,6 +828,10 @@ class panel
         new view('user/apply_withdraw', [
             'mysql' => $this->mysql
         ]);
+    }
+
+    public function rebateSettlement(){
+
     }
 }
  

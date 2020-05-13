@@ -57,113 +57,174 @@ $fix = DB_PREFIX;
                 <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
                     <thead>
                     <tr>
-                        <th lay-data="{field:'check',width:80,checkbox:true}">></th>
+                        <th lay-data="{field:'check',width:80,checkbox:true}"></th>
                         <th lay-data="{field:'key',width:90}">ID</th>
-                        <th lay-data="{field:'key1',width:130}">会员名</th>
+                        <th lay-data="{field:'key1',width:130}">用户名</th>
                         <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
-                        <th lay-data="{field:'memberid', width:140}">手机号</th>
-                        <th lay-data="{field:'amount', width:100,style:'color:#060;'}">账户余额</th>
-                        <th lay-data="{field:'rate', width:170}">登录时间</th>
-                        <th lay-data="{field:'bbb', width:100,style:'color:#C00;'}">IP地址</th>
-                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">今日订单数</th>
-                        <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日总获利</th>
-                        <th lay-data="{field:'ddd', width:120,style:'color:#C00;'}">今日总交易额</th>
-                        <th lay-data="{field:'eee', width:120,style:'color:#C00;'}">昨日总订单数</th>
-                        <th lay-data="{field:'fff', width:130,style:'color:#C00;'}">昨日总获利</th>
-                        <th lay-data="{field:'ggg', width:120,style:'color:#C00;'}">昨日总交易额</th>
-                        <th lay-data="{field:'zzz', width:120,style:'color:#C00;'}">总订单数</th>
-                        <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">总获利</th>
-                        <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">总交易额</th>
-                        <th lay-data="{field:'actualamount', width:200,style:'color:#C00;'}">操作</th>
+                        <th lay-data="{field:'memberid', width:140}">用户余额</th>
+                        <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
+                        <th lay-data="{field:'rate', width:100}">今日跑量</th>
+                        <th lay-data="{field:'bbb', width:100,style:'color:#C00;'}">今日下发金额</th>
+                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>
+                        <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日订单数</th>
+                        <th lay-data="{field:'ddd', width:120,style:'color:#C00;'}">今日成功数</th>
+                        <th lay-data="{field:'eee', width:120,style:'color:#C00;'}">今日成功率</th>
+                        <th lay-data="{field:'fff', width:130,style:'color:#C00;'}">今日码商佣金</th>
+                        <th lay-data="{field:'ggg', width:120,style:'color:#C00;'}">在线码数</th>
+                        <th lay-data="{field:'zzz', width:120,style:'color:#C00;'}">昨日订单数</th>
+                        <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">昨日成功数</th>
+                        <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
+                        <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
+                        <th lay-data="{field:'actualamount', width:100,style:'color:#C00;'}">所有码上下线</th>
+                        <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($member['result'] as $em) { ?>
                         <tr id="user_<?php echo $em['id']; ?>">
                             <td></td>
-                            <td><?php echo $em['id']; ?> </td>
-
-                            <td style="text-align:center; color:#090;"><?php echo $em['username']; ?> </td>
+                            <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
+                            <td><?php echo $em['username']; ?> </td>
                             <td style="text-align:center; color:#090;">
                                 <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
                                 echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
                             </td>
-                            <td style="text-align:center;"><?php echo $em['phone']; ?></td>
-                            <td style="text-align:center; color:#060"><?php echo $em['balance']; ?> </td>
+                            <td style="text-align:center;"><?php echo $em['balance']; ?></td>
+                            <td style="text-align:center; color:#060"><?php echo $em['ip']; ?> </td>
                             <td style="text-align:center; color:#666">
-                                <?php echo date("Y/m/d H:i:s",$em['login_time']);?>
+                                <?php //查询今日收入
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+
+                                $order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime} and status=4 ");
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
                             <td style="text-align:center;">
-                                <?php echo $em['ip'];?>
-                                <!--( <a href="#" onclick="ipGet('<?php /*echo $em['ip'];*/?>',this);" style="color: green;">显示归属地</a> )-->
-                            </td>
-                            <td>
-                                <?php //查询今日收入
-
-                                $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
-
-                                $order = $mysql->select("select sum(huoli) as money,count(id) as count,sum(amount) as amount from {$fix}agent_huoli_log where agent_id = {$em['id']} and time > {$nowTime}  ");
-
-                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['count']) .' </span>' ?>
-
-                            </td>
-                            <td>
-                                <?php
-
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['amount']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php //查询今日收入
-
-                                $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
-                                $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
-
-                                $order = $mysql->select("select sum(huoli) as money,count(id) as count,sum(amount) as amount from {$fix}agent_huoli_log where agent_id = {$em['id']} and time > {$zrTime} and time<{$nowTime}");
-
-                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['count']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php
-
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ?>
-
-                            </td>
-                            <td>
-                                <?php
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['amount']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php //查询今日收入
-
-                                $order = $mysql->select("select sum(huoli) as money,count(id) as count,sum(amount) as amount from {$fix}agent_huoli_log where agent_id ={$em['id']}");
-
-                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['count']) .' </span>' ?>
-
-                            </td>
-                            <td>
-                                <?php
-
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <?php
-                                echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['amount']) .' </span>' ?>
-                            </td>
-                            <td>
-                                <a class="layui-btn layui-btn-small"
-                                        href="/admin/member/edit.do?id=<?php echo str_replace('=', '@', base64_encode($em['id'])); ?>">
-                                    更改资料
+                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/admin/member/editdeposit.do?id=<?php echo $em['id']; ?>',780,630)" class="btn btn-danger btn-xs">
+                                    <?php echo $em['yajin'];?>
                                 </a>
+                            </td>
+                            <td>
+                                <?php
+                                $tody = $em['yajin']-floatval($order[0]['amount']);
+                                if($tody>0){
+                                    echo $tody;
+                                }else{
+                                    echo 0;
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+
+                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime}");
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order_all[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php
+                                if (intval($order_all[0]['count']) > 0) {
+                                    $lv = intval($order[0]['count']) / intval($order_all[0]['count'])*100;
+                                } else {
+                                    $lv = 0;
+                                }
+                                echo $lv;
+                                ?>%
+                            </td>
+                            <td>
+                                <?php
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$nowTime}");
+                                // echo floatval($huoli[0]['huoli']);
+                                echo floatval($order[0]['fees']);
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                $erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id={$em['id']} and training=1");
+                                echo $erweima[0]['count'];
+                                ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
+
+                                $y_order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
+
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order_all[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php //查询今日收入
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
+
+                                $y_order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
+
+
+                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order[0]['count']) . ' </span>' ?>
+                            </td>
+                            <td>
+                                <?php
+                                if (intval($y_order_all[0]['count']) > 0) {
+                                    $lv = intval($y_order[0]['count']) / intval($y_order_all[0]['count'])*100;
+                                } else {
+                                    $lv = 0;
+                                }
+                                echo $lv;
+                                ?>%
+                            </td>
+                            <td>
+                                <?php
+
+                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
+                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
+                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$zrTime} and time < {$nowTime}");
+                                //echo floatval($huoli[0]['huoli']);
+                                echo floatval($y_order[0]['fees']);
+                                ?>
+                            </td>
+                            <td>
+
+
+                                <?php
+                                $zong_erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id={$em['id']}");
+                                if($zong_erweima[0]['count']>0){
+                                    if($erweima[0]['count']>0){ ?>
+                                        <button class="layui-btn layui-btn-small"
+                                                onclick="off_erweima('<?php echo $em['id']; ?>')">
+                                            下线
+                                        </button>
+                                    <?php }else{ ?>
+                                        <button class="layui-btn layui-btn-small"
+                                                onclick="open_erweima('<?php echo $em['id']; ?>')">
+                                            上线
+                                        </button>
+                                    <?php }}else{?>
+                                    没有收款码
+                                <?php }?>
+                            </td>
+                            <td>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_del(this,'<?php echo $em['id']; ?>')">
-                                    移除会员
+                                        onclick="order_view('<?php echo $em['username']; ?>->修改密码','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                    修改密码
+                                </button>
+                                <button class="layui-btn layui-btn-small"
+                                        onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
+                                    删除
                                 </button>
                             </td>
-
                         </tr>
                     <?php } ?>
                     </tbody>

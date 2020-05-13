@@ -95,10 +95,10 @@ class features
             'cardid' => $cardid,
             'bank_id' => $bank_id,
             'account_no' => $account_no,
-            'account_user_id'  => '',
-            'app_user'   => '',
-            'max_dd'   => 0,
-            'dy_name'   => '',
+            'account_user_id' => '',
+            'app_user' => '',
+            'max_dd' => 0,
+            'dy_name' => '',
         ]);
 
         if ($in > 0) {
@@ -372,7 +372,7 @@ class features
         ]);
     }
 
-                                                                                                                                                                                                            public function reissue($mysql)
+    public function reissue($mysql)
     {
         $module_name = 'paofen_auto';
         $order_id = request::filter('get.id');

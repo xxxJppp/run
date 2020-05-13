@@ -17,7 +17,7 @@ $fix = DB_PREFIX;
     <link href="/Public/Front/css/font-awesome.min.css" rel="stylesheet">
     <link href="/Public/Front/css/animate.css" rel="stylesheet">
     <link href="/Public/Front/css/style.css" rel="stylesheet">
-   <link href="/Public/Front/css/zuy.css" rel="stylesheet">
+    <link href="/Public/Front/css/zuy.css" rel="stylesheet">
     <link rel="stylesheet" href="/Public/Front/js/plugins/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/Public/Front/iconfont/iconfont.css"/>
     <style>
@@ -138,6 +138,7 @@ $fix = DB_PREFIX;
 
         <div class="ibox-title">
           <h5>获利列表（最新10条）</h5>
+<!--            <button class="layui-btn layui-btn-small" style="margin-left: 20px" onclick="rebate_day('提现','/agent/member/withdraw',980,650)">当日佣金结算</button>-->
         </div>
       
        
@@ -157,7 +158,7 @@ $fix = DB_PREFIX;
           <tbody>
              <?php  foreach ($member['result'] as $em){?>
           <tr>
-             
+
               <td style="text-align:center; color:#090;"><?php echo $em['uid'];?> </td>
               <td style="text-align:center; color:#090;"><?php echo $em['type'];?> </td>
               <td style="text-align:center;"> <?php echo $em['trade_no'];?>  </td>
@@ -166,8 +167,8 @@ $fix = DB_PREFIX;
 
              <td style="text-align:center; color:#666"><?php echo $em['daili_balance'];?></td>
               <td style="text-align:center;"><?php echo date("Y/m/d H:i:s",$em['time']);?></td>
-             
-           
+
+
             </tr>
              <?php }?>
           </tbody>
@@ -196,13 +197,10 @@ $fix = DB_PREFIX;
   </div> -->
 
 <!-- 全局js -->
-<script src="/Public/Front/js/echarts.common.min.js"></script>
+<script src="/Public/Front/js/jquery.min.js"></script>
 
-<script src="/Public/Front/js/plugins/peity/jquery.peity.min.js"></script>
-<script src="/Public/Front/js/content.js"></script>
 <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
 <script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
-<script src="/Public/Front/js/Util.js" charset="utf-8"></script>
 <script type="text/javascript">
 
      layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function() {
@@ -230,29 +228,26 @@ $fix = DB_PREFIX;
     function order_view(title,url,w,h){
         x_admin_show(title,url,w,h);
     }
-    /*订单-删除*/
-    function order_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
+
+    function rebate_day() {
+        layer.confirm('确认要结算当日佣金吗？', function (index) {
             $.ajax({
-                url:"/agent_Order_delOrder.html",
-                type:'post',
-                data:'id='+id,
+                url:"/agent/panel/rebateSettlement.do",
+                type:'get',
                 success:function(res){
-                    if(res.status){
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!',{icon:1,time:1000});
+                    if(res.code == 200){
+                        layer.msg(res.msg,{
+                            icon:1,
+                            time:2000,
+                            end:function () {
+                                location.reload();
+                            }
+                        });
                     }
                 }
             });
         });
     }
-    $('#export').on('click',function(){
-        window.location.href
-            ="/agent_Order_exportorder_status_2.html";
-    });
-    $('#pageList').change(function(){
-        $('#pageForm').submit();
-    });
 </script>
 </body>
 </html>

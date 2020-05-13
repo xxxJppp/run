@@ -54,8 +54,8 @@ $fix = DB_PREFIX;
                     <thead>
                     <tr>
                         <th lay-data="{field:'check',width:80,checkbox:true}">></th>
-                        <th lay-data="{field:'key',width:130}">用户名</th>
                         <th lay-data="{field:'key1',width:90}">ID</th>
+                        <th lay-data="{field:'key',width:130}">用户名</th>
                         <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
                         <th lay-data="{field:'memberid', width:140}">用户余额</th>
                         <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
@@ -79,9 +79,8 @@ $fix = DB_PREFIX;
                     <?php foreach ($member['result'] as $em) { ?>
                         <tr id="user_<?php echo $em['id']; ?>">
                             <td></td>
-                            <td><?php echo $em['username']; ?> </td>
-
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
+                            <td><?php echo $em['username']; ?> </td>
                             <td style="text-align:center; color:#090;">
                                 <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
                                 echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
