@@ -1,2 +1,2 @@
-alter table xh_client_user add status TINYINT(1) DEFAULT '1' COMMENT '软删除：1正常，2已删除';
-
+ALTER TABLE `xh_client_user`
+MODIFY COLUMN `mashang_rebate`  decimal(3,2) NULL DEFAULT 0.00 COMMENT '码商返点' AFTER `status`

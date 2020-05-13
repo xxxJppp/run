@@ -337,6 +337,7 @@ class panel
         $id = intval(request::filter("post.id"));
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
+        $rebate = request::filter('post.mashang_rebate');
 
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
@@ -350,6 +351,10 @@ class panel
             $token = substr(md5(mt_rand(10000, mt_rand(100000, 9999999))), 0, 9);
             $inArray['pwd'] = functions::pwd($pwd, $token);
             $inArray['token'] = $token;
+        }
+        if($rebate != $user['mashang_rebate']){
+            if($rebate>=100) functions::json(-1, '码商返点小于100%');
+            $inArray['mashang_rebate'] = $rebate;
         }
 
         $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");

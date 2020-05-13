@@ -141,7 +141,7 @@ $fix = DB_PREFIX;
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$nowTime}");
                                // echo floatval($huoli[0]['huoli']);
-                                echo floatval($order[0]['fees']);
+                                echo sprintf("%.2f",floatval($order[0]['amount'])*$em['mashang_rebate']/100);
                                 ?>
                             </td>
                             <td>
@@ -189,7 +189,7 @@ $fix = DB_PREFIX;
                                 $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
                                 $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$zrTime} and time < {$nowTime}");
                                 //echo floatval($huoli[0]['huoli']);
-                                echo floatval($y_order[0]['fees']);
+                                echo sprintf("%.2f",floatval($y_order[0]['amount'])*$em['mashang_rebate']/100);
                                 ?>
                             </td>
                             <td>
@@ -214,8 +214,8 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->修改密码','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
-                                    修改密码
+                                        onclick="order_view('<?php echo $em['username']; ?>->编辑','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                    编辑
                                 </button>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
