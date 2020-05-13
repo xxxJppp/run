@@ -97,7 +97,7 @@ $fix = DB_PREFIX;
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
                             <td style="text-align:center;">
-                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/agent/panel/editdeposit.do?id=<?php echo $em['id']; ?>',780,630)" class="btn btn-danger btn-xs">
+                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/agent/panel/editdeposit.do?id=<?php echo $em['id']; ?>',500,400)" class="btn btn-danger btn-xs">
                                 <?php echo $em['yajin'];?>
                                 </a>
                             </td>
@@ -213,7 +213,7 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->编辑','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',780,630)">
+                                        onclick="order_view('<?php echo $em['username']; ?>->编辑','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
                                     编辑
                                 </button>
                                 <button class="layui-btn layui-btn-small"

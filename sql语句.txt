@@ -1,2 +1,2 @@
 ALTER TABLE `xh_client_user`
-MODIFY COLUMN `mashang_rebate`  decimal(3,2) NULL DEFAULT 0.00 COMMENT '码商返点' AFTER `status`
+ADD COLUMN `mashang_rebate`  decimal(3,2) NULL DEFAULT 0.00 COMMENT '码商返点' AFTER `status`
