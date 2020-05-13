@@ -69,12 +69,12 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日订单数</th>
                         <th lay-data="{field:'ddd', width:120,style:'color:#C00;'}">今日成功数</th>
                         <th lay-data="{field:'eee', width:120,style:'color:#C00;'}">今日成功率</th>
-                        <th lay-data="{field:'fff', width:130,style:'color:#C00;'}">今日码商佣金</th>
+                        <th lay-data="{field:'fff', width:130,style:'color:#C00;'}">今日代理佣金</th>
                         <th lay-data="{field:'ggg', width:120,style:'color:#C00;'}">在线码数</th>
                         <th lay-data="{field:'zzz', width:120,style:'color:#C00;'}">昨日订单数</th>
                         <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">昨日成功数</th>
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
-                        <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
+                        <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日代理佣金</th>
                         <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
@@ -92,10 +92,11 @@ $fix = DB_PREFIX;
                             <td style="text-align:center; color:#060"><?php echo $em['ip']; ?> </td>
                             <td style="text-align:center; color:#666">
                                 <?php //查询今日收入
+                                $ids = $mysql->select("select id from {$fix}client_user where level_id={$em['id']}");
+                                $ids = implode(',',array_column($ids,'id'));
+                                $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
 
-                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
-
-                                $order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime} and status=4 ");
+                                $order = $mysql->select("select sum(huoli) as money,count(id) as count,sum(amount) as amount from {$fix}agent_huoli_log where agent_id = {$em['id']} and time > {$nowTime}  ");
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
@@ -116,12 +117,11 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <?php
-
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
 
-                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$nowTime}");
+                                $order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id in ({$ids}) and creation_time > {$nowTime}");
 
-                                echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order_all[0]['count']) . ' </span>' ?>
+                                echo '<span style="color:blue;font-weight:bold;"> '.floatval($order_all[0]['count']) .' </span>' ?>
                             </td>
                             <td>
                                 <?php //查询今日收入
@@ -131,7 +131,7 @@ $fix = DB_PREFIX;
                             <td>
                                 <?php
                                 if (intval($order_all[0]['count']) > 0) {
-                                    $lv = intval($order[0]['count']) / intval($order_all[0]['count'])*100;
+                                    $lv = sprintf("%.2f",intval($order[0]['count']) / intval($order_all[0]['count'])*100);
                                 } else {
                                     $lv = 0;
                                 }
@@ -140,15 +140,12 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <?php
-                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
-                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$nowTime}");
-                                // echo floatval($huoli[0]['huoli']);
-                                echo floatval($order[0]['fees']);
+                                echo floatval($order[0]['money']);
                                 ?>
                             </td>
                             <td>
                                 <?php
-                                $erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id={$em['id']} and training=1");
+                                $erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id in ({$ids}) and training=1");
                                 echo $erweima[0]['count'];
                                 ?>
                             </td>
@@ -158,7 +155,7 @@ $fix = DB_PREFIX;
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
 
-                                $y_order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
+                                $y_order_all = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id in ({$ids}) and creation_time > {$zrTime} and creation_time<{$nowTime}");
 
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order_all[0]['count']) . ' </span>' ?>
@@ -169,7 +166,7 @@ $fix = DB_PREFIX;
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
 
-                                $y_order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id = {$em['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
+                                $y_order = $mysql->select("select sum(fees) as fees,count(id) as count,sum(amount) as amount from {$fix}client_paofen_automatic_orders where user_id in ({$ids}) and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
 
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($y_order[0]['count']) . ' </span>' ?>
@@ -177,7 +174,7 @@ $fix = DB_PREFIX;
                             <td>
                                 <?php
                                 if (intval($y_order_all[0]['count']) > 0) {
-                                    $lv = intval($y_order[0]['count']) / intval($y_order_all[0]['count'])*100;
+                                    $lv = sprintf("%.2f",intval($y_order[0]['count']) / intval($y_order_all[0]['count'])*100);
                                 } else {
                                     $lv = 0;
                                 }
@@ -189,9 +186,9 @@ $fix = DB_PREFIX;
 
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
                                 $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
-                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$zrTime} and time < {$nowTime}");
+                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['id']} and time > {$zrTime} and time < {$nowTime}");
                                 //echo floatval($huoli[0]['huoli']);
-                                echo floatval($y_order[0]['fees']);
+                                echo floatval($huoli[0]['huoli']);
                                 ?>
                             </td>
                             <td>
