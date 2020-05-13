@@ -123,7 +123,45 @@ class panel
         ]);
 
     }
+    public function editbalance()
+    {
+        $id = request::filter('get.id');
+        $result = $this->mysql->query("client_user", "id={$id}")[0];
+        if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
+        //权限查询
+        $groups = $this->mysql->query("client_group");
+        //加载视图
+        new view('panel/editbalance', [
+            'result' => $result,
+            'groups' => $groups
+        ]);
+
+    }
+    public function editbalanceResult()
+    {
+
+        $id = intval(request::filter("post.id"));
+        $username = strip_tags(request::filter('post.username'));
+        $yajin = request::filter('post.balance');
+
+        //判断用户名是否存在
+        $user = $this->mysql->query("client_user", "username='{$username}'")[0];
+        //判断手机是否存在
+        $inArray = ['balance' => $yajin];
+
+        $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
+
+        // if ($Insert > 0) functions::json(200,'修改成功!自行关闭窗口');
+        if ($Insert > 0) {
+
+            functions::json(200, '修改成功');
+            exit;
+        } else {
+            functions::json(100, '当前没有做任何修改');
+            exit;
+        }
+    }
     public function editpositResult()
     {
 

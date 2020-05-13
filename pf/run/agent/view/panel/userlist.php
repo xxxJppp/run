@@ -85,7 +85,11 @@ $fix = DB_PREFIX;
                                 <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
                                 echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
                             </td>
-                            <td style="text-align:center;"><?php echo $em['balance']; ?></td>
+                            <td style="text-align:center;">
+                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置码商金额','/agent/panel/editbalance.do?id=<?php echo $em['id']; ?>',500,350)" class="btn btn-danger btn-xs">
+                                    <?php echo $em['balance']; ?>
+                                </a>
+                            </td>
                             <td style="text-align:center; color:#060"><?php echo $em['ip']; ?> </td>
                             <td style="text-align:center; color:#666">
                                 <?php //查询今日收入
