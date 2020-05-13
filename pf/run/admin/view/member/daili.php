@@ -101,7 +101,7 @@ $fix = DB_PREFIX;
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
                             <td style="text-align:center;">
-                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/admin/member/editdeposit.do?id=<?php echo $em['id']; ?>',780,630)" class="btn btn-danger btn-xs">
+                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/admin/member/editdeposit.do?id=<?php echo $em['id']; ?>',500,400)" class="btn btn-danger btn-xs">
                                     <?php echo $em['yajin'];?>
                                 </a>
                             </td>
