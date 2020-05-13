@@ -71,7 +71,8 @@ class panel
         new view('panel/userlist', [
             'mysql' => $this->mysql,
             'member' => $member,
-            'groups' => $groups
+            'groups' => $groups,
+            'userid'=>$member_id
         ]);
     }
 
