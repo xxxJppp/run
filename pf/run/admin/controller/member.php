@@ -65,6 +65,29 @@ class member
             'groups' => $groups
         ]);
     }
+    public function offrobin()
+    {
+        $this->powerLogin(20);
+        $member_id = request::filter('post.member_id');
+        $off = 2;
+        $where = "user_id in (" . $member_id.")";
+        $data = ['training' => $off];
+        $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
+        if ($result > 0) functions::json(200, '安全下线成功!');
+        functions::json(-2, '下线失败!');
+    }
+
+    public function openrobin()
+    {
+        $this->powerLogin(20);
+        $member_id = request::filter('post.member_id');
+        $off = 1;
+        $where = "user_id in (" . $member_id.")";
+        $data = ['training' => $off];
+        $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
+        if ($result > 0) functions::json(200, '安全上线成功!');
+        functions::json(-2, '上线失败!');
+    }
     public function daili2()
     {
         $this->powerLogin(20);

@@ -75,6 +75,7 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'xxx', width:120,style:'color:#C00;'}">昨日成功数</th>
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
                         <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日代理佣金</th>
+                        <th lay-data="{field:'dfs', width:120,style:'color:#C00;'}">所有码上下线</th>
                         <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
@@ -190,6 +191,22 @@ $fix = DB_PREFIX;
                                 //echo floatval($huoli[0]['huoli']);
                                 echo floatval($huoli[0]['huoli']);
                                 ?>
+                            </td>
+                            <td>
+                                <?php
+                                $zong_erweima = $mysql->select("select count(id) as count from {$fix}client_paofen_automatic_account where user_id in ({$ids})");
+                                if($zong_erweima[0]['count']>0){
+                                    if($erweima[0]['count']>0){ ?>
+                                        <button class="layui-btn layui-btn-small"
+                                                onclick="off_erweima('<?php echo $ids; ?>')">
+                                            下线
+                                        </button>
+                                    <?php }else{ ?>
+                                        <button class="layui-btn layui-btn-small"
+                                                onclick="open_erweima('<?php echo $ids; ?>')">
+                                            上线
+                                        </button>
+                                    <?php }}?>
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
@@ -337,6 +354,38 @@ $fix = DB_PREFIX;
     /*订单-查看*/
     function order_view(title, url, w, h) {
         x_admin_show(title, url, w, h);
+    }
+    function open_erweima(uid) {
+        layer.confirm('确认要上线吗？', function (index) {
+            $.ajax({
+                url: "/admin/member/openrobin",
+                type: 'post',
+                data: 'member_id=' + uid,
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        window.location.href = "/admin/member/daili";
+                    }
+                }
+            });
+        });
+    }
+
+    function off_erweima(uid) {
+        layer.confirm('确认要下线吗？', function (index) {
+            $.ajax({
+                url: "/admin/member/offrobin",
+                type: 'post',
+                data: 'member_id=' + uid,
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        window.location.href = "/admin/member/daili";
+                    }
+                }
+            });
+        });
     }
     //添加用户
     function add(){
