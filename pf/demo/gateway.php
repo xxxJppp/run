@@ -65,7 +65,7 @@ $amount = floatval($_POST['amount']);
 //生成签名
 $sign = sign($s_key, ['amount'=>$amount,'out_trade_no'=>$out_trade_no]);
 //轮训状态，是否开启轮训，状态 1 为关闭   2为开启
-$robin = 1;
+$robin = 2;
 $use_city = 2;
 //微信设备KEY，新增加一条支付通道，会自动生成一个device Key，可在平台的公开版下看见，如果为轮训状态无需附带此参数，如果$robin参数为1的话，就必须附带设备KEY，进行单通道支付
 $device_key = '5EB53550CE1ED2A9E5';
