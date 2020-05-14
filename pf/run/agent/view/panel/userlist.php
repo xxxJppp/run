@@ -72,7 +72,7 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
                         <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
                         <th lay-data="{field:'actualamount', width:100,style:'color:#C00;'}">所有码上下线</th>
-                        <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
+                        <th lay-data="{field:'mas', width:200,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -211,14 +211,16 @@ $fix = DB_PREFIX;
                                         onclick="open_erweima('<?php echo $em['id']; ?>')">
                                     上线
                                 </button>
-                                <?php }}else{?>
-                                没有收款码
-                                <?php }?>
+                                <?php }} ?>
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="order_view('<?php echo $em['username']; ?>->编辑','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
                                     编辑
+                                </button>
+                                <button class="layui-btn layui-btn-small"
+                                        onclick="order_view('<?php echo $em['username']; ?>->费率','/agent/panel/feilv.do?id=<?php echo $em['id']; ?>',500,350)">
+                                    费率
                                 </button>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
