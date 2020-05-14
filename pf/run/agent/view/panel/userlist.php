@@ -211,9 +211,7 @@ $fix = DB_PREFIX;
                                         onclick="open_erweima('<?php echo $em['id']; ?>')">
                                     上线
                                 </button>
-                                <?php }}else{?>
-                                没有收款码
-                                <?php }?>
+                                <?php }} ?>
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
