@@ -49,13 +49,13 @@ $fix = DB_PREFIX;
                                   name="pwd"  placeholder="登录的密码，不修改请留空" class="layui-input" value="">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <!--<div class="layui-form-item">
                         <label class="layui-form-label">码商返点(%)：</label>
                         <div class="layui-input-block">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                   name="mashang_rebate"  placeholder="码商返点，不修改请留空" class="layui-input" value="<?php echo $result['mashang_rebate']; ?>">
+                                   name="mashang_rebate"  placeholder="码商返点，不修改请留空" class="layui-input" value="<?php /*echo $result['mashang_rebate']; */?>">
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">

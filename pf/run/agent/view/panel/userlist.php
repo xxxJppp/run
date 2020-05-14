@@ -56,12 +56,12 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'check',width:80,checkbox:true}">></th>
                         <th lay-data="{field:'key1',width:90}">ID</th>
                         <th lay-data="{field:'key',width:130}">用户名</th>
-                        <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
+                        <!--<th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>-->
                         <th lay-data="{field:'memberid', width:140}">用户余额</th>
                         <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
                         <th lay-data="{field:'rate', width:100}">今日跑量</th>
-                        <th lay-data="{field:'bbb', width:120,style:'color:#C00;'}">今日下发金额</th>
-                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>
+                        <!--<th lay-data="{field:'bbb', width:120,style:'color:#C00;'}">今日下发金额</th>
+                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>-->
                         <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日订单数</th>
                         <th lay-data="{field:'ddd', width:120,style:'color:#C00;'}">今日成功数</th>
                         <th lay-data="{field:'eee', width:120,style:'color:#C00;'}">今日成功率</th>
@@ -72,7 +72,7 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'haha', width:120,style:'color:#C00;'}">昨日成功率</th>
                         <th lay-data="{field:'zxc', width:120,style:'color:#C00;'}">昨日码商佣金</th>
                         <th lay-data="{field:'actualamount', width:100,style:'color:#C00;'}">所有码上下线</th>
-                        <th lay-data="{field:'mas', width:200,style:'color:#C00;'}">操作</th>
+                        <th lay-data="{field:'mas', width:230,style:'color:#C00;'}">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -81,10 +81,10 @@ $fix = DB_PREFIX;
                             <td></td>
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                             <td><?php echo $em['username']; ?> </td>
-                            <td style="text-align:center; color:#090;">
-                                <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
-                                echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
-                            </td>
+                            <!--<td style="text-align:center; color:#090;">
+                                <?php /*$group = $mysql->query("client_group", "id={$em['group_id']}")[0];
+                                echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; */?>
+                            </td>-->
                             <td style="text-align:center;">
                                 <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置码商金额','/agent/panel/editbalance.do?id=<?php echo $em['id']; ?>',500,350)" class="btn btn-danger btn-xs">
                                     <?php echo $em['balance']; ?>
@@ -100,21 +100,21 @@ $fix = DB_PREFIX;
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
-                            <td style="text-align:center;">
-                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/agent/panel/editdeposit.do?id=<?php echo $em['id']; ?>',500,350)" class="btn btn-danger btn-xs">
-                                <?php echo $em['yajin'];?>
+                            <!--<td style="text-align:center;">
+                                <a href="#" onclick="order_view('<?php /*echo $em['username']; */?>->设置押金','/agent/panel/editdeposit.do?id=<?php /*echo $em['id']; */?>',500,350)" class="btn btn-danger btn-xs">
+                                <?php /*echo $em['yajin'];*/?>
                                 </a>
                             </td>
                             <td>
                                 <?php
-                                $tody = $em['yajin']-floatval($order[0]['amount']);
+/*                                $tody = $em['yajin']-floatval($order[0]['amount']);
                                 if($tody>0){
                                 echo $tody;
                                 }else{
                                     echo 0;
                                 }
-                                ?>
-                            </td>
+                                */?>
+                            </td>-->
                             <td>
                                 <?php
 
@@ -141,10 +141,7 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <?php
-                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
-                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$nowTime}");
-                               // echo floatval($huoli[0]['huoli']);
-                                echo sprintf("%.2f",floatval($order[0]['amount'])*$em['mashang_rebate']/100);
+                                echo sprintf("%.3f",floatval($order[0]['fees']));
                                 ?>
                             </td>
                             <td>
@@ -187,12 +184,7 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <?php
-
-                                $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
-                                $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
-                                $huoli = $mysql->select("select sum(huoli) as huoli from {$fix}agent_huoli_log where agent_id={$em['level_id']} and uid={$em['id']} and time > {$zrTime} and time < {$nowTime}");
-                                //echo floatval($huoli[0]['huoli']);
-                                echo sprintf("%.2f",floatval($y_order[0]['amount'])*$em['mashang_rebate']/100);
+                                echo sprintf("%.3f",floatval($y_order[0]['fees']));
                                 ?>
                             </td>
                             <td>
@@ -215,8 +207,8 @@ $fix = DB_PREFIX;
                             </td>
                             <td>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->编辑','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
-                                    编辑
+                                        onclick="order_view('<?php echo $em['username']; ?>->修改密码','/agent/panel/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
+                                    修改密码
                                 </button>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="order_view('<?php echo $em['username']; ?>->费率','/agent/panel/feilv.do?id=<?php echo $em['id']; ?>',500,350)">
