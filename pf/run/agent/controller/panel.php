@@ -631,7 +631,7 @@ class panel
             }
         }
         if ($start_time && $end_time) {
-            $where .= " and creation_time BETWEEN " . $start_time . " AND " . $end_time;
+            $where .= " and creation_time BETWEEN " . strtotime($start_time) . " AND " . strtotime($end_time.' 23:59:59');
         }
         //查询自己的所有支付宝
 
