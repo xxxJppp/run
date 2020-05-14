@@ -37,17 +37,17 @@ $fix = DB_PREFIX;
                <form class="layui-form"  id="profile">
                   
                  
-                    <div class="layui-form-item">
+                    <!--<div class="layui-form-item">
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">微信固码：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="wechat_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['wechat_auto'];?>">
+                                  name="wechat_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['wechat_auto'];*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">微信店员：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="wechatdy_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['wechatdy_auto'];?>">
+                                  name="wechatdy_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['wechatdy_auto'];*/?>">
                         </div>
                       
                     </div>
@@ -57,13 +57,13 @@ $fix = DB_PREFIX;
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">微信商户：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="wechatsj_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['wechatsj_auto'];?>">
+                                  name="wechatsj_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['wechatsj_auto'];*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">支付宝固码：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="alipaygm_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['alipaygm_auto'];?>">
+                                  name="alipaygm_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['alipaygm_auto'];*/?>">
                         </div>
                       
                     </div>
@@ -73,13 +73,13 @@ $fix = DB_PREFIX;
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">支付宝转账：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="alipay_auto"  placeholder="被风控用不了" class="layui-input" value="<?php if($result['alipay_auto'] == ''){echo "被风控用不了";}?>">
+                                  name="alipay_auto"  placeholder="被风控用不了" class="layui-input" value="<?php /*if($result['alipay_auto'] == ''){echo "被风控用不了";}*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">支付宝/微信转卡：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="bank_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['bank_auto'];?>">
+                                  name="bank_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['bank_auto'];*/?>">
                         </div>
                       
                     </div>
@@ -89,13 +89,13 @@ $fix = DB_PREFIX;
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">云闪付：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="yunshanfu_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['yunshanfu_auto'];?>">
+                                  name="yunshanfu_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['yunshanfu_auto'];*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">拉卡拉：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="lakala_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['lakala_auto'];?>">
+                                  name="lakala_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['lakala_auto'];*/?>">
                         </div>
                       
                     </div>
@@ -105,13 +105,13 @@ $fix = DB_PREFIX;
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">农信易扫：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="nxyswx_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['nxyswx_auto'];?>">
+                                  name="nxyswx_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['nxyswx_auto'];*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">淘宝代付：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="taobaodf_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['taobaodf_auto'];?>">
+                                  name="taobaodf_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['taobaodf_auto'];*/?>">
                         </div>
                       
                     </div>
@@ -121,16 +121,16 @@ $fix = DB_PREFIX;
                         <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;">收钱吧：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="shouqianba_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['shouqianba_auto'];?>">
+                                  name="shouqianba_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['shouqianba_auto'];*/?>">
                         </div>
                       
                        <label class="layui-form-label" style="width: auto;padding: 4px; margin-top: 5px;margin-left: 30px;">拼多多固码：</label>
                         <div class="layui-input-block" style="margin-left: 0px;width: 30%;float: left;">
                             <input type="text" lay-verify="title" autocomplete="off"
-                                  name="pddgm_auto"  placeholder="请设置费率" class="layui-input" value="<?php echo $result['pddgm_auto'];?>">
+                                  name="pddgm_auto"  placeholder="请设置费率" class="layui-input" value="<?php /*echo $result['pddgm_auto'];*/?>">
                         </div>
                       
-                    </div>
+                    </div>-->
                   
                  
                     <div class="layui-form-item">
