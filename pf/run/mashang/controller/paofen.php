@@ -79,6 +79,64 @@ class paofen
         functions::json(200, '成功');
     }
 
+    public function appeallist(){
+        $result = $this->mysql->query('appeal', 'user_id=' . $_SESSION['MEMBER']['uid']);
+        new view('paofen/appeallist', [
+            'result' => $result,
+            'id' => $id
+        ]);
+    }
+
+    public function appeal()
+    {
+        $id = intval(request::filter('get.id'));
+        $result = $this->mysql->query('client_paofen_automatic_orders', 'id=' . $id, 'trade_no');
+        new view('paofen/appeal', [
+            'result' => isset($result[0]) ? $result[0] : [],
+            'id' => $id
+        ]);
+    }
+
+    public function uploadappeal(){
+        $path = str_replace('mashang', 'upload', PATH_VIEW) . 'voucher/';
+        $upload = (new \xh\unity\upload())->run($_FILES['file'], $path, array('jpg', 'png'), 1000);
+        if (!is_array($upload)) functions::json(-2, '上传时错误,请选择一张小于1M的图片!');
+        //$this->mysql->update('client_user', array('avatar' => '/run/upload/view/qrcode/'.$upload['new']), "id={$id}");
+        functions::json(200, '/run/upload/view/voucher/' . $upload['new']);
+
+    }
+
+    public function addappeal()
+    {
+        $id = intval(request::filter('post.id'));
+        $trade_no = request::filter('post.trade_no');
+        $remarks = request::filter('post.remarks');
+        $status = intval(request::filter('post.status'));
+        $voucher = request::filter('post.voucher');
+        $result = $this->mysql->query('client_paofen_automatic_orders', 'status=2 and id=' . $id . ' and user_id=' . $_SESSION['MEMBER']['uid'] . ' and trade_no=' . $trade_no, 'trade_no');
+
+        if (!$result) {
+            functions::json(-3, '订单信息有误');
+        }
+        $check_appeal = $this->mysql->query('appeal','trade_no='.$trade_no,'id',null,'',1);
+        if($check_appeal){
+            functions::json(-3, '该订单已申诉');
+        }
+        $Insert = $this->mysql->insert("appeal", [
+            'trade_no' => $trade_no,
+            'remarks' => $remarks,
+            'type' => 1,
+            'user_id' => $_SESSION['MEMBER']['uid'],
+            'voucher' => $voucher,
+            'status' => $status,
+            'create_time' => time(),
+        ]);
+        if (!$Insert) {
+            functions::json(-3, '失败');
+        }
+        functions::json(200, '申诉成功，等待审核');
+    }
+
     //添加-->OK
     public function automaticAdd()
     {

@@ -37,7 +37,6 @@ $fix = DB_PREFIX;
 	
 
 	</div>
-</div>
 
 
 

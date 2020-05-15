@@ -72,9 +72,6 @@ $fix = DB_PREFIX;
                                     }, 10000);
                                 }
                             });
-
-
-
                         });
                     }
 
@@ -207,11 +204,10 @@ $fix = DB_PREFIX;
                                     <?php if ($ru['callback_status'] == 1 ){ echo '<span style="color:red;">已回调</span>';}else{ ?>
                                       <a onclick="reissue('<?php echo $ru['id']; ?>');" style="font-size: 14px;"
                                            class="btn waves-effect waves-light indigo"><i
-                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a><br/><br/>
-                                        <!--<button style="background-color: red !important;" class="btn waves-effect waves-light indigo"
-                                                onclick="order_view('<?php /*echo $em['username']; */?>->发起申诉','/agent/panel/passwordedit.do?id=<?php /*echo $em['id']; */?>',780,630)">
-                                            <i class="mdi-action-lock-open left" style="width: 10px;"></i>发起申诉
-                                        </button>-->
+                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a>
+                                          <a onclick="order_view(<?php echo $ru['id']; ?>)"  style="font-size: 14px;background-color: red !important;"
+                                           class="btn waves-effect waves-light indigo"><i
+                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>订单申诉</a>
                                       <?php } ?>
                                     </td>
                                 </tr>
@@ -224,18 +220,14 @@ $fix = DB_PREFIX;
                 <div class="row">
                     <ul class="pagination"><?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?></ul>
                 </div>
-
             </div>
-
-
         </div>
-
-
     </div>
     <!--end container-->
 
 </section>
 <!-- END CONTENT -->
+<script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
 <script type="text/javascript">
 
     function reissue(id) {
@@ -267,13 +259,8 @@ $fix = DB_PREFIX;
         location.href = "<?php echo url::s('mashang/paofen/automaticOrder', "sorting=trade_no&code=");?>" + $(obj).val();
     }
 
-    function paofen() {
-        var paofen = $('#paofen').val();
-        location.href = "<?php echo url::s('mashang/paofen/automaticOrder', "sorting=paofen&code=");?>" + paofen;
-
-    }
-    function order_view(title, url, w, h) {
-        x_admin_show(title, url, w, h);
+    function order_view(id) {
+        x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 350);
     }
 
 </script>

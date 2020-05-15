@@ -384,4 +384,42 @@ class paofen
         functions::commonExport($name,$data_info,$list);
     }
 
+
+    public function appeal(){
+
+        $this->powerLogin(25);
+
+        $result = page::conduct('appeal', request::filter('get.page'), 15, '', null, 'id', 'desc');
+        new view('paofen/appeal', [
+            'result'  => $result['result'],
+            'mysql'  => $this->mysql,
+        ]);
+    }
+
+
+    public function appealaudit(){
+
+        $id = request::filter('post.id', '' );
+        $amount = request::filter('post.amount', '');
+        $type = request::filter('post.type', '');
+        if($type == 1 && !is_numeric($amount)){
+            functions::json(-3,'请输入正确金额');
+        }
+
+        $mysql = new Mysql();
+        $appeal = $mysql->query('appeal','id='.$id.' and audit=0','trade_no');
+        if(!$appeal){
+            functions::json(-3,'该申诉记录不存在或已审核');
+        }
+        if($type == 1){
+            $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],'trade_no='.$appeal[0]['trade_no']);
+            if(!$result){
+                functions::json(-3,'请确认订单是否正确');
+            }
+        }
+
+        $mysql->update('appeal',['audit'=>1],'id='.$id);
+        functions::json(1,'审核成功');
+    }
+
 }
