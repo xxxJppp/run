@@ -81,8 +81,7 @@ use xh\library\model;
                     <li><a href="/agent/panel/userlist.do" class="J_menuItem"><span class="nav-label">会员列表</span></a> </li>
                   
                     <li><a href="/agent/panel/useradd.do" class="J_menuItem"><span class="nav-label">添加会员</span></a> </li>
-                   
-                    <li><a href="/agent/panel/moneylog.do" class="J_menuItem"><span class="nav-label">会员余额操作记录</span></a> </li>
+
                 </ul>
             </li>
   
