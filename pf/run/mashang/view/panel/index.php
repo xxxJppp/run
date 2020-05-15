@@ -33,11 +33,18 @@ $fix = DB_PREFIX;
   <div class="col-md-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;&nbsp;所属用户组：<?php echo $_SESSION['MEMBER']['group']['name'];?></h5>
+        <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;&nbsp;返点：
+              <?php
+              $fd = $mysql->select("select authority from xh_agent_rate where uid={$_SESSION['MEMBER']['uid']}");
+              $json = json_decode($fd[0]['authority'],true);
+              $fandian = $json['paofen_auto']*100;
+              echo $fandian.'%';
+              ?>
+          </h5>
       </div>
 
       <div class="ibox-content">
-        <p>余额：<?php echo $_SESSION['MEMBER']['balance'];?> 元  <!--<button class="layui-btn layui-btn-small" style="margin-left:30px" onclick="order_view('充值','/mashang/member/pay',680,450)">充值</button>--></p>
+        <p>余额：<?php echo $_SESSION['MEMBER']['balance'];?> 元  <button class="layui-btn layui-btn-small" style="margin-left:30px" onclick="alt()">充值</button></p>
               </div>
     </div>
   </div>
@@ -254,6 +261,9 @@ $fix = DB_PREFIX;
     $('#pageList').change(function(){
         $('#pageForm').submit();
     });
+    function alt(){
+        layer.msg('请联系客服!',{icon:1,time:2000});
+    }
 </script>
 </body>
 </html>

@@ -129,7 +129,12 @@ class functions
 
         return json_decode(functions::pay_curl($url));
     }
-
+    static public function withdrawSystem(){
+        return [
+            'quota'=>50000,
+            'time'=>0
+        ];
+    }
 
     //参数1：访问的URL，参数2：post数据(不填则为GET)，参数3：提交的$cookies,参数4：是否返回$cookies
     static public function curlPostRequest($url, $post_data = [])

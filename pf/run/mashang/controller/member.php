@@ -208,6 +208,9 @@ class member
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
         if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
+        $system = functions::withdrawSystem();
+        if($amount>$system['quota']) functions::json(-1, '提现金额输入不正确,本支付平台最高提现'.$system['quota'].'元人民币');
+
         //用户组
         $group = json_decode($_SESSION['MEMBER']['group']['authority'], true);
         //手续费

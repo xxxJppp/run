@@ -805,6 +805,48 @@ class member
         }
         functions::json(200, '处理成功');
     }
+    public function manualrecharge(){
+        $this->powerLogin(30);
+        new view('member/manualrecharge');
+    }
+    public function manualRechargeResult(){
+        $this->powerLogin(28);
+        $name = trim(request::filter('post.username'));
+        $money = trim(request::filter('post.money'));
+        $status = trim(request::filter('post.open'));
+        $this->mysql->startThings();
+        $user = $this->mysql->query('client_user',"username='{$name}' and is_mashang=1")[0];
+        if(!is_array($user)) functions::json(-1, '此码商不存在');
+        if($status==2 && $money>$user['balance']) functions::json(-1, '码商余额不足，无法扣除');
+
+        if($status==2){
+            $new_money = $user['balance']-$money;
+            $remark = '扣除金额';
+        }else{
+            $new_money = $user['balance']+$money;
+            $remark = '充值金额';
+        }
+        $data = [
+            'uid'=>$user['id'],
+            'money'=>$money,
+            'old_money'=>$user['balance'],
+            'new_money'=>$new_money,
+            'remark'=>$remark,
+            'time'=>time(),
+            'status'=>$status
+        ];
+        $st = $this->mysql->insert('user_paylog',$data);
+        $up = $this->mysql->update('client_user',[
+            'balance'=>$new_money
+        ],"id={$user['id']}");
+        if($st && $up){
+            $this->mysql->commit();
+            functions::json(200, '处理成功');
+        }else{
+            $this->mysql->rollBack();
+            functions::json(-1, '失败');
+        }
+    }
 
     //删除提现
     public function deleteagentWithdraw()
