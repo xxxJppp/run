@@ -335,7 +335,7 @@ class panel
 
 
     //代理操作客户的余额日志
-    public function moneylog()
+    /*public function moneylog()
     {
 
         $member_id = request::filter('get.member_id');
@@ -347,7 +347,7 @@ class panel
             'mysql' => $this->mysql,
             'member' => $member
         ]);
-    }
+    }*/
 
     //修改密码
     public function passwordedit()

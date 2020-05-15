@@ -64,8 +64,8 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'memberid', width:140}">用户余额</th>
                         <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
                         <th lay-data="{field:'rate', width:100}">今日跑量</th>
-                        <th lay-data="{field:'bbb', width:100,style:'color:#C00;'}">今日下发金额</th>
-                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>
+                        <!--<th lay-data="{field:'bbb', width:100,style:'color:#C00;'}">今日下发金额</th>
+                        <th lay-data="{field:'aaa', width:120,style:'color:#C00;'}">未下发金额</th>-->
                         <th lay-data="{field:'ccc', width:120,style:'color:#C00;'}">今日订单数</th>
                         <th lay-data="{field:'ddd', width:120,style:'color:#C00;'}">今日成功数</th>
                         <th lay-data="{field:'eee', width:120,style:'color:#C00;'}">今日成功率</th>
@@ -101,21 +101,21 @@ $fix = DB_PREFIX;
 
                                 echo '<span style="color:blue;font-weight:bold;"> ' . floatval($order[0]['amount']) . ' </span>' ?>
                             </td>
-                            <td style="text-align:center;">
-                                <a href="#" onclick="order_view('<?php echo $em['username']; ?>->设置押金','/admin/member/editdeposit.do?id=<?php echo $em['id']; ?>',500,350)" class="btn btn-danger btn-xs">
-                                    <?php echo $em['yajin'];?>
+                            <!--<td style="text-align:center;">
+                                <a href="#" onclick="order_view('<?php /*echo $em['username']; */?>->设置押金','/admin/member/editdeposit.do?id=<?php /*echo $em['id']; */?>',500,350)" class="btn btn-danger btn-xs">
+                                    <?php /*echo $em['yajin'];*/?>
                                 </a>
                             </td>
                             <td>
                                 <?php
-                                $tody = $em['yajin']-floatval($order[0]['amount']);
+/*                                $tody = $em['yajin']-floatval($order[0]['amount']);
                                 if($tody>0){
                                     echo $tody;
                                 }else{
                                     echo 0;
                                 }
-                                ?>
-                            </td>
+                                */?>
+                            </td>-->
                             <td>
                                 <?php
                                 $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');

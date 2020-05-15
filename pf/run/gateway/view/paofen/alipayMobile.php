@@ -170,7 +170,7 @@ use xh\library\url;
                         </div>
           
             <div class="panel-footer">
-                    <input type="button" id="copy" data-clipboard-text="<?php echo $amount;?>" value="点击复制金额" class="btn  btn-primary btn-lg btn-block">
+                    <!--<input type="button" id="copy" data-clipboard-text="<?php /*echo $amount;*/?>" value="点击复制金额" class="btn  btn-primary btn-lg btn-block">-->
                
                  <input style="margin-top:10px" type="button" onclick="goalipay()"  value="点击唤起支付宝付款" class="btn  btn-primary btn-lg btn-block">
                

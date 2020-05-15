@@ -49,7 +49,7 @@ use xh\library\model;
       </li>
     </ul>
     <ul class="nav navbar-top-links navbar-right">
-      <li>  <a href="/" target="_blank"> <i class="fa fa-home"></i> 首页 </a></li>
+      <li>  </li>
       <!--<li class="hidden-xs edtpwd">
         <a href="javascript:;" onClick="reset_pwd('修改密码','/agent_System_editPassword.html',360,320)"><i class="iconfont icon-mima"></i>修改密码</a>
       </li> -->
@@ -81,8 +81,7 @@ use xh\library\model;
                     <li><a href="/agent/panel/userlist.do" class="J_menuItem"><span class="nav-label">会员列表</span></a> </li>
                   
                     <li><a href="/agent/panel/useradd.do" class="J_menuItem"><span class="nav-label">添加会员</span></a> </li>
-                   
-                    <li><a href="/agent/panel/moneylog.do" class="J_menuItem"><span class="nav-label">会员余额操作记录</span></a> </li>
+
                 </ul>
             </li>
   

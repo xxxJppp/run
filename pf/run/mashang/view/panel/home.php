@@ -1,5 +1,4 @@
 <?php
-
 use xh\library\url;
 use xh\unity\cog;
 use xh\library\model;
@@ -45,20 +44,20 @@ use xh\library\model;
                        <font>码商管理</font> 
                     </span>
                 </span>
-                    </a>
-                </div>
-                <div class="logo-element">MENU</div>
-            </li>
-        </ul>
-        <ul class="nav navbar-top-links navbar-right">
-            <li><a href="/" target="_blank"> <i class="fa fa-home"></i> 首页 </a></li>
-            <!--<li class="hidden-xs edtpwd">
-              <a href="javascript:;" onClick="reset_pwd('修改密码','/agent_System_editPassword.html',360,320)"><i class="iconfont icon-mima"></i>修改密码</a>
-            </li> -->
-            <li class="dropdown hidden-xs"><a href="/mashang/member/logout.do" class="right-sidebar-toggle"
-                                              aria-expanded="false"> <i class="fa fa-sign-out"></i> 退出</a></li>
-        </ul>
-    </nav>
+          </a>
+        </div>
+        <div class="logo-element">MENU</div>
+      </li>
+    </ul>
+    <ul class="nav navbar-top-links navbar-right">
+      <li> </li>
+      <!--<li class="hidden-xs edtpwd">
+        <a href="javascript:;" onClick="reset_pwd('修改密码','/agent_System_editPassword.html',360,320)"><i class="iconfont icon-mima"></i>修改密码</a>
+      </li> -->
+      <li class="dropdown hidden-xs"> <a  href="/mashang/member/logout.do" class="right-sidebar-toggle"
+                                          aria-expanded="false"> <i class="fa fa-sign-out"></i> 退出</a> </li>
+    </ul>
+  </nav>
 </div>
 <div id="wrapper">
     <!--左侧导航开始-->
@@ -72,64 +71,66 @@ use xh\library\model;
                         <span class="nav-label">管理中心</span></a>
 
 
-                </li>
+            </li>
+
+                   
+               <li>
+               <a href="/mashang/paofen/automatic.do" class="J_menuItem"> <i class="fa fa-sellsy"></i>
+                <span class="nav-label">收款账号管理</span></a>
+                    
+
+            </li>
+
+          
+          
+                        <li><a href="#"> <i class="fa fa fa-sellsy"></i> <span class="nav-label">订单管理</span> <span
+                    class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/mashang/paofen/automaticOrder.do" class="J_menuItem"><span class="nav-label">订单列表</span></a>
+                    </li>
+                   
+                    <li><a href="/mashang/paofen/statisticOrder.do" class="J_menuItem"><span class="nav-label">订单统计</span></a>
+                    </li>
+                  
+                   
+                  
+                    <li><a href="/mashang/panel/orderlog" class="J_menuItem"><span class="nav-label">订单日志</span></a>
+                    </li>
+                   
+                </ul>
+            </li>         
+               
+
+           
+            <li><a href="#"> <i class="fa fa fa-user"></i> 
+              <span class="nav-label">账户管理</span> <span class="fa arrow"></span> </a>
+            
+                <ul class="nav nav-second-level">
+                    <li><a href="/mashang/member/edit" class="J_menuItem"><span class="nav-label">修改资料</span></a> </li>
+                    <li><a href="/mashang/member/withdraw" class="J_menuItem"><span class="nav-label">我的提现</span></a> </li>
+                  <li><a href="/mashang/panel/moneylog" class="J_menuItem"><span class="nav-label">充值记录</span></a> </li>
+                </ul>
+            </li>
+          
+          
+           
 
 
-                <li>
-                    <a href="/mashang/paofen/automatic.do" class="J_menuItem"> <i class="fa fa-sellsy"></i>
-                        <span class="nav-label">收款账号管理</span></a>
-
-
-                </li>
-
-
-                <li><a href="#"> <i class="fa fa fa-sellsy"></i> <span class="nav-label">订单管理</span> <span
-                                class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="/mashang/paofen/automaticOrder.do" class="J_menuItem"><span
-                                        class="nav-label">订单列表</span></a>
-                        </li>
-
-                        <li><a href="/mashang/paofen/statisticOrder.do" class="J_menuItem"><span
-                                        class="nav-label">订单统计</span></a>
-                        </li>
-                        <li><a href="/mashang/panel/orderlog" class="J_menuItem"><span class="nav-label">订单日志</span></a>
-                        </li>
-
-                        <li><a href="/mashang/paofen/appeallist" class="J_menuItem"><span class="nav-label">申诉记录</span></a>
-                        </li>
-
-                    </ul>
-                </li>
-
-
-                <li><a href="#"> <i class="fa fa fa-user"></i>
-                        <span class="nav-label">账户管理</span> <span class="fa arrow"></span> </a>
-
-                    <ul class="nav nav-second-level">
-                        <li><a href="/mashang/member/edit" class="J_menuItem"><span class="nav-label">修改资料</span></a>
-                        </li>
-                        <li><a href="/mashang/member/withdraw" class="J_menuItem"><span
-                                        class="nav-label">我的提现</span></a></li>
-                        <li><a href="/mashang/panel/moneylog" class="J_menuItem"><span class="nav-label">充值记录</span></a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!--左侧导航结束-->
-    <!--右侧部分开始-->
-    <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/mashang/panel/index.do"
-                    frameborder="0" data-id="/agent/panel/index.do" seamless></iframe>
-        </div>
-        <!-- <div class="layui-footer">版本：5.8.6    </div>-->
-        <div class="footer">
-            <div class="pull-right">&copy;2019 <?php echo WEB_NAME; ?> 版权所有</div>
-        </div>
+        </ul>
+    </div>
+</nav>
+    
+  <!--左侧导航结束-->
+  <!--右侧部分开始-->
+  <div id="page-wrapper" class="gray-bg dashbard-1">
+    <div class="row J_mainContent" id="content-main">
+      <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/mashang/panel/index.do"
+              frameborder="0" data-id="/agent/panel/index.do" seamless></iframe>
+    </div>
+ <!-- <div class="layui-footer">版本：5.8.6    </div>-->
+ <div class="footer">
+      <div class="pull-right">&copy;2019 <?php echo WEB_NAME; ?> 版权所有</div>
+    </div>
 
     </div>
     <!--右侧部分结束-->
