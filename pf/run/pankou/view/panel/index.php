@@ -33,7 +33,11 @@ $fix = DB_PREFIX;
   <div class="col-md-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;&nbsp;所属用户组：<?php echo $_SESSION['MEMBER']['group']['name'];?></h5>
+        <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;
+              扣点：<?php
+              $array = json_decode($_SESSION['MEMBER']['group']['authority'],true);
+              echo $array['paofen_auto']['cost']*100;
+              ?>%</h5>
       </div>
 
       <div class="ibox-content">
