@@ -76,6 +76,7 @@ class url{
      */
     static public function address($url,$msg='请稍后..',$time=0){
         header("Refresh:{$time};url={$url}");
+        exit;
         if ($time == 0) exit;
         require (ROOT_PATH . '/404.html');
         exit;
