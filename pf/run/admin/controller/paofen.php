@@ -387,7 +387,7 @@ class paofen
 
     public function appeal(){
 
-        $this->powerLogin(25);
+        $this->powerLogin(93);
 
         $result = page::conduct('appeal', request::filter('get.page'), 15, '', null, 'id', 'desc');
         new view('paofen/appeal', [
