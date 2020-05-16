@@ -47,7 +47,12 @@ $fix = DB_PREFIX;
                       <?php  foreach ($member['result'] as $em){?>
                    <tr>
                        <td><?php echo $em['old_money'];?></td>
-                       <td><?php echo $em['money'];?></td>
+                       <td><?php
+                           if($em['status']==1){
+                               echo '+'.$em['money'];
+                           }else{
+                           echo '-'.$em['money'];}
+                           ?></td>
                        <td><?php echo $em['new_money'];?></td>
                        <td><?php echo date("Y/m/d H:i:s",$em['time']);?></td>
                    </tr>

@@ -27,6 +27,7 @@ class member
             url::address(url::s('admin/index/home'), '您没有权限访问', 3);
         }
         $this->mysql = new mysql();
+
     }
 
 
@@ -35,7 +36,6 @@ class member
     public function index()
     {
         $this->powerLogin(20);
-
         $member_id = request::filter('get.member_id');
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
          $where .="is_agent = 0 and is_pankou=0";
@@ -806,11 +806,12 @@ class member
         functions::json(200, '处理成功');
     }
     public function manualrecharge(){
-        $this->powerLogin(30);
+        $this->powerLogin(92);
+        print_r($_SESSION['USER_MGT']);
         new view('member/manualrecharge');
     }
     public function manualRechargeResult(){
-        $this->powerLogin(28);
+        $this->powerLogin(92);
         $name = trim(request::filter('post.username'));
         $money = trim(request::filter('post.money'));
         $status = trim(request::filter('post.open'));
