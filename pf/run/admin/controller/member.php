@@ -807,7 +807,6 @@ class member
     }
     public function manualrecharge(){
         $this->powerLogin(92);
-        print_r($_SESSION['USER_MGT']);
         new view('member/manualrecharge');
     }
     public function manualRechargeResult(){
