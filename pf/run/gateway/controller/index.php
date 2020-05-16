@@ -342,7 +342,9 @@ class index
                   (select count(o.id) as count from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0) or c.max_dd = 0)", null, "id", "asc");
 
                 $find_paofen = $find_paofen[0];
-
+                if(!$find_paofen){
+                    functions::str_json($type_content, -1, '订单创建失败,请稍后重试');
+                }
                 for( $i=1; $i>count( $find_paofen ); $i++) {
 
                     if(empty($find_paofen)){
