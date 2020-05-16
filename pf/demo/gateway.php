@@ -8,9 +8,9 @@ include ('sign.php');
 //请求获取的网页类型，json 返回json数据，text直接跳转html界面支付，如没有特殊需要，建议默认text即可
 $content_type = 'text';
 //商户ID->到平台首页自行复制粘贴
-$account_id = '10101';
+$account_id = '10095';
 //S_KEY->商户KEY，到平台首页自行复制粘贴，该参数无需上传，用来做签名验证和回调验证，请勿泄露
-$s_key = '8B7EB801AE0B07';
+$s_key = 'B83205253588C1';
 //订单号码->这个是四方网站发起订单时带的订单信息，一般为用户名，交易号，等字段信息
 $out_trade_no = date("YmdHis") . mt_rand(10000,99999);
 //支付通道：支付宝（公开版）：alipay_auto、微信（公开版）：wechat_auto、服务版（免登陆/免APP）：service_auto
@@ -85,7 +85,7 @@ $error_url = 'http://pf.zhiyungk.com/demo';
 	<title>接口调用</title>
 </head>
 <body>
-<form action="http://pf.zhiyungk.com/gateway/index/checkpoint.do" method="post" id="frmSubmit">
+<form action="http://pf.com/gateway/index/checkpoint.do" method="post" id="frmSubmit">
     <input type="hidden" name="account_id" value="<?php echo $account_id;?>" />
 	<input type="hidden" name="content_type" value="<?php echo $content_type;?>"/>
 	<input type="hidden" name="thoroughfare" value="<?php echo $thoroughfare?>"/>
