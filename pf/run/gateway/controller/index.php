@@ -71,6 +71,8 @@ class index
         if ($data['amount'] <= 0) functions::str_json($type, -1, '支付金额不正确');
         if (empty($data['callback_url']) || empty($data['success_url']) || empty($data['error_url'])) functions::str_json($type, -1, 'callback_url(异步通知)、success_url(成功跳转)、error_url(失败跳转), 等地址不能空参数');
         if (empty($data['out_trade_no'])) functions::str_json($type, -1, '没有交易信息,请检查参数是否正确');
+        $order = $this->mysql->query('client_paofen_automatic_orders',"out_trade_no={$data['out_trade_no']}")[0];
+        if (is_array($order)) functions::str_json($type, -1, '订单已经匹配成功');
         if (!is_array(cog::read('costCog')[$thoroughfare])) functions::str_json($type, -1, '当前通道不存在');
         $find_user = $this->mysql->query("client_user", "id={$acc_id}")[0];
         if (!is_array($find_user) && !is_array($_SESSION['SYSTEM_PAY_ID'])) functions::str_json($type, -1, '该商户不存在');
@@ -281,7 +283,7 @@ class index
 
     //跑分
     //跑分
-    private function paofen($user, $type_content, $data)
+    private function  paofen($user, $type_content, $data)
     {
 
         if ($data['amount'] > 50000) functions::str_json($type_content, -1, '支付金额不能大于50000元');

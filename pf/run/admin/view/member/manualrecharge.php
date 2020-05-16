@@ -53,7 +53,12 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
                           <input type="text" class="form-control form-control-line" name="money" placeholder="给码商充值或者扣除的金额" value="">
                       </div>
                   </div>
-                
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">备注</label>
+                      <div class="col-sm-10">
+                          <textarea class="form-control form-control-line" rows="3"  name="remark"  placeholder="备注信息"></textarea>
+                      </div>
+                  </div>
                 
                 <div class="form-group">
                   <label class="col-sm-2 control-label form-label">充值状态</label>

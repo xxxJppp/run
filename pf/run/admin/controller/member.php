@@ -814,18 +814,18 @@ class member
         $name = trim(request::filter('post.username'));
         $money = trim(request::filter('post.money'));
         $status = trim(request::filter('post.open'));
+        $remark = trim(request::filter('post.remark'));
         $this->mysql->startThings();
         $user = $this->mysql->query('client_user',"username='{$name}' and is_mashang=1")[0];
         if(!is_array($user)) functions::json(-1, '此码商不存在');
         if($status==2 && $money>$user['balance']) functions::json(-1, '码商余额不足，无法扣除');
-
+        if(empty($remark)) functions::json(-1, '备注不能为空');
         if($status==2){
             $new_money = $user['balance']-$money;
-            $remark = '扣除金额';
         }else{
             $new_money = $user['balance']+$money;
-            $remark = '充值金额';
         }
+
         $data = [
             'uid'=>$user['id'],
             'money'=>$money,
