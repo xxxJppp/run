@@ -132,7 +132,8 @@ class functions
     static public function withdrawSystem(){
         return [
             'quota'=>50000,
-            'time'=>0
+            'time'=>0,
+            'fees'=>5
         ];
     }
 

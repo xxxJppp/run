@@ -123,7 +123,7 @@ class panel
         ]);
 
     }
-    public function editbalance()
+    /*public function editbalance()
     {
         $id = request::filter('get.id');
         $result = $this->mysql->query("client_user", "id={$id}")[0];
@@ -137,8 +137,8 @@ class panel
             'groups' => $groups
         ]);
 
-    }
-    public function editbalanceResult()
+    }*/
+    /*public function editbalanceResult()
     {
 
         $id = intval(request::filter("post.id"));
@@ -161,7 +161,7 @@ class panel
             functions::json(100, '当前没有做任何修改');
             exit;
         }
-    }
+    }*/
     public function editpositResult()
     {
 
