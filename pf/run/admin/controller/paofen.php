@@ -220,7 +220,7 @@ class paofen
         if ($sorting == 'trade_no') {
             if ($code != '') {
                 $code = trim($code);
-                $where = "id='{$code}'";
+                $where = "trade_no='{$code}'";
             }
         }
 
