@@ -80,7 +80,7 @@ class paofen
     }
 
     public function appeallist(){
-        $result = $this->mysql->query('appeal', 'user_id=' . $_SESSION['MEMBER']['uid']);
+        $result = $this->mysql->query('appeal', 'user_id=' . $_SESSION['MEMBER']['uid'],'*','id','desc');
         new view('paofen/appeallist', [
             'result' => $result,
             'id' => $id
@@ -113,14 +113,19 @@ class paofen
         $remarks = request::filter('post.remarks');
         $status = intval(request::filter('post.status'));
         $voucher = request::filter('post.voucher');
+        $money = request::filter('post.money');
+
+        if($money == ''){
+            functions::json(-3, '请填写实际到账金额');
+        }
         $result = $this->mysql->query('client_paofen_automatic_orders', 'status=2 and id=' . $id . ' and user_id=' . $_SESSION['MEMBER']['uid'] . ' and trade_no=' . $trade_no, 'trade_no');
 
         if (!$result) {
             functions::json(-3, '订单信息有误');
         }
-        $check_appeal = $this->mysql->query('appeal','trade_no='.$trade_no,'id',null,'',1);
+        $check_appeal = $this->mysql->query('appeal','trade_no='.$trade_no.' audit=0','id',null,'',1);
         if($check_appeal){
-            functions::json(-3, '该订单已申诉');
+            functions::json(-3, '该申诉订单正在审核');
         }
         $Insert = $this->mysql->insert("appeal", [
             'trade_no' => $trade_no,
@@ -128,6 +133,7 @@ class paofen
             'type' => 1,
             'user_id' => $_SESSION['MEMBER']['uid'],
             'voucher' => $voucher,
+            'money' => $money,
             'status' => $status,
             'create_time' => time(),
         ]);

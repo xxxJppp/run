@@ -386,12 +386,10 @@ class paofen
 
 
     public function appeal(){
-
         $this->powerLogin(93);
-
-        $result = page::conduct('appeal', request::filter('get.page'), 15, '', null, 'id', 'desc');
+        $result = page::conduct('appeal', request::filter('get.page'), 10, '', null, 'id', 'desc');
         new view('paofen/appeal', [
-            'result'  => $result['result'],
+            'result'  => $result,
             'mysql'  => $this->mysql,
         ]);
     }
@@ -418,7 +416,7 @@ class paofen
             }
         }
 
-        $mysql->update('appeal',['audit'=>1],'id='.$id);
+        $mysql->update('appeal',['audit'=>$type],'id='.$id);
         functions::json(1,'审核成功');
     }
 

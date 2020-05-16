@@ -8,6 +8,7 @@ class turn{
     {
       // $this->check();
         if ($count!=1){
+            $url = '';
             if (strstr(url::get(),"?")){
                 //正则解决重复page
                 $url = preg_replace("/page=[\s\S]+/", "", url::get());//正则处理当前页面
@@ -32,9 +33,9 @@ class turn{
                 $topPage = $page-1;//上一页
                 $downPage = $page+1;//下一页
                 //<li><a href="#">&#8249;</a></li>
-                echo "<a href='{$url}page={$topPage}' class='btn btn-sm'>Previous</a> "; //上一页HTML代码
+                echo "<a href='{$url}page={$topPage}' class='btn btn-sm'>上一页</a> "; //上一页HTML代码
                 if ($page == $count || $page>1 && $page<$count){
-                    echo "<a href='{$url}page=1' class='btn btn-sm'>Index</a> ";//首页HTML代码
+                    echo "<a href='{$url}page=1' class='btn btn-sm'>首页</a> ";//首页HTML代码
                 }
                 for ($i = $start; $i <= $end; $i ++) { // 输出分页条，请自行添加链接样式
                     if ($i == $page){
@@ -47,10 +48,10 @@ class turn{
                 }
                 if ($page == 1 || $page>1 && $page<$count){
                     //最后一页HTML代码
-                    echo "<a href='{$url}page={$count}' class='btn btn-sm'>Last</a> ";
+                    echo "<a href='{$url}page={$count}' class='btn btn-sm'>最后一页</a> ";
                 }
                 //下一页HTML代码
-                echo "<a href='{$url}page={$downPage}' class='btn btn-sm'>Next</a> ";
+                echo "<a href='{$url}page={$downPage}' class='btn btn-sm'>下一页</a> ";
         }
     }
   

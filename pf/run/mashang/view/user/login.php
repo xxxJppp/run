@@ -166,14 +166,11 @@ use xh\library\url;
             data:$('#profile').serialize(),
             success:function(res){
                 if(res.code == '200'){
-                    layer.alert(res.msg, {icon: 1},function () {
-                      layer.closeAll();
-                      location.href="<?php echo url::s('mashang/panel/home');?>";
-                    });
+                    layer.msg(res.msg, {icon: 1,time:1000,end:function () {
+                        location.href="<?php echo url::s('mashang/panel/home');?>";
+                    }})
                 }else{
-                    layer.alert(res.msg ? res.msg :"登录提示", {icon: 6},function () {
-                     layer.closeAll();
-                    });
+                    layer.msg(res.msg ? res.msg :"登录提示", {icon: 2,time:1000})
                 }
             }
         });

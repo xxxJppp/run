@@ -45,6 +45,7 @@ $fix = DB_PREFIX;
             <th lay-data="{field:'key',width:90}">用户ID</th>
             <th lay-data="{field:'out_trade_id', width:220,style:'color:#060;'}">订单号</th>
             <th lay-data="{field:'memberid', width:140}">类型</th>
+            <th lay-data="{field:'money', width:140}">实际金额</th>
               <th lay-data="{field:'rate1', width:580}">备注</th>
             <th lay-data="{field:'actualamount', width:190,style:'color:#C00;'}">时间</th>
                <th lay-data="{field:'actualamount3', width:190,style:'color:#C00;'}">申诉状态</th>
@@ -58,13 +59,16 @@ $fix = DB_PREFIX;
               <td style="text-align:center; color:#090;"><?php echo $em['user_id'];?> </td>
               <td style="text-align:center;"> <?php echo $em['trade_no'];?>  </td>
               <td style="text-align:center; color:#060"><?php echo $em['status']==1?'钱多了':'钱少了';?> </td>
+             <td style="text-align:center; color:#666"><?php echo $em['money'];?></td>
              <td style="text-align:center; color:#666"><?php echo $em['remarks'];?></td>
               <td style="text-align:center;"><?php echo date("Y/m/d H:i:s",$em['create_time']);?></td>
               <td style="text-align:center;">
-                  <?php if(!$em['audit']){?>
+                  <?php if($em['audit'] == 0){?>
                     <span style="color: red">未审核</span>
+                  <?php }else if($em['audit'] == 1){?>
+                      <span style="color: red">已审核</span>
                   <?php }else{?>
-                      <span style="color: green">未审核</span>
+                      <span style="color: green">已驳回</span>
                   <?php }?>
               </td>
 

@@ -60,6 +60,13 @@ $fix = DB_PREFIX;
                             </div>
                         </div>
                         <div class="layui-form-item">
+                            <label class="layui-form-label">实际到账金额：</label>
+                            <div class="layui-input-block">
+                                <input type="hidden" name="id"   value="<?php echo $id; ?>">
+                                <input type="number" lay-verify="title" name="money" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">上传凭证：</label>
                             <div class="layui-input-block">
                                 <button type="button" class="layui-btn" id="upload">
