@@ -95,6 +95,7 @@ use xh\library\model;
                    
                   
                     <li><a href="/mashang/panel/orderlog" class="J_menuItem"><span class="nav-label">订单日志</span></a>
+                    <li><a href="/mashang/paofen/appeallist" class="J_menuItem"><span class="nav-label">申诉列表</span></a>
                     </li>
                    
                 </ul>

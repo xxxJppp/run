@@ -260,7 +260,7 @@ $fix = DB_PREFIX;
     }
 
     function order_view(id) {
-        x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 350);
+        x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 450);
     }
 
 </script>
