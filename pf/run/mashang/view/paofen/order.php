@@ -4,318 +4,129 @@ use xh\library\model;
 
 $fix = DB_PREFIX;
 ?>
-<?php include_once(PATH_VIEW . 'common/header.php'); ?>
-<!-- START CONTENT -->
-<section id="content">
+<html lang="en" style="font-size: 100px;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="icon" href="/favicon.ico">
+    <title>订单列表</title>
+    <style>body {
+        background: #f2f2f2;
+    }
 
-    <!--breadcrumbs start-->
-    <div id="breadcrumbs-wrapper">
-        <!-- Search for small screen -->
-        <div class="header-search-wrapper grey hide-on-large-only">
-            <i class="mdi-action-search active"></i>
-            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">Automatic <?php echo SYSTEM_VERSION; ?></h5>
-                    <ol class="breadcrumbs">
-                        <li><a href="#">跑分</a></li>
-                        <li class="active">Automatic-订单列表</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--breadcrumbs end-->
-    <!--start container-->
-    <div class="container">
-        <div class="section">
+    @media screen and (min-width: 767px) {
+        #app {
+            width: 540px;
+            margin: 0 auto;
+            min-height: 100vh;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            /* overflow-y: hidden; */
+        }
 
-            <p class="caption">
-                <a href="<?php echo url::s("mashang/paofen/automatic"); ?>" style="font-size: 14px;"
-                   class="btn waves-effect waves-light  cyan darken-2"><i class="mdi-editor-border-all left"
-                                                                          style="width: 10px;"></i>账号列表</a>
-                <a href="#" style="font-size: 14px;" class="btn waves-effect waves-light  cyan darken-2"
-                   onclick="resetOrder();">
-                    <i class="mdi-editor-border-all left" style="width: 10px;"></i>
-                    批量补单
-                </a>
-                <script>
+        .van-popup--top {
+            width: 540px;
+            margin: 0 auto;
+        }
 
-                    function resetOrder() {
-                        layer.prompt({title: "使用,号分割订单号，如1132,5523,3312", formType: 2,area: ['400px', '200px']}, function (text, index) {
-                            $.ajax({
-                                async : false,
-                                cache : false,
-                                type : 'POST',
-                                url : 'resetOrder',
-                                data:{order_ids:text},
-                                beforeSend:function(){
-                                    layer.msg('补单中，请耐心等候', {
-                                        icon: 16
-                                        ,shade: 0.2
-                                    });
-                                },
-                                error : function() {
-                                    layer.msg('网络错误');
-                                    setTimeout(function(){
-                                        //location.reload();
-                                    }, 2000);
-                                },
-                                success : function(data) {
-                                    layer.close(index);
-                                    console.log(data);
-                                    layer.msg(data.msg, {time: 100000} );
-                                    setTimeout(function(){
-                                        location.reload();
-                                    }, 10000);
-                                }
-                            });
-                        });
-                    }
+    }
 
-                </script>
-                <span style="font-size: 15px;margin-left:20px;">[ <b>今日收入:</b> <?php //查询今日收入
-                    $nowTime = strtotime(date("Y-m-d", time()) . ' 00:00:00');
-                    $where_call = "creation_time > {$nowTime} and status=4 and " . $where;
-                    $where_call = trim(trim($where_call), 'and');
-                    $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
-                    echo '<span style="color:red;font-weight:bold;"> ' . floatval($order[0]['money']) . ' </span> / 盈利: <span style="color:blue;">' . number_format($order[0]['fees'], 3) . '</span>  / 订单数量: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
-                    ?>] - [ <b>昨日收入:</b> <?php
-                    $zrTime = strtotime(date("Y-m-d", $nowTime - 86400) . ' 00:00:00'); //昨日的时间
-                    $where_call = "creation_time > {$zrTime} and creation_time<{$nowTime} and status=4 and " . $where;
-                    $where_call = trim(trim($where_call), 'and');
+    .detail-info {
+
+        background: #fff;
+        margin-bottom: .1rem;
+        padding: .1rem .15rem;
+        box-sizing: border-box;
+        font-size: .14rem;
+        line-height: .22rem;
+    }
+    </style>
 
 
-                    $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
-                    echo '<span style="color:red;font-weight:bold;"> ' . floatval($order[0]['money']) . ' </span> / 盈利: <span style="color:blue;">' . number_format($order[0]['fees'], 3) . '</span>  / 订单数量: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
-                    ?> ] - [ <b>全部收入:</b> <?php
-                    $where_call = "status=4 and " . $where;
-                    $where_call = trim(trim($where_call), 'and');
+    <link href="/homestyle/css/app.2150f8cc.css" rel="preload" as="style">
+    <link href="/homestyle/css/chunk-vendors.e9f6096e.css" rel="preload" as="style">
+    <link href="/homestyle/js/app.7b6aaa54.js" rel="preload" as="script">
+    <link href="/homestyle/js/chunk-vendors.9dc788ca.js" rel="preload" as="script">
+    <link href="/homestyle/css/chunk-vendors.e9f6096e.css" rel="stylesheet">
+    <link href="/homestyle/css/app.2150f8cc.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-e1f1707a.079dd8a4.css">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-fde07e7a.adc0509a.css">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-ae7bdc24.38e0efd9.css">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-57d8499b.96222562.css">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-731cdd2b.a9740232.css">
+    <link rel="stylesheet" type="text/css" href="/homestyle/css/chunk-5ea3ec15.30d377cf.css">
 
-                    $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
-                    echo '<span style="color:red;font-weight:bold;"> ' . floatval($order[0]['money']) . ' </span> / 盈利: <span style="color:blue;">' . number_format($order[0]['fees'], 3) . '</span>  / 订单数量: <span style="color:green;font-weight:bold;">' . floatval($order[0]['count']) . '</span> ';
+</head>
+<body class="">
+
+<div id="app">
+    <div data-v-9d393b54="" class="order-list">
+
+
+            <div data-v-9d393b54="" class="">
+
+                <div class="van-tabs__content">
+                    <!--div data-v-9d393b54="" role="tabpanel" class="van-tab__pane" style=""></div-->
+                    <?php if (is_array($result['result'][0])){
+
                     ?>
-                    ] <?php if ($sorting['name'] == 'user' && $_GET['code'] != '' && $_SESSION['paofen']['WHERE'] == '') { ?> [
-                        <a href="<?php echo url::s("admin/paofen/automaticOrder", "sorting=user&code={$_GET['code']}&locking=true"); ?>"
-                           style="color: green;">锁定该用户查询</a> ]<?php } ?> <?php if (isset($_SESSION['paofen']['WHERE']) && $_SESSION['paofen']['WHERE'] != '') { ?>  [
-                        <a href="<?php echo url::s("admin/paofen/automaticOrder", "sorting=user&code={$_GET['code']}&locking=false"); ?>"
-                           style="color: red;">查询全部</a> ] <?php } ?></span>
-            </p>
 
+                    <div data-v-9d393b54="" id="item2mobile" class="van-tab__pane">
+                        <?php  foreach ($result['result'] as $ru) { ?>
+                            <div data-v-7b3d257d class="detail-info">
 
-            <!--Striped Table-->
-            <div id="striped-table">
+                                <div class="van-swipe-cell__wrapper"
+                                     style="transform: translate3d(0px, 0px, 0px); transition-duration: 0.6s;">
+                                    <div data-v-9d393b54="" class="flexh flex-between MR10">
 
-                <div class="row">
+                                        <div data-v-9d393b54="" class="flex1">
+                                            <div data-v-9d393b54="" class="benefit">类型
 
-                    <div class="col s12 m12 l12">
-                        <table class="striped" style="font-size: 14px;">
-                            <thead>
-                            <tr>
-                                <th>
-
-                                    <div class="input-field col s6" style="font-weight:normal;">
-                                        <select multiple id="paofen">
-                                            <option value="" disabled selected>选择账号</option>
-                                            <?php foreach ($wechat as $wx) { ?>
-                                                <option value="<?php echo $wx['id']; ?>"><?php echo $wx['name']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <label>选择通道来查看<?php if (isset($_SESSION['paofen']['ORDER']['WHERE']) && $_SESSION['paofen']['ORDER']['WHERE'] == '') { ?>(<a
-                                                    href="#" onclick="paofen();">开始查询</a>)<?php } else { ?>(<a
-                                                    href="<?php echo url::s('mashang/paofen/automaticOrder', "sorting=paofen&locking=closed"); ?>">取消锁定</a>)<?php } ?>
-                                        </label>
+                                                <span data-v-9d393b54=""
+                                                      class="warn-color font-14">支付宝</span>
+                                                <span data-v-9d393b54=""
+                                                      class="green font-14 ML10"><?php
+                                                    if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
+                                                    if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
+                                                    if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
+                                                    if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
+                                                    ?></span>
+                                            </div>
+                                            <div data-v-9d393b54="" class="MT03">
+                                                充值单号: <?php echo $ru['out_trade_no']; ?>
+                                            </div>
+                                            <div data-v-9d393b54="" class="MT03" style="color: rgb(153, 153, 153);">
+                                                时间:<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></div>
+                                        </div>
+                                        <div data-v-9d393b54="" style="text-align: right;">
+                                            <div data-v-9d393b54="" class="benefit"><span data-v-9d393b54=""
+                                                                                          class="font-14 fail-color"
+                                                                                          style="font-size: .20rem;">
+                  <?php echo $ru['amount']; ?>元
+                 </span></div>
+                                            <div data-v-9d393b54="" class="green font-14" style="margin-top: 0.26rem;"
+                                                 onclick="location='/mashang/paofen/orderdetail?id=<?php echo $ru['id']; ?>'">
+                                                查看详情
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+<?php }?>                    </div>
+<?php }else{ ?>
+            <section data-v-9d393b54="" class="MT10">
+                <div data-v-392d05dd="" data-v-9d393b54="">
 
-                                </th>
-                                <th>
-                                    <div class="input-field col s6"><input onchange="trade_no(this);" id="last_name"
-                                                                           type="text" class="validate"
-                                                                           value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code']; ?>">
-                                        <label for="last_name">订单号</label></div>
-                                </th>
-                                <th>
-                                    支付信息 <?php if ($sorting['code'] != 0 && $sorting['name'] == 'status') { ?>(<?php if ($sorting['code'] == 1) echo '获取订单中';
-                                        if ($sorting['code'] == 2) echo '未支付';
-                                        if ($sorting['code'] == 3) echo '订单超时';
-                                        if ($sorting['code'] == 4) echo '已支付'; ?>)<?php } ?><a
-                                            href='<?php echo url::s('mashang/paofen/automaticOrder', "sorting=status&code=" . ($sorting['code'] + 1)); ?>'><i
-                                                class="mdi-image-healing"></i></a></th>
-
-
-                                <th>
-                                    异步通知 <?php if ($sorting['code'] != -1 && $sorting['name'] == 'callback') { ?>(<?php if ($_GET['code'] == 0) echo '未回调';
-                                        if ($_GET['code'] == 1) echo '已回调'; ?>)<?php } ?><a
-                                            href='<?php echo url::s('mashang/paofen/automaticOrder', "sorting=callback&code=" . ($sorting['code'] + 1)); ?>'><i
-                                                class="mdi-image-healing"></i></a></th>
-
-                                <th>回调信息</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <?php if (!is_array($result['result'][0])) echo '<tr><td colspan="5" style="text-align: center;">暂时没有查询到订单!</td></tr>'; ?>
-
-                            <?php foreach ($result['result'] as $ru) { ?>
-                                <tr>
-                                    <!--<td>账号ID：<a
-                                                href='<?php /*echo url::s("mashang/paofen/automatic"); */?>'><?php /*echo $ru['paofen_id']; */?></a>
-                                        / 订单ID：<?php /*echo $ru['id']; */?> ( <a target="_blank"
-                                                                             href="<?php /*echo url::s('gateway/pay/automaticpaofen', "id={$ru['id']}"); */?>">支付链接</a>
-                                        )
-                                        <br>创建时间：<?php /*echo date('Y/m/d H:i:s', $ru['creation_time']); */?>
-                                    </td>-->
-
-                                    <td>订单号码：<?php echo $ru['out_trade_no']; ?></br>
-                              <!--系统订单号码：--><?php /*echo $ru['trade_no']; */?>
-                                       <!-- <br>订单信息：<span style="color:green;">
-                            <?php /*echo $ru['paofen_id']; */?> | <?php /*echo $ru['id']; */?> </span>-->
-
-                                    </td>
-
-                                    <td>创建时间：<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?>
-                                    </td>
-                                    <td>支付金额：<span
-                                                style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span>
-                                        <br>支付状态：<?php
-                                        if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
-                                        if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
-                                        if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
-                                        if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
-                                        ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s", $ru['pay_time']) . ')'; ?>
-                                    </td>
-
-                                    <td>
-                                        <!--<b>异步通知时间：</b> <?php /*echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; */?>
-                                        <br>-->
-                                        <b>异步通知状态：</b> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>'; ?>
-                                        <br>
-                                    </td>
-                                    <td><!--单笔接口费用：<?php /*echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息'; */?>
-                                        <br>-->
-                                        接口返回信息：<span
-                                                style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?>
-                                            <br>
-
-                            </span>
-
-
-                                    <td>
-                                        <a onclick="reissue('<?php echo $ru['id']; ?>');" style="font-size: 14px;"
-                                           class="btn waves-effect waves-light indigo"><i
-                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>详情</a>
-                                    <?php /*if ($ru['callback_status'] == 1 ){ echo '<span style="color:red;">已回调</span>';}else{ */?><!--
-                                      <a onclick="reissue('<?php /*echo $ru['id']; */?>');" style="font-size: 14px;"
-                                           class="btn waves-effect waves-light indigo"><i
-                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a>
-                                          <a onclick="order_view(<?php /*echo $ru['id']; */?>)"  style="font-size: 14px;background-color: red !important;"
-                                           class="btn waves-effect waves-light indigo"><i
-                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>订单申诉</a>
-                                      --><?php /*} */?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <ul class="pagination"><?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?></ul>
-                </div>
-            </div>
-        </div>
+                    <div data-v-392d05dd="" role="feed" class="van-list">
+                        <div class="van-list__finished-text">没有更多了</div>
+                        <div class="van-list__placeholder"></div>
+                    </div><!----></div>
+            </section><?php }?>
     </div>
-    <!--end container-->
+</div>
+<script src="/Public/Front/js/jquery.min.js"></script>
+<script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
 
-</section>
-<!-- END CONTENT -->
-<script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
-<script type="text/javascript">
-/*
-    function reissue(id) {
-        swal({
-                title: "订单通知",
-                text: "手动补发也是需要扣除手续费,您是否要继续?",
-                type: "info", showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-                confirmButtonText: "是的,我愿意承担手续费!"
-            },
-            function () {
-                //开始请求跑分登录
-                $.get("<?php echo url::s('mashang/paofen/automaticReissue', "id=");?>" + id, function (result) {
-                    if (result.code == '200') {
-                        swal("跑分提示", result.msg, "success");
-                        setTimeout(function () {
-                            location.href = '';
-                        }, 1000);
-                    } else {
-                        swal("订单通知", result.msg, "error");
-                    }
-                });
-
-            });
-    }*/
-    function reissue(id) {
-        $.get("<?php echo url::s('mashang/paofen/orderdetail', "id=");?>" + id,
-            function (result) {
-                if (result.code == '200') {
-                    var data = result.data;
-                    var html = '<p>订单编号：<span>'+data.out_trade_no+'</span></p>'
-                            + '<p>收款类型：<span>支付宝</span></p>'
-                            + '<p>收款金额：<span>'+data.amount+'</span></p>'
-                            + '<p>收款时间：<span>'+data.creation_time+'</span></p>'
-                            + '<p>订单状态：<span style="color: '+(data.status == '4' ? 'green' : 'red')+'">'+data.status_name+'</span></p>';
-                    var btn = data.status == '4' ? '确认' : '确认收款';
-                    layer.open({
-                        title:'订单详情',
-                        content:html,
-                        btn:['申诉',btn],
-                        btn1:function(){
-                            if(data.status == '4'){
-                                layer.msg('该订单已完成，无法申诉',{icon:2});
-                                return;
-                            }
-                            x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 450);
-                        },
-                        btn2:function(){
-                            if(data.status == 4){
-                                layer.closeAll();
-                            }else{
-                                if(confirm('手动补发也是需要扣除手续费,您是否要继续?')){
-                                    $.get("<?php echo url::s('mashang/paofen/automaticReissue', "id=");?>" + id, function (ret) {
-                                        if (ret.code == '200') {
-                                            layer.msg(ret.msg,{icon:1,end:function(){
-                                                    location.href = '';
-                                                }});
-                                        } else {
-                                            layer.msg(ret.msg,{icon:2});
-                                        }
-                                    });
-                                }
-                            }
-
-                        }
-
-                    })
-                } else {
-                    layer.msg('参数错误',{icon:2});
-                }
-            });
-    }
-
-    function trade_no(obj) {
-        location.href = "<?php echo url::s('mashang/paofen/automaticOrder', "sorting=trade_no&code=");?>" + $(obj).val();
-    }
-
-    function order_view(id) {
-        x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 450);
-    }
-
-</script>
-<?php include_once(PATH_VIEW . 'common/footer.php'); ?>
-   
+</body>
+</html>

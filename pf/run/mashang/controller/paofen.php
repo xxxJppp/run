@@ -151,7 +151,6 @@ class paofen
         if (empty($order_id)) functions::json(-1, '订单ID错误');
         $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$_SESSION['MEMBER']['uid']}");
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
-
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($user)) functions::json(-1, '商户错误');
         $order = $order[0];
@@ -165,7 +164,11 @@ class paofen
         }else if($order['status'] == 4){
             $order['status_name'] = '已支付';
         }
-        functions::json(200, '成功',$order);
+        new view('paofen/qiangdanxq', [
+            'result' => $order,
+            'id' => $order_id,
+            'user'=>$user
+        ]);
     }
 
     //添加-->OK
