@@ -144,6 +144,7 @@ $fix = DB_PREFIX;
                                             href='<?php echo url::s('mashang/paofen/automaticOrder', "sorting=status&code=" . ($sorting['code'] + 1)); ?>'><i
                                                 class="mdi-image-healing"></i></a></th>
 
+
                                 <th>
                                     异步通知 <?php if ($sorting['code'] != -1 && $sorting['name'] == 'callback') { ?>(<?php if ($_GET['code'] == 0) echo '未回调';
                                         if ($_GET['code'] == 1) echo '已回调'; ?>)<?php } ?><a
@@ -160,21 +161,23 @@ $fix = DB_PREFIX;
 
                             <?php foreach ($result['result'] as $ru) { ?>
                                 <tr>
-                                    <td>账号ID：<a
-                                                href='<?php echo url::s("mashang/paofen/automatic"); ?>'><?php echo $ru['paofen_id']; ?></a>
-                                        / 订单ID：<?php echo $ru['id']; ?> ( <a target="_blank"
-                                                                             href="<?php echo url::s('gateway/pay/automaticpaofen', "id={$ru['id']}"); ?>">支付链接</a>
+                                    <!--<td>账号ID：<a
+                                                href='<?php /*echo url::s("mashang/paofen/automatic"); */?>'><?php /*echo $ru['paofen_id']; */?></a>
+                                        / 订单ID：<?php /*echo $ru['id']; */?> ( <a target="_blank"
+                                                                             href="<?php /*echo url::s('gateway/pay/automaticpaofen', "id={$ru['id']}"); */?>">支付链接</a>
                                         )
-                                        <br>创建时间：<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?>
-                                    </td>
+                                        <br>创建时间：<?php /*echo date('Y/m/d H:i:s', $ru['creation_time']); */?>
+                                    </td>-->
 
                                     <td>订单号码：<?php echo $ru['out_trade_no']; ?></br>
-                              系统订单号码：<?php echo $ru['trade_no']; ?>
-                                        <br>订单信息：<span style="color:green;">
-                            <?php echo $ru['paofen_id']; ?> | <?php echo $ru['id']; ?> </span>
+                              <!--系统订单号码：--><?php /*echo $ru['trade_no']; */?>
+                                       <!-- <br>订单信息：<span style="color:green;">
+                            <?php /*echo $ru['paofen_id']; */?> | <?php /*echo $ru['id']; */?> </span>-->
 
                                     </td>
 
+                                    <td>创建时间：<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?>
+                                    </td>
                                     <td>支付金额：<span
                                                 style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span>
                                         <br>支付状态：<?php
@@ -186,13 +189,13 @@ $fix = DB_PREFIX;
                                     </td>
 
                                     <td>
-                                        <b>异步通知时间：</b> <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; ?>
-                                        <br>
+                                        <!--<b>异步通知时间：</b> <?php /*echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; */?>
+                                        <br>-->
                                         <b>异步通知状态：</b> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>'; ?>
                                         <br>
                                     </td>
-                                    <td>单笔接口费用：<?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息'; ?>
-                                        <br>
+                                    <td><!--单笔接口费用：<?php /*echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息'; */?>
+                                        <br>-->
                                         接口返回信息：<span
                                                 style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?>
                                             <br>
@@ -201,14 +204,17 @@ $fix = DB_PREFIX;
 
 
                                     <td>
-                                    <?php if ($ru['callback_status'] == 1 ){ echo '<span style="color:red;">已回调</span>';}else{ ?>
-                                      <a onclick="reissue('<?php echo $ru['id']; ?>');" style="font-size: 14px;"
+                                        <a onclick="reissue('<?php echo $ru['id']; ?>');" style="font-size: 14px;"
+                                           class="btn waves-effect waves-light indigo"><i
+                                                    class="mdi-action-lock-open left" style="width: 10px;"></i>详情</a>
+                                    <?php /*if ($ru['callback_status'] == 1 ){ echo '<span style="color:red;">已回调</span>';}else{ */?><!--
+                                      <a onclick="reissue('<?php /*echo $ru['id']; */?>');" style="font-size: 14px;"
                                            class="btn waves-effect waves-light indigo"><i
                                                     class="mdi-action-lock-open left" style="width: 10px;"></i>手动补发</a>
-                                          <a onclick="order_view(<?php echo $ru['id']; ?>)"  style="font-size: 14px;background-color: red !important;"
+                                          <a onclick="order_view(<?php /*echo $ru['id']; */?>)"  style="font-size: 14px;background-color: red !important;"
                                            class="btn waves-effect waves-light indigo"><i
                                                     class="mdi-action-lock-open left" style="width: 10px;"></i>订单申诉</a>
-                                      <?php } ?>
+                                      --><?php /*} */?>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -229,7 +235,7 @@ $fix = DB_PREFIX;
 <!-- END CONTENT -->
 <script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
 <script type="text/javascript">
-
+/*
     function reissue(id) {
         swal({
                 title: "订单通知",
@@ -252,6 +258,53 @@ $fix = DB_PREFIX;
                     }
                 });
 
+            });
+    }*/
+    function reissue(id) {
+        $.get("<?php echo url::s('mashang/paofen/orderdetail', "id=");?>" + id,
+            function (result) {
+                if (result.code == '200') {
+                    var data = result.data;
+                    var html = '<p>订单编号：<span>'+data.out_trade_no+'</span></p>'
+                            + '<p>收款类型：<span>支付宝</span></p>'
+                            + '<p>收款金额：<span>'+data.amount+'</span></p>'
+                            + '<p>收款时间：<span>'+data.creation_time+'</span></p>'
+                            + '<p>订单状态：<span style="color: '+(data.status == '4' ? 'green' : 'red')+'">'+data.status_name+'</span></p>';
+                    var btn = data.status == '4' ? '确认' : '确认收款';
+                    layer.open({
+                        title:'订单详情',
+                        content:html,
+                        btn:['申诉',btn],
+                        btn1:function(){
+                            if(data.status == '4'){
+                                layer.msg('该订单已完成，无法申诉',{icon:2});
+                                return;
+                            }
+                            x_admin_show('订单申诉', '/mashang/paofen/appeal?id='+id, 400, 450);
+                        },
+                        btn2:function(){
+                            if(data.status == 4){
+                                layer.closeAll();
+                            }else{
+                                if(confirm('手动补发也是需要扣除手续费,您是否要继续?')){
+                                    $.get("<?php echo url::s('mashang/paofen/automaticReissue', "id=");?>" + id, function (ret) {
+                                        if (ret.code == '200') {
+                                            layer.msg(ret.msg,{icon:1,end:function(){
+                                                    location.href = '';
+                                                }});
+                                        } else {
+                                            layer.msg(ret.msg,{icon:2});
+                                        }
+                                    });
+                                }
+                            }
+
+                        }
+
+                    })
+                } else {
+                    layer.msg('参数错误',{icon:2});
+                }
             });
     }
 

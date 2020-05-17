@@ -214,7 +214,7 @@ class member
         //用户组
         $group = json_decode($_SESSION['MEMBER']['group']['authority'], true);
         //手续费
-        $fees = floatval($group['withdraw']['cost']) * $amount;
+        $fees = $system['fees'];
         //计算减掉的金额
         $user_amount = $user['balance'] - $amount;
         //判断是否有足够的金额提现

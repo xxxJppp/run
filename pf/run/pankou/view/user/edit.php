@@ -58,9 +58,9 @@ use xh\library\url;
                        <label>银行卡</label>
                     <select name="bank_type" onchange="bank_show(this.value)">
                       <option value="" disabled selected>请选择一个提现方式</option>
-                      <option value="1">支付宝</option>
+                      <!--<option value="1">支付宝</option>-->
                       <option value="2">银行卡</option>
-                      <option value="3">暂不填写</option>
+                      <!--<option value="3">暂不填写</option>-->
                     </select>
                   </div>
                       </div>

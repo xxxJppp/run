@@ -143,6 +143,31 @@ class paofen
         functions::json(200, '申诉成功，等待审核');
     }
 
+
+    //订单详情
+    public function orderdetail()
+    {
+        $order_id = request::filter('get.id');
+        if (empty($order_id)) functions::json(-1, '订单ID错误');
+        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$_SESSION['MEMBER']['uid']}");
+        if (!is_array($order)) functions::json(-2, '当前订单不存在');
+
+        $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        if (!is_array($user)) functions::json(-1, '商户错误');
+        $order = $order[0];
+        $order['creation_time'] = date('Y-m-d H:i:s',$order['creation_time']);
+        if($order['status'] == 1){
+            $order['status_name'] = '等待下发支付二维码';
+        }else if($order['status'] == 2){
+            $order['status_name'] = '未支付';
+        }else if($order['status'] == 3){
+            $order['status_name'] = '订单超时';
+        }else if($order['status'] == 4){
+            $order['status_name'] = '已支付';
+        }
+        functions::json(200, '成功',$order);
+    }
+
     //添加-->OK
     public function automaticAdd()
     {
