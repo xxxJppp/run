@@ -190,7 +190,8 @@ $fix = DB_PREFIX;
             success:function(res){
                 if(res.code == '200'){
                     layer.alert(res.msg, {icon: 1},function () {
-                      layer.closeAll();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                     });
                 }else{
                     layer.alert(res.msg ? res.msg :"操作失败", {icon: 6},function () {

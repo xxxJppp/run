@@ -38,39 +38,40 @@ class member
         $this->powerLogin(20);
         $member_id = request::filter('get.member_id');
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%'";
-         $where .="is_agent = 0 and is_pankou=0";
+        $where .= "is_agent = 0 and is_pankou=0";
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/index', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
     }
 
-  
+
     public function daili()
     {
         $this->powerLogin(20);
 
         $member_id = request::filter('get.member_id');
-       
+
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-         $where .= " is_agent = 1";
+        $where .= " is_agent = 1";
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/daili', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
     }
+
     public function offrobin()
     {
         $this->powerLogin(20);
         $member_id = request::filter('post.member_id');
         $off = 2;
-        $where = "user_id in (" . $member_id.")";
+        $where = "user_id in (" . $member_id . ")";
         $data = ['training' => $off];
         $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
         if ($result > 0) functions::json(200, '安全下线成功!');
@@ -82,12 +83,13 @@ class member
         $this->powerLogin(20);
         $member_id = request::filter('post.member_id');
         $off = 1;
-        $where = "user_id in (" . $member_id.")";
+        $where = "user_id in (" . $member_id . ")";
         $data = ['training' => $off];
         $result = $this->mysql->update('client_paofen_automatic_account', $data, $where);
         if ($result > 0) functions::json(200, '安全上线成功!');
         functions::json(-2, '上线失败!');
     }
+
     public function daili2()
     {
         $this->powerLogin(20);
@@ -99,27 +101,33 @@ class member
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/daili2', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
     }
-   public function mashang()
+
+    public function mashang()
     {
         $this->powerLogin(20);
 
         $member_id = request::filter('get.member_id');
-       
-        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-         $where .= " is_mashang = 1";
+        $agent_id = request::filter('get.agent_id');
+        $where = '';
+        if (!empty($member_id)) $where = "(id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%') and";
+        $where .= ' is_mashang = 1';
+        if ($agent_id) {
+            $where .= ' and level_id = ' . $agent_id;
+        }
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/mashang', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
     }
+
     public function mashang2()
     {
         $this->powerLogin(20);
@@ -131,24 +139,24 @@ class member
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/mashang2', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
     }
-  
-   public function pankou()
+
+    public function pankou()
     {
         $this->powerLogin(20);
 
         $member_id = request::filter('get.member_id');
-       
+
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-         $where .= " is_pankou = 1";
+        $where .= " is_pankou = 1";
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $groups = $this->mysql->query("client_group");
         new view('member/pankou', [
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
         ]);
@@ -236,8 +244,8 @@ class member
             $inArray['pwd'] = functions::pwd($pwd, $token);
             $inArray['token'] = $token;
         }
-        if($rebate != $user['mashang_rebate']){
-            if($rebate>=100) functions::json(-1, '码商返点小于100%');
+        if ($rebate != $user['mashang_rebate']) {
+            if ($rebate >= 100) functions::json(-1, '码商返点小于100%');
             $inArray['mashang_rebate'] = $rebate;
         }
 
@@ -268,7 +276,7 @@ class member
         $level_id = intval(request::filter('post.level_id'));
         $is_agent = intval(request::filter('post.is_agent'));
         $is_pankou = intval(request::filter('post.is_pankou'));
-       $is_mashang = intval(request::filter('post.is_mashang'));
+        $is_mashang = intval(request::filter('post.is_mashang'));
         $balance = floatval(request::filter('post.balance'));
         $money = floatval(request::filter('post.money'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
@@ -295,22 +303,22 @@ class member
             if ($find_level['level_id'] != 0) functions::json(-3, '上级ID填写有误,该上级会员不支持直接在后台添加下级');
         }
         $Insert = $this->mysql->insert("client_user", [
-            'username'   => $username,
-            'phone'      => $phone,
-            'pwd'        => functions::pwd($pwd, $token),
-            'balance'    => $balance,
-            'money'      => $money,
-            'yajin'     =>0,
-            'token'      => $token,
-            'ip'         => '8.8.8.8',
-             'group_id'   => $group_id,
-            'is_agent'   => $is_agent,
-            'is_pankou'   => $is_pankou,
-           'is_mashang'   => $is_mashang,
-            'level_id'   => $level_id,
+            'username' => $username,
+            'phone' => $phone,
+            'pwd' => functions::pwd($pwd, $token),
+            'balance' => $balance,
+            'money' => $money,
+            'yajin' => 0,
+            'token' => $token,
+            'ip' => '8.8.8.8',
+            'group_id' => $group_id,
+            'is_agent' => $is_agent,
+            'is_pankou' => $is_pankou,
+            'is_mashang' => $is_mashang,
+            'level_id' => $level_id,
             'login_time' => 0,
-            'key_id'     => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
-            'avatar'     => 0
+            'key_id' => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
+            'avatar' => 0
         ]);
 
         if ($Insert > 0) functions::json(200, '添加成功!');
@@ -360,9 +368,9 @@ class member
         $pwd = request::filter('post.pwd');
         $group_id = request::filter('post.group_id');
         $phone = request::filter('post.phone');
-       $is_agent = intval(request::filter('post.is_agent'));
+        $is_agent = intval(request::filter('post.is_agent'));
         $is_pankou = intval(request::filter('post.is_pankou'));
-           $is_mashang = intval(request::filter('post.is_mashang'));
+        $is_mashang = intval(request::filter('post.is_mashang'));
         $level_id = intval(request::filter('post.level_id'));
         $balance = floatval(request::filter('post.balance'));
         $money = floatval(request::filter('post.money'));
@@ -387,12 +395,12 @@ class member
 
         $inArray = [
             'username' => $username,
-            'phone'    => $phone,
-            'balance'  => $balance,
-            'is_agent'  => $is_agent,
-            'is_mashang'  => $is_mashang,
-           'is_pankou'  => $is_pankou,
-            'money'    => $money,
+            'phone' => $phone,
+            'balance' => $balance,
+            'is_agent' => $is_agent,
+            'is_mashang' => $is_mashang,
+            'is_pankou' => $is_pankou,
+            'money' => $money,
             'group_id' => $group_id,
             'level_id' => $level_id,
         ];
@@ -426,8 +434,9 @@ class member
         $this->mysql->delete("client_user", "id={$id}");
         functions::json(200, '操作完成,您已经将该会员成功移除!');
     }
+
 //下线码商通道
-   public function xiaxian()
+    public function xiaxian()
     {
         $this->powerLogin(20);
         $id = intval(request::filter('get.id'));
@@ -435,20 +444,20 @@ class member
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前会员不存在');
         //查询
-      $order = $this->mysql->query("client_paofen_automatic_account", "user_id = {$id}");
+        $order = $this->mysql->query("client_paofen_automatic_account", "user_id = {$id}");
         if (!empty($order)) {
-			foreach ($order as $k => $v) {
-                $this->mysql->update("client_paofen_automatic_account", ['training'=> 2,'receiving'=>2 ],"id = {$v['id']}");
+            foreach ($order as $k => $v) {
+                $this->mysql->update("client_paofen_automatic_account", ['training' => 2, 'receiving' => 2], "id = {$v['id']}");
 
             }
         }
-      functions::json(200, '操作完成,您已经下线了该码商的所有通道!');
- 
-       
+        functions::json(200, '操作完成,您已经下线了该码商的所有通道!');
+
+
     }
-  
-  //下线码商通道
-   public function shangxian()
+
+    //下线码商通道
+    public function shangxian()
     {
         $this->powerLogin(20);
         $id = intval(request::filter('get.id'));
@@ -456,16 +465,16 @@ class member
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前会员不存在');
         //查询
-      $order = $this->mysql->query("client_paofen_automatic_account", "user_id = {$id}");
+        $order = $this->mysql->query("client_paofen_automatic_account", "user_id = {$id}");
         if (!empty($order)) {
-			foreach ($order as $k => $v) {
-                $this->mysql->update("client_paofen_automatic_account", ['training'=> 1,'receiving'=>1 ],"id = {$v['id']}");
+            foreach ($order as $k => $v) {
+                $this->mysql->update("client_paofen_automatic_account", ['training' => 1, 'receiving' => 1], "id = {$v['id']}");
 
             }
         }
-      functions::json(200, '操作完成,您已经上线了该码商的所有通道!');
- 
-       
+        functions::json(200, '操作完成,您已经上线了该码商的所有通道!');
+
+
     }
     //提现管理
     //权限ID：28
@@ -494,8 +503,8 @@ class member
 
         $result = page::conduct('client_withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/withdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -519,12 +528,14 @@ class member
         $result = $this->mysql->query("client_withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
-        if($result['status'] != 0){ functions::json(-2, '当前订单状态有误！'); }
+        if ($result['status'] != 0) {
+            functions::json(-2, '当前订单状态有误！');
+        }
         $this->mysql->update("client_withdraw", [
-            'types'     => $type,
+            'types' => $type,
             'is_notice' => 1,
-            'content'   => $msg,
-            'status'    => 1,
+            'content' => $msg,
+            'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
         //钱款驳回
@@ -533,7 +544,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
-                    'money'       => $find_user['money'] + ($result['amount'])
+                    'money' => $find_user['money'] + ($result['amount'])
                 ], "id={$find_user['id']}");
             }
         }
@@ -554,8 +565,8 @@ class member
     }
 
 //盘口提现
-  
-   //提现管理
+
+    //提现管理
     //权限ID：28
     public function pankouwithdraw()
     {
@@ -582,8 +593,8 @@ class member
 
         $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/pankouwithdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -607,12 +618,14 @@ class member
         $result = $this->mysql->query("client_pankouwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
-        if($result['status'] != 0){ functions::json(-2, '当前订单状态有误！'); }
+        if ($result['status'] != 0) {
+            functions::json(-2, '当前订单状态有误！');
+        }
         $this->mysql->update("client_pankouwithdraw", [
-            'types'     => $type,
+            'types' => $type,
             'is_notice' => 1,
-            'content'   => $msg,
-            'status'    => 1,
+            'content' => $msg,
+            'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
         //钱款驳回
@@ -621,7 +634,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
-                    'balance'       => $find_user['balance'] + ($result['amount'])
+                    'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
             }
             $this->mysql->select('commit');
@@ -642,9 +655,9 @@ class member
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }
 
-  //码商提现
-  
-   //提现管理
+    //码商提现
+
+    //提现管理
     //权限ID：28
     public function mashangwithdraw()
     {
@@ -671,8 +684,8 @@ class member
 
         $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/mashangwithdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -696,12 +709,14 @@ class member
         $result = $this->mysql->query("client_mashangwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
-        if($result['status'] != 0){ functions::json(-2, '当前订单状态有误！'); }
+        if ($result['status'] != 0) {
+            functions::json(-2, '当前订单状态有误！');
+        }
         $this->mysql->update("client_mashangwithdraw", [
-            'types'     => $type,
+            'types' => $type,
             'is_notice' => 1,
-            'content'   => $msg,
-            'status'    => 1,
+            'content' => $msg,
+            'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
         //钱款驳回
@@ -710,7 +725,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
-                    'balance'       => $find_user['balance'] + ($result['amount'])
+                    'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
             }
         }
@@ -730,10 +745,10 @@ class member
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }
 
-  
-  //盘口提现
-  
-   //提现管理
+
+    //盘口提现
+
+    //提现管理
     //权限ID：28
     public function agentwithdraw()
     {
@@ -760,8 +775,8 @@ class member
 
         $result = page::conduct('client_agentwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/agentwithdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -785,12 +800,14 @@ class member
         $result = $this->mysql->query("client_agentwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
-        if($result['status'] != 0){ functions::json(-2, '当前订单状态有误！'); }
+        if ($result['status'] != 0) {
+            functions::json(-2, '当前订单状态有误！');
+        }
         $this->mysql->update("client_agentwithdraw", [
-            'types'     => $type,
+            'types' => $type,
             'is_notice' => 1,
-            'content'   => $msg,
-            'status'    => 1,
+            'content' => $msg,
+            'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
         //钱款驳回
@@ -799,50 +816,54 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
-                    'balance'       => $find_user['balance'] + ($result['amount'])
+                    'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
             }
         }
         functions::json(200, '处理成功');
     }
-    public function manualrecharge(){
+
+    public function manualrecharge()
+    {
         $this->powerLogin(92);
         new view('member/manualrecharge');
     }
-    public function manualRechargeResult(){
+
+    public function manualRechargeResult()
+    {
         $this->powerLogin(92);
         $name = trim(request::filter('post.username'));
         $money = trim(request::filter('post.money'));
         $status = trim(request::filter('post.open'));
         $remark = trim(request::filter('post.remark'));
         $this->mysql->startThings();
-        $user = $this->mysql->query('client_user',"username='{$name}' and is_mashang=1")[0];
-        if(!is_array($user)) functions::json(-1, '此码商不存在');
-        if($status==2 && $money>$user['balance']) functions::json(-1, '码商余额不足，无法扣除');
-        if(empty($remark)) functions::json(-1, '备注不能为空');
-        if($status==2){
-            $new_money = $user['balance']-$money;
-        }else{
-            $new_money = $user['balance']+$money;
+        $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
+        if (!is_array($user)) functions::json(-1, '此码商不存在');
+        if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');
+        if (empty($remark)) functions::json(-1, '备注不能为空');
+        if ($status == 2) {
+            $new_money = $user['balance'] - $money;
+        } else {
+            $new_money = $user['balance'] + $money;
         }
 
         $data = [
-            'uid'=>$user['id'],
-            'money'=>$money,
-            'old_money'=>$user['balance'],
-            'new_money'=>$new_money,
-            'remark'=>$remark,
-            'time'=>time(),
-            'status'=>$status
+            'uid' => $user['id'],
+            'money' => $money,
+            'old_money' => $user['balance'],
+            'new_money' => $new_money,
+            'remark' => $remark,
+            'time' => time(),
+            'status' => $status
         ];
-        $st = $this->mysql->insert('user_paylog',$data);
-        $up = $this->mysql->update('client_user',[
-            'balance'=>$new_money
-        ],"id={$user['id']}");
-        if($st && $up){
+        $st = $this->mysql->insert('user_paylog', $data);
+        $up = $this->mysql->update('client_user', [
+            'balance' => $new_money
+        ], "id={$user['id']}");
+        if ($st && $up) {
             $this->mysql->commit();
             functions::json(200, '处理成功');
-        }else{
+        } else {
             $this->mysql->rollBack();
             functions::json(-1, '失败');
         }

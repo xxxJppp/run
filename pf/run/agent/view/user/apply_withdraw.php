@@ -106,7 +106,11 @@ use xh\library\url;
 		          success: function (data) {
 		              if(data.code == '200'){
 		            	  
-		            	  layer.msg(data.msg, {icon: 1});
+		            	  layer.msg(data.msg, {time:1000,icon: 1,end:function(){
+                              var index = parent.layer.getFrameIndex(window.name);
+                              parent.layer.close(index);
+                          }});
+
 		              }else{
 		            	  if(data.code == "-39"){
 
