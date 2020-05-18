@@ -209,10 +209,13 @@ class panel
 
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
-        $group_id = $_SESSION['MEMBER']['group']['id'];
+        //$group_id = $_SESSION['MEMBER']['group']['id'];
         $phone = request::filter('post.phone');
         $level_id = $_SESSION['MEMBER']['uid'];
-        $is_mashang = request::filter('post.is_mashang');
+        $is_mashang = 1;
+        $group = $this->mysql->query("variable","name='registerCog'")[0];
+        $json = json_decode($group['value'],true);
+        $group_id = $json['group_id'];
         //  $balance = floatval(request::filter('get.balance'));
         //  $yajin = floatval(request::filter('get.yajin'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
@@ -226,7 +229,7 @@ class panel
         if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
-        if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
+        if (!is_array($group)) functions::json(-2, "权限组分配失败,请重新选择{$group_id}");
         //手机号
         if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
         //生成密码盐值
