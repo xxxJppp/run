@@ -130,12 +130,18 @@ use xh\library\url;
       <script type="text/javascript">
 
       function edit(){
+          layer.msg('加载中', {
+              icon: 16
+              ,shade: 0.4
+              ,time:0
+          });
 			$.ajax({
 		          type: "POST",
 		          dataType: "json",
 		          url: "<?php echo url::s('index/member/editResult');?>",
 		          data: $('#from').serialize(),
 		          success: function (data) {
+                      layer.close(layer.index);
 		              if(data.code == '200'){
 		            	  layer.msg(data.msg, {icon: 1});
 		              }else{

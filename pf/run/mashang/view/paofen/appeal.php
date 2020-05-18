@@ -110,11 +110,17 @@ $fix = DB_PREFIX;
         var form = layui.form;
         var upload = layui.upload;
         form.on('submit(profile)', function (data) {
+            layer.msg('加载中', {
+                icon: 16
+                ,shade: 0.4
+                ,time:0
+            });
             $.ajax({
                 url: "/mashang/paofen/addappeal.do",
                 type: "post",
                 data: $('#profile').serialize(),
                 success: function (res) {
+                    layer.close(layer.index);
                     if (res.code == '200') {
                         layer.alert(res.msg, {icon: 1}, function () {
                             window.location.href="/mashang/paofen/automaticOrder.do"
@@ -130,20 +136,23 @@ $fix = DB_PREFIX;
             elem: '#upload' //绑定元素
             ,url:'/mashang/paofen/uploadappeal.do'
             ,accept:'images'
-            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-                layer.load(); //上传loading
+            ,before: function(obj){
+                layer.msg('加载中', {
+                    icon: 16
+                    ,shade: 0.4
+                    ,time:0
+                });
             },done: function(res){
+                layer.close(layer.index);
                 if(res.code == 200){
                     $("#img").html('<img src="'+res.msg+'">');
                     $("#voucher").val(res.msg);
+                }else{
+                    layer.msg('请求异常');
                 }
-
-                layer.closeAll('loading');
-                //上传完毕回调
             }
             ,error: function(){
-                layer.closeAll('loading');
-                //请求异常回调
+                layer.close(layer.index);
             }
         });
     });
