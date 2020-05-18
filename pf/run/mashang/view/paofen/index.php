@@ -189,8 +189,8 @@ $fix = DB_PREFIX;
                                             Robin: </b><?php echo $ru['training'] == 1 ? '<span style="color:#4caf50;">open ( <a href="#" style="color:#006064;" onclick="startAutomaticRb(' . $ru['id'] . ');">关闭轮训 </a> )</span>' : '<span style="color:red;">closed ( <a href="#" style="color:#e57373;" onclick="startAutomaticRb(' . $ru['id'] . ');">启动轮训 </a>)</span>'; ?>
                                         <br>
                                         <b>Gateway: </b><?php echo $ru['receiving'] == 1 ? '<span style="color:#4caf50;">open ( <a href="#" style="color:#006064;" onclick="startAutomaticGateway(' . $ru['id'] . ');">停止网关 </a> )</span>' : '<span style="color:red;">closed ( <a href="#" style="color:#e57373;" onclick="startAutomaticGateway(' . $ru['id'] . ');">启动网关 </a>)</span>'; ?>
-                                        <br>[ <a href="#"
-                                                 onclick="gatewayTest('<?php echo $ru['key_id']; ?>')">单通道测试</a> ]
+                                        <!--   <br>[ <a href="#"
+                                                 onclick="gatewayTest('<?php echo $ru['key_id']; ?>')">单通道测试</a> ] -->
                                     </td>
 
                                 </tr>
