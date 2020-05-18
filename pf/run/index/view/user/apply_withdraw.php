@@ -98,12 +98,18 @@ use xh\library\url;
       <script type="text/javascript">
 
       function apply(){
+          layer.msg('加载中', {
+              icon: 16
+              ,shade: 0.4
+              ,time:0
+          });
 			$.ajax({
 		          type: "POST",
 		          dataType: "json",
 		          url: "<?php echo url::s('index/member/applyWithdrawResult');?>",
 		          data: $('#from').serialize(),
 		          success: function (data) {
+                      layer.close(layer.index);
 		              if(data.code == '200'){
 		            	  play(['<?php echo FILE_CACHE . "/download/sound/提现成功1.mp3";?>']);
 		            	  layer.msg(data.msg, {icon: 1});
