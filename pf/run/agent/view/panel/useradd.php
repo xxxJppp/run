@@ -114,15 +114,15 @@ use xh\library\url;
                           <label for="pwd">密码</label>
                         </div>
                       </div>
+<!--
 
-                     
                                     <div class="radio">
                   <input id="radio-1" name="is_mashang" type="radio" value="0" checked>
                   <label for="radio-1" class="radio-label">商户</label>
-                </div>
+                </div>-->
 
                 <div class="radio">
-                  <input id="radio-2" name="is_mashang" type="radio" value="1">
+                  <input id="radio-2" name="is_mashang" type="radio" value="1" checked>
                   <label  for="radio-2" class="radio-label">码商</label>
                 </div>
 
