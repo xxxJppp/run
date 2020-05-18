@@ -44,7 +44,7 @@ class paofen
         if (!empty($id)) {
             $where = 'id=' . $id;
         }
-        $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         new view('paofen/index', [
             'mysql'  => $this->mysql,
             'result' => $result

@@ -57,7 +57,7 @@ class member
 
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
         $where .= " is_agent = 1";
-        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('member/daili', [
             'mysql' => $this->mysql,
@@ -119,7 +119,7 @@ class member
         if ($agent_id) {
             $where .= ' and level_id = ' . $agent_id;
         }
-        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('member/mashang', [
             'mysql' => $this->mysql,
@@ -153,7 +153,7 @@ class member
 
         if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
         $where .= " is_pankou = 1";
-        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('member/pankou', [
             'mysql' => $this->mysql,
