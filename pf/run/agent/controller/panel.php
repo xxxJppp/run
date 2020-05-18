@@ -212,7 +212,7 @@ class panel
         $group_id = $_SESSION['MEMBER']['group']['id'];
         $phone = request::filter('post.phone');
         $level_id = $_SESSION['MEMBER']['uid'];
-        $is_mashang = request::filter('post.is_mashang');
+        $is_mashang = 1;
         //  $balance = floatval(request::filter('get.balance'));
         //  $yajin = floatval(request::filter('get.yajin'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
