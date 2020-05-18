@@ -285,14 +285,19 @@ $fix = DB_PREFIX;
                 text: "<input type='hidden' id='ceshi' value='111' style='display:none'>"
                     + "<p style='text-align:center'>上传二维码</p><img id='avatar' onclick='imgSelect();' style='width: 100px;border-radius:50%;margin: 0 auto;margin-top:15px' alt='/static/js/upload.png' src='/static/js/upload.png'></td><input type='file' name='avatar' id='avatarImg'  style='display:none;' onchange='uploadPic();'>"
                     + " <p style='text-align:center'>（上传二维码等10秒左右自动解析）</p><input type='text' id='ewm_url' value=''>"
-                    + "备注<input type='text' id='name' value=''>",
+                    + "收款人姓名<input type='text' id='name' value=''>",
                 confirmButtonText: "提交"
             },
             function (inputValue) {
 
                 var ewm_url = $('#ewm_url').val();
+                var name = $('#name').val();
                 if (ewm_url == false || ewm_url == null) {
                     swal.showInputError("二维码解析不能为空，请上传二维码");
+                    return false
+                }
+                if (name == false || name == null) {
+                    swal.showInputError("收款人姓名不能为空");
                     return false
                 }
 

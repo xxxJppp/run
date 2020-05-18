@@ -214,7 +214,7 @@ $fix = DB_PREFIX;
                 $.get("<?php echo url::s('/mashang/paofen/automaticReissue', "id=");?>" + id, function (ret) {
                     if (ret.code == '200') {
                         alert(ret.msg);
-                                location.href = '/mashang/paofen/orderdetail?id='+id;
+                            location.href = '/mashang/paofen/automaticOrder.do?id='+id;
                     } else {
                         alert(ret.msg);
                     }

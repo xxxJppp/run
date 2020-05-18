@@ -117,14 +117,10 @@ $fix = DB_PREFIX;
                 success: function (res) {
                     if (res.code == '200') {
                         layer.alert(res.msg, {icon: 1}, function () {
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
+                            window.location.href="/mashang/paofen/automaticOrder.do"
                         });
                     } else {
-                        layer.alert(res.msg ? res.msg : "操作失败", {icon: 2}, function () {
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        });
+                        layer.alert(res.msg ? res.msg : "操作失败", {icon: 2});
                     }
                 }
             });
