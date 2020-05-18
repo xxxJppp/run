@@ -71,7 +71,7 @@ $fix = DB_PREFIX;
                             <td style="text-align:center;">
                                 <?php if($em['audit'] == 0){?>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="audit('<?php echo $em['id']; ?>',1,<?php echo $em['money'];?>)">
+                                        onclick="audit('<?php echo $em['id']; ?>',3)">
                                     审核
                                 </button>
                                 <button class="layui-btn layui-btn-small"
@@ -80,8 +80,18 @@ $fix = DB_PREFIX;
                                 </button>
                                 <?php }else if($em['audit'] == 1){ ?>
                                     <span>已审核</span>
-                                <?php }else{ ?>
-                                    <span style="color: green">已驳回</span>
+                                <?php }else if($em['audit'] == 3){ ?>
+                                    <button class="layui-btn layui-btn-small"
+                                            onclick="audit('<?php echo $em['id']; ?>',1,<?php echo $em['money'];?>)">处理中
+                                    </button>
+                                    <button class="layui-btn layui-btn-small"
+                                            onclick="audit('<?php echo $em['id']; ?>',2)">
+                                        驳回
+                                    </button>
+                                <?php } ?>
+
+                                <?php if($em['audit'] == 2){?>
+                                   <span style="color: green">已驳回</span>
                                 <?php } ?>
                             </td>
                         </tr>

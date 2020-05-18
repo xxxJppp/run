@@ -405,7 +405,7 @@ class paofen
         }
 
         $mysql = new Mysql();
-        $appeal = $mysql->query('appeal','id='.$id.' and audit=0','trade_no');
+        $appeal = $mysql->query('appeal','id='.$id,'trade_no');
         if(!$appeal){
             functions::json(-3,'该申诉记录不存在或已审核');
         }
