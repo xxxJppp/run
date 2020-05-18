@@ -417,7 +417,7 @@ class paofen
         }
 
         $mysql->update('appeal',['audit'=>$type],'id='.$id);
-        functions::json(1,'审核成功');
+        functions::json(1,'操作成功');
     }
 
 }

@@ -152,7 +152,6 @@ $fix = DB_PREFIX;
                     data: {id:id,amount:ret,type:type},
                     success: function (res) {
                         var code = res.code==1 ? 1 : 2;
-                        console.log(code);
                         layer.msg(res.msg, {icon: code, time: 1000,end:function () {
                             window.location.href = "/admin/paofen/appeal";
                         }});
