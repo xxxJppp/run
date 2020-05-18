@@ -67,7 +67,7 @@ $fix = DB_PREFIX;
                     <span style="color: red">未审核</span>
                   <?php }else if($em['audit'] == 1){?>
                       <span style="color: red">已审核</span>
-                  <?php }else if($em['audit'] == 2){?>
+                  <?php }else if($em['audit'] == 3){?>
                       <span style="color: red">处理中</span>
                   <?php }else{?>
                       <span style="color: green">已驳回</span>
