@@ -19,7 +19,13 @@ class pay
     {
         $this->mysql = new mysql();
     }
+    public function alit(){
+        $id = request::filter('get.id');
+        $data = $this->mysql->query("client_paofen_automatic_orders","id={$id}")[0];
+        $data['sign'] = request::filter('get.sign', '', 'htmlspecialchars');
+        new view('paofen/alipay',['data'=>$data]);
 
+    }
     //跑分模式
     public function automaticpaofen(){
         $type = request::filter('get.content_type','','htmlspecialchars');

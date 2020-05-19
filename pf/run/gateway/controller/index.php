@@ -103,7 +103,8 @@ class index
         $uid = $this->mysql->insert("client_paofen_automatic_orders",$data);
         if($uid>0){
             $sign = functions::sign($pankou['key_id'], ['amount' => $money, 'out_trade_no' => $out_trade_no]);
-            functions::str_json('json', 200, 'SUCCESS',['order_id'=>$uid,'amount'=>$money,'sign'=>$sign]);
+            url::address(url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
+            //functions::str_json('json', 200, 'SUCCESS',['order_id'=>$uid,'amount'=>$money,'sign'=>$sign]);
         }
     }
     //端口：automatic
@@ -484,7 +485,6 @@ class index
                 //生成二维码图片
                 $filename = '/Public/qrcode/' .time(). '.png';
                 $url = $_SERVER['DOCUMENT_ROOT'] . $filename;
-                $q = 'https://qr.alipay.com/fkx04575t7el3atwkoax2e3?t=1588746503354';
                 \QRcode::png($find_paofen['ewm_url'], $url, 'L', 5, 2);
                 functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrcode' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$filename,'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
             }
