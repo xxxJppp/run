@@ -67,7 +67,7 @@ $fix = DB_PREFIX;
                             <tr id="user_<?php echo $em['id']; ?>">
                                 <td></td>
                                 <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
-                                <td><a href="/admin/member/mashang.do?agent_id=<?php echo $em['id']?>"><?php echo $em['username']; ?></a> </td>
+                                <td><?php echo $em['username']; ?></td>
                                 <td style="text-align:center; color:#090;">
                                     <?php $group = $mysql->query("client_group", "id={$em['group_id']}")[0];
                                     echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>

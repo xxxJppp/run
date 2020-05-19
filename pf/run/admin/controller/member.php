@@ -53,16 +53,18 @@ class member
     {
         $this->powerLogin(20);
 
-        $member_id = request::filter('get.member_id');
-
-        if (!empty($member_id)) $where = "id like '%{$member_id}%' or username like '%{$member_id}%' or phone like '%{$member_id}%' and";
-        $where .= " is_agent = 1";
+        $member_id = request::filter('get.id');
+        $where = 'is_agent = 1';
+        if($member_id){
+            $where .= " and id = {$member_id}";
+        }
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('member/daili', [
             'mysql' => $this->mysql,
             'member' => $member,
-            'groups' => $groups
+            'groups' => $groups,
+            'id'=>$member_id
         ]);
     }
 

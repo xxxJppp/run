@@ -118,9 +118,12 @@ $fix = DB_PREFIX;
                                         ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s", $ru['pay_time']) . ')'; ?>
                                     </td>
 
-                                    <td>商户信息：<?php $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
+                                    <td>商户信息：<?php
+                                        $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
+                                        $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
                                         echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' . ' ( 商户ID: ' . $userInfo['id'] . ' ) ' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
                                        <br> 盘口id：<?php echo $ru['pankou_id']; ?>
+                                            <br> 上级id：<?php if(isset($level_id[0]['level_id'])){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?>
                                       <br>手机号码：<span
                                                 style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无'; ?></span>
                                     </td>

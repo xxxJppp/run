@@ -47,11 +47,20 @@ $fix = DB_PREFIX;
                 <!--条件查询-->
                 <div class="ibox-title">
                     <h5>代理管理</h5>
+                    
                     <div class="ibox-tools">
                         <a data-toggle="modal" data-target="#add1" class="btn btn-light">添加会员</a>
                         <i class="layui-icon" onclick="location.replace(location.href);" title="刷新"
                            style="cursor:pointer;">ဂ</i>
                     </div>
+                </div>
+                
+                <div>
+                    <form action="" style="margin-top: 20px">
+                        <input type="text" name="id" placeholder="请输入代理id" value="<?php echo $id;?>">
+                        <input type="submit" style="border:0px" value="查询" class="btn btn-success">
+                    </form>
+
                 </div>
 
                 <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
