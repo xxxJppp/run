@@ -370,7 +370,7 @@ $error_url = $data['error_url'];
     function updateorder(){
         $.ajax({
             type: 'POST',
-            url: 'http://pf.zhiyungk.com/gateway/index/checkpoint.do',
+            url: 'http://pf.zhiyungk.com/gateway/index/addorder.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',

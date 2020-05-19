@@ -54,7 +54,7 @@ class index
         }
     }
 
-    public function addorder(){
+    public function checkpoint(){
         $account_id = request::filter('post.account_id');
         $amount = floatval(request::filter('post.amount'));
         //$s_key = $thoroughfare = request::filter('post.key', '', 'htmlspecialchars');
@@ -110,7 +110,7 @@ class index
     //端口：automatic
     //网关关卡
     //通讯端口：80
-    public function checkpoint()
+    public function addorder()
     {
         $data = [];
         /*//商户ID

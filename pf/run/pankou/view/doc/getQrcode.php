@@ -33,7 +33,7 @@ use xh\library\url;
  
         <!--Striped Table-->
             <div class="divider"></div>
-            <p><b style="font-size:16px;">接口URL：</b><span style="color:green;"><?php echo URL_ROOT; ?>/gateway/index/addorder.do</span> </p>
+            <p><b style="font-size:16px;">接口URL：</b><span style="color:green;"><?php echo URL_ROOT; ?>/gateway/index/checkpoint.do</span> </p>
 
             <div id="striped-table">
               

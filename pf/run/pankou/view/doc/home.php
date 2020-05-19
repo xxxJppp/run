@@ -37,7 +37,7 @@ $fix = DB_PREFIX;
                 <address>
                     <strong>API对接参数：</strong><br><br>
                     商户号：<?php echo $_SESSION['MEMBER']['uid'];?><br><br>
-                    网关地址：<?php echo URL_ROOT; ?>/gateway/index/addorder.do<br><br>
+                    网关地址：<?php echo URL_ROOT; ?>/gateway/index/checkpoint.do<br><br>
                     商户APIKEY：<?php echo $_SESSION['MEMBER']['key_id'];?></span>
                 </address>
                 <address>
