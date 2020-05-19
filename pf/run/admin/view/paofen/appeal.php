@@ -132,6 +132,9 @@ $fix = DB_PREFIX;
     }
 
     function audit(id,type,money) {
+        if(money==''){
+            money = "0.00";
+        }
         if(type == 1){
             layer.prompt({title: '请填写正确金额', formType: 0,value:money}, function(ret, index){
                 $.ajax({
