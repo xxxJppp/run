@@ -41,6 +41,7 @@ $fix = DB_PREFIX;
                     <input onchange="flow_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'flow_no') echo $_GET['code'];?>">
                 </th>
                 <th>用户信息</th>
+                <th>余额变更[提现前余额/提现后余额]</th>
                 <th>金额</th>
                         <th>银行状态 [ <a href="<?php echo url::s("admin/member/mashangwithdraw","sorting=type&code=1");?>">未处理</a> / <a href="<?php echo url::s("admin/member/mashangwithdraw");?>">全部</a> ]</th>
                         <th>提现时间</th>
@@ -61,13 +62,14 @@ $fix = DB_PREFIX;
               <tr>
                
                  <td><p>流水单号：<?php echo $ru['flow_no'];?></p>
-                     <p>余额变更：提现前余额 ( <?php echo $ru['old_amount'];?> ) / 提现后余额 ( <?php echo $ru['new_amount'];?> )  </p>
                         </td>
                         
                         <td><p>用户名：<a href="<?php echo url::s("admin/member/index.do","member_id={$ru['user_id']}");?>"><?php $user = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo $user['username'];?></a></p>
                      <p>手机号：<?php echo $user['phone'];?>  </p>
                         </td>
-                
+                  <td>
+                      <p>提现前余额 ( <?php echo $ru['old_amount'];?> ) / 提现后余额 ( <?php echo $ru['new_amount'];?> )  </p>
+                  </td>
                 
                 <td><p>提现金额：<span style="color: green;"><?php echo $ru['amount'];?> ( 实际打款 : <b style="color:red;"><?php echo $ru['amount']-$ru['fees'];?></b> )</span></p>
                     <p>手续费用：<b><?php echo $ru['fees'];?></b></p>
