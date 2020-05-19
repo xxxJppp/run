@@ -133,7 +133,8 @@ class functions
         return [
             'quota'=>50000,
             'time'=>0,
-            'fees'=>5
+            'fees'=>5,
+            'jiange'=>20
         ];
     }
 

@@ -19,7 +19,31 @@ class paofenali{
     public function __construct(){
         $this->mysql = new mysql();
     }
-    
+    public function depositRelease(){
+        $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and type=1 and pay_time=0");
+        foreach($orders as $order){
+            $user_id = $order['user_id'];
+            $puser = $this->mysql->query("client_user", "id={$user_id}")[0];
+            $mashang_balance = $puser['balance'] +  $order['amount']; // 用户最终余额
+            $mashang_balance = floatval($mashang_balance);
+            $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+            $p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
+            $del = $this->mysql->delete("deposit","user_id={$user_id} and order_id={$order['id']}");
+            $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+            $ya = $this->mysql->insert("mashang_yajin_log", [
+                'uid' => $user_id,
+                'trade_no' =>$order['trade_no'],
+                'money'    => $order['amount'],
+                'old_balance'    =>  $puser['balance'],
+                'new_balance'    => $p2user['balance'],
+                'remark'    =>'订单超时解冻押金！订单号：'.$order['trade_no'].',冻结金额：'.$order['amount'].'元，冻结前余额：'. $puser['balance'].'元，解结后余额：'. $p2user['balance'].'元',
+                'time' => time(),
+                'status' => 1
+
+            ]);
+        }
+        echo 'success';
+    }
     
     public function fang()
     {

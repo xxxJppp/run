@@ -379,7 +379,7 @@ class features
         if (empty($order_id)) functions::json(-1, '订单ID错误');
         $order = $mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
-
+        if($order['status']==3) functions::json(-2, '订单超时，无法收款');
         $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($user)) functions::json(-1, '商户错误');
 

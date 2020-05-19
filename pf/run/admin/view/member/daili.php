@@ -182,10 +182,10 @@ $fix = DB_PREFIX;
                                     <?php }}?>
                             </td>
                             <td>
-                                <button class="layui-btn layui-btn-small"
-                                        onclick="order_view('<?php echo $em['username']; ?>->修改资料','/admin/member/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
+                                <a class="layui-btn layui-btn-small"
+                                        href="<?php echo url::s('admin/member/edit',"id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
                                     修改资料
-                                </button>
+                                </a>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
                                     删除

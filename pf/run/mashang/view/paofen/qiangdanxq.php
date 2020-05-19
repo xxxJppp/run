@@ -208,7 +208,9 @@ $fix = DB_PREFIX;
 <script>
     function confirmSK(status,id) {
         if(status == 4){
-            alert('订单已经收款完成了');;
+            alert('订单已经收款完成了');
+        }else if(status==3){
+            alert('订单超时，无法手动执行');
         }else {
             if (confirm('手动补发也是需要扣除手续费,您是否要继续?')) {
                 $.get("<?php echo url::s('/mashang/paofen/automaticReissue', "id=");?>" + id, function (ret) {

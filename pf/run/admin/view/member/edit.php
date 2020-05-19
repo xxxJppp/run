@@ -131,8 +131,8 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   <div class="form-group">
                   <label class="col-sm-2 control-label form-label"></label>
                   <div class="col-sm-10">
-                   	<a href="#" onclick="edit()" class="btn btn-success"><i class="fa fa-refresh"></i>保存更新</a> &nbsp;&nbsp;
-                   	<a href="<?php echo url::s('admin/member/index');?>" class="btn"><i class="fa fa-close"></i>取消</a>
+                   	<a href="javascript:;" onclick="edit()" class="btn btn-success"><i class="fa fa-refresh"></i>保存更新</a> &nbsp;&nbsp;
+                   	<a href="javascript:;" onclick="javascript:history.back(-1);" class="btn"><i class="fa fa-close"></i>取消</a>
                   </div>
                 </div>
 
@@ -145,7 +145,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
   </div>
   <!-- End Row -->
-  
+    <script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
     <script type="text/javascript">
 
     //选择头像
@@ -187,7 +187,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          success: function (data) {
 			              if(data.code == '200'){
 			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){location.href = '<?php echo url::s('admin/member/index');?>';},1500);
+			              	setTimeout(function(){javascript:history.back(-1);},1500);
 			              }else{
 			            	  swal("操作提示", data.msg, "error")
 			              }

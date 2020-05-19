@@ -350,7 +350,9 @@ class index
         $res = $this->mysql->query("client_user","balance>={$money} and id in ({$userIdInStr})",null,'rand()','desc',1);
         //返回数据
         if(!empty($res[0])){
-            return $res[0];
+
+                return $res[0];
+
         }
         return null;
 
@@ -375,6 +377,13 @@ class index
             //随机算法
             $use_city  = $data['use_city'];
             $randAgent = $this->getPayAgent($data['amount'],$data['type']);
+            $ordert = $this->mysql->query("client_paofen_automatic_orders","user_id={$randAgent['id']}",null,'creation_time','desc',1);
+
+            $tim = functions::withdrawSystem();
+            $back = time()-$ordert[0]['creation_time'];
+            if($back<$tim['jiange']){
+                functions::str_json($type_content, -1, '该码商匹配订单间隔需要20s');
+            }
             if($use_city == 1){
 
                 $clientCityData = $this->getCity($this->getIP());
@@ -426,6 +435,7 @@ class index
 
             $create_order = $this->mysql->update('client_paofen_automatic_orders', [
                 'paofen_id'     => $find_paofen['id'],
+                'creation_time'=>time(),
                 'pay_time'      => 0,
                 'status'        => 2,
                 'amount'        =>$money,
