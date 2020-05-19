@@ -126,8 +126,8 @@ $fix = DB_PREFIX;
                                         <?php
                                         $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id');
                                         ?>
-                                        <br> 上级id：<?php if(isset($level_id[0]['level_id'])){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?>
-                                            
+                                        <br> 上级id：<span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span>
+
                                       <br>手机号码：<span
                                                 style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无'; ?></span>
                                     </td>
