@@ -4,27 +4,8 @@ use xh\library\url;
 use xh\unity\cog;
 use xh\library\model;
 include_once (PATH_VIEW . 'common/header.php'); //头部
-include_once (PATH_VIEW . 'common/nav.php'); //导航
 $fix = DB_PREFIX;
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit">
-    <title>管理中心</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="/Public/Front/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/Public/Front/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/Public/Front/css/animate.css" rel="stylesheet">
-    <link href="/Public/Front/css/style.css" rel="stylesheet">
-    <link href="/Public/Front/css/zuy.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Public/Front/js/plugins/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="/Public/Front/iconfont/iconfont.css"/>
-<body class="gray-bg">
-<div class="content">
     <div class="wrapper wrapper-content animated">
         <div class="row">
             <div class="col-md-12">
@@ -181,8 +162,8 @@ $fix = DB_PREFIX;
                                 </td>
                                 <td>
                                     <button class="layui-btn layui-btn-small"
-                                            onclick="order_view('<?php echo $em['username']; ?>->修改密码','/admin/member/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
-                                        修改密码
+                                            onclick="order_view('<?php echo $em['username']; ?>->修改资料','/admin/member/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
+                                        修改资料
                                     </button>
                                     <button class="layui-btn layui-btn-small"
                                             onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
@@ -291,14 +272,7 @@ $fix = DB_PREFIX;
             </form>
         </div>
     </div>
-</div>
-<script src="/Public/Front/js/jquery.min.js"></script>
-<script src="/Public/Front/js/bootstrap.min.js"></script>
-<script src="/Public/Front/js/plugins/peity/jquery.peity.min.js"></script>
-<script src="/Public/Front/js/content.js"></script>
 <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
-<script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
-<script src="/Public/Front/js/Util.js" charset="utf-8"></script>
 <script>
     layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
         var laydate = layui.laydate //日期
@@ -445,5 +419,3 @@ $fix = DB_PREFIX;
         }
     }
 </script>
-</body>
-</html>

@@ -111,7 +111,6 @@
   color: #399bff;
 }
 body {
-  background: #3d464d;
   color: #58666e;
   margin: 0;
   line-height: 1.7em;
@@ -296,8 +295,7 @@ App Logo
   height: 60px;
   background: rgba(0, 0, 0, 0.14);
   color: #fff;
-  position: relative;
-  padding: 19px 0 0 0px;
+  line-height: 60px;
   float: left;
   text-align: center;
 }
@@ -536,6 +534,10 @@ Sidebar
   right: 20px;
   top: 18px;
   color: rgba(255, 255, 255, 0.4);
+}
+.icon {
+  margin-right: 20px;
+  color: rgba(255, 255, 255, .7);
 }
 .sidebar-panel li .icon {
   position: absolute;
@@ -880,6 +882,7 @@ Content
   padding-top: 80px;
   margin-left: 250px;
   background: #f5f5f5;
+  height: 100%;
 }
 /* =================================================================================
 FOOTER 
@@ -1986,6 +1989,24 @@ Top Stats
   margin: -20px -30px;
   margin-bottom: 0;
   padding: 30px 20px;
+}
+.navigation{
+  width: 250px;
+  height: calc(100% - 60px);
+  position: absolute;
+  top: 60px;
+  left: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #3d464d;
+  z-index: 0;
+  font-size: 13px;
+  font-weight: normal;
+  z-index: 500;
+  color: rgba(255, 255, 255, 0.8);
+  overflow-y: scroll;
+}
+.navigation::-webkit-scrollbar {
+  width: 0 !important
 }
 /* =================================================================================
 Awesome Bootstrap Checkbox Rewrite

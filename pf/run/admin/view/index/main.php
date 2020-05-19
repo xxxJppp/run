@@ -4,150 +4,89 @@ use xh\unity\cog;
 include_once (PATH_VIEW . 'common/header.php'); //头部
 include_once (PATH_VIEW . 'common/nav.php'); //导航
 ?>
+<div id="top" class="clearfix">
 
-<!-- START CONTENT -->
-<div class="content">
-
-  <!-- Start Page Header -->
-  <div class="page-header">
-   
-      <ol class="breadcrumb">
-        <li><a href="<?php echo url::s('admin/index/home');?>">控制台</a></li>
-        <li class="active">网站配置</li>
-      </ol>
-      
-  </div>
-  <!-- End Page Header -->
-
-
- <!-- //////////////////////////////////////////////////////////////////////////// --> 
-<!-- START CONTAINER -->
-<div class="container-padding">
-  
-    <!-- Start Row -->
-  <div class="row">
-
-    <div class="col-md-12">
-      <div class="panel panel-default">
-
-        <div class="panel-title">
-          网站配置
-          <ul class="panel-tools">
-            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
-          </ul>
-        </div>
-
-            <div class="panel-body">
-              <form class="form-horizontal" id="from">
-              
-               <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">网站名称</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control form-control-line" name="webName" placeholder="网站名称,用作于显示前台的网站名称" value="<?php echo cog::web()['name'];?>">
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">关键词</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control form-control-line" name="keywords" placeholder="网站关键词,有利于网站收录.." value="<?php echo cog::web()['keywords'];?>">
-                  </div>
-                </div>
-
-              
-
-                <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">网站描述</label>
-                  <div class="col-sm-10">
-                   <textarea class="form-control form-control-line" rows="3"  name="description"  placeholder="网站描述,有助于SEO优化.."><?php echo cog::web()['description'];?></textarea>
-                  </div>
-                </div>
-                
-                
-                <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">网站状态</label>
-                  <div class="col-sm-10">
-                    <div class="radio radio-info radio-inline">
-                        <input type="radio" id="inlineRadio1" name="open" value="1" <?php if (cog::web()['open'] == 1) echo 'checked';?>>
-                        <label for="inlineRadio1"> 开启 </label>
-                    </div>
-                    <div class="radio radio-inline">
-                        <input type="radio" id="inlineRadio2" name="open" value="2" <?php if (cog::web()['open'] == 2) echo 'checked';?>>
-                        <label for="inlineRadio2"> 关闭 </label>
-                    </div>
-                  </div>
-                </div>
-                
- 
-                  <div class="form-group">
-                  <label class="col-sm-2 control-label form-label"></label>
-                  <div class="col-sm-10">
-                   	<a href="#" onclick="edit()" class="btn btn-success"><i class="fa fa-refresh"></i>保存更新</a> &nbsp;&nbsp;
-                   	<a href="<?php echo url::s('admin/index/home');?>" class="btn"><i class="fa fa-close"></i>取消</a>
-                  </div>
-                </div>
-
-              </form> 
-
-            </div>
-
-      </div>
+    <div class="applogo">
+        <a href="<?php echo url::s('admin/index/home'); ?>" class="logo"><?php echo WEB_NAME; ?></a>
     </div>
+    <a href="#" class="sidebar-open-button"><i class="fa fa-bars"></i></a>
+    <a href="#" class="sidebar-open-button-mobile"><i class="fa fa-bars"></i></a>
+    <ul class="top-right">
+        <?php if (is_array($view_module)) {
+            $view_module_num = count($view_module);
+            ?>
+            <li class="dropdown link">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle hdbutton">快捷操作 <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-list">
+                    <?php for ($i = 0; $i < $view_module_num; $i++) { ?>
+                        <li><a href="#"><i class="fa falist fa-paper-plane-o"></i>快捷访问1</a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+        <?php } ?>
 
-  </div>
-  <!-- End Row -->
-  
-    <script type="text/javascript">
-			function edit(){
-				$.ajax({
-			          type: "POST",
-			          dataType: "json",
-			          url: "<?php echo url::s('admin/system/webCogResult');?>",
-			          data: $('#from').serialize(),
-			          success: function (data) {
-			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success");
-			              }else{
-			            	  swal("操作提示", data.msg, "error");
-			              }
-			          },
-			          error: function(data) {
-			              alert("error:"+data.responseText);
-			           }
-			  });
-			}
-   </script>
-  
+        <li class="dropdown link">
+            <a href="#" data-toggle="dropdown"
+               class="dropdown-toggle profilebox"><b><?php echo $_SESSION['USER_MGT']['username']; ?></b><span
+                        class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-menu-list dropdown-menu-right">
+                <li role="presentation" class="dropdown-header">个人</li>
+                <li><a href="<?php echo url::s('admin/user/editView'); ?>"><i class="fa falist fa-wrench"></i>修改资料</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa falist fa-lock"></i> 锁定账户</a></li>
+                <li><a href="<?php echo url::s('admin/user/out'); ?>"><i class="fa falist fa-power-off"></i> 安全注销</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </div>
-<!-- END CONTAINER -->
- <!-- //////////////////////////////////////////////////////////////////////////// --> 
-
-<?php include_once (PATH_VIEW . 'common/footer.php');?>
-
+<div class="content">
+    <iframe style="width: 100%;height: 100%" id="content_html" src="" frameborder="0"></iframe>
 </div>
-<!-- End Content -->
+<script type="text/javascript">
+    $(function () {
+        layui.use('element', function(){
+            var element = layui.element;
+        });
+        $(".iframe_open").on('click',function () {
+            var href = $(this).data('href');
+            $(".content iframe").attr('src',href);
+        })
+    })
 
-<?php include_once (PATH_VIEW . 'common/chat.php');?>
+    function withdrawNotice() {
+        $.get("<?php echo url::s('index/notice/polling');?>", function (result) {
+            if (result.code == '200') {
+                //提现通知
+                playSound();
+            }
+        });
+    }
 
-<!-- ================================================
-jQuery Library
-================================================ -->
-<script type="text/javascript" src="<?php echo URL_VIEW;?>/static/console/js/jquery.min.js"></script>
+    setInterval("withdrawNotice()", 2000);
 
-<!-- ================================================
-Bootstrap Core JavaScript File
-================================================ -->
-<script src="<?php echo URL_VIEW;?>/static/console/js/bootstrap/bootstrap.min.js"></script>
+    function playSound() {
+        var borswer = window.navigator.userAgent.toLowerCase();
+        if (borswer.indexOf("ie") >= 0) {
+            //IE内核浏览器
+            var strEmbed = '<embed name="embedPlay" src="<?php echo URL_STATIC . "media/withdraw111.mp3";?>" autostart="true" hidden="true" loop="false"></embed>';
+            if ($("body").find("embed").length <= 0)
+                $("body").append(strEmbed);
+            var embed = document.embedPlay;
 
-<!-- ================================================
-Plugin.js - Some Specific JS codes for Plugin Settings
-================================================ -->
-<script type="text/javascript" src="<?php echo URL_VIEW;?>/static/console/js/plugins.js"></script>
+            //浏览器不支持 audion，则使用 embed 播放
+            embed.volume = 100;
+            //embed.play();
+        } else {
+            //非IE内核浏览器
+            var strAudio = '<audio id="audioPlay" src="<?php echo URL_STATIC . "media/withdraw111.mp3";?>" hidden="true">';
+            if ($("body").find("audio").length <= 0)
+                $("body").append(strAudio);
+            var audio = document.getElementById("audioPlay");
 
-<!-- ================================================
-Sweet Alert
-================================================ -->
-<script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
-
-</body>
-</html>
+            //浏览器支持 audion
+            audio.play();
+        }
+    }
+</script>

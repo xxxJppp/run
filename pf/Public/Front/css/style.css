@@ -122,7 +122,6 @@ body.body-small .navbar-top-links li:last-child {
 
 .dropdown-menu > li > a {
     border-radius: 3px;
-    color: inherit;
     line-height: 25px;
     margin: 4px;
     text-align: left;
@@ -3336,7 +3335,6 @@ a.forum-item-title:hover {
 body {
     font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
-    color: #676a6c;
     overflow-x: hidden;
 }
 
@@ -3999,6 +3997,7 @@ img.circle-border {
 }
 
 .breadcrumb {
+    margin-left: 20px;
     background-color: #ffffff;
     padding: 0;
     margin-bottom: 0;

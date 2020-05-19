@@ -4,19 +4,8 @@ use xh\library\url;
 use xh\unity\cog;
 use xh\library\model;
 include_once (PATH_VIEW . 'common/header.php'); //头部
-include_once (PATH_VIEW . 'common/nav.php'); //导航
 $fix = DB_PREFIX;
 ?>
-
-    <link rel="shortcut icon" href="favicon.ico">
-        <link href="/Public/Front/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/Public/Front/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/Public/Front/css/animate.css" rel="stylesheet">
-        <link href="/Public/Front/css/style.css" rel="stylesheet">
-        <link href="/Public/Front/css/zuy.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Public/Front/js/plugins/layui/css/layui.css">
-<body class="gray-bg">
-<div class="content">
 <div class="wrapper wrapper-content animated">
     <div class="row">
         <div class="col-md-12">
@@ -111,7 +100,6 @@ $fix = DB_PREFIX;
             </div>
         </div>
     </div>
-</div>
 <!-- Modal -->
 <script src="/Public/Front/js/jquery.min.js"></script>
 <script src="/Public/Front/js/bootstrap.min.js"></script>
@@ -174,5 +162,3 @@ $fix = DB_PREFIX;
 
     }
 </script>
-</body>
-</html>

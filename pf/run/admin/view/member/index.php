@@ -3,12 +3,10 @@ use xh\library\url;
 use xh\library\model;
 use xh\library\ip;
 include_once (PATH_VIEW . 'common/header.php'); //头部
-include_once (PATH_VIEW . 'common/nav.php'); //导航
 $fix = DB_PREFIX;
 ?>
 
 <!-- START CONTENT -->
-<div class="content">
 
   <!-- Start Page Header -->
   <div class="page-header">
@@ -451,39 +449,6 @@ $fix = DB_PREFIX;
   <!-- End Row -->
   
 </div>
-<!-- END CONTAINER -->
- <!-- //////////////////////////////////////////////////////////////////////////// --> 
-
-<?php include_once (PATH_VIEW . 'common/footer.php');?>
-
-</div>
-<!-- End Content -->
-
-<?php include_once (PATH_VIEW . 'common/chat.php');?>
-
-<!-- ================================================
-jQuery Library
-================================================ -->
-<script type="text/javascript" src="<?php echo URL_VIEW;?>/static/console/js/jquery.min.js"></script>
-
-<!-- ================================================
-Bootstrap Core JavaScript File
-================================================ -->
-<script src="<?php echo URL_VIEW;?>/static/console/js/bootstrap/bootstrap.min.js"></script>
-
-<!-- ================================================
-Plugin.js - Some Specific JS codes for Plugin Settings
-================================================ -->
-<script type="text/javascript" src="<?php echo URL_VIEW;?>/static/console/js/plugins.js"></script>
-
-<!-- ================================================
-Sweet Alert
-================================================ -->
-<script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
-<!-- ================================================
-Bootstrap Select
-================================================ -->
-<script type="text/javascript" src="<?php echo URL_VIEW;?>/static/console/js/bootstrap-select/bootstrap-select.js"></script>
 
 <script>
 function user_query(obj){
@@ -507,6 +472,3 @@ $(function(){
        });  
    });  
 </script>
-
-</body>
-</html>
