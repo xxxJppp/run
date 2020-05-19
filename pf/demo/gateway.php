@@ -311,7 +311,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
     $(function () {
         var timer, minutes, seconds, ci, qi,time=$("#time").val()+300;
         //var intDiff = parseInt('<?php echo ($creation_time+300) - time();?>');//倒计时总秒数量
-        timer = parseInt(time) - 1;
+        timer = parseInt(300) - 1;
         if(time>0){
         ci = setInterval(function () {
             minutes = parseInt(timer / 60, 10)
