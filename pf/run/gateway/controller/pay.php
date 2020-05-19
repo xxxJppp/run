@@ -857,6 +857,7 @@ class pay
     {
         $id = intval(request::filter('get.id'));
         $order = $this->mysql->query('client_alipay_automatic_orders', "id ={$id}", 'status,creation_time,qrcode,alipay_id')[0];
+       print_r($order);
         if (!is_array($order)) functions::json(-1, '当前交易号不存在');
         if ($order['status'] == 1) functions::json(1, '正在与网关连接中..');
         if ($order['status'] == 2) {

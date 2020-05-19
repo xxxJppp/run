@@ -27,12 +27,11 @@ class paofenali{
     	 $resWxIds = $this->mysql->query("client_paofen_automatic_account","status=4 and training=1 and receiving=1 and type={$type}","user_id");
     	 $begin = strtotime("2020-04-12 14:15:00"); #在这个时间后的订单
     	 $chaoshi = time()-300;
-    	 $orders = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and creation_time > $begin and  creation_time <= $chaoshi  and backed = 0"  );
-    	 
-     
+    	 $orders = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and creation_time > $begin and  creation_time <= $chaoshi and backed=0"  );
+
     	 foreach( $orders as $order )
     	 {
-    	 	$this->mysql->update("client_paofen_automatic_orders", ['status' => 3, 'backed' => 1 ], "id={$order['id']}"); 	//设置订单超时
+    	 	$this->mysql->update("client_paofen_automatic_orders", ['status' => 3], "id={$order['id']}"); 	//设置订单超时
     	 
     	 	$user_id = $order['user_id'];
     	 	$puser = $this->mysql->query("client_user", "id={$user_id}")[0];
