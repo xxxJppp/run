@@ -300,19 +300,34 @@ $error_url = 'http://xin.com/demo/pay_true.php';
     });
     //使用匿名函数方法
     function countDown() {
-        console.log(1);
         var time = document.getElementById("second_show");
-        //alert(time.innerHTML);
-        //获取到id为time标签中的内容，现进行判断
-        time.innerHTML = time.innerHTML - 1;
+        var id = $("#orderid").val();
+        if (time.innerHTML == 0) {
+            $.get("http://xin.com/gateway/index/automaticpaofenDel?id="+id, function(result){
+                //成功
+                if(result.code == '200'){
+                    //回调页面
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time:1500,
+                        end:function(){
+                        location.href="<?php echo $success_url;?>";
+                    }});
+                }
+
+            });
+        } else {
+            time.innerHTML = time.innerHTML - 1;
+        }
     }
     //1000毫秒调用一次
     window.setInterval("countDown()", 1000);
-    $(function () {
+    function timi() {
+
+        var id = $("#orderid").val();
         var timer, minutes, seconds, ci, qi,time=$("#time").val()+300;
-        //var intDiff = parseInt('<?php echo ($creation_time+300) - time();?>');//倒计时总秒数量
         timer = parseInt(300) - 1;
-        if(time>0){
+        if(timer>0){
         ci = setInterval(function () {
             minutes = parseInt(timer / 60, 10)
             seconds = parseInt(timer % 60, 10);
@@ -327,24 +342,39 @@ $error_url = 'http://xin.com/demo/pay_true.php';
                 $(".minutes b").text('00');
                 $(".seconds b").text('00');
                 $(".help").html('订单已过期,请重新提交');
-                daoqi();
+                daoqi(id);
                 clearInterval(ci);
 
             }
         }, 1000);
         }
-    });
-    function daoqi(){
+    }
+    function daoqi(id){
 
         layer.confirm("订单已过期,请重新提交", {
             icon: 2,
             title: '支付失败',
             btn: ['确认'] //按钮
         }, function(){
+            $.get("http://xin.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+                //成功
+                if(result.code == '200'){
+                    location.href="<?php echo $error_url;?>";
+                }
 
-            location.href="<?php echo $error_url;?>";
+            });
+
         });
-        setTimeout(function(){location.href="<?php echo $error_url;?>";},5000);
+        setTimeout(function(){
+            $.get("http://xin.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+                //成功
+                if(result.code == '200'){
+                    location.href="<?php echo $error_url;?>";
+                }
+
+            });
+            //location.href="<?php echo $error_url;?>";
+            },5000);
 
     }
     dscd();
@@ -412,6 +442,8 @@ $error_url = 'http://xin.com/demo/pay_true.php';
                     $("#second_show").text(intDiff);
                     $("#time").val(n.data.time);
                     $("#div").show();
+                    timi();
+                    clearInterval(dscd_time);
 
                 }
             }

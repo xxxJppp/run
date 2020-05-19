@@ -27,7 +27,7 @@ $fix = DB_PREFIX;
 <div class="content">
     <div class="wrapper wrapper-content animated">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-11">
                 <div class="ibox float-e-margins">
                     <!--条件查询-->
                     <div class="ibox-title">
@@ -39,24 +39,30 @@ $fix = DB_PREFIX;
                         </div>
                     </div>
 
+                    <div>
+                        <form action="" style="margin-top: 20px">
+                            <input type="text" name="m_username" placeholder="请输入码商账号" value="<?php echo $m_username;?>">
+                            <input type="submit" style="border:0px" value="查询" class="btn btn-success">
+                        </form>
+
+                    </div>
+
                     <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
                         <thead>
                         <tr>
-                            <th lay-data="{field:'check',width:80,checkbox:true}"></th>
                             <th lay-data="{field:'id',width:90}">ID</th>
                             <th lay-data="{field:'uid',width:130}">码商账号</th>
                             <th lay-data="{field:'money',width:130}">金额</th>
                             <th lay-data="{field:'remark',width:130}">备注</th>
                             <th lay-data="{field:'status',width:130}">状态</th>
                             <th lay-data="{field:'time',width:130}">时间</th>
-                            <th lay-data="{field:'op_user',width:130}">操作ID/用户名</th>
-                            <!--<th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>-->
+                            <th lay-data="{field:'op_user',width:180}">操作ID/用户名</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($member['result'] as $em) { ?>
                             <tr id="user_<?php echo $em['id']; ?>">
-                                <td></td>
                                 <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                                 <td style="text-align:center; color:#090;">
                                     <?php $group = $mysql->query("client_user", "id={$em['uid']}")[0];
@@ -77,16 +83,7 @@ $fix = DB_PREFIX;
                                 <td style="text-align:center; color:#090;"><?php echo date("Y-m-d H:i:s",$em['time']); ?> </td>
                                 <td style="text-align:center; color:#090;"><?php echo $em['op_user']; ?> </td>
 
-                                <!--<td>
-                                    <button class="layui-btn layui-btn-small"
-                                            onclick="order_view('<?php echo $em['username']; ?>->修改密码','/admin/member/passwordedit.do?id=<?php echo $em['id']; ?>',500,350)">
-                                        修改密码
-                                    </button>
-                                    <button class="layui-btn layui-btn-small"
-                                            onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
-                                        删除
-                                    </button>
-                                </td>-->
+
                             </tr>
                         <?php } ?>
                         </tbody>

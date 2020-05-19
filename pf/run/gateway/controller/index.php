@@ -32,6 +32,27 @@ class index
     {
         return functions::getAndroidHeartbeatNowTime();
     }
+    public function automaticpaofenDel(){
+        $uid = request::filter('get.id');
+        if(!empty($uid)){
+            $result = $this->mysql->delete("client_paofen_automatic_orders","id={$uid}");
+            if($result) functions::str_json('json',200,'订单匹配超时，重新发起申请');
+        }else{
+            functions::str_json('json','-3','订单不存在');
+        }
+
+    }
+    public function automaticpaofenTimeout(){
+        $uid = request::filter('get.id');
+        if(!empty($uid)){
+            $chaoshi = time()-300;
+            $order = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and creation_time <= {$chaoshi} and id={$uid}")[0];
+            $result = $this->mysql->update("client_paofen_automatic_orders", ['status' => 3], "id={$order['id']}");
+            if($result) functions::str_json('json',200,'订单支付超时');
+        }else{
+            functions::str_json('json','-3','订单不存在');
+        }
+    }
 
     public function addorder(){
         $account_id = request::filter('post.account_id');
@@ -405,7 +426,6 @@ class index
 
             $create_order = $this->mysql->update('client_paofen_automatic_orders', [
                 'paofen_id'     => $find_paofen['id'],
-                'creation_time'=>time(),
                 'pay_time'      => 0,
                 'status'        => 2,
                 'amount'        =>$money,
@@ -439,6 +459,12 @@ class index
                 'status' => 1
 
             ]);
+        $deposit = $this->mysql->insert("deposit",[
+           'user_id'=>$randAgent['id'],
+            'money'=>$data['amount'],
+            'order_id'=>$data['id'],
+            'addtime'=>time()
+        ]);
 
 
 

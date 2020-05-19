@@ -833,16 +833,27 @@ class member
 
     public function manualrecharge()
     {
+        $m_username = request::filter('get.m_username');
+
         $this->powerLogin(92);
+        $where = '';
+        if ($m_username) {
+            $user = $this->mysql->query('client_user', "username='{$m_username}'")[0];
+
+            if($user){
+                $where .= 'uid = ' . $user['id'];
+            }
+        }
 
         //TODO 查询充值列表
         $this->powerLogin(20);
 
-        $member = page::conduct('user_paylog', request::filter('get.page'), 10, '', null, 'id', 'desc');
+        $member = page::conduct('user_paylog', request::filter('get.page'), 10, $where, null, 'id', 'desc');
 
         new view('member/manualrecharge', [
             'mysql' => $this->mysql,
             'member' => $member,
+            'm_username' => $m_username
         ]);
 
     }
