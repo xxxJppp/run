@@ -15,9 +15,9 @@ $account_id = 10095;
 //S_KEY->商户KEY，到平台首页自行复制粘贴，该参数无需上传，用来做签名验证和回调验证，请勿泄露
 $s_key = 'B83205253588C1';
 //订单号码->这个是四方网站发起订单时带的订单信息，一般为用户名，交易号，等字段信息
-$out_trade_no = $_POST['orderid'];
+$out_trade_no = date("YmdHis") . mt_rand(10000,99999);
 //支付通道：支付宝（公开版）：alipay_auto、微信（公开版）：wechat_auto、服务版（免登陆/免APP）：service_auto
-$type = intval($_POST['pay']);
+$type = intval($_POST['type'])?intval($_POST['type']):1;
 //通道
 $thoroughfare = 'paofen_auto';
 
@@ -32,11 +32,11 @@ $use_city = 2;
 //微信设备KEY，新增加一条支付通道，会自动生成一个device Key，可在平台的公开版下看见，如果为轮训状态无需附带此参数，如果$robin参数为1的话，就必须附带设备KEY，进行单通道支付
 $device_key = '';
 //异步通知接口url->用作于接收成功支付后回调请求
-$callback_url = $_POST['url'];
+$callback_url = 'http://pf.zhiyungk.com/demo/notify.php';
 //支付成功后自动跳转url
-$success_url = 'http://xin.com/demo/pay_true.php';
+$success_url = 'http://pf.zhiyungk.com/demo/';
 //支付失败或者超时后跳转url
-$error_url = 'http://xin.com/demo/pay_true.php';
+$error_url = 'http://pf.zhiyungk.com/demo/';
 //支付类型->类型参数是服务版使用，公开版无需传参也可以
 
 
@@ -303,7 +303,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
         var time = document.getElementById("second_show");
         var id = $("#orderid").val();
         if (time.innerHTML == 0) {
-            $.get("http://xin.com/gateway/index/automaticpaofenDel?id="+id, function(result){
+            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenDel?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     //回调页面
@@ -356,7 +356,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
             title: '支付失败',
             btn: ['确认'] //按钮
         }, function(){
-            $.get("http://xin.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     location.href="<?php echo $error_url;?>";
@@ -366,7 +366,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
 
         });
         setTimeout(function(){
-            $.get("http://xin.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     location.href="<?php echo $error_url;?>";
@@ -381,7 +381,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
     function dscd() {
         $.ajax({
             type: 'POST',
-            url: 'http://xin.com/gateway/index/addorder.do',
+            url: 'http://pf.zhiyungk.com/gateway/index/addorder.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',
@@ -411,7 +411,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
     function updateorder(){
         $.ajax({
             type: 'POST',
-            url: 'http://xin.com/gateway/index/checkpoint.do',
+            url: 'http://pf.zhiyungk.com/gateway/index/checkpoint.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',
@@ -456,7 +456,7 @@ $error_url = 'http://xin.com/demo/pay_true.php';
         function order(){
             var id = $("#orderid").val();
             if(id!=''){
-            $.get("http://xin.com/gateway/pay/automaticpaofenQuery?id="+id, function(result){
+            $.get("http://pf.zhiyungk.com/gateway/pay/automaticpaofenQuery?id="+id, function(result){
 
                 //成功
                 if(result.code == '200'){
