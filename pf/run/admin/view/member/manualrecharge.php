@@ -33,7 +33,7 @@ $fix = DB_PREFIX;
                     <div class="ibox-title">
                         <h5>人工充值扣款</h5>
                         <div class="ibox-tools">
-                            <a data-toggle="modal" data-target="#add1" class="btn btn-light">人工操作</a>
+                            <a data-toggle="modal" data-target="#add1" class="btn btn-light">人工充值扣款</a>
                             <i class="layui-icon" onclick="location.replace(location.href);" title="刷新"
                                style="cursor:pointer;">ဂ</i>
                         </div>
@@ -42,33 +42,40 @@ $fix = DB_PREFIX;
                     <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
                         <thead>
                         <tr>
+                            <th lay-data="{field:'check',width:80,checkbox:true}"></th>
                             <th lay-data="{field:'id',width:90}">ID</th>
                             <th lay-data="{field:'uid',width:130}">码商账号</th>
                             <th lay-data="{field:'money',width:130}">金额</th>
                             <th lay-data="{field:'remark',width:130}">备注</th>
                             <th lay-data="{field:'status',width:130}">状态</th>
                             <th lay-data="{field:'time',width:130}">时间</th>
-                            <th lay-data="{field:'op_user_id',width:130}">操作人员</th>
+                            <th lay-data="{field:'op_user',width:130}">操作ID/用户名</th>
                             <!--<th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>-->
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($member['result'] as $em) { ?>
                             <tr id="user_<?php echo $em['id']; ?>">
+                                <td></td>
                                 <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                                 <td style="text-align:center; color:#090;">
                                     <?php $group = $mysql->query("client_user", "id={$em['uid']}")[0];
                                     echo is_array($group) ? '<span>' . $group['username'] . '</span>' : '<span">-</span>'; ?>
                                 </td>
 
-                                <td style="text-align:center; color:#090;"><?php echo $em['money']; ?> </td>
+                                <td style="text-align:center; color:#090;">
+                                    <?php
+                                    if($em['status']==1){
+                                        echo $em['money'];
+                                    }else{
+                                        echo "-".$em['money'];
+                                    }
+                                    ?>
+                                </td>
                                 <td style="text-align:center; color:#090;"><?php echo $em['remark']; ?> </td>
                                 <td style="text-align:center; color:#090;"><?php if($em['status']==1){echo "充值";}else{echo "扣款";}; ?> </td>
                                 <td style="text-align:center; color:#090;"><?php echo date("Y-m-d H:i:s",$em['time']); ?> </td>
-                                <td style="text-align:center; color:#090;">
-                                    <?php $user = $mysql->query("mgt", "id={$em['op_user_id']}")[0];
-                                    echo is_array($user) ? '<span style="color:orange;"><b>' . $user['username'] . '</b></span>' : '<span style="color:red;">-</span>'; ?>
-                                </td>
+                                <td style="text-align:center; color:#090;"><?php echo $em['op_user']; ?> </td>
 
                                 <!--<td>
                                     <button class="layui-btn layui-btn-small"
@@ -106,7 +113,7 @@ $fix = DB_PREFIX;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">人工操作</h4>
+                        <h4 class="modal-title">人工充值扣款</h4>
                     </div>
                     <div class="modal-body">
 
@@ -149,6 +156,7 @@ $fix = DB_PREFIX;
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                         <button type="button" onclick="add()" class="btn btn-success"><i class="fa fa-refresh"></i>确认添加</button>
+
 
                     </div>
                 </div>
@@ -226,29 +234,36 @@ $fix = DB_PREFIX;
         });
     }
     //人工充值
+    var isallvop = 1;
     function add(){
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: "<?php echo url::s('admin/member/manualRechargeResult');?>",
-            data: $('#from').serialize(),
-            success: function (data) {
-                if(data.code == '200'){
-                    layer.msg('添加成功', {
-                        icon: 1,
-                        time: 2000,
-                        end:function(){
-                            window.location.href="/admin/member/manualrecharge";
-                        }
-                    });
-                }else{
-                    layer.msg(data.msg, {icon: 1, time: 1000});
+        if(isallvop == 1) {
+            isallvop = 0;
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo url::s('admin/member/manualRechargeResult');?>",
+                data: $('#from').serialize(),
+                success: function (data) {
+                    if (data.code == '200') {
+                        layer.msg('添加成功', {
+                            icon: 1,
+                            time: 1000,
+                            end: function () {
+                                isallvop = 1;
+                                window.location.href = "/admin/member/manualrecharge";
+                            }
+                        });
+                    } else {
+                        isallvop = 1;
+                        layer.msg(data.msg, {icon: 1, time: 1000});
+                    }
+                },
+                error: function (data) {
+                    isallvop = 1;
+                    alert("error:" + data.responseText);
                 }
-            },
-            error: function(data) {
-                alert("error:"+data.responseText);
-            }
-        });
+            });
+        }
     }
     /*订单-删除*/
     function order_del(obj, id) {

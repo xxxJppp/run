@@ -872,9 +872,10 @@ class member
             'new_money' => $new_money,
             'remark' => $remark,
             'time' => time(),
-            'op_user_id' => $_SESSION['USER_MGT']['uid'],
+            'op_user' => $_SESSION['USER_MGT']['uid']."|".$_SESSION['USER_MGT']['username'],
             'status' => $status
         ];
+
         $st = $this->mysql->insert('user_paylog', $data);
         $up = $this->mysql->update('client_user', [
             'balance' => $new_money
