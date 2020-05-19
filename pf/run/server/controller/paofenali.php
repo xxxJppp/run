@@ -29,6 +29,7 @@ class paofenali{
             $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
             $p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
             $del = $this->mysql->delete("deposit","user_id={$user_id} and order_id={$order['id']}");
+            $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
             $ya = $this->mysql->insert("mashang_yajin_log", [
                 'uid' => $user_id,
                 'trade_no' =>$order['trade_no'],
