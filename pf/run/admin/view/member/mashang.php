@@ -38,6 +38,13 @@ $fix = DB_PREFIX;
                                style="cursor:pointer;">ဂ</i>
                         </div>
                     </div>
+                    <div>
+                        <form action="" style="margin-top: 20px">
+                            <input type="text" name="id" placeholder="请输入码商id" value="<?php echo $id;?>">
+                            <input type="submit" style="border:0px" value="查询" class="btn btn-success">
+                        </form>
+
+                    </div>
 
                     <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
                         <thead>
