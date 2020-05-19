@@ -833,9 +833,8 @@ class member
 
     public function manualrecharge()
     {
-        $m_username = request::filter('get.m_username');
-
         $this->powerLogin(92);
+        $m_username = trim(request::filter('get.m_username'));
         $where = '';
         if ($m_username) {
             $user = $this->mysql->query('client_user', "username='{$m_username}'")[0];

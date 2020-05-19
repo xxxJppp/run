@@ -38,33 +38,24 @@ $fix = DB_PREFIX;
                             <th lay-data="{field:'status',width:130}">状态</th>
                             <th lay-data="{field:'time',width:130}">时间</th>
                             <th lay-data="{field:'op_user',width:180}">操作ID/用户名</th>
-
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($member['result'] as $em) { ?>
                             <tr id="user_<?php echo $em['id']; ?>">
-                                <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
-                                <td style="text-align:center; color:#090;">
+                                <td><?php echo $em['id']; ?> </td>
+                                <td>
                                     <?php $group = $mysql->query("client_user", "id={$em['uid']}")[0];
                                     echo is_array($group) ? '<span>' . $group['username'] . '</span>' : '<span">-</span>'; ?>
                                 </td>
 
-                                <td style="text-align:center; color:#090;">
-                                    <?php
-                                    if($em['status']==1){
-                                        echo $em['money'];
-                                    }else{
-                                        echo "-".$em['money'];
-                                    }
-                                    ?>
+                                <td>
+                                    <?php echo $em['status']==1?$em['money']:"-".$em['money']; ?>
                                 </td>
-                                <td style="text-align:center; color:#090;"><?php echo $em['remark']; ?> </td>
-                                <td style="text-align:center; color:#090;"><?php if($em['status']==1){echo "充值";}else{echo "扣款";}; ?> </td>
-                                <td style="text-align:center; color:#090;"><?php echo date("Y-m-d H:i:s",$em['time']); ?> </td>
-                                <td style="text-align:center; color:#090;"><?php echo $em['op_user']; ?> </td>
-
-
+                                <td><?php echo $em['remark']; ?> </td>
+                                <td><?php echo $em['status']==1? "充值":"扣款"; ?> </td>
+                                <td><?php echo date("Y-m-d H:i:s",$em['time']); ?> </td>
+                                <td><?php echo $em['op_user']; ?> </td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -73,10 +64,6 @@ $fix = DB_PREFIX;
                     <!--交易列表-->
                     <div class="page">
                         <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-0">
-                            <!--    <span class="layui-laypage-curr current"><em class="layui-laypage-em"></em><em>1</em></span>
-                                  <a class="num" href="/agent_Order_index.html?p=2">2</a><
-                                  a class="num" href="/agent_Order_index.html?p=3">3</a>
-                                  <a class="next layui-laypage-next" href="/agent_Order_index.html?p=2">下一页</a> </div>       -->
                             <?php (new model())->load('page', 'turn')->auto($member['info']['pageAll'], $member['info']['page'], 10); ?>
                         </div>
                     </div>
