@@ -828,7 +828,17 @@ class member
     public function manualrecharge()
     {
         $this->powerLogin(92);
-        new view('member/manualrecharge');
+
+        //TODO 查询充值列表
+        $this->powerLogin(20);
+
+        $member = page::conduct('user_paylog', request::filter('get.page'), 10, '', null, 'id', 'desc');
+
+        new view('member/manualrecharge', [
+            'mysql' => $this->mysql,
+            'member' => $member,
+        ]);
+
     }
 
     public function manualRechargeResult()
@@ -856,6 +866,7 @@ class member
             'new_money' => $new_money,
             'remark' => $remark,
             'time' => time(),
+            'op_user_id' => $_SESSION['USER_MGT']['uid'],
             'status' => $status
         ];
         $st = $this->mysql->insert('user_paylog', $data);
