@@ -33,25 +33,66 @@ class index
         return functions::getAndroidHeartbeatNowTime();
     }
 
+    public function addorder(){
+        $account_id = request::filter('post.account_id');
+        $amount = floatval(request::filter('post.amount'));
+        //$s_key = $thoroughfare = request::filter('post.key', '', 'htmlspecialchars');
+        $pankou = $this->mysql->query("client_user","id={$account_id}")[0];
+        if(!is_array($pankou)) functions::str_json('json', -1, '该商户不存在');
+        $min=0.01;
+        $max=0.19;
+        $money_ok = false;
+        for($x=0; $x<=10; $x++){
+            $money = round($amount + $min + mt_rand()/mt_getrandmax() * ($max-$min), 2);
+        }
 
+
+        $out_trade_no = request::filter('post.out_trade_no', '', 'htmlspecialchars');
+
+        $order = $this->mysql->query("client_paofen_automatic_orders","out_trade_no='{$out_trade_no}'")[0];
+        $sign = functions::sign($pankou['key_id'], ['amount' => $order['amount'], 'out_trade_no' => $order['out_trade_no']]);
+        if(is_array($order)) functions::str_json('json', 200, '订单已经存在',['order_id'=>$order['id'],'amount'=>$order['amount'],'sign'=>$sign]);
+        $type = intval(request::filter('post.type',1));
+
+        $callback_url = request::filter('post.callback_url', '', 'htmlspecialchars');
+        $success_url = 'http://xin.com/demo';
+        $error_url = 'http://xin.com/demo';
+
+
+        $data =  [
+            'paofen_id'     => 0,
+            'creation_time' => time(),
+            'pay_time'      => 0,
+            'status'        => 2,
+            'amount'        =>$money,
+            'ymoney'        =>$amount,
+            'callback_url'  => $callback_url,
+            'success_url'   => $success_url,
+            'error_url'     => $error_url,
+            'user_id'       => 0,
+            'pankou_id'       =>$account_id,
+            'callback_time' => 0,
+            'out_trade_no'  => $out_trade_no,
+            'ip'            => ip::get(),
+            'trade_no'      => 0,
+            'app_user'=>'',
+            'type'=>$type,
+            'dy_name'=>''
+        ];
+        $uid = $this->mysql->insert("client_paofen_automatic_orders",$data);
+        if($uid>0){
+            $sign = functions::sign($pankou['key_id'], ['amount' => $money, 'out_trade_no' => $out_trade_no]);
+            functions::str_json('json', 200, 'SUCCESS',['order_id'=>$uid,'amount'=>$money,'sign'=>$sign]);
+        }
+    }
     //端口：automatic
     //网关关卡
     //通讯端口：80
     public function checkpoint()
     {
-
-
         $data = [];
-        //网页类型
-        $type = request::filter('post.content_type', '', 'htmlspecialchars');
-        //商户ID
+        /*//商户ID
         $acc_id = intval(request::filter('post.account_id'));
-        //通道
-        $thoroughfare = request::filter('post.thoroughfare', '', 'htmlspecialchars');
-
-        //检测是否轮训
-        $data['robin'] = intval(request::filter('post.robin'));
-        $data['use_city'] = intval(request::filter('post.use_city'));
         //callback_url
         $data['callback_url'] = request::filter('post.callback_url', '', 'htmlspecialchars');
         //success_url
@@ -60,21 +101,34 @@ class index
         $data['error_url'] = request::filter('post.error_url', '', 'htmlspecialchars');
         //out_trade_no
         $data['out_trade_no'] = request::filter('post.out_trade_no', '', 'htmlspecialchars');
-        //trade_no -> 自动生成
-        $data['trade_no'] = mt_rand(10000, 99999) . date('Ymd') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 6);
         //amount
         $data['amount'] = floatval(request::filter('post.amount'));
         //type -> service_auto -> 专用类型
-        $data['type'] = intval(request::filter('post.type'));
+        $data['type'] = intval(request::filter('post.type'));*/
+        $out_trade_no = request::filter('post.out_trade_no', '', 'htmlspecialchars');
+        $data = $this->mysql->query("client_paofen_automatic_orders","out_trade_no='{$out_trade_no}'")[0];
+        //通道
+        $thoroughfare = request::filter('post.thoroughfare', '', 'htmlspecialchars');
+        //网页类型
+        $type = request::filter('post.content_type', '', 'htmlspecialchars');
+        //检测是否轮训
+        $data['robin'] = intval(request::filter('post.robin'));
+        $data['use_city'] = intval(request::filter('post.use_city'));
+
+        //trade_no -> 自动生成
+        $data['trade_no'] = mt_rand(10000, 99999) . date('Ymd') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 6);
         //sign
         $sign = request::filter('post.sign', '', 'htmlspecialchars');
-        if ($data['amount'] <= 0) functions::str_json($type, -1, '支付金额不正确');
+        if ($data['amount'] <= 0) functions::str_json($type, -1, '支付金额不正确1');
         if (empty($data['callback_url']) || empty($data['success_url']) || empty($data['error_url'])) functions::str_json($type, -1, 'callback_url(异步通知)、success_url(成功跳转)、error_url(失败跳转), 等地址不能空参数');
         if (empty($data['out_trade_no'])) functions::str_json($type, -1, '没有交易信息,请检查参数是否正确');
-        $order = $this->mysql->query('client_paofen_automatic_orders',"out_trade_no={$data['out_trade_no']}")[0];
-        if (is_array($order)) functions::str_json($type, -1, '订单已经匹配成功');
+        $order = $this->mysql->query("client_paofen_automatic_orders","out_trade_no='{$data['out_trade_no']}'")[0];
+
+        if ($order['paofen_id']>0){
+            functions::str_json('json', -1, '订单已经匹配成功');
+        }
         if (!is_array(cog::read('costCog')[$thoroughfare])) functions::str_json($type, -1, '当前通道不存在');
-        $find_user = $this->mysql->query("client_user", "id={$acc_id}")[0];
+        $find_user = $this->mysql->query("client_user", "id={$data['pankou_id']}")[0];
         if (!is_array($find_user) && !is_array($_SESSION['SYSTEM_PAY_ID'])) functions::str_json($type, -1, '该商户不存在');
         if($thoroughfare == 'paofen_auto' && $find_user['is_pankou'] == '0' ){
             echo '你没有跑分权限！请检查账号';
@@ -85,11 +139,15 @@ class index
         if (is_array($_SESSION['SYSTEM_PAY_ID'])) {
             $find_user['key_id'] = cog::read('server')['key'];
         }
-
         //验证签名
-        if ($sign != functions::sign($find_user['key_id'], ['amount' => $data['amount'], 'out_trade_no' => $data['out_trade_no']])) functions::str_json($type, -3, '签名失败');
+        if ($sign != functions::sign($find_user['key_id'], ['amount' => $data['amount'], 'out_trade_no' => $data['out_trade_no']])) functions::str_json($type, -3, '签名失败1');
+
+        //跑分
+        if ($thoroughfare == 'paofen_auto') {
+            $this->paofen($find_user, $type, $data);
+        }
         //automatic 微信全自动版
-        if ($thoroughfare == 'wechat_auto') {
+        /*if ($thoroughfare == 'wechat_auto') {
             $this->automatic($find_user, $type, $data);
         }
         if ($thoroughfare == 'wechatsj_auto') {
@@ -114,10 +172,6 @@ class index
         //支付宝固码
         if ($thoroughfare == 'alipaygm_auto') {
             $this->alipaygm($find_user, $type, $data);
-        }
-        //跑分
-        if ($thoroughfare == 'paofen_auto') {
-            $this->paofen($find_user, $type, $data);
         }
         //支付宝转红包
         if ($thoroughfare == 'alipayhongbao_auto') {
@@ -167,7 +221,7 @@ class index
         //服务版本
         if ($thoroughfare == 'service_auto') {
             $this->service($find_user, $type, $data);
-        }
+        }*/
     }
 
 
@@ -264,7 +318,7 @@ class index
 
 
         //获得微信全自动版账户用户id组
-        $resWxIds = $this->mysql->query("client_paofen_automatic_account","status=4 and training=1 and receiving=1 and type={$type}","user_id");
+        $resWxIds = $this->mysql->query("client_paofen_automatic_account","status=4 and training=1 and bind_uid='' and receiving=1 and type={$type}","user_id");
         //二维数组转一维数组
         $wxIdsArr = array_column($resWxIds, 'user_id');
         //去重
@@ -285,7 +339,6 @@ class index
     //跑分
     private function  paofen($user, $type_content, $data)
     {
-
         if ($data['amount'] > 50000) functions::str_json($type_content, -1, '支付金额不能大于50000元');
         //查询用户组
         $group = json_decode($this->mysql->query('client_group', "id={$user['group_id']}")[0]['authority'], true)['paofen_auto'];
@@ -301,7 +354,6 @@ class index
             //随机算法
             $use_city  = $data['use_city'];
             $randAgent = $this->getPayAgent($data['amount'],$data['type']);
-
             if($use_city == 1){
 
                 $clientCityData = $this->getCity($this->getIP());
@@ -323,10 +375,7 @@ class index
                 if ($count_paofen == 0) functions::str_json($type_content, -1, '当前->('.$clientCityData['city'].')城市没有收款账号或者当天最大收款额度，当天最大收款订单数已满，请检查');
                 $find_paofen = $find_paofen[mt_rand(0,$count_paofen-1)];
 
-
-
             }else{
-
 
                 //随机算法
 
@@ -334,131 +383,42 @@ class index
               and c.user_id={$randAgent['id']} 
               and c.training=1 
               and c.receiving=1 
+              and c.bind_uid=''
               and (c.max_amount > IFNULL(
-                  (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+".$data['amount']." or c.max_amount = 0) 
-              and ( 1 > IFNULL(   
-                  (select count(id) as count from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)  )      
-              and (c.max_dd >IFNULL(
-                  (select count(o.id) as count from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0) or c.max_dd = 0)", null, "id", "asc");
-
+                  (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+".$data['amount']." or c.max_amount = 0)", null, "id", "asc");
                 $find_paofen = $find_paofen[0];
                 if(!$find_paofen){
-                    functions::str_json($type_content, -1, '订单创建失败,请稍后重试');
+                    functions::str_json($type_content, -1, '订单创建失败2,请稍后重试');
                 }
-                for( $i=1; $i>count( $find_paofen ); $i++) {
-
-                    if(empty($find_paofen)){
-
-                        $find_paofen = $this->mysql->query("client_paofen_automatic_account as c","c.status=4 and c.type={$data['type']}
-              and c.user_id={$randAgent['id']} 
-              and c.training=1 
-              and c.receiving=1 
-              and (c.max_amount > IFNULL(
-                  (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+".$data['amount']." or c.max_amount = 0) 
-              and ( {$i} > IFNULL(   
-                  (select count(id) as count from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)  )      
-              and (c.max_dd >IFNULL(
-                  (select count(o.id) as count from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0) or c.max_dd = 0)", null, "id", "asc");
-
-                        $find_paofen = $find_paofen[0];
-
-                    }
-
-                }
-
 
 
             }
 
 
-        } else {
-            //指定微信号 单条进入
-            $key_id = request::filter('post.keyId', '', 'htmlspecialchars');
-            $find_paofen = $this->mysql->query("client_paofen_automatic_account", "key_id='{$key_id}'")[0];
-            $ceshi=1;
-            if (!is_array($find_paofen)) functions::str_json($type_content, -1, 'automatic->初始化失败,当前支付通道异常');
-            // print_r($find_paofen);
-            //echo $now_time;
-            if ($find_paofen['status'] != 4 || $user['id'] != $find_paofen['user_id'] || $find_paofen['receiving'] != 1 ) functions::str_json($type_content, -1, 'automatic->初始化失败,当前支付通道不可使用');
         }
         //已经得到paofen参数
 
         if (empty($find_paofen)) functions::str_json($type_content, -1, 'automatic->无可用通道,请联系客服');
 
-        if($data['type'] == 4){
-
-
             $money = $data['amount'];
 
 
-        }else {
-            $min=0.01;
-            $max=0.19;
-            $money_ok = false;
-            for($x=0; $x<=10; $x++){
-                $money = round($data['amount'] + $min + mt_rand()/mt_getrandmax() * ($max-$min), 2);
-                $existence_order = $this->mysql->query("client_paofen_automatic_orders","status=2 and paofen_id={$find_paofen['id']} and amount={$money} ",null,"id","asc");
-                if (count($existence_order) == 0){
-                    $money_ok = true;
-                    break;
-                }
-            }
-            if($money_ok == false){
-                functions::str_json($type_content, -1, '订单创建失败,请稍后重试');
-            }
-
-        }
-
-
-        if($ceshi == 1){
-
-            $create_order = $this->mysql->insert('client_paofen_automatic_orders', [
+            $create_order = $this->mysql->update('client_paofen_automatic_orders', [
                 'paofen_id'     => $find_paofen['id'],
-                'creation_time' => time(),
+                'creation_time'=>time(),
                 'pay_time'      => 0,
                 'status'        => 2,
                 'amount'        =>$money,
-                'ymoney'        =>$data['amount'],
-                'callback_url'  => $data['callback_url'],
-                'success_url'   => $data['success_url'],
-                'error_url'     => $data['error_url'],
-                'user_id'       => $user['id'],
-                'pankou_id'       =>1122,
-                'callback_time' => 0,
-                'out_trade_no'  => $data['out_trade_no'],
-                'ip'            => ip::get(),
-                'trade_no'      => $data['trade_no'],
-                'app_user'=>$find_paofen['app_user'],
-                'type'=>$find_paofen['type'],
-                'dy_name'=>$find_paofen['dy_name']
-
-            ]);
-
-
-        }else{
-
-            $create_order = $this->mysql->insert('client_paofen_automatic_orders', [
-                'paofen_id'     => $find_paofen['id'],
-                'creation_time' => time(),
-                'pay_time'      => 0,
-                'status'        => 2,
-                'amount'        =>$money,
-                'ymoney'        =>$data['amount'],
-                'callback_url'  => $data['callback_url'],
-                'success_url'   => $data['success_url'],
-                'error_url'     => $data['error_url'],
                 'user_id'       => $randAgent['id'],
-                'pankou_id'       => $user['id'],
                 'callback_time' => 0,
-                'out_trade_no'  => $data['out_trade_no'],
-                'ip'            => ip::get(),
                 'trade_no'      => $data['trade_no'],
                 'app_user'=>$find_paofen['app_user'],
                 'type'=>$find_paofen['type'],
                 'dy_name'=>$find_paofen['dy_name']
-
-            ]);
-
+            ],"id={$data['id']}");
+            $st = $this->mysql->update('client_paofen_automatic_account',[
+                'bind_uid'=>$data['id']
+            ],"id={$find_paofen['id']}");
             $puser = $this->mysql->query("client_user", "id={$randAgent['id']}")[0];
 
             $mashang_balance = $puser['balance'] -  $data['amount']; // 用户最终余额
@@ -479,20 +439,22 @@ class index
                 'status' => 1
 
             ]);
-        }
+
 
 
         if ($create_order > 0) {
-            $mark = $find_paofen['id'] . '|' . $create_order;
-
-
             if ($type_content == 'json') {
-
-                functions::str_json($type_content, 200, 'success', ["order_id" => $create_order, 'qrcode' => $find_paofen['ewm_url']]);
+                require_once ROOT_PATH.'/lib/phpqrcode.php';
+                //生成二维码图片
+                $filename = '/Public/qrcode/' .time(). '.png';
+                $url = $_SERVER['DOCUMENT_ROOT'] . $filename;
+                $q = 'https://qr.alipay.com/fkx04575t7el3atwkoax2e3?t=1588746503354';
+                \QRcode::png($find_paofen['ewm_url'], $url, 'L', 5, 2);
+                functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrcode' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$filename,'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
             }
             url::address(url::s("gateway/pay/automaticpaofen", "id={$create_order}"));
         }
-        functions::str_json($type_content, -1, 'automatic->订单创建失败,请联系客服');
+        functions::str_json($type_content, -1, 'automatic->订单创建失败1,请联系客服');
     }
 
 
@@ -3163,5 +3125,8 @@ class index
         }
         functions::str_json($type_content, -1, 'automatic->订单创建失败,请联系客服');
 
+    }
+    public function deposit(){
+        //$array = $this->mysql->query()
     }
 }
