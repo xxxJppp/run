@@ -15,7 +15,7 @@ new init([
         //时区设定
         'timezone'=>'PRC',
         //错误屏蔽级别[0:全部屏蔽,1:runtime错误,2:报告所有错误,3:报告E_NOTICE之外的错误]
-        'errorLevel'=>3,
+        'errorLevel'=>0,
         //浏览器输出缓冲区
         'OB_CACHE'=>true,
     ],
