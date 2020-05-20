@@ -286,7 +286,8 @@ $fix = DB_PREFIX;
                     + "<p style='text-align:center'>上传二维码</p><img id='avatar' onclick='imgSelect();' style='width: 100px;border-radius:50%;margin: 0 auto;margin-top:15px' alt='/static/js/upload.png' src='/static/js/upload.png'></td><input type='file' name='avatar' id='avatarImg'  style='display:none;' onchange='uploadPic();'>"
                     + " <p style='text-align:center'>（上传二维码等10秒左右自动解析）</p><input type='text' id='ewm_url' value=''>"
                     + "收款人姓名<input type='text' id='name' value=''>",
-                confirmButtonText: "提交"
+                confirmButtonText: "提交",
+                closeOnConfirm: false
             },
             function (inputValue) {
 
