@@ -24,7 +24,7 @@ $fix = DB_PREFIX;
         <!-- Start Row -->
         <div class="row">
             <!-- Start Panel -->
-            <div class="col-md-12">
+            <div class="col-md-15">
                 <div class="panel panel-default">
                     <div class="panel-title">
                         交易订单 [ <b>统计:</b> <?php //查询今日收入
@@ -41,20 +41,7 @@ $fix = DB_PREFIX;
                         }
                     </style>
                     <div class="panel-body table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <button style="
-                                background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;" onclick="exportDoc()">导出表格</button>
-                            </tr>
-                            <tr>
+                        <table>  <tr>
                                 <form action="" method="get">
                                     <th>开始时间: <input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"></th>
                                     <th>结束时间： <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
@@ -68,25 +55,39 @@ $fix = DB_PREFIX;
                                     </th>
                                     <th><input type="submit" value="查询"></th>
                                 </form>
-                            </tr>
+                            </table>
+                        <table class="table table-hover" style="width:  1600px;">
+                            <thead>
                             <tr>
-                                <th>
-                                    订单号
-                                </th>
+                                <button style="
+                                background-color: #4CAF50; /* Green */border: none;color: white;padding: 10px 12px;text-align: center;text-decoration: none;
+display: inline-block;
+    font-size: 14px;" onclick="exportDoc()">导出表格</button>
+                            </tr>
 
-                                <td>跑分ID/商户ID</td>
+                            <tr>
+                                <th style="color: black">订单号</th>
 
-                                <th>
-                                    支付信息
-                                </th>
-                                <th>
-                                    商户信息
-                                </th>
-                                <th>
-                                    异步通知
-                                </th>
-                                <th>回调信息</th>
-                                <th>创建时间</th>
+                                <th style="color: black">跑分ID</th>
+                                <th style="color: black">商户ID</th>
+
+                                <th style="color: black">支付金额（利）</th>
+
+
+                                <th style="color: black">商户名</th>
+                                <th style="color: black">盘口ID</th>
+                                <th style="color: black">上级ID</th>
+                                <th style="color: black">手机号码</th>
+
+                                <th style="color: black">支付状态</th>
+                                <th style="color: black">异步通知时间</th>
+                                <th style="color: black">异步通知状态</th>
+
+                                <th style="color: black">单笔接口费用</th>
+                                <th style="color: black">接口返回</th>
+
+                                <th style="color: black">创建时间</th>
+                                <th style="color: black">支付时间</th>
 
                             </tr>
                             </thead>
@@ -94,51 +95,51 @@ $fix = DB_PREFIX;
                             <?php if (!is_array($result['result'][0])) echo '<tr><td colspan="7" style="text-align: center;">暂时没有查询到订单!</td></tr>'; ?>
 
                             <?php foreach ($result['result'] as $ru) { ?>
-                                <tr>
+
                                     <td><?php echo $ru['trade_no']; ?></td>
 
-                                    <td><a href='<?php echo url::s("admin/paofen/automatic", "id={$ru['paofen_id']}"); ?>'><?php echo $ru['paofen_id']; ?></a>/<?php echo isset($userInfo['id'])?$userInfo['id']:"-";?>
+                                    <td><a href='<?php echo url::s("admin/paofen/automatic", "id={$ru['paofen_id']}"); ?>'><?php echo $ru['paofen_id']; ?></a></td>
 
+                                    <td><?php echo $userInfo['id'];?></td>
+
+                                    <td><span style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span></td>
+
+                                    <td><?php
+                                        $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
+                                        $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
+                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
                                     </td>
 
-                                    <td>支付金额：<span
-                                                style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span>
-                                        <br>支付状态：<?php
+                                    <td><?php echo $ru['pankou_id']; ?></td>
+
+                                    <td>
+                                        <?php
+                                        $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id'); ?><span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span>
+                                    </td>
+
+                                    <td><span style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无'; ?></span></td>
+                                    <td><?php
                                         if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
                                         if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
                                         if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
                                         if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
-                                        ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s", $ru['pay_time']) . ')'; ?>
-                                    </td>
-
-                                    <td>商户信息：<?php
-                                        $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
-                                        $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
-                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
-                                       <br> 盘口id：<?php echo $ru['pankou_id']; ?>
-
-
-                                        <?php
-                                        $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id');
                                         ?>
-                                        <br> 上级id：<span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span>
-
-                                      <br>手机号码：<span
-                                                style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无'; ?></span>
                                     </td>
 
                                     <td>
-                                        <b>异步通知时间：</b> <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; ?>
-                                        <br>
-                                        <b>异步通知状态：</b> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>'; ?>
-                                        <br>
+                                        <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无'; ?></td>
+
+
+                                    <td>
+                                        <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已</span>' : '<span style="color:red;">未</span>'; ?>
                                     </td>
 
-                                    <td>单笔接口费用：<?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息'; ?>
-                                        <br>接口返回信息：<span
-                                                style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?></span></td>
+                                    <td><?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '0.000'; ?></td>
+
+                                    <td><span style="color:green;"><?php echo $ru['callback_status'] == 1 ? '成功' : '失败'; ?></span></td>
 
                                     <td><?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>
+                                    <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s", $ru['pay_time']):"无"; ?></td>
 
 
                                 </tr>
@@ -146,12 +147,13 @@ $fix = DB_PREFIX;
                             </tbody>
                         </table>
 
-                        <div style="float:right;">
-                            <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
-                        </div>
-                        <div style="clear: both"></div>
+
 
                     </div>
+                    <div style="float:right;">
+                        <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
+                    </div>
+                    <div style="clear: both"></div>
 
                 </div>
             </div>
