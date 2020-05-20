@@ -381,7 +381,7 @@ $error_url = $data['error_url'];
     clearInterval(orderlst);
     clearInterval(ti);
     clearInterval(dscd_time);
-
+    $("#zhifu").hide();
 <?php }else{?>
 <?php if($data['paofen_id']>0 && $data['status']==2){?>
     $("#div").show();
@@ -474,10 +474,6 @@ $error_url = $data['error_url'];
     }
     var dscd_time = setInterval(updateorder, 4000);
     <?php }}?>
-</script>
-<script>
-
-
 </script>
 </body>
 </html>
