@@ -396,6 +396,8 @@ $error_url = $data['error_url'];
         background: "#ffffff",      //二维码的后景色
         foreground: "#000000",      //二维码的前景色
     });
+    $("#zhifu").show();
+    $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url=' + n.data.qrurl);
     <?php }else{ ?>
     //使用匿名函数方法
     function countDown() {
