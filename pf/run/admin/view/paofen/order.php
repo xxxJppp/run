@@ -50,7 +50,7 @@ $fix = DB_PREFIX;
                         ?> ]
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover" style="width:  1700px;">
+          <table class="table table-hover" style="width:  1700px;padding: 10px 12px">
             <thead>
               <tr>
                 <th><input onchange="trade_no(this);" style="width: 100%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
@@ -72,7 +72,7 @@ $fix = DB_PREFIX;
                         <input id="checkboxAll" type="checkbox">
                         </label>
                         
-                        <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
+
                         <button type="button" id="callback" onclick="callback();" class="btn btn-success btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>回调</button>
                     </div></td>
               </tr>
@@ -110,11 +110,11 @@ $fix = DB_PREFIX;
 
               <td><?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已</span>' : '<span style="color:red;">未</span>';?></td>
 
-              <td><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '无';?></td>
+              <td><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '';?></td>
 
               <td><?php echo date('Y/m/d H:i:s',$ru['creation_time']);?></td>
 
-              <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s",$ru['pay_time']):"无";?></td>
+              <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s",$ru['pay_time']):"";?></td>
 
               <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
@@ -123,7 +123,6 @@ $fix = DB_PREFIX;
                         </label>
                     </div>
                   </p>
-                  <p><a href="#" onclick="del('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>移除该订单</a></p>
               </td>
               </tr>
             <?php }?>

@@ -127,7 +127,7 @@ display: inline-block;
                                     </td>
 
                                     <td>
-                                        <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无'; ?></td>
+                                        <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : ''; ?></td>
 
 
                                     <td>
@@ -139,7 +139,7 @@ display: inline-block;
                                     <td><span style="color:green;"><?php echo $ru['callback_status'] == 1 ? '成功' : '失败'; ?></span></td>
 
                                     <td><?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>
-                                    <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s", $ru['pay_time']):"无"; ?></td>
+                                    <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s", $ru['pay_time']):""; ?></td>
 
 
                                 </tr>
