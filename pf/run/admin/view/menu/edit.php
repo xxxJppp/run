@@ -93,8 +93,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
   </div>
   <!-- End Row -->
-  
+    <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var  layer = layui.layer //弹层
+        });
 			function edit(){
 				$.ajax({
 			          type: "POST",
@@ -103,10 +106,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){location.href = '<?php echo url::s('admin/menu/index');?>';},1500);
+                              layer.msg("修改成功", {icon:1,time:1000,end:function(){
+                                      location.href = '<?php echo url::s('admin/menu/index');?>';
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error")
+                              layer.msg("修改失败", {icon:2,time:1000})
 			              }
 			          },
 			          error: function(data) {
@@ -117,5 +121,3 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
    </script>
   
 </div>
-<!-- END CONTAINER -->
- <!-- //////////////////////////////////////////////////////////////////////////// --> 

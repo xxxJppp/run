@@ -114,9 +114,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
   </div>
   <!-- End Row -->
-  
+    <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript">
-
+        layui.use(['layer'], function () {
+            var  layer = layui.layer //弹层
+        });
     //选择头像
 	function imgSelect(){
 	        document.getElementById('avatarImg').click(); 
@@ -136,11 +138,12 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 	        contentType: false,
 	        processData: false,
 	        success:function(data){
+                $('#avatar').attr('src','<?php echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/';?>' + data.data.img);
 	            if(data.code == '200'){
-	            	swal("操作提示", data.msg, "success");
-	            	$('#avatar').attr('src','<?php echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/';?>' + data.data.img);
+                    layer.msg("上传成功", {icon:1,time:1000});
+
 	            }else{
-	            	swal("操作提示", data.msg, "error");
+                    layer.msg("修改失败", {icon:2,time:1000})
 	            }
 	        }
 	    });
@@ -155,10 +158,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){location.href = '<?php echo url::s('admin/employee/index');?>';},1500);
+                              layer.msg("修改成功", {icon:1,time:1000,end:function(){
+                                      location.href = '<?php echo url::s('admin/employee/index');?>';
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error")
+                              layer.msg("修改失败", {icon:2,time:1000})
 			              }
 			          },
 			          error: function(data) {

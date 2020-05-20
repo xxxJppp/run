@@ -26,7 +26,7 @@ class area{
     
     //地区列表
     //权限ID：19
-    public function list(){
+    public function arealist(){
         $this->powerLogin(19);
         //用户组
         $group = $this->mysql->query("city");
