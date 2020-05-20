@@ -109,7 +109,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
   </div>
   <!-- End Row -->
-  
+    <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript">
 			function edit(){
 				$.ajax({
