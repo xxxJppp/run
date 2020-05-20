@@ -1,4 +1,4 @@
-<?php 
+<?php
 use xh\library\url;
 use xh\library\model;
 use xh\library\ip;
@@ -10,14 +10,14 @@ $fix = DB_PREFIX;
 
   <!-- Start Page Header -->
   <div class="page-header">
-   
+
       <ol class="breadcrumb">
         <li><a href="<?php echo url::s('admin/index/home');?>">控制台</a></li>
         <li class="active">跑分订单</li>
       </ol>
   </div>
   <!-- End Page Header -->
- <!-- //////////////////////////////////////////////////////////////////////////// --> 
+ <!-- //////////////////////////////////////////////////////////////////////////// -->
 <!-- START CONTAINER -->
 <div class="container-padding">
 
@@ -28,33 +28,50 @@ $fix = DB_PREFIX;
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-title">
-          交易订单   [ <b>今日收入:</b> <?php //查询今日收入 
+          交易订单   [ <b>今日收入:</b> <?php //查询今日收入
                         $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
                         $where_call = "creation_time > {$nowTime} and status=4 and " . $where;
                         $where_call = trim(trim($where_call),'and');
                         $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
                         echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'.intval($order[0]['count']).'</span> ';
-                        ?>] - [ <b>昨日收入:</b> <?php 
+                        ?>] - [ <b>昨日收入:</b> <?php
                         $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
                         $where_call = "creation_time > {$zrTime} and creation_time<{$nowTime} and status=4 and " . $where;
                         $where_call = trim(trim($where_call),'and');
-             
+
                         $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
                         echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'. intval($order[0]['count']).'</span> ';
-                        ?> ] - [ <b>全部收入:</b> <?php 
+                        ?> ] - [ <b>全部收入:</b> <?php
                         $where_call = "status=4 and " . $where;
                         $where_call = trim(trim($where_call),'and');
-                        
+
                         $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
                         echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'. floatval($order[0]['count']) .'</span> ';
                         ?> ]
         </div>
         <div class="panel-body table-responsive">
+
+            <table>  <tr>
+                    <form action="" method="get">
+                        <th>开始时间: <input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"></th>
+                        <th>结束时间： <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
+                        <th>跑分ID：<input type="text" name="paofen_id" value="<?php if(!empty($_GET['paofen_id'])){  echo $_GET['paofen_id']; }?>"></th>
+                        <th>商户ID: <input type="text" name="user_id" value="<?php if(!empty($_GET['user_id'])){  echo $_GET['user_id']; }?>"></th>
+                        <th>支付状态
+                            <select name="status">
+                                <option value="0" <?php if($_GET['status'] != 4){ echo 'selected';} ?>>全部</option>
+                                <option value="4" <?php if($_GET['status'] == 4){ echo 'selected';} ?>>已支付</option>
+                            </select>
+                        </th>
+                        <th><input type="submit" value="查询"></th>
+                    </form>
+            </table>
+
+
           <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr style="">
-                <th><input onchange="trade_no(this);" style="width: 100%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
-                </th>
+                <th>订单号</th>
                 <th>支付金额(利)</th>
                 <th>商户ID</th>
                 <th>商户名</th>
@@ -71,7 +88,7 @@ $fix = DB_PREFIX;
                 <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
                         </label>
-                        
+
 
                         <button type="button" id="callback" onclick="callback();" class="btn btn-success btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>回调</button>
                     </div></th>
@@ -79,7 +96,7 @@ $fix = DB_PREFIX;
             </thead>
             <tbody>
             <?php if (!is_array($result['result'][0])) echo '<tr><td colspan="7" style="text-align: center;">暂时没有查询到订单!</td></tr>';?>
-            
+
             <?php  foreach ($result['result'] as $ru){?>
               <tr>
                  <td><a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>"><?php echo $ru['trade_no'];?> </a></td>
@@ -88,7 +105,10 @@ $fix = DB_PREFIX;
               <?php $userInfo = $mysql->query("client_user","id={$ru['user_id']}")[0]; ?>
                 <td><?php echo $userInfo['id'];?></td>
 
-                <td><?php echo is_array($userInfo) ? '<a href="'. url::s("admin/paofen/automaticOrder","sorting=user&code={$userInfo[id]}&locking=true") .'"><span style="color:green;font-size:14px;font-weight:bold;">'.$userInfo['username'] .'</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>';?></td>
+                  <td><?php
+                      $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
+                      echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo['id']}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
+                  </td>
 
                 <td><?php $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id'); ?><span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span></td>
 
@@ -138,8 +158,8 @@ $fix = DB_PREFIX;
       </div>
     </div>
     <!-- End Panel -->
-    
-            
+
+
             <script type="text/javascript">
 
             function reissue(id){
@@ -158,9 +178,6 @@ $fix = DB_PREFIX;
                 });
               }
 
-              function trade_no(obj){
-                  location.href = "<?php echo url::s('admin/paofen/automaticOrder',"sorting=trade_no&code=");?>" + $(obj).val();
-                  }
 
               function member(obj){
                   location.href = "<?php echo url::s('admin/paofen/automaticOrder',"sorting=user&locking=true&code=");?>" + $(obj).val();
@@ -170,9 +187,9 @@ $fix = DB_PREFIX;
                   var wechat = $('#wechat').val();
                   console.log(wechat);
                   location.href = "<?php echo url::s('admin/paofen/automaticOrder',"sorting=paofen&code=");?>" + wechat;
-                  
+
                   }
-           
+
 			function del(id){
                 layer.confirm('你确定要删除该订单吗？', function (index) {
                     $.get("<?php echo url::s('admin/paofen/automaticOrderDelete','id=');?>" + id, function(result){
@@ -245,12 +262,12 @@ $fix = DB_PREFIX;
 			}
 
             </script>
-            
+
 
 <!-- End Moda Code -->
 
   </div>
   <!-- End Row -->
-  
+
 </div>
 <!-- END CONTAINER -->

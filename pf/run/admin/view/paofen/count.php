@@ -41,19 +41,23 @@ $fix = DB_PREFIX;
                         }
                     </style>
                     <div class="panel-body table-responsive">
-                        <table>  <tr>
+                        <table class="table table-hover">  <tr>
                                 <form action="" method="get">
-                                    <th>开始时间: <input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"></th>
-                                    <th>结束时间： <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
-                                    <th>跑分ID：<input type="text" name="paofen_id" value="<?php if(!empty($_GET['paofen_id'])){  echo $_GET['paofen_id']; }?>"></th>
-                                    <th>商户ID: <input type="text" name="user_id" value="<?php if(!empty($_GET['user_id'])){  echo $_GET['user_id']; }?>"></th>
-                                    <th>支付状态
+                                    <th><input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"> - <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
+                                    <th><input type="text" placeholder=" 订单号" style="width:160px" name="trade_no" value="<?php if(!empty($_GET['trade_no'])){  echo $_GET['trade_no']; }?>"></th>
+                                    <th><input type="text" placeholder=" 跑分ID" name="paofen_id" value="<?php if(!empty($_GET['paofen_id'])){  echo $_GET['paofen_id']; }?>"></th>
+                                    <th><input type="text" placeholder=" 码商" name="username" value="<?php if(!empty($_GET['username'])){  echo $_GET['username']; }?>"></th>
+                                    <th><input type="text"placeholder=" 盘口ID"  name="pankou_id" value="<?php if(!empty($_GET['pankou_id'])){  echo $_GET['pankou_id']; }?>"></th>
+                                    <th>
                                         <select name="status">
-                                            <option value="0" <?php if($_GET['status'] != 4){ echo 'selected';} ?>>全部</option>
+                                            <option value="0" <?php if($_GET['status'] == 0){ echo 'selected';} ?>>支付状态</option>
+<!--                                            <option value="1" --><?php //if($_GET['status'] == 1){ echo 'selected';} ?><!-->任务下发中..</option>-->
+                                            <option value="2" <?php if($_GET['status'] == 2){ echo 'selected';} ?>>未支付</option>
+                                            <option value="3" <?php if($_GET['status'] == 3){ echo 'selected';} ?>>订单超时</option>
                                             <option value="4" <?php if($_GET['status'] == 4){ echo 'selected';} ?>>已支付</option>
                                         </select>
                                     </th>
-                                    <th><input type="submit" value="查询"></th>
+                                    <th><input type="submit" class="btn btn-success" value="查询"></th>
                                 </form>
                             </table>
                         <table class="table table-hover" style="width:  1600px;">
@@ -69,12 +73,11 @@ display: inline-block;
                                 <th>订单号</th>
 
                                 <th>跑分ID</th>
-                                <th>商户ID</th>
 
-                                <th>支付金额（利）</th>
+                                <th>支付金额</th>
+                                <th>返点</th>
 
-
-                                <th>商户名</th>
+                                <th>码商</th>
                                 <th>盘口ID</th>
                                 <th>上级ID</th>
                                 <th>手机号码</th>
@@ -83,7 +86,7 @@ display: inline-block;
                                 <th>异步通知时间</th>
                                 <th>异步通知状态</th>
 
-                                <th>单笔接口费用</th>
+
                                 <th>接口返回</th>
 
                                 <th>创建时间</th>
@@ -99,15 +102,17 @@ display: inline-block;
                                     <td><?php echo $ru['trade_no']; ?></td>
 
                                     <td><a href='<?php echo url::s("admin/paofen/automatic", "id={$ru['paofen_id']}"); ?>'><?php echo $ru['paofen_id']; ?></a></td>
+                                <?php
+                                        $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];?>
 
-                                    <td><?php echo $userInfo['id'];?></td>
 
-                                    <td><span style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span></td>
+                                    <td><span style="color: green;"><?php echo $ru['amount']; ?> </span></td>
+
+                                    <td><?php echo $ru['callback_status'] == 1 ? $ru['fees'] ."+".$ru['agent_rate']: '0.000' ; ?></td>
 
                                     <td><?php
-                                        $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
                                         $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
-                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
+                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/orderCount", "username={$userInfo['username']}") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
                                     </td>
 
                                     <td><?php echo $ru['pankou_id']; ?></td>
@@ -133,8 +138,6 @@ display: inline-block;
                                     <td>
                                         <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已</span>' : '<span style="color:red;">未</span>'; ?>
                                     </td>
-
-                                    <td><?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '0.000'; ?></td>
 
                                     <td><span style="color:green;"><?php echo $ru['callback_status'] == 1 ? '成功' : '失败'; ?></span></td>
 

@@ -134,9 +134,12 @@ class paofen
     public function orderCount()
     {
         $this->powerLogin(33);
-        $status = request::filter('get.status', '', 'intval');
+        $status = request::filter('get.status', 0, 'intval');
+        $trade_no = request::filter('get.trade_no', 0, 'intval');
         $paofen_id = request::filter('get.paofen_id', '', 'trim');
-        $user_id = request::filter('get.user_id', '', 'intval');
+        $username = request::filter('get.username', '', 'trim');
+
+        $pankou_id = request::filter('get.pankou_id', '', 'intval');
         $start_time = request::filter('get.start_time', '', 'trim');
         $end_time = request::filter('get.end_time', '', 'trim');
 
@@ -150,9 +153,20 @@ class paofen
             $where .= " AND paofen_id='{$paofen_id}'";
         }
 
+        if (!empty($trade_no)) {
+            $where .= " AND trade_no='{$trade_no}'";
+        }
 
-        if (!empty($user_id)) {
-            $where .= " AND user_id='{$user_id}'";
+        if (!empty($username)) {
+            $user = $this->mysql->query("client_user", "username='{$username}'",'id')[0];
+
+            if($user){
+                $where .= " AND user_id='{$user['id']}'";
+            }
+        }
+
+        if (!empty($pankou_id)) {
+            $where .= " AND pankou_id='{$pankou_id}'";
         }
 
         if (!empty($start_time)) {
@@ -160,7 +174,6 @@ class paofen
             $end_time = strtotime($end_time . ' 23:59:59');
             $where .= " AND creation_time between {$start_time} AND {$end_time}";
         }
-
 
         $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
@@ -178,17 +191,14 @@ class paofen
         $this->powerLogin(25);
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
-        $where = null;
+        $where = '1=1';
 
         //锁定用户查找
         if ($sorting == 'user') {
             if (!empty($code)) {
                 if ($_GET['locking'] == 'true') {
-                    $_SESSION['paofen']['WHERE'] = 'user_id=' . $code . ' ';
+                    $where .= ' AND user_id=' . $code;
                 }
-            }
-            if ($_GET['locking'] == 'false') {
-                unset($_SESSION['paofen']['WHERE']);
             }
         }
 
@@ -196,13 +206,10 @@ class paofen
         if ($sorting == 'paofen') {
             if ($code != '') {
                 $code = intval($code);
-                $_SESSION['paofen']['WHERE'] = "paofen_id={$code}";
-            } else {
-                unset($_SESSION['paofen']['WHERE']);
+                $where .= ' AND paofen_id=' . $code;
             }
         }
 
-        $where = $_SESSION['paofen']['WHERE'];
 
         //排序
         if ($sorting == 'status') {
@@ -220,12 +227,9 @@ class paofen
         if ($sorting == 'trade_no') {
             if ($code != '') {
                 $code = trim($code);
-                $where = "trade_no='{$code}'";
+                $where .= "trade_no='{$code}'";
             }
         }
-
-
-        $where = trim($where, 'and');
 
         $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
