@@ -208,6 +208,9 @@ $error_url = $data['error_url'];
                                                     <td align="center" id="loding" style="display: none">
                                                         <!--<img style="width: 300px" id="je" src="" height="230">-->
                                                     </td>
+                                                    <td align="center" id="lodingt" style="display: none">
+                                                        <img style="width: 300px" id="je" src="" height="230">
+                                                    </td>
                                                     <td align="center" id="lodings"
                                                         style="height: 135px;padding: 7px;">
                                                         <div class="time-item">
@@ -300,7 +303,7 @@ $error_url = $data['error_url'];
                 //成功
                 if(result.code == '200'){
                     $("#lodings").hide();
-                    $("#loding").show();
+                    $("#lodingt").show();
                     $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
                     clearInterval(ti);
                     clearInterval(dscd_time);
@@ -351,7 +354,7 @@ $error_url = $data['error_url'];
                 //成功
                 if(result.code == '200'){
                     //$("#lodings").hide();
-                    $("#loding").show();
+                    $("#lodingt").show();
                     $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
                     clearInterval(ti);
                     clearInterval(dscd_time);
