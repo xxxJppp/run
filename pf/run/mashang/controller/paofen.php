@@ -44,7 +44,7 @@ class paofen
         }
 
         //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
-        $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, "user_id={$_SESSION['MEMBER']['uid']} " . $where, null, 'id', 'asc');
+        $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), 10, "user_id={$_SESSION['MEMBER']['uid']} " . $where, null, 'id', 'desc');
         //获取城市
         $areaList = $this->mysql->query('city');
         $areaStr = '';

@@ -70,10 +70,12 @@ $fix = DB_PREFIX;
                                 </form>
                             </tr>
                             <tr>
-                                <td>跑分ID</td>
                                 <th>
-                                    订单信息
+                                    订单号
                                 </th>
+
+                                <td>跑分ID/商户ID</td>
+
                                 <th>
                                     支付信息
                                 </th>
@@ -84,6 +86,7 @@ $fix = DB_PREFIX;
                                     异步通知
                                 </th>
                                 <th>回调信息</th>
+                                <th>创建时间</th>
 
                             </tr>
                             </thead>
@@ -92,19 +95,11 @@ $fix = DB_PREFIX;
 
                             <?php foreach ($result['result'] as $ru) { ?>
                                 <tr>
-                                    <td>跑分ID：<a
-                                                href='<?php echo url::s("admin/paofen/automatic", "id={$ru['paofen_id']}"); ?>'><?php echo $ru['paofen_id']; ?></a>
-                                        <br>创建时间：<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?>
+                                    <td><?php echo $ru['trade_no']; ?></td>
+
+                                    <td><a href='<?php echo url::s("admin/paofen/automatic", "id={$ru['paofen_id']}"); ?>'><?php echo $ru['paofen_id']; ?></a>/<?php echo isset($userInfo['id'])?$userInfo['id']:"-";?>
+
                                     </td>
-
-                                    <td>订单号码：<?php echo $ru['trade_no']; ?>
-                                        <br>订单信息：<span style="color:green;">
-
-                         <?php echo $ru['paofen_id']; ?> | <?php echo $ru['id']; ?>
-
-                     </span>
-                                    </td>
-
 
                                     <td>支付金额：<span
                                                 style="color: green;"><b><?php echo $ru['amount']; ?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: " . ($ru['amount'] - $ru['fees']) . " )" : ''; ?></span>
@@ -119,7 +114,7 @@ $fix = DB_PREFIX;
                                     <td>商户信息：<?php
                                         $userInfo = $mysql->query("client_user", "id={$ru['user_id']}")[0];
                                         $level_id = $mysql->query('client_user','id='.$ru['pankou_id'],'level_id');
-                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' . ' ( 商户ID: ' . $userInfo['id'] . ' ) ' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
+                                        echo is_array($userInfo) ? '<a href="' . url::s("admin/paofen/automaticOrder", "sorting=user&code={$userInfo[id]}&locking=true") . '"><span style="color:green;font-size:14px;font-weight:bold;">' . $userInfo['username'] . '</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>'; ?>
                                        <br> 盘口id：<?php echo $ru['pankou_id']; ?>
 
 
@@ -141,7 +136,9 @@ $fix = DB_PREFIX;
 
                                     <td>单笔接口费用：<?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息'; ?>
                                         <br>接口返回信息：<span
-                                                style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?></span>
+                                                style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?></span></td>
+
+                                    <td><?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>
 
 
                                 </tr>

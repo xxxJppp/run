@@ -35,7 +35,7 @@ use xh\library\url;
     <script type="text/javascript" src="<?php echo URL_VIEW;?>/static/js/custom-script.js"></script>
     <!-- Toast Notification -->
     <script type="text/javascript" src="<?php echo URL_VIEW;?>/static/js/plugins/sweetalert/sweetalert.min.js"></script>  
-    <!-- layer -->
+    <!-- layer-->
     <script src="<?php echo URL_STATIC . 'js/layer/layer.js';?>" charset="utf-8"></script>
     
   	<script type="text/javascript" src ="<?php echo URL_STATIC . '/js/jike.js'?>"></script>

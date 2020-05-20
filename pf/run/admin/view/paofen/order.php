@@ -53,19 +53,19 @@ $fix = DB_PREFIX;
           <table class="table table-hover">
             <thead>
               <tr>
-                <td>跑分ID</td>
                 <th>
                
                     <input onchange="trade_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
-                 
                 
                 </th>
+
                 <th>支付信息 <?php if ($sorting['code'] != 0 && $sorting['name'] == 'status'){?>(<?php if ($sorting['code'] == 1) echo '获取订单中';if ($sorting['code'] == 2) echo '未支付';if ($sorting['code'] == 3) echo '订单超时';if ($sorting['code'] == 4) echo '已支付';?>)<?php }?><a href='<?php echo url::s('admin/paofen/automaticOrder',"sorting=status&code=".($sorting['code']+1));?>'> <i class="fa fa-unsorted"></i></a></th>
                 <th>
                     <input onchange="member(this);" style="width: 30%;"  type="text" class="form-control-line" placeholder="商户ID" value="<?php if ($sorting['name'] == 'user') echo $_GET['code'];?>">  [ <a href="<?php echo url::s('admin/paofen/automaticOrder','sorting=user&code=&locking=false');?>">全部</a>  ]
                 </th>
                 <th>异步通知 <?php if ($sorting['code'] != -1 && $sorting['name'] == 'callback'){?>(<?php if ($_GET['code'] == 0) echo '未回调';if ($_GET['code'] == 1) echo '已回调';?>)<?php }?><a href='<?php echo url::s('admin/paofen/automaticOrder',"sorting=callback&code=".($sorting['code']+1));?>'> <i class="fa fa-unsorted"></i></a></th>
                 <th>回调信息</th>
+                <th>创建时间</th>
                 <td>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
                         <label for="checkboxAll">
@@ -81,17 +81,9 @@ $fix = DB_PREFIX;
             
             <?php  foreach ($result['result'] as $ru){?>
               <tr>
-                <td>跑分ID：<a href='<?php echo url::s("admin/paofen/automatic","id={$ru['paofen_id']}");?>'><?php echo $ru['paofen_id'];?></a> / 订单ID：<?php echo $ru['id'];?> ( <a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>">支付链接</a> )
-                        <br>创建时间：<?php echo date('Y/m/d H:i:s',$ru['creation_time']);?>
-                 </td>
-                
-                 <td>订单号码：<?php echo $ru['trade_no'];?>
-                        <br>订单信息：<span style="color:green;">
+                 <td><a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>"><?php echo $ru['trade_no'];?> </a></td>
 
-                         <?php echo $ru['paofen_id'];?> |  <?php echo $ru['id'];?>
 
-                     </span>
-                        </td>
                 
                 
                 <td>支付金额：<span style="color: green;"><b><?php echo $ru['amount'];?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: ". ($ru['amount']-$ru['fees']) ." )" : '';?></span>
@@ -119,7 +111,9 @@ $fix = DB_PREFIX;
                         
                         <td>单笔接口费用：<?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息';?>
                         <br>接口返回信息：<span style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调';?></span>
-               
+
+                  <td><?php echo date('Y/m/d H:i:s',$ru['creation_time']);?></td>
+
                 <td>
                 <p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
