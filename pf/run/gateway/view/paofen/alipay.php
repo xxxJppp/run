@@ -40,6 +40,7 @@ $error_url = $data['error_url'];
         收银台
     </title>
     <link rel="stylesheet" href="/Public/theme/view4/css/bootstrap.min.css">
+
 </head>
 <style>
     li {
@@ -205,6 +206,9 @@ $error_url = $data['error_url'];
                                                 <tbody>
                                                 <tr>
                                                     <td align="center" id="loding" style="display: none">
+                                                        <!--<img style="width: 300px" id="je" src="" height="230">-->
+                                                    </td>
+                                                    <td align="center" id="lodingt" style="display: none">
                                                         <img style="width: 300px" id="je" src="" height="230">
                                                     </td>
                                                     <td align="center" id="lodings"
@@ -278,7 +282,10 @@ $error_url = $data['error_url'];
 <!--收银台-->
 <script src="/Public/theme/view4/js/jquery.min.js">
 </script>
+<script type="text/javascript" src="/static/jquery.qrcode.js" ></script>
+<link href="/static/pay-simple.css?v=511" rel="stylesheet" media="screen" />
 <script src="/Public/theme/view4/js/bootstrap.min.js">
+
 </script>
 <script>
     $("#zhifu").click(function () {
@@ -295,13 +302,12 @@ $error_url = $data['error_url'];
             $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
-                    //回调页面
-                    layer.msg(result.msg, {
-                        icon: 1,
-                        time:1500,
-                        end:function(){
-                            location.href="<?php echo $success_url;?>";
-                        }});
+                    $("#lodings").hide();
+                    $("#lodingt").show();
+                    $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+                    clearInterval(ti);
+                    clearInterval(dscd_time);
+                    clearInterval(orderlst);
                 }
 
             });
@@ -310,7 +316,7 @@ $error_url = $data['error_url'];
         }
     }
     //1000毫秒调用一次
-    window.setInterval("countDown()", 1000);
+    var ti = setInterval("countDown()", 1000);
     function timi() {
 
         var id = $("#orderid").val();
@@ -340,30 +346,25 @@ $error_url = $data['error_url'];
     }
     function daoqi(id){
 
-        layer.confirm("订单已过期,请重新提交", {
+        layer.msg("订单已过期,请重新提交", {
             icon: 2,
-            title: '支付失败',
-            btn: ['确认'] //按钮
-        }, function(){
+            time: 1000,
+            end:function(){
             $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
-                    location.href="<?php echo $error_url;?>";
+                    $("#loding").hide();
+                    $("#lodingt").show();
+                    $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+                    clearInterval(ti);
+                    clearInterval(dscd_time);
+                    clearInterval(orderlst);
+                    //location.href="<?php echo $error_url;?>";
                 }
 
             });
 
-        });
-        setTimeout(function(){
-            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
-                //成功
-                if(result.code == '200'){
-                    location.href="<?php echo $error_url;?>";
-                }
-
-            });
-            //location.href="<?php echo $error_url;?>";
-        },5000);
+        }});
 
     }
 
@@ -390,7 +391,16 @@ $error_url = $data['error_url'];
                 if(n.code==200){
                     $("#lodings").hide();
                     $("#loding").show();
-                    $("#je").attr("src", n.data.qrcode);
+                    jQuery('#loding').qrcode({
+                        render: "canvas",
+                        text: n.data.qrurl,
+                        width: "256",               //二维码的宽度
+                        height: "256",              //二维码的高度
+                        background: "#ffffff",      //二维码的后景色
+                        foreground: "#000000",      //二维码的前景色
+
+                    });
+                    //$("#je").attr("src", n.data.qrcode);
                     //$("#nyr").val(str.pipeitime);
                     if (n.data.qrurl) {
                         $("#zhifu").show();
