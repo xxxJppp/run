@@ -53,7 +53,7 @@ $fix = DB_PREFIX;
           <table class="table table-hover" style="width:  1700px;">
             <thead>
               <tr>
-                <th><input onchange="trade_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
+                <th><input onchange="trade_no(this);" style="width: 100%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
                 </th>
                 <th style="color: black">支付金额(利)</th>
                 <th style="color: black">商户ID</th>
