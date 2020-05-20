@@ -32,7 +32,7 @@ class paofenali{
                 $mashang_balance = floatval($mashang_balance);
                 $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
                 $del = $this->mysql->delete("deposit","id={$deposit['id']}");
-                $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+
             }
             //$p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
 
@@ -44,6 +44,7 @@ class paofenali{
         $order = $this->mysql->query("client_paofen_automatic_orders","status=2 and creation_time <= {$chaoshi} and type=1 and pay_time=0");
         foreach($order as $val){
             $this->mysql->update("client_paofen_automatic_orders",['status'=>3],"id={$val['id']}");
+            $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$val['paofen_id']}");
         }
         echo 'success';
     }
