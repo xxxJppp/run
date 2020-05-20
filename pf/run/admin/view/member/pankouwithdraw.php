@@ -34,25 +34,33 @@ $fix = DB_PREFIX;
                         ?>] </span>   
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr>
                 <th>
                     <input onchange="flow_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'flow_no') echo $_GET['code'];?>">
                 </th>
-                <th>用户信息</th>
-                <th>余额变更[提现前余额/提现后余额]</th>
-                <th>金额</th>
-                        <th>银行状态 [ <a href="<?php echo url::s("admin/member/pankouwithdraw","sorting=type&code=1");?>">未处理</a> / <a href="<?php echo url::s("admin/member/pankouwithdraw");?>">全部</a> ]</th>
-                        <th>提现时间</th>
-                        <th>打款信息</th>
-                <td>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
-                        <input id="checkboxAll" type="checkbox">
+                <th>用户名</th>
+                <th>手机号</th>
+                <th>提现前余额</th>
+                <th>提现后余额</th>
+                <th>提现余额</th>
+                <th>实际打款</th>
+                <th>手续费用</th>
+
+                <th>银行信息</th>
+                <th>提现状态</th>
+
+                <th>提现时间</th>
+                <th>处理时间</th>
+                <th>打款信息</th>
+
+                <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <label for="checkboxAll">
                         </label>
                         
                         <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
-                    </div></td>
+                    </div></th>
               </tr>
             </thead>
             <tbody>
@@ -61,34 +69,36 @@ $fix = DB_PREFIX;
             <?php  foreach ($result['result'] as $ru){ $find_user = $mysql->query("client_user","id={$ru['user_id']}")[0];?>
               <tr>
                
-                 <td><p>流水单号：<?php echo $ru['flow_no'];?></p></td>
+                <td><?php echo $ru['flow_no'];?></p></td>
                         
-                        <td><p>用户名：<a href="<?php echo url::s("admin/member/index.do","member_id={$ru['user_id']}");?>"><?php $user = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo $user['username'];?></a></p>
-                     <p>手机号：<?php echo $user['phone'];?>  </p>
-                        </td>
-                  <td>
-                      <p>提现前余额 ( <?php echo $ru['old_amount'];?> ) / 提现后余额 ( <?php echo $ru['new_amount'];?> )  </p>
-                  </td>
-                
-                <td><p>提现金额：<span style="color: green;"><?php echo $ru['amount'];?> ( 实际打款 : <b style="color:red;"><?php echo $ru['amount']-$ru['fees'];?></b> )</span></p>
-                    <p>手续费用：<b><?php echo $ru['fees'];?></b></p>
-                        </td>
+                <td><a href="<?php echo url::s("admin/member/index.do","member_id={$ru['user_id']}");?>"><?php $user = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo $user['username'];?></a></td>
+
+                <td><?php echo $user['phone'];?></td>
+
+                <td><?php echo $ru['old_amount'];?></td>
+
+                <td><?php echo $ru['new_amount'];?></td>
+
+                <td><?php echo $ru['amount'];?></td>
+
+                <td><?php echo $ru['amount']-$ru['fees'];?></td>
+
+                <td><?php echo $ru['fees'];?></td>
+
+                <td><?php echo $ru['content'];?></td>
+
+                <td><?php
+                    if ($ru['types'] == 1) echo '<span style="color:#039be5;">等待管理员处理..</span>';
+                    if ($ru['types'] == 2) echo '<span style="color:green;">已经处理</span>';
+                    if ($ru['types'] == 3) echo '<span style="color:#bdbdbd;">已驳回该提现</span>';
+                    if ($ru['types'] == 4) echo '<span style="color:red;">该流水异常</span>';
+                    ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s",$ru['pay_time']) . ')';?>
+                </td>
                         
-                        
-                         <td>
-                        <p>银行信息：<?php echo $ru['content'];?></p>
-                        <p>提现状态：<?php 
-                        if ($ru['types'] == 1) echo '<span style="color:#039be5;">等待管理员处理..</span>';
-                        if ($ru['types'] == 2) echo '<span style="color:green;">已经处理</span>';
-                        if ($ru['types'] == 3) echo '<span style="color:#bdbdbd;">已驳回该提现</span>';
-                        if ($ru['types'] == 4) echo '<span style="color:red;">该流水异常</span>';
-                        ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s",$ru['pay_time']) . ')';?></p>
-                        </td>
-                        
-                        <td><p>提交时间：<?php echo date("Y/m/d H:i:s",$ru['apply_time']);?></p>
-                        <p>处理时间：<?php if ($ru['deal_time'] != 0) {echo date("Y/m/d H:i:s",$ru['deal_time']);}else {echo '等待处理中';}?></p></td>
-                        
-                        <td><?php if ($ru['types'] == 1){?><p>
+                <td><?php echo date("Y/m/d H:i:s",$ru['apply_time']);?></td>
+                <td><?php if ($ru['deal_time'] != 0) {echo date("Y/m/d H:i:s",$ru['deal_time']);}else {echo '等待处理中';};?></td>
+
+                <td><?php if ($ru['types'] == 1){?><p>
                         <?php //查询收款人信息
                         $bank = json_decode($find_user['bank'],true);
                         if ($bank['type'] == 1) echo '支付宝账号：<b style="color:red;font-size:15px;">' . $bank['card'] . '</b> / 姓名：<b style="color:green;font-size:15px;">' . $bank['name'] . '</b>'; //支付宝
@@ -96,17 +106,16 @@ $fix = DB_PREFIX;
                         ?></p>
                         <p>请给该账户打款：<b style="font-size: 15px;color:red;"><?php echo $ru['amount']-$ru['fees'];?></b> 元</p>
                         
-                        <?php }else {echo '已经处理';}?></td>
+                        <?php }else {echo '已经处理';}?>
+                </td>
                         
                         
-                        <td> 
-                <p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
+                <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
                         <label for="checkbox<?php echo $ru['id'];?>">
-                            勾选订单!
                         </label>
                     </div></p>
-                <p><?php if ($ru['types'] == 1){?><a href="#" onclick="ok('<?php echo $ru['id'];?>')" class="btn btn-success btn-xs"><i class="fa fa-user-md"></i>确认</a>  <a href="#" onclick="turnDown('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-reply-all"></i>驳回</a>  <a href="#" onclick="error('<?php echo $ru['id'];?>')" class="btn btn-warning btn-xs"><i class="fa fa-close"></i>异常</a><?php }else {echo '已经处理';}?></p>
+                <p><?php if ($ru['types'] == 1){?><a href="#" onclick="ok('<?php echo $ru['id'];?>')" class="btn btn-success btn-xs"><i class="fa fa-user-md"></i>确认</a>  <a href="#" onclick="turnDown('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-reply-all"></i>驳回</a>  <a href="#" onclick="error('<?php echo $ru['id'];?>')" class="btn btn-warning btn-xs"><i class="fa fa-close"></i>异常</a><?php }else {echo '';}?></p>
                 </td>
               </tr>
             <?php }?>
