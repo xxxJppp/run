@@ -272,7 +272,7 @@ $error_url = $data['error_url'];
             <button id="zhifu" style="display: none" class="immediate_pay">点击支付宝支付</button>
             <input type="hidden" id="nyr" value="">
             <input type="hidden" id="sign" value="<?php echo $sign;?>">
-            <input type="hidden" id="time" value="">
+            <input type="hidden" id="time" value="<?php echo $data['creation_time']-time()?>">
             <input type="hidden" id="orderid" value="<?php echo $data['id']?>">
         </div>
     </div>
@@ -294,34 +294,17 @@ $error_url = $data['error_url'];
             window.location.href = url;
         }
     });
-    //使用匿名函数方法
-    function countDown() {
-        var time = document.getElementById("second_show");
-        var id = $("#orderid").val();
-        if (time.innerHTML == 0) {
-            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
-                //成功
-                if(result.code == '200'){
-                    $("#lodings").hide();
-                    $("#lodingt").show();
-                    $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
-                    clearInterval(ti);
-                    clearInterval(dscd_time);
-                    clearInterval(orderlst);
-                }
 
-            });
-        } else {
-            time.innerHTML = time.innerHTML - 1;
-        }
-    }
-    //1000毫秒调用一次
-    var ti = setInterval("countDown()", 1000);
     function timi() {
 
         var id = $("#orderid").val();
-        var timer, minutes, seconds, ci, qi,time=$("#time").val()+300;
+        var timer, minutes, seconds, ci, qi;
+        <?php if($data['paofen_id']>0 && $data['status']==2){?>
+        var time=parseInt($("#time").val())+300;
+        timer = parseInt(time) - 1;
+        <?php }else{ ?>
         timer = parseInt(300) - 1;
+        <?php }?>
         if(timer>0){
             ci = setInterval(function () {
                 minutes = parseInt(timer / 60, 10)
@@ -367,7 +350,51 @@ $error_url = $data['error_url'];
         }});
 
     }
+<?php if($data['status']!=2){ ?>
+    $("#lodings").hide();
+    $("#lodingt").show();
+    $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+    clearInterval(ti);
+    clearInterval(dscd_time);
+    clearInterval(orderlst);
+<?php }else{?>
+<?php if($data['paofen_id']>0 && $data['status']==2){?>
+    $("#div").show();
+    timi();
+    $("#lodings").hide();
+    $("#loding").show();
+    jQuery('#loding').qrcode({
+        render: "canvas",
+        text: "<?php echo $ewm['ewm_url'] ?>",
+        width: "256",               //二维码的宽度
+        height: "256",              //二维码的高度
+        background: "#ffffff",      //二维码的后景色
+        foreground: "#000000",      //二维码的前景色
+    });
+    <?php }else{ ?>
+    //使用匿名函数方法
+    function countDown() {
+        var time = document.getElementById("second_show");
+        var id = $("#orderid").val();
+        if (time.innerHTML == 0) {
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
+                //成功
+                if(result.code == '200'){
+                    $("#lodings").hide();
+                    $("#lodingt").show();
+                    $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+                    clearInterval(ti);
+                    clearInterval(dscd_time);
+                    clearInterval(orderlst);
+                }
 
+            });
+        } else {
+            time.innerHTML = time.innerHTML - 1;
+        }
+    }
+    //1000毫秒调用一次
+    var ti = setInterval("countDown()", 1000);
     function updateorder(){
         $.ajax({
             type: 'POST',
@@ -419,6 +446,7 @@ $error_url = $data['error_url'];
         });
     }
     var dscd_time = setInterval(updateorder, 4000);
+    <?php }}?>
 </script>
 <script>
 

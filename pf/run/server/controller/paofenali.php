@@ -23,12 +23,16 @@ class paofenali{
         $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and type=1 and pay_time=0");
         foreach($orders as $order){
             $user_id = $order['user_id'];
+            $deposit = $this->mysql->query("deposit","user_id={$user_id} and order_id={$order['id']}")[0];
             $puser = $this->mysql->query("client_user", "id={$user_id}")[0];
-            $mashang_balance = $puser['balance'] +  $order['amount']; // 用户最终余额
-            $mashang_balance = floatval($mashang_balance);
-            $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+            if(is_array($deposit)){
+                $mashang_balance = $puser['balance'] +  $deposit['money']; // 用户最终余额
+                $mashang_balance = floatval($mashang_balance);
+                $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+                $del = $this->mysql->delete("deposit","id={$deposit['id']}");
+            }
             $p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
-            $del = $this->mysql->delete("deposit","user_id={$user_id} and order_id={$order['id']}");
+
             $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
             $ya = $this->mysql->insert("mashang_yajin_log", [
                 'uid' => $user_id,

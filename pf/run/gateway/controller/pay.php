@@ -22,8 +22,9 @@ class pay
     public function alit(){
         $id = request::filter('get.id');
         $data = $this->mysql->query("client_paofen_automatic_orders","id={$id}")[0];
+        $ewm = $this->mysql->query("client_paofen_automatic_account","id={$data['paofen_id']}")[0];
         $data['sign'] = request::filter('get.sign', '', 'htmlspecialchars');
-        new view('paofen/alipay',['data'=>$data]);
+        new view('paofen/alipay',['data'=>$data,'ewm'=>$ewm]);
 
     }
     //跑分模式
