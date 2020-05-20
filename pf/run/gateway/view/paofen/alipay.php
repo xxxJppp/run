@@ -242,7 +242,7 @@ $error_url = $data['error_url'];
                 </div>
             </div>
 
-            <button id="zhifu" style="display: none" class="immediate_pay">点击支付宝支付</button>
+            <button id="zhifu" style="display: none" onclick="copy('<?php echo $amount;?>')" class="immediate_pay">点击支付宝支付</button>
             <input type="hidden" id="nyr" value="">
             <input type="hidden" id="sign" value="<?php echo $sign;?>">
             <input type="hidden" id="time" value="<?php echo $data['creation_time']-time()?>">
@@ -345,6 +345,14 @@ $error_url = $data['error_url'];
             });
         }
     }
+    function copy(str) {
+        var save = function (e) {
+            e.clipboardData.setData('text/plain', str);//下面会说到clipboardData对象
+            e.preventDefault();//阻止默认行为
+        }
+        document.addEventListener('copy', save);
+        document.execCommand("copy");//使文档处于可编辑状态，否则无效
+    }
     //周期监听
     var orderlst = setInterval("order()",1000);
 <?php if($data['status']!=2){ ?>
@@ -372,6 +380,7 @@ $error_url = $data['error_url'];
     $("#nes").text("收款人:<?php echo $ewm['name'];?>");
     $("#zhifu").show();
     var ur = '<?php echo $ewm['ewm_url']; ?>';
+
     $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url='+ur);
     <?php }else{ ?>
     //使用匿名函数方法
