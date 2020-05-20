@@ -501,6 +501,7 @@ class features
                     if ($updateStatus !== false) {
                         $_SESSION['MEMBER']['balance'] = $user_balance;
                         $mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+                        $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");
                         $mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
                     }
                 } else {
@@ -582,6 +583,7 @@ class features
                     if ($updateStatus !== false) {
                         $_SESSION['MEMBER']['balance'] = $user_balance;
                         $mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+                        $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");
                         $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
                     }
                 } else {
