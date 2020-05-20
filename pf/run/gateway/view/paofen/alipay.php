@@ -353,7 +353,7 @@ $error_url = $data['error_url'];
             $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
-                    //$("#lodings").hide();
+                    $("#loding").hide();
                     $("#lodingt").show();
                     $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
                     clearInterval(ti);
