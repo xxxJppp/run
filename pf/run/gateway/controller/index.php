@@ -47,6 +47,7 @@ class index
         if(!empty($uid)){
             $order = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and id={$uid}")[0];
             $result = $this->mysql->update("client_paofen_automatic_orders", ['status' => 3], "id={$order['id']}");
+            $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
             if($result) functions::str_json('json',200,'订单支付超时');
         }else{
             functions::str_json('json','-3','订单不存在');

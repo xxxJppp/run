@@ -84,10 +84,11 @@ $fix = DB_PREFIX;
               <tr>
                  <td><a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>"><?php echo $ru['trade_no'];?> </a></td>
                 <td><span style="color: green;"><b><?php echo $ru['amount'];?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: ". ($ru['amount']-$ru['fees']) ." )" : '';?></span></td>
-                        
+
+              <?php $userInfo = $mysql->query("client_user","id={$ru['user_id']}")[0]; ?>
                 <td><?php echo $userInfo['id'];?></td>
 
-                <td><?php $userInfo = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo is_array($userInfo) ? '<a href="'. url::s("admin/paofen/automaticOrder","sorting=user&code={$userInfo[id]}&locking=true") .'"><span style="color:green;font-size:14px;font-weight:bold;">'.$userInfo['username'] .'</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>';?></td>
+                <td><?php echo is_array($userInfo) ? '<a href="'. url::s("admin/paofen/automaticOrder","sorting=user&code={$userInfo[id]}&locking=true") .'"><span style="color:green;font-size:14px;font-weight:bold;">'.$userInfo['username'] .'</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>';?></td>
 
                 <td><?php $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id'); ?><span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span></td>
 
