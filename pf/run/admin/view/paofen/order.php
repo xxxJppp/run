@@ -50,7 +50,7 @@ $fix = DB_PREFIX;
                         ?> ]
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover" style="width:  1700px;">
             <thead>
               <tr>
                 <th><input onchange="trade_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
