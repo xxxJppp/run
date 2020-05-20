@@ -163,28 +163,19 @@ display: inline-block;
             <script type="text/javascript">
 
                 function reissue(id) {
-                    swal({
-                            title: "订单通知",
-                            text: "手动补发也是需要扣除手续费,您是否要继续?",
-                            type: "info", showCancelButton: true,
-                            closeOnConfirm: false,
-                            showLoaderOnConfirm: true,
-                            confirmButtonText: "是的,我愿意承担手续费!"
-                        },
-                        function () {
-                            //开始请求跑分登录
-                            $.get("<?php echo url::s('admin/paofen/automaticReissue', "id=");?>" + id, function (result) {
-                                if (result.code == '200') {
-                                    swal("跑分提示", result.msg, "success");
-                                    setTimeout(function () {
-                                        location.href = '';
-                                    }, 1000);
-                                } else {
-                                    swal("订单通知", result.msg, "error");
-                                }
-                            });
+                    layer.confirm('手动补发也是需要扣除手续费,您是否要继续?', function (index) {
+                        $.get("<?php echo url::s('admin/paofen/automaticReissue', "id=");?>" + id, function (result) {
+
+                            if(result.code == '200'){
+                                layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                        window.location.reload();
+                                    }});
+                            }else{
+                                layer.msg(result.msg, {icon:2,time:1000})
+                            }
 
                         });
+                    });
                 }
 
                 function trade_no(obj) {
@@ -197,7 +188,6 @@ display: inline-block;
 
                 function wechat() {
                     var wechat = $('#wechat').val();
-                    console.log(wechat);
                     location.href = "<?php echo url::s('admin/paofen/automaticOrder', "sorting=paofen&code=");?>" + wechat;
 
                 }
@@ -217,80 +207,58 @@ display: inline-block;
                     if(r!=null)return  unescape(r[2]); return null;
                 }
                 function del(id) {
-                    swal({
-                            title: "跑分提醒",
-                            text: "你确定要删除该订单吗？",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "是的,我要删除该订单!",
-                            closeOnConfirm: false
-                        },
-                        function () {
-                            $.get("<?php echo url::s('admin/paofen/automaticOrderDelete', 'id=');?>" + id, function (result) {
+                    layer.confirm('你确定要删除该订单吗？', function (index) {
+                        $.get("<?php echo url::s('admin/paofen/automaticOrderDelete', 'id=');?>" + id, function (result) {
 
-                                if (result.code == '200') {
-                                    swal("操作提示", result.msg, "success");
-                                    setTimeout(function () {
-                                        location.href = '';
-                                    }, 1500);
-                                } else {
-                                    swal("操作提示", result.msg, "error");
-                                }
-                            });
-
+                            if(result.code == '200'){
+                                layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                        window.location.reload();
+                                    }});
+                            }else{
+                                layer.msg(result.msg, {icon:2,time:1000})
+                            }
 
                         });
+                    });
                 }
 
 
                 function deletes() {
-                    swal({
-                            title: "非常危险",
-                            text: "你确定要批量删除已选中的订单吗？",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "是的,我要删除这些订单!",
-                            closeOnConfirm: false
-                        },
-                        function () {
-                            $("input[name='items']:checked").each(function () {
-                                $.get("<?php echo url::s('admin/paofen/automaticOrderDelete', 'id=');?>" + $(this).val(), function (result) {
-                                    swal("操作提示", '当前操作已经执行完毕!', "success");
-                                    setTimeout(function () {
-                                        location.href = '';
-                                    }, 1500);
-                                });
+                    layer.confirm('你确定要批量删除已选中的订单吗？', function (index) {
+                        $("input[name='items']:checked").each(function () {
+                            $.get("<?php echo url::s('admin/paofen/automaticOrderDelete', 'id=');?>" + $(this).val(), function (result) {
+                                if(result.code != 200){
+                                    layer.msg(result.msg, {icon: 1, time: 1000});
+                                    return;
+                                }
                             });
-
                         });
+                        layer.msg(result.msg, {
+                            icon: 1, time: 1000, end: function () {
+                                window.location.reload();
+                            }
+                        });
+                    });
 
                 }
 
 
                 function callback() {
-                    swal({
-                            title: "危险操作",
-                            text: "你确定你要以管理员的方式回调已勾选过的订单？",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "是的,我要帮助这些订单回调!",
-                            closeOnConfirm: false
-                        },
-                        function () {
-                            $("input[name='items']:checked").each(function () {
-                                $.get("<?php echo url::s('admin/paofen/callback', 'id=');?>" + $(this).val(), function (result) {
-                                    swal("操作提示", '当前操作已经执行完毕!', "success");
-                                    setTimeout(function () {
-                                        location.href = '';
-                                    }, 1000);
-                                });
+                    layer.confirm('你确定你要以管理员的方式回调已勾选过的订单？', function (index) {
+                        $("input[name='items']:checked").each(function () {
+                            $.get("<?php echo url::s('admin/paofen/callback','id=');?>" + $(this).val(), function(result){
+                                if(result.code != 200){
+                                    layer.msg(result.msg, {icon: 1, time: 1000});
+                                    return;
+                                }
                             });
-
                         });
-
+                        layer.msg("回调成功", {
+                            icon: 1, time: 1000, end: function () {
+                                window.location.reload();
+                            }
+                        });
+                    });
                 }
 
 

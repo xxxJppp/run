@@ -5,7 +5,6 @@ use xh\library\ip;
 include_once (PATH_VIEW . 'common/header.php'); //头部
 $fix = DB_PREFIX;
 ?>
-<link href="<?php echo str_replace("admin", 'index', URL_VIEW);?>/static/js/plugins/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
 <!-- START CONTENT -->
 
   <!-- Start Page Header -->
@@ -123,84 +122,71 @@ $fix = DB_PREFIX;
     </div>
     <!-- End Panel -->
 
-      <script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
             <script type="text/javascript">
 
               function ok(id){
+                  layer.confirm('你确认已经为该提现订单打过款了吗？', function (index) {
+                      $.get("<?php echo url::s('admin/member/updateWithdraw',"type=2&id=");?>" + id, function(result){
 
-      		           swal({
-      		                title: "确认打款", 
-      		                text: "你确认已经为该提现订单打过款了吗？", 
-      		                type: "warning", 
-      		                showCancelButton: true, 
-      		                confirmButtonColor: "#DD6B55", 
-      		                confirmButtonText: "我已打款!", 
-      		                closeOnConfirm: false 
-      		              },
-      		              function(){
-        				         $.get("<?php echo url::s('admin/member/updateWithdraw',"type=2&id=");?>" + id, function(result){
-          	                      	 if(result.code == '200'){
-          	                       		    swal("操作提醒", result.msg, "success");
-          	            	              	setTimeout(function(){location.href = '';},1000);
-          	            	              }else{
-          	            	            	swal.showInputError(result.msg);     
-          	            	             }
-          	                  		});
-      						  
-      		              });
-      			
-                  }
+                          if (result.code == '200') {
+                              layer.msg(result.msg, {
+                                  icon: 1, time: 1000, end: function () {
+                                      window.location.reload();
+                                  }
+                              });
+                          } else {
+                              layer.msg(result.msg, {icon: 2, time: 1000})
+                          }
+
+                      });
+                  });
+              }
 
               function turnDown(id){
-            	  swal({   title: "驳回确认",   
-                      text: "请输入驳回信息反馈给用户:",   
-                      type: "input",   showCancelButton: true,   
-                      closeOnConfirm: false,   
-                      animation: "slide-from-top",   
-                      inputPlaceholder: "驳回信息",
-                      confirmButtonText: "驳回" }, 
-                      function(inputValue){   
-                          if (inputValue === false) return false;      
-                          if (inputValue === "") {     
-                          swal.showInputError("请输入驳回信息!");     
-                          return false   
+                  layer.prompt({
+                          title:"请输入驳回信息反馈给用户",
+                          formType:2,
+                          btn:'驳回'
+                      },
+                      function (inputValue) {
+                          if (inputValue === "" || inputValue === false) {
+                              swal.showInputError("请输入驳回信息!");
+                              return false
                           }
-                     $.get("<?php echo url::s('admin/member/updateWithdraw',"type=3&id=");?>" + id + "&msg=" + inputValue, function(result){
-                      	 if(result.code == '200'){
-                       		    swal("驳回提醒", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal.showInputError(result.msg);     
-            	             }
-                  		});
-                 });
-        		  $('.showSweetAlert input').val('您的收款账号有误,钱款已经退回至您的账户,请更新收款账户后重新提现!');
+                          $.get("<?php echo url::s('admin/member/updateWithdraw',"type=3&id=");?>" + id + "&msg=" + inputValue, function(result){
+                              if(result.code == '200'){
+                                  layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                          window.location.reload();
+                                      }});
+                              }else{
+                                  layer.msg(result.msg, {icon:2,time:1000})
+                              }
+
+                          });
+                      });
                   }
 
               function error(id){
-            	  swal({   title: "异常确认",   
-                      text: "请输入异常信息反馈给用户:",   
-                      type: "input",   showCancelButton: true,   
-                      closeOnConfirm: false,   
-                      animation: "slide-from-top",   
-                      inputPlaceholder: "异常信息",
-                      confirmButtonText: "异常该提现" }, 
-                      function(inputValue){   
-                          if (inputValue === false) return false;      
-                          if (inputValue === "") {     
-                          swal.showInputError("请输入异常信息!");     
-                          return false   
+                  layer.prompt({
+                          title:"请输入异常信息反馈给用户",
+                          formType:2,
+                      },
+                      function (inputValue) {
+                          if (inputValue === "" || inputValue === false) {
+                              layer.msg("请输入异常信息!", {icon:2,time:1000})
+                              return false
                           }
-                     $.get("<?php echo url::s('admin/member/updateWithdraw',"type=4&id=");?>" + id + "&msg=" + inputValue, function(result){
-                      	 if(result.code == '200'){
-                       		    swal("操作提醒", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal.showInputError(result.msg);     
-            	             }
-                  		});
-                 });
-        		  $('.showSweetAlert input').val('当前提现资金来源异常,暂时冻结该款项,如有疑问,请联系客服!');
+                          $.get("<?php echo url::s('admin/member/updateWithdraw',"type=4&id=");?>" + id + "&msg=" + inputValue, function(result){
+                              if(result.code == '200'){
+                                  layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                          window.location.reload();
+                                      }});
+                              }else{
+                                  layer.msg(result.msg, {icon:2,time:1000})
+                              }
+
+                          });
+                      });
                   }
               
               
@@ -211,32 +197,28 @@ $fix = DB_PREFIX;
 
               function wechat(){
                   var wechat = $('#wechat').val();
-                  console.log(wechat);
                   location.href = "<?php echo url::s('admin/alipay/automaticOrder',"sorting=alipay&code=");?>" + wechat;
                   
                   }
 
 
 
-			function deletes(){ 
-		           swal({
-		                title: "非常危险", 
-		                text: "你确定要批量删除已选中的记录吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除这些记录!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-				           $("input[name='items']:checked").each(function(){
-				        	 $.get("<?php echo url::s('admin/member/deleteWithdraw','id=');?>" + $(this).val(), function(result){
-						            	swal("操作提示", '当前操作已经执行完毕!', "success");
-						              	setTimeout(function(){location.href = '';},1500);
-				                	  });
-				           });  
-						  
-		              });
+			function deletes(){
+                layer.confirm('你确定要批量删除已选中的记录吗？', function (index) {
+                    $("input[name='items']:checked").each(function () {
+                        $.get("<?php echo url::s('admin/member/deleteWithdraw','id=');?>" + $(this).val(), function(result){
+                            if(result.code != 200){
+                                layer.msg(result.msg, {icon: 1, time: 1000});
+                                return;
+                            }
+                        });
+                    });
+                    layer.msg("删除成功", {
+                        icon: 1, time: 1000, end: function () {
+                            window.location.reload();
+                        }
+                    });
+                });
 				}
 
 

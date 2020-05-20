@@ -205,6 +205,7 @@ $fix = DB_PREFIX;
               }
 
 			function del(id){
+
 		              swal({
 		                title: "跑分提醒", 
 		                text: "你确定要删除该跑分吗？", 

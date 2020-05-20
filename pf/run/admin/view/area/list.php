@@ -160,11 +160,11 @@ $fix = DB_PREFIX;
                     $.get("<?php echo url::s('admin/area/delete','id=');?>" + id, function(result){
 
                         if(result.code == '200'){
-                            layer.msg("删除成功", {icon:1,time:1000,end:function () {
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
                                     window.location.reload();
                                 }});
                         }else{
-                            layer.msg("删除失败", {icon:2,time:1000})
+                            layer.msg(result.msg, {icon:2,time:1000})
                         }
 
                     });

@@ -427,12 +427,16 @@ $fix = DB_PREFIX;
                 layer.confirm('你确定要批量删除已选中的会员吗？', function (index) {
                     $("input[name='items']:checked").each(function () {
                         $.get("<?php echo url::s('admin/member/delete', 'id=');?>" + $(this).val(), function (result) {
-                            layer.msg(result.msg, {
-                                icon: 1, time: 1000, end: function () {
-                                    window.location.reload();
-                                }
-                            });
+                            if(result.code != 200){
+                                layer.msg(result.msg, {icon: 1, time: 1000});
+                                return;
+                            }
                         });
+                    });
+                    layer.msg("删除成功", {
+                        icon: 1, time: 1000, end: function () {
+                            window.location.reload();
+                        }
                     });
                 });
             }
