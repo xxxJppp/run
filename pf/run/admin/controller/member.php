@@ -434,7 +434,7 @@ class member
     public function delete()
     {
         $this->powerLogin(20);
-        $id = intval(request::filter('post.id'));
+        $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前会员不存在');

@@ -42,3 +42,26 @@ $view_module = $_SESSION['USER_MGT']['view_module'] != 0 ? explode(',', $_SESSIO
 <script src="/static/js/layui/layui.js" charset="utf-8"></script>
 <script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
 <script src="/Public/Front/js/Util.js" charset="utf-8"></script>
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , form = layui.form //表单
+            , table = layui.table; //表格
+        //日期时间范围
+        laydate.render({
+            elem: '#createtime'
+            , type: 'datetime'
+            , theme: 'molv'
+            , range: '|'
+        });
+        //日期时间范围
+        laydate.render({
+            elem: '#successtime'
+            , type: 'datetime'
+            , theme: 'molv'
+            , range: '|'
+        });
+    });
+</script>

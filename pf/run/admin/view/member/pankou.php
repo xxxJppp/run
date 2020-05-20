@@ -273,35 +273,7 @@ $fix = DB_PREFIX;
         </div>
     </div>
 </div>
-<script src="/Public/Front/js/jquery.min.js"></script>
-<script src="/Public/Front/js/bootstrap.min.js"></script>
-<script src="/Public/Front/js/plugins/peity/jquery.peity.min.js"></script>
-<script src="/Public/Front/js/content.js"></script>
-<script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
-<script src="/Public/Front/js/x-layui.js" charset="utf-8"></script>
-<script src="/Public/Front/js/Util.js" charset="utf-8"></script>
 <script>
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
-        var laydate = layui.laydate //日期
-            , laypage = layui.laypage //分页
-            , layer = layui.layer //弹层
-            , form = layui.form //表单
-            , table = layui.table; //表格
-        //日期时间范围
-        laydate.render({
-            elem: '#createtime'
-            , type: 'datetime'
-            , theme: 'molv'
-            , range: '|'
-        });
-        //日期时间范围
-        laydate.render({
-            elem: '#successtime'
-            , type: 'datetime'
-            , theme: 'molv'
-            , range: '|'
-        });
-    });
 
     /*订单-查看*/
     function order_view(title, url, w, h) {

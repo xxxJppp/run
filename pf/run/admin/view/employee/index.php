@@ -268,7 +268,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                     data: $('#from').serialize(),
                     success: function (data) {
                         if (data.code == '200') {
-                            layer.msg("添加成功", {icon:1,time:1000,end:function () {
+                            layer.msg(data.msg, {icon:1,time:1000,end:function () {
                                     window.location.reload();
                                 }});
                         } else {
@@ -301,10 +301,10 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                     processData: false,
                     success: function (data) {
                         if (data.code == '200') {
-                            layer.msg("上传成功", {icon:1,time:1000})
+                            layer.msg(data.msg, {icon:1,time:1000})
                             $('#imgCode_' + id).attr('src', '<?php echo URL_VIEW . '/upload/avatar/';?>' + id + '/' + data.data.img);
                         } else {
-                            layer.msg("上传失败", {icon:2,time:1000})
+                            layer.msg(data.msg, {icon:2,time:1000})
                         }
                     }
                 });
@@ -317,11 +317,11 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                     $.get("<?php echo url::s('admin/employee/delete', 'id=');?>" + id, function (result) {
 
                         if (result.code == '200') {
-                            layer.msg("删除成功", {icon:1,time:1000,end:function () {
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
                                     window.location.reload();
                                 }});
                         } else {
-                            layer.msg("修改失败", {icon:2,time:1000})
+                            layer.msg(result.msg, {icon:2,time:1000})
                         }
 
                     });
@@ -333,7 +333,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                 layer.confirm('你确定要批量删除已选中的员工吗？', function (index) {
                     $("input[name='items']:checked").each(function () {
                         $.get("<?php echo url::s('admin/employee/delete', 'id=');?>" + $(this).val(), function (result) {
-                            layer.msg("删除成功", {icon:1,time:1000,end:function () {
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
                                     window.location.reload();
                                 }});
                         });
@@ -357,13 +357,9 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
             }
 
         </script>
-
-
         <!-- End Moda Code -->
-
     </div>
     <!-- End Row -->
-
 </div>
 <!-- END CONTAINER -->
 <!-- //////////////////////////////////////////////////////////////////////////// -->

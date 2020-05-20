@@ -168,10 +168,10 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 	        processData: false,
 	        success:function(data){
 	            if(data.code == '200'){
-	            	swal("操作提示", data.msg, "success");
 	            	$('#avatar').attr('src','<?php echo str_replace('admin', 'index', URL_VIEW) . '/upload/avatar/' . $result['id'] . '/';?>' + data.data.img);
+                    layer.msg(data.msg, {icon: 1, time: 1000})
 	            }else{
-	            	swal("操作提示", data.msg, "error");
+                    layer.msg(data.msg, {icon: 2, time: 1000})
 	            }
 	        }
 	    });
@@ -186,10 +186,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){javascript:history.back(-1);},1500);
+                              layer.msg(data.msg, {icon:1,time:1000,end:function () {
+                                      location.href = '<?php echo url::s('admin/member/index');?>';
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error")
+                              layer.msg(data.msg, {icon: 2, time: 1000})
 			              }
 			          },
 			          error: function(data) {

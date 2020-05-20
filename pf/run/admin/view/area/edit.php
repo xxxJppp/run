@@ -9,7 +9,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
   <div class="page-header">
    
       <ol class="breadcrumb">
-        <li><a href="<?php echo url::s('admin/area/list');?>">地区管理</a></li>
+        <li><a href="<?php echo url::s('admin/area/arealist');?>">地区管理</a></li>
         <li class="active">修改</li>
       </ol>
       
@@ -66,24 +66,17 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   <label class="col-sm-2 control-label form-label"></label>
                   <div class="col-sm-10">
                    	<a href="#" onclick="edit()" class="btn btn-success"><i class="fa fa-refresh"></i>保存更新</a> &nbsp;&nbsp;
-                   	<a href="<?php echo url::s('admin/area/list');?>" class="btn"><i class="fa fa-close"></i>取消</a>
+                   	<a href="JavaScript:;" onclick="history.go(-1)" class="btn"><i class="fa fa-close"></i>取消</a>
                   </div>
                 </div>
-
-              </form> 
-
+              </form>
             </div>
-
       </div>
     </div>
 
   </div>
   <!-- End Row -->
-  
     <script type="text/javascript">
-
-  
-
 			function edit(){
 				$.ajax({
 			          type: "POST",
@@ -92,10 +85,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){location.href = '<?php echo url::s('admin/area/list');?>';},1500);
+                              layer.msg(data.msg, {icon:1,time:1000,end:function(){
+                                      location.href = '<?php echo url::s('admin/area/arealist');?>';
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error")
+                              layer.msg(data.msg, {icon:2,time:1000})
 			              }
 			          },
 			          error: function(data) {

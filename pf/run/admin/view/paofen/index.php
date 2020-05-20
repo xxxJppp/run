@@ -139,118 +139,88 @@ $fix = DB_PREFIX;
     <!-- End Panel -->  
             <script type="text/javascript">
             function startAutomaticRb(id){
-            	  swal({
-                      title: "跑分提醒", 
-                      text: "当前操作是更改跑分轮训状态,您是否继续?", 
-                      type: "warning", 
-                      showCancelButton: true, 
-                      confirmButtonColor: "#DD6B55", 
-                      confirmButtonText: "确认", 
-                      closeOnConfirm: false 
-                    },
-                    function(){
-                       $.get("<?php echo url::s('admin/paofen/startAutomaticRb',"id=");?>" + id, function(result){
-                      	 if(result.code == '200'){
-            	            	swal("跑分提示", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal("跑分提示", result.msg, "error");
-            	              }
-                      	  });
-                    });	
+                layer.confirm('当前操作是更改跑分轮训状态,您是否继续?', function (index) {
+                    $.get("<?php echo url::s('admin/paofen/startAutomaticRb',"id=");?>" + id, function(result){
+
+                        if(result.code == '200'){
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                    window.location.reload();
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
+
+                    });
+                });
               }
 
             function startAutomaticGateway(id){
-            	  swal({
-                      title: "跑分提醒", 
-                      text: "当前操作是更改网关状态,您是否继续?", 
-                      type: "warning", 
-                      showCancelButton: true, 
-                      confirmButtonColor: "#DD6B55", 
-                      confirmButtonText: "是的,继续!", 
-                      closeOnConfirm: false 
-                    },
-                    function(){
-                       $.get("<?php echo url::s('admin/paofen/startAutomaticGateway',"id=");?>" + id, function(result){
-                      	 if(result.code == '200'){
-            	            	swal("跑分提示", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal("跑分提示", result.msg, "error");
-            	              }
-                      	  });
-                    });	
+                layer.confirm('当前操作是更改网关状态,您是否继续?', function (index) {
+                    $.get("<?php echo url::s('admin/paofen/startAutomaticGateway',"id=");?>" + id, function(result){
+
+                        if(result.code == '200'){
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                    window.location.reload();
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
+
+                    });
+                });
               }
 
             function startAutomaticLogOut(id){
-            	  swal({
-                      title: "跑分提醒", 
-                      text: "您是否要退出当前跑分?", 
-                      type: "warning", 
-                      showCancelButton: true, 
-                      confirmButtonColor: "#DD6B55", 
-                      confirmButtonText: "是的,我要退出!", 
-                      closeOnConfirm: false 
-                    },
-                    function(){
-                       $.get("<?php echo url::s('admin/paofen/startAutomaticLogOut',"id=");?>" + id, function(result){
-                      	 if(result.code == '200'){
-            	            	swal("跑分提示", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal("跑分提示", result.msg, "error");
-            	              }
-                      	  });
-                    });	
+                layer.confirm('您是否要退出当前跑分?', function (index) {
+                    $.get("<?php echo url::s('admin/paofen/startAutomaticLogOut',"id=");?>" + id, function(result){
+
+                        if(result.code == '200'){
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                    window.location.reload();
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
+
+                    });
+                });
               }
 
 			function del(id){
-		              swal({
-		                title: "跑分提醒", 
-		                text: "你确定要删除该跑分吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除该跑分!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-		                 $.get("<?php echo url::s('admin/paofen/automaticDelete','id=');?>" + id, function(result){
 
-		                	 if(result.code == '200'){
-				            	swal("操作提示", result.msg, "success");
-				              	setTimeout(function(){location.href = '';},1500);
-				              }else{
-				            	  swal("操作提示", result.msg, "error");
-				              }
-		                	  });
+                layer.confirm('你确定要删除该跑分吗？', function (index) {
+                    $.get("<?php echo url::s('admin/paofen/automaticDelete','id=');?>" + id, function(result){
 
-						  
-		              });		
+                        if(result.code == '200'){
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                    window.location.reload();
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
+
+                    });
+                });
 			}
 
 
-			function deletes(){ 
-		           swal({
-		                title: "非常危险", 
-		                text: "你确定要批量删除已选中的跑分吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除这些跑分!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-				           $("input[name='items']:checked").each(function(){
-				        	 $.get("<?php echo url::s('admin/paofen/automaticDelete','id=');?>" + $(this).val(), function(result){
-						            	swal("操作提示", '当前操作已经执行完毕!', "success");
-						              	setTimeout(function(){location.href = '';},1500);
-				                	  });
-				           });  
-						  
-		              });
-		           
-				}
+			function deletes(){
+                layer.confirm('你确定要批量删除已选中的跑分吗？', function (index) {
+                    $("input[name='items']:checked").each(function () {
+                        $.get("<?php echo url::s('admin/paofen/automaticDelete','id=');?>" + $(this).val(), function(result){
+                            if(result.code != 200){
+                                layer.msg(result.msg, {icon: 1, time: 1000});
+                                return;
+                            }
+                        });
+                    });
+                    layer.msg(result.msg, {
+                        icon: 1, time: 1000, end: function () {
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
 
 
 			function showBtn(){

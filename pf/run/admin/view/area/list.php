@@ -21,7 +21,7 @@ $fix = DB_PREFIX;
       <div class="btn-group" role="group" aria-label="...">
         <a data-toggle="modal" data-target="#add" class="btn btn-light">添加地区</a> 
         <a href="?verification=<?php echo mt_rand(1000,9999);?>" class="btn btn-light"><i class="fa fa-refresh"></i></a>
-        <a data-toggle="modal" data-target="#search" class="btn btn-light"><i class="fa fa-search"></i></a>
+        <!--<a data-toggle="modal" data-target="#search" class="btn btn-light"><i class="fa fa-search"></i></a>-->
        
       </div>
     </div>
@@ -140,10 +140,11 @@ $fix = DB_PREFIX;
 			          success: function (data) {
 				          console.log(data);
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success");
-			              	setTimeout(function(){location.href = '';},1500);
+                              layer.msg("添加成功", {icon:1,time:1000,end:function(){
+                                      window.location.reload();
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error");
+                              layer.msg("添加失败", {icon:2,time:1000})
 			              }
 			          },
 			          error: function(data) {
@@ -155,69 +156,20 @@ $fix = DB_PREFIX;
 			
 
 			function deletec(id){
-		              swal({
-		                title: "提示", 
-		                text: "你确定要删除该地区吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除该地区!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-		                 $.get("<?php echo url::s('admin/area/delete','id=');?>" + id, function(result){
+                layer.confirm('确定要删除该地区吗？', function (index) {
+                    $.get("<?php echo url::s('admin/area/delete','id=');?>" + id, function(result){
 
-		                	 if(result.code == '200'){
-				            	swal("操作提示", result.msg, "success");
-				              	setTimeout(function(){location.href = '';},1500);
-				              }else{
-				            	  swal("操作提示", result.msg, "error");
-				              }
-		                	    
-		                	  });
+                        if(result.code == '200'){
+                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                    window.location.reload();
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
 
-						  
-		              });		
+                    });
+                });
 			}
-
-
-			function deletes(){ 
-		           swal({
-		                title: "非常危险", 
-		                text: "你确定要批量删除已选中的会员吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除这些会员!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-				           $("input[name='items']:checked").each(function(){
-				        	 $.get("<?php echo url::s('admin/member/delete','id=');?>" + $(this).val(), function(result){
-						            	swal("操作提示", '当前操作已经执行完毕!', "success");
-						              	setTimeout(function(){location.href = '';},1500);
-				                	  });
-				           });  
-						  
-		              });
-		           
-				}
-
-
-			function showBtn(){
-				var Inc = 0;
-				$("input[name='items']:checkbox").each(function(){
-                    if(this.checked){
-                    	$('#deletes').show();
-                    	return true;
-                    }
-                    Inc++;
-              });
-	              if($("input[name='items']:checkbox").length == Inc){
-	            	  $('#deletes').hide();
-		          }
-			}
-
             </script>
             
 

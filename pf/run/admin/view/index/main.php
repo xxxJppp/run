@@ -42,7 +42,7 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
     </ul>
 </div>
 <div class="content">
-    <iframe style="width: 100%;height: 100%" id="content_html" src="/admin/system/webCog.do" frameborder="0"></iframe>
+    <iframe style="width: 100%;height: 100%" id="content_html" src="" frameborder="0"></iframe>
 </div>
 <script type="text/javascript">
     $(function () {
