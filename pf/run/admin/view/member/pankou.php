@@ -14,7 +14,7 @@ $fix = DB_PREFIX;
                     <div class="ibox-title">
                         <h5>盘口管理</h5>
                         <div class="ibox-tools">
-                            <a data-toggle="modal" data-target="#add1" class="btn btn-light">添加会员</a>
+                            <a data-toggle="modal" data-target="#add1" class="btn btn-light">添加盘口</a>
                             <i class="layui-icon" onclick="location.replace(location.href);" title="刷新"
                                style="cursor:pointer;">ဂ</i>
                         </div>
@@ -196,7 +196,7 @@ $fix = DB_PREFIX;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">添加会员</h4>
+                        <h4 class="modal-title">添加盘口</h4>
                     </div>
                     <div class="modal-body">
 
@@ -252,16 +252,6 @@ $fix = DB_PREFIX;
                                 <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00">
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label form-label">是否代理</label>
-                            <div class="col-sm-10">
-                                <span style="float:left;width:60px">不是 <input style="width:20px;" type="radio" class="form-control" name="is_agent" value="0" ></span>
-                                <span style="float:left;width:60px">  是  <input style="width:20px;" type="radio" class="form-control " name="is_agent" value="1"></span>
-                            </div>
-
-                        </div>
-
 
                     </div>
                     <div class="modal-footer">

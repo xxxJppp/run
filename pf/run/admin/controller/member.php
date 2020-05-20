@@ -282,9 +282,6 @@ class member
         $group_id = request::filter('post.group_id');
         $phone = request::filter('post.phone');
         $level_id = intval(request::filter('post.level_id'));
-        $is_agent = intval(request::filter('post.is_agent'));
-        $is_pankou = intval(request::filter('post.is_pankou'));
-        $is_mashang = intval(request::filter('post.is_mashang'));
         $balance = floatval(request::filter('post.balance'));
         $money = floatval(request::filter('post.money'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
@@ -320,9 +317,9 @@ class member
             'token' => $token,
             'ip' => '8.8.8.8',
             'group_id' => $group_id,
-            'is_agent' => $is_agent,
-            'is_pankou' => $is_pankou,
-            'is_mashang' => $is_mashang,
+            'is_agent' => 1,
+            'is_pankou' => 1,
+            'is_mashang' => 1,
             'level_id' => $level_id,
             'login_time' => 0,
             'key_id' => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
