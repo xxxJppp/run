@@ -76,8 +76,10 @@ class index
         $type = intval(request::filter('post.type',1));
 
         $callback_url = request::filter('post.callback_url', '', 'htmlspecialchars');
-        $success_url = 'http://pf.zhiyungk.com/demo';
-        $error_url = 'http://pf.zhiyungk.com/demo';
+        //success_url
+        $data['success_url'] = request::filter('post.success_url', '', 'htmlspecialchars');
+        //error_url
+        $data['error_url'] = request::filter('post.error_url', '', 'htmlspecialchars');
 
 
         $data =  [
