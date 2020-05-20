@@ -59,8 +59,6 @@ $fix = DB_PREFIX;
                 
                 </th>
 
-                <td>跑分ID/订单ID</td>
-
                 <th>支付信息 <?php if ($sorting['code'] != 0 && $sorting['name'] == 'status'){?>(<?php if ($sorting['code'] == 1) echo '获取订单中';if ($sorting['code'] == 2) echo '未支付';if ($sorting['code'] == 3) echo '订单超时';if ($sorting['code'] == 4) echo '已支付';?>)<?php }?><a href='<?php echo url::s('admin/paofen/automaticOrder',"sorting=status&code=".($sorting['code']+1));?>'> <i class="fa fa-unsorted"></i></a></th>
                 <th>
                     <input onchange="member(this);" style="width: 30%;"  type="text" class="form-control-line" placeholder="商户ID" value="<?php if ($sorting['name'] == 'user') echo $_GET['code'];?>">  [ <a href="<?php echo url::s('admin/paofen/automaticOrder','sorting=user&code=&locking=false');?>">全部</a>  ]
@@ -83,11 +81,9 @@ $fix = DB_PREFIX;
             
             <?php  foreach ($result['result'] as $ru){?>
               <tr>
-                 <td>订单号：<?php echo $ru['trade_no'];?></td>
+                 <td><a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>"><?php echo $ru['trade_no'];?> </a></td>
 
-                  <td>跑分ID：<a href='<?php echo url::s("admin/paofen/automatic","id={$ru['paofen_id']}");?>'><?php echo $ru['paofen_id'];?></a> / 订单ID：<?php echo $ru['id'];?> ( <a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>">支付链接</a> )
 
-                  </td>
                 
                 
                 <td>支付金额：<span style="color: green;"><b><?php echo $ru['amount'];?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: ". ($ru['amount']-$ru['fees']) ." )" : '';?></span>

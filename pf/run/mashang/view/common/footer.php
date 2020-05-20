@@ -35,8 +35,8 @@ use xh\library\url;
     <script type="text/javascript" src="<?php echo URL_VIEW;?>/static/js/custom-script.js"></script>
     <!-- Toast Notification -->
     <script type="text/javascript" src="<?php echo URL_VIEW;?>/static/js/plugins/sweetalert/sweetalert.min.js"></script>  
-    <!-- layer 
-    <script src="<?php echo URL_STATIC . 'js/layer/layer.js';?>" charset="utf-8"></script>-->
+    <!-- layer-->
+    <script src="<?php echo URL_STATIC . 'js/layer/layer.js';?>" charset="utf-8"></script>
     
   	<script type="text/javascript" src ="<?php echo URL_STATIC . '/js/jike.js'?>"></script>
   	<?php if (isset($_SESSION['ADD_GATEWAY']) && $_SESSION['ADD_GATEWAY'] == 2) echo "<script>play(['" . FILE_CACHE . "/download/sound/多一条支付宝1.mp3']);</script>"; ?>
