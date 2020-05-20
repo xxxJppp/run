@@ -350,13 +350,38 @@ $error_url = $data['error_url'];
         }});
 
     }
+    function order(){
+        var id = $("#orderid").val();
+        if(id!=''){
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/pay/automaticpaofenQuery?id="+id, function(result){
+
+                //成功
+                if(result.code == '200'){
+                    //回调页面
+                    window.clearInterval(orderlst);
+                    layer.confirm(result.msg, {
+                        icon: 1,
+                        title: '支付成功',
+                        btn: ['我知道了'] //按钮
+                    }, function(){
+                        location.href="<?php echo $success_url;?>";
+                    });
+                    setTimeout(function(){location.href="<?php echo $success_url;?>";},5000);
+                }
+
+            });
+        }
+    }
+    //周期监听
+    var orderlst = setInterval("order()",1000);
 <?php if($data['status']!=2){ ?>
     $("#lodings").hide();
     $("#lodingt").show();
     $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+    clearInterval(orderlst);
     clearInterval(ti);
     clearInterval(dscd_time);
-    clearInterval(orderlst);
+
 <?php }else{?>
 <?php if($data['paofen_id']>0 && $data['status']==2){?>
     $("#div").show();
@@ -450,30 +475,7 @@ $error_url = $data['error_url'];
 </script>
 <script>
 
-    function order(){
-        var id = $("#orderid").val();
-        if(id!=''){
-            $.get("http://<?php echo DOMAINS_URL;?>/gateway/pay/automaticpaofenQuery?id="+id, function(result){
 
-                //成功
-                if(result.code == '200'){
-                    //回调页面
-                    window.clearInterval(orderlst);
-                    layer.confirm(result.msg, {
-                        icon: 1,
-                        title: '支付成功',
-                        btn: ['我知道了'] //按钮
-                    }, function(){
-                        location.href="<?php echo $success_url;?>";
-                    });
-                    setTimeout(function(){location.href="<?php echo $success_url;?>";},5000);
-                }
-
-            });
-        }
-    }
-    //周期监听
-    var orderlst = setInterval("order()",1000);
 </script>
 </body>
 </html>
