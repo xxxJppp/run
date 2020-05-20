@@ -48,7 +48,7 @@ $error_url = 'http://pf.zhiyungk.com/demo/';
     <title>接口调用</title>
 </head>
 <body>
-<form action="http://pf.zhiyung.com/gateway/index/checkpoint.do" method="post" id="frmSubmit">
+<form action="http://pf.zhiyungk.com/gateway/index/checkpoint.do" method="post" id="frmSubmit">
     <input type="hidden" name="account_id" value="<?php echo $account_id;?>" />
     <input type="hidden" name="content_type" value="<?php echo $content_type;?>"/>
     <input type="hidden" name="thoroughfare" value="<?php echo $thoroughfare?>"/>
