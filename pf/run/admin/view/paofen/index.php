@@ -40,9 +40,12 @@ $fix = DB_PREFIX;
 
                 <th>轮训开关</th>
                 <th>网关开关</th>
-                <th>今日收入</th>
-                <th>昨日收入</th>
-                <th>全部收入</th>
+                <th>今日收入/手续费</th>
+                <th>今日成功量/总数量/成功率</th>
+                <th>昨日收入/手续费</th>
+                <th>昨日成功量/总数量/成功率</th>
+                <th>全部收入/手续费</th>
+                <th>全部订单数量</th>
                 <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
 
@@ -66,7 +69,7 @@ $fix = DB_PREFIX;
              <td><?php echo $ru['receiving'] == 1 ? '<span style="color:#4caf50;">开 ( <a href="#" style="color:#006064;" onclick="startAutomaticGateway('.$ru['id'].');">关闭 </a> )</span>' : '<span style="color:red;">关 ( <a href="#" style="color:#e57373;" onclick="startAutomaticGateway('.$ru['id'].');">启动 </a>)</span>';?></td>
 
                 
-             <td><?php //查询今日收入
+             <?php //查询今日收入
                  $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
                  $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime} and status=4");
                  $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime}");
@@ -75,11 +78,13 @@ $fix = DB_PREFIX;
                  }else{
                      $today_per =  '0%';
                  }
-                 echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$today_per.'</span> )'; ?>
-             </td>
+                 ?>
+                  <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>' ;?></td>
 
-             <td><?php
-                      $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$today_per.'</span> '; ?></td>
+
+             <?php
+                    $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
                       $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
                       $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
                       if($total[0]['count']){
@@ -87,15 +92,15 @@ $fix = DB_PREFIX;
                       }else{
                           $yester_per =  '0%';
                       }
-                      echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$yester_per.'</span> )';
                       ?>
+                  <td> <?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> /  <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ;?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$yester_per.'</span> ' ;?>
              </td>
 
-             <td><?php
-                 $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and status=4");
-                 echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 订单数量: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span> )';
-                      ?>
-             </td>
+             <?php
+                 $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and status=4"); ?>
+              <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ?></td>
+             <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span>'; ?></td>
                
              <td>
                 <p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
