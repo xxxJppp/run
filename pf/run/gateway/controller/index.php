@@ -77,9 +77,9 @@ class index
 
         $callback_url = request::filter('post.callback_url', '', 'htmlspecialchars');
         //success_url
-        $data['success_url'] = request::filter('post.success_url', '', 'htmlspecialchars');
+        $success_url = request::filter('post.success_url', '', 'htmlspecialchars');
         //error_url
-        $data['error_url'] = request::filter('post.error_url', '', 'htmlspecialchars');
+        $error_url = request::filter('post.error_url', '', 'htmlspecialchars');
 
 
         $data =  [

@@ -292,7 +292,7 @@ $error_url = $data['error_url'];
         var time = document.getElementById("second_show");
         var id = $("#orderid").val();
         if (time.innerHTML == 0) {
-            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenDel?id="+id, function(result){
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     //回调页面
@@ -345,7 +345,7 @@ $error_url = $data['error_url'];
             title: '支付失败',
             btn: ['确认'] //按钮
         }, function(){
-            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     location.href="<?php echo $error_url;?>";
@@ -355,7 +355,7 @@ $error_url = $data['error_url'];
 
         });
         setTimeout(function(){
-            $.get("http://pf.zhiyungk.com/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     location.href="<?php echo $error_url;?>";
@@ -370,7 +370,7 @@ $error_url = $data['error_url'];
     function updateorder(){
         $.ajax({
             type: 'POST',
-            url: 'http://pf.zhiyungk.com/gateway/index/addorder.do',
+            url: 'http://<?php echo DOMAINS_URL;?>/gateway/index/addorder.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',
@@ -415,7 +415,7 @@ $error_url = $data['error_url'];
     function order(){
         var id = $("#orderid").val();
         if(id!=''){
-            $.get("http://pf.zhiyungk.com/gateway/pay/automaticpaofenQuery?id="+id, function(result){
+            $.get("http://<?php echo DOMAINS_URL;?>/gateway/pay/automaticpaofenQuery?id="+id, function(result){
 
                 //成功
                 if(result.code == '200'){
