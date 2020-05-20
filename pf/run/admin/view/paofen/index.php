@@ -31,7 +31,7 @@ $fix = DB_PREFIX;
           跑分 Automatic 管理
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover" style="width:  1500px;">
+          <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr>
                 <th>ID</th>
@@ -40,11 +40,18 @@ $fix = DB_PREFIX;
 
                 <th>轮训开关</th>
                 <th>网关开关</th>
-                <th>今日收入/手续费</th>
-                <th>今日成功量/总数量/成功率</th>
-                <th>昨日收入/手续费</th>
-                <th>昨日成功量/总数量/成功率</th>
-                <th>全部收入/手续费</th>
+                <th>今日收入</th>
+                <th>今日手续费</th>
+                <th>今日成功量</th>
+                <th>今日总数量</th>
+                <th>今日成功率</th>
+                <th>昨日收入</th>
+                <th>昨日手续费</th>
+                <th>昨日成功量</th>
+                <th>昨日总数量</th>
+                <th>昨日成功率</th>
+                <th>全部收入</th>
+                <th>全部手续费</th>
                 <th>全部订单数量</th>
                 <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
@@ -79,9 +86,12 @@ $fix = DB_PREFIX;
                      $today_per =  '0%';
                  }
                  ?>
-                  <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>' ;?></td>
+                  <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ;?></td>
+                  <td><?php echo '<span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>' ;?></td>
 
-                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$today_per.'</span> '; ?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span> '; ?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$total[0]['count'].'</span> '; ?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$today_per.'</span> '; ?></td>
 
              <?php
                     $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
@@ -93,13 +103,17 @@ $fix = DB_PREFIX;
                           $yester_per =  '0%';
                       }
                       ?>
-                  <td> <?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> /  <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ;?></td>
-                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$yester_per.'</span> ' ;?>
-             </td>
+                  <td> <?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> ' ;?></td>
+                  <td> <?php echo '<span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ;?></td>
+
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span> ' ;?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$total[0]['count'].'</span> ' ;?></td>
+                  <td><?php echo '<span style="color:green;font-weight:bold;">'.$yester_per.'</span> ' ;?></td>
 
              <?php
                  $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and status=4"); ?>
-              <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ?></td>
+              <td><?php echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ?></td>
+                  <td><?php echo '<span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span> ' ?></td>
              <td><?php echo '<span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span>'; ?></td>
                
              <td>
