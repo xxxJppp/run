@@ -45,8 +45,7 @@ class index
     public function automaticpaofenTimeout(){
         $uid = request::filter('get.id');
         if(!empty($uid)){
-            $chaoshi = time()-300;
-            $order = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and creation_time <= {$chaoshi} and id={$uid}")[0];
+            $order = $this->mysql->query('client_paofen_automatic_orders', " status !=4 and id={$uid}")[0];
             $result = $this->mysql->update("client_paofen_automatic_orders", ['status' => 3], "id={$order['id']}");
             if($result) functions::str_json('json',200,'订单支付超时');
         }else{
@@ -483,12 +482,8 @@ class index
 
         if ($create_order > 0) {
             if ($type_content == 'json') {
-                require_once ROOT_PATH.'/lib/phpqrcode.php';
-                //生成二维码图片
-                $filename = '/Public/qrcode/' .time(). '.png';
-                $url = $_SERVER['DOCUMENT_ROOT'] . $filename;
-                \QRcode::png($find_paofen['ewm_url'], $url, 'L', 5, 2);
-                functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrcode' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$filename,'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
+
+                functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
             }
             url::address(url::s("gateway/pay/automaticpaofen", "id={$create_order}"));
         }
