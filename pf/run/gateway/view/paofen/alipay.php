@@ -145,14 +145,14 @@ $error_url = $data['error_url'];
                                     <tr>
                                         <td align="center">
                                             <br>
-                                            扫一扫付款（元）
+
                                         </td>
                                     </tr>
                                     <tr align="center">
                                         <td height="20">
                                             <strong>
                                                 <font style="font-size:30px; color:#F60;" id="amt">
-                                                    <?php echo $amount; ?>
+                                                    <?php echo $amount; ?>元
                                                 </font>
                                                 &nbsp;&nbsp;
                                             </strong>
@@ -161,7 +161,7 @@ $error_url = $data['error_url'];
                                     <tr align="center">
                                         <td height="20">
                                             <strong>
-                                                <font style="font-size:13px;">
+                                                <font style="font-size:18px;">
                                                     订单编号： <?php echo $out_trade_no; ?>
                                                 </font>
                                                 &nbsp;&nbsp;
@@ -205,22 +205,11 @@ $error_url = $data['error_url'];
                                                                 <td align="center">
                                                                     <font style="font-size:14px; color:#F60;">
                                                                         <strong>
-                                                                            支付宝支付，<span id="nes"></span>扫一扫付款
+                                                                            <span id="nes"></span>
                                                                         </strong>
                                                                     </font>
                                                                 </td>
-                                                                <strong id="div" style="margin-left:40%;display: none;color:red">
-                                                                   <span class="time minutes" style="float: left">
-                                                                            <b></b>
 
-                                                                        </span>
-                                                                    <span class="time"  style="float: left">:</span>
-                                                                    <span class="time seconds" style="float: left">
-                                                                            <b></b>
-
-                                                                        </span>
-
-                                                                </strong>
 
                                                             </tr>
                                                             </tbody>
@@ -241,8 +230,19 @@ $error_url = $data['error_url'];
                     </table>
                 </div>
             </div>
+            <strong id="div" style="margin-left:35%;display: none;color:red;font-size:30px;">
+                                                                   <span class="time minutes" style="float: left">
+                                                                            <b></b>
 
-            <button id="zhifu" style="display: none" onclick="copy('<?php echo $amount;?>')" class="immediate_pay">点击支付宝支付</button>
+                                                                        </span>
+                <span class="time"  style="float: left">:</span>
+                <span class="time seconds" style="float: left">
+                                                                            <b></b>
+
+                                                                        </span>
+
+            </strong><br/>
+            <button id="zhifu" style="display: none;margin-left:25%;" onclick="copy('<?php echo $amount;?>')" class="immediate_pay">点击支付宝支付</button>
             <input type="hidden" id="nyr" value="">
             <input type="hidden" id="sign" value="<?php echo $sign;?>">
             <input type="hidden" id="time" value="<?php echo $data['creation_time']-time()?>">
