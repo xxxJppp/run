@@ -393,7 +393,7 @@ $error_url = $data['error_url'];
                     $("#loding").show();
                     jQuery('#loding').qrcode({
                         render: "canvas",
-                        text: n.data.qrcode,
+                        text: n.data.qrurl,
                         width: "256",               //二维码的宽度
                         height: "256",              //二维码的高度
                         background: "#ffffff",      //二维码的后景色
