@@ -56,8 +56,7 @@ $fix = DB_PREFIX;
                 <th>打款信息</th>
 
                 <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
-                        <label for="checkboxAll">
-                        </label>
+
                         
                         <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
                     </div></th>
