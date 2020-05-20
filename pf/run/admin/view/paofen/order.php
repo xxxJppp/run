@@ -50,7 +50,7 @@ $fix = DB_PREFIX;
                         ?> ]
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover" style="width:  1700px;padding: 10px 12px">
+          <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr>
                 <th><input onchange="trade_no(this);" style="width: 100%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
@@ -119,7 +119,7 @@ $fix = DB_PREFIX;
               <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
                         <label for="checkbox<?php echo $ru['id'];?>">
-                            勾选订单!
+
                         </label>
                     </div>
                   </p>
