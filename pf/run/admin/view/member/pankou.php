@@ -166,7 +166,7 @@ $fix = DB_PREFIX;
                                         修改资料
                                     </a>
                                     <button class="layui-btn layui-btn-small"
-                                            onclick="del_mashang(this,'<?php echo $em['id']; ?>')">
+                                            onclick="order_del(this,'<?php echo $em['id']; ?>')">
                                         删除
                                     </button>
                                 </td>
@@ -363,7 +363,6 @@ $fix = DB_PREFIX;
             }
         });
     }
-    /*订单-删除*/
     function order_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
