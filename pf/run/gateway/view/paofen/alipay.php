@@ -116,47 +116,7 @@ $error_url = $data['error_url'];
 <script src="/Public/theme/view4/ui/layer.js"></script>
 <script src="/Public/theme/view4/ui/layui/layui.all.js" charset="utf-8"></script>
 <body style="background-color: #ecedf2;">
-<div class="container" style="background-color:#fff;padding:15px; margin-top: 15px;">
-    <div class="row">
-        <!--交易信息-->
-        <div class="col-md-12">
-            <ul class="list-inline">
-                <li>
-                    <strong>
-                        订单金额：
-                        <span class="text-danger" id="amot">
-                                    <?php echo $amount; ?>
-                                </span>
-                        &nbsp;&nbsp;元
-                    </strong>
-                </li>
-                <li>
-                    <strong>
-                        商品名称：
-                    </strong>
-                    在线支付
-                </li>
-                <li>
-                    <strong>
-                        订单编号：
-                    </strong>
-                    <?php echo $out_trade_no; ?>
-                </li>
-                <li>
-                    <strong>
-                        交易币种：
-                    </strong>
-                    人民币
-                </li>
-                <li>
-                    <strong>
-                        交易时间：
-                    </strong>
-                    <?php echo date('Y-m-d H:i:s') ?>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="container" style="background-color:#fff;padding:15px;">
     <div class="row">
         <!--交易信息-->
         <div class="col-md-12">
@@ -172,7 +132,7 @@ $error_url = $data['error_url'];
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="weixin">
                     <div>
-                        <h4 style="    font-weight: 700;">
+                        <h4 style=" font-weight: 700;background-color:red;color:#fff;line-height:24px;font-size:14px;">
                             请按照本页面金额付款，请勿自行修改支付金额，否则无法到账。此二维码仅限本次支付使用，请勿重复支付使用。本次定胆有效期为5分钟，过期请勿支付
                         </h4>
                     </div>
@@ -198,7 +158,19 @@ $error_url = $data['error_url'];
                                             </strong>
                                         </td>
                                     </tr>
-
+                                    <tr align="center">
+                                        <td height="20">
+                                            <strong>
+                                                <font style="font-size:13px;">
+                                                    订单编号： <?php echo $out_trade_no; ?>
+                                                </font>
+                                                &nbsp;&nbsp;
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr align="center">
+                                        <td height="20"></td>
+                                    </tr>
                                     <tr align="center">
                                         <td>
                                             <table width="100%" border="0" cellspacing="5" cellpadding="0"
@@ -209,7 +181,7 @@ $error_url = $data['error_url'];
                                                         <!--<img style="width: 300px" id="je" src="" height="230">-->
                                                     </td>
                                                     <td align="center" id="lodingt" style="display: none">
-                                                        <img style="width: 300px" id="je" src="" height="230">
+                                                        <img style="width: 200px" id="je" src="" height="200">
                                                     </td>
                                                     <td align="center" id="lodings"
                                                         style="height: 135px;padding: 7px;">
@@ -237,14 +209,15 @@ $error_url = $data['error_url'];
                                                                         </strong>
                                                                     </font>
                                                                 </td>
-                                                                <strong id="div" style="margin-left:30%;display: none;">
+                                                                <strong id="div" style="margin-left:40%;display: none;color:red">
                                                                    <span class="time minutes" style="float: left">
                                                                             <b></b>
-                                                                            <span>分</span>
+
                                                                         </span>
+                                                                    <span class="time"  style="float: left">:</span>
                                                                     <span class="time seconds" style="float: left">
                                                                             <b></b>
-                                                                            <span>秒</span>
+
                                                                         </span>
 
                                                                 </strong>
@@ -396,6 +369,7 @@ $error_url = $data['error_url'];
         background: "#ffffff",      //二维码的后景色
         foreground: "#000000",      //二维码的前景色
     });
+    $("#nes").text("收款人:<?php echo $ewm['name'];?>");
     $("#zhifu").show();
     $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url=' + n.data.qrurl);
     <?php }else{ ?>
