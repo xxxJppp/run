@@ -100,7 +100,6 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   <label class="col-sm-2 control-label form-label"></label>
                   <div class="col-sm-10">
                    	<a href="#" onclick="edit()" class="btn btn-success"><i class="fa fa-refresh"></i>保存更新</a> &nbsp;&nbsp;
-                   	<a href="<?php echo url::s('admin/index/home');?>" class="btn"><i class="fa fa-close"></i>取消</a>
                   </div>
                 </div>
 
