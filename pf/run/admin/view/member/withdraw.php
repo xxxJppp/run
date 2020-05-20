@@ -122,12 +122,12 @@ $fix = DB_PREFIX;
       </div>
     </div>
     <!-- End Panel -->
-    
-            
+
+      <script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
             <script type="text/javascript">
 
               function ok(id){
-            
+
       		           swal({
       		                title: "确认打款", 
       		                text: "你确认已经为该提现订单打过款了吗？", 

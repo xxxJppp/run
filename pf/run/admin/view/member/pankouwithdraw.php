@@ -123,8 +123,8 @@ $fix = DB_PREFIX;
       </div>
     </div>
     <!-- End Panel -->
-    
-            
+
+      <script src="<?php echo URL_VIEW;?>/static/console/js/sweet-alert/sweet-alert.min.js"></script>
             <script type="text/javascript">
 
               function ok(id){

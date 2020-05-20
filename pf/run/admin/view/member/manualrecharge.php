@@ -128,29 +128,7 @@ $fix = DB_PREFIX;
             </form>
         </div>
     </div>
-<script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
-        var laydate = layui.laydate //日期
-            , laypage = layui.laypage //分页
-            , layer = layui.layer //弹层
-            , form = layui.form //表单
-            , table = layui.table; //表格
-        //日期时间范围
-        laydate.render({
-            elem: '#createtime'
-            , type: 'datetime'
-            , theme: 'molv'
-            , range: '|'
-        });
-        //日期时间范围
-        laydate.render({
-            elem: '#successtime'
-            , type: 'datetime'
-            , theme: 'molv'
-            , range: '|'
-        });
-    });
 
     /*订单-查看*/
     function order_view(title, url, w, h) {
@@ -213,7 +191,7 @@ $fix = DB_PREFIX;
                         });
                     } else {
                         isallvop = 1;
-                        layer.msg(data.msg, {icon: 1, time: 1000});
+                        layer.msg(data.msg, {icon: 2, time: 1000});
                     }
                 },
                 error: function (data) {

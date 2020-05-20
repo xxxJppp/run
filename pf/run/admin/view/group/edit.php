@@ -76,11 +76,7 @@ $authority = json_decode($result['authority'],true);
 
   </div>
   <!-- End Row -->
-    <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript">
-        layui.use(['layer'], function () {
-            var  layer = layui.layer //弹层
-        });
 			function editGroup(){
 				$.ajax({
 			          type: "POST",

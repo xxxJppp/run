@@ -109,7 +109,6 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
   </div>
   <!-- End Row -->
-    <script src="/Public/Front/js/plugins/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript">
 			function edit(){
 				$.ajax({
@@ -119,9 +118,9 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success");
+                              layer.msg(data.msg, {icon: 1, time: 1000})
 			              }else{
-			            	  swal("操作提示", data.msg, "error");
+                              layer.msg(data.msg, {icon: 2, time: 1000})
 			              }
 			          },
 			          error: function(data) {

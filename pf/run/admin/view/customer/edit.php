@@ -121,10 +121,11 @@ $authority = json_decode($result['authority'],true);
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	  setTimeout(function(){location.href = '<?php echo url::s('admin/customer/index');?>';},1500);
+                              layer.msg("修改成功", {icon:1,time:1000,end:function(){
+                                      location.href = '<?php echo url::s('admin/customer/index');?>';
+                                  }});
 			              }else{
-			            	  swal("操作提示", data.msg, "error")
+                              layer.msg("修改失败", {icon:2,time:1000})
 			              }
 			          },
 			          error: function(data) {
