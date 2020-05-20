@@ -50,31 +50,31 @@ $fix = DB_PREFIX;
                         ?> ]
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover" style="width:  1700px;">
+          <table class="table table-hover" style="width:  1800px;">
             <thead>
-              <tr>
+              <tr style="">
                 <th><input onchange="trade_no(this);" style="width: 100%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
                 </th>
-                <th style="color: black">支付金额(利)</th>
-                <th style="color: black">商户ID</th>
-                <th style="color: black">商户名</th>
-                <th style="color: black">上级ID</th>
-                <th style="color: black">盘口ID</th>
-                <th style="color: black">手机号码</th>
-                <th style="color: black">单笔接口费用</th>
-                <th style="color: black">接口返回</th>
-                <th style="color: black">支付状态</th>
-                <th style="color: black">异步通知状态</th>
-                <th style="color: black">异步通知时间</th>
-                <th style="color: black">创建时间</th>
-                <th style="color: black">支付时间</th>
-                <td>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
+                <th>支付金额(利)</th>
+                <th>商户ID</th>
+                <th>商户名</th>
+                <th>上级ID</th>
+                <th>盘口ID</th>
+                <th>手机号码</th>
+                <th>单笔接口费用</th>
+                <th>接口返回</th>
+                <th>支付状态</th>
+                <th>异步通知状态</th>
+                <th>异步通知时间</th>
+                <th>创建时间</th>
+                <th>支付时间</th>
+                <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
                         </label>
                         
-                        <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
+
                         <button type="button" id="callback" onclick="callback();" class="btn btn-success btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>回调</button>
-                    </div></td>
+                    </div></th>
               </tr>
             </thead>
             <tbody>
@@ -110,20 +110,19 @@ $fix = DB_PREFIX;
 
               <td><?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已</span>' : '<span style="color:red;">未</span>';?></td>
 
-              <td><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '无';?></td>
+              <td><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '';?></td>
 
               <td><?php echo date('Y/m/d H:i:s',$ru['creation_time']);?></td>
 
-              <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s",$ru['pay_time']):"无";?></td>
+              <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s",$ru['pay_time']):"";?></td>
 
               <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
                         <label for="checkbox<?php echo $ru['id'];?>">
-                            勾选订单!
+
                         </label>
                     </div>
                   </p>
-                  <p><a href="#" onclick="del('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>移除该订单</a></p>
               </td>
               </tr>
             <?php }?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 use xh\library\url;
 use xh\library\model;
 use xh\library\ip;
@@ -31,94 +31,89 @@ $fix = DB_PREFIX;
           跑分 Automatic 管理
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover" style="width:  1500px;">
             <thead>
               <tr>
-                <td>信息</td>
-               
-                <th>收款信息</th>
-                <td>账户</td>
-                <td>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
+                <th>ID</th>
+
+                <th>收款人名称</th>
+
+                <th>轮训开关</th>
+                <th>网关开关</th>
+                <th>今日收入</th>
+                <th>昨日收入</th>
+                <th>全部收入</th>
+                <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
-                        <label for="checkboxAll">
-                        </label>
+
                         
                         <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
                         
-                    </div></td>
+                    </div></th>
               </tr>
             </thead>
             <tbody>
             <?php  foreach ($result['result'] as $ru){?>
               <tr>
-                <td>
-                    <p><b>ID: </b> <?php echo $ru['id'];?></p>
-                    <p>备注: <?php echo $ru['name'] == '0' ? '<span style="color:red">Unused</span>' : '<span style="color:red">'.$ru['name'].'</span>';?>   ( <a href="<?php echo url::s('admin/nxys/automaticOrder',"sorting=paofen&code={$ru['id']}");?>">交易订单</a> )</p>
-                    <p><b>APP登录用户名: </b> <?php echo $ru['app_user'];?></p>
-                  
-                       <p><b>收款二维码：<?php echo $ru['ewm_url']; ?></p>
-                </td>
+
+              <td><?php echo $ru['id'];?></td>
+
+              <td><?php echo $ru['name'] ;?></td>
+
+
+             <td><?php echo $ru['training'] == 1 ? '<span style="color:#4caf50;">开 ( <a href="#" style="color:#006064;" onclick="startAutomaticRb('.$ru['id'].');">关闭 </a> )</span>' : '<span style="color:red;">关 ( <a href="#" style="color:#e57373;" onclick="startAutomaticRb('.$ru['id'].');">启动 </a>)</span>';?></td>
+
+             <td><?php echo $ru['receiving'] == 1 ? '<span style="color:#4caf50;">开 ( <a href="#" style="color:#006064;" onclick="startAutomaticGateway('.$ru['id'].');">关闭 </a> )</span>' : '<span style="color:red;">关 ( <a href="#" style="color:#e57373;" onclick="startAutomaticGateway('.$ru['id'].');">启动 </a>)</span>';?></td>
+
                 
-                
-             
-                
-                 <td>
-                    <p><b>轮训开关: </b><?php echo $ru['training'] == 1 ? '<span style="color:#4caf50;">open ( <a href="#" style="color:#006064;" onclick="startAutomaticRb('.$ru['id'].');">关闭轮训 </a> )</span>' : '<span style="color:red;">closed ( <a href="#" style="color:#e57373;" onclick="startAutomaticRb('.$ru['id'].');">启动轮训 </a>)</span>';?></p>
-                    <p><b>网关开关: </b><?php echo $ru['receiving'] == 1 ? '<span style="color:#4caf50;">open ( <a href="#" style="color:#006064;" onclick="startAutomaticGateway('.$ru['id'].');">停止网关 </a> )</span>' : '<span style="color:red;">closed ( <a href="#" style="color:#e57373;" onclick="startAutomaticGateway('.$ru['id'].');">启动网关 </a>)</span>';?></p>
-                </td>
-                
-                <td>
-                        <b>今日收入:</b> <?php //查询今日收入
-                        $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime} and status=4");
-                        $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime}");
-                        if($total[0]['count']){
-                        $today_per =round($order[0]['count']/$total[0]['count']*100,2)."%";
-                        }else{
-                            $today_per =  '0%';
-                        }
-                        //
-                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$today_per.'</span> )';
-                        ?><br>
-                        <b>昨日收入:</b> <?php 
-                        $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
-  
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
-                        $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
-                            if($total[0]['count']){
-                                $yester_per = round($order[0]['count']/$total[0]['count']*100,2).'%';
-                            }else{
-                                $yester_per =  '0%';
-                            }
-                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$yester_per.'</span> )';
-                        ?><br>
-                        <b>全部收入:</b> <?php 
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and status=4");
-                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 订单数量: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span> )';
-                        ?>
-                        </td>
+             <td><?php //查询今日收入
+                 $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
+                 $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime} and status=4");
+                 $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$nowTime}");
+                 if($total[0]['count']){
+                     $today_per =round($order[0]['count']/$total[0]['count']*100,2)."%";
+                 }else{
+                     $today_per =  '0%';
+                 }
+                 echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$today_per.'</span> )'; ?>
+             </td>
+
+             <td><?php
+                      $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
+                      $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime} and status=4");
+                      $total = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and creation_time > {$zrTime} and creation_time<{$nowTime}");
+                      if($total[0]['count']){
+                          $yester_per = round($order[0]['count']/$total[0]['count']*100,2).'%';
+                      }else{
+                          $yester_per =  '0%';
+                      }
+                      echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 成功量/总数量/成功率: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'/'.$total[0]['count'].'/'.$yester_per.'</span> )';
+                      ?>
+             </td>
+
+             <td><?php
+                 $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where paofen_id={$ru['id']} and status=4");
+                 echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  ( 订单数量: <span style="color:green;font-weight:bold;">'.$order[0]['count'].'</span> )';
+                      ?>
+             </td>
                
-                <td>
+             <td>
                 <p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
                         <label for="checkbox<?php echo $ru['id'];?>">
-                            勾选,准备操作!
                         </label>
                     </div></p>
-                <p><a href="#" onclick="del('<?php echo $ru['id'];?>');" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>移除跑分</a></p>
-
                 </td>
               </tr>
             <?php }?>
             </tbody>
           </table>
-          
+        </div>
+          <!--分页-->
           <div style="float:right;">
-          <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
+              <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
           </div>
           <div style="clear: both"></div>
-          
-        </div>
 
       </div>
     </div>
