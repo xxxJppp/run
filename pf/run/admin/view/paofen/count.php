@@ -66,28 +66,28 @@ display: inline-block;
                             </tr>
 
                             <tr>
-                                <th style="color: black">订单号</th>
+                                <th>订单号</th>
 
-                                <th style="color: black">跑分ID</th>
-                                <th style="color: black">商户ID</th>
+                                <th>跑分ID</th>
+                                <th>商户ID</th>
 
-                                <th style="color: black">支付金额（利）</th>
+                                <th>支付金额（利）</th>
 
 
-                                <th style="color: black">商户名</th>
-                                <th style="color: black">盘口ID</th>
-                                <th style="color: black">上级ID</th>
-                                <th style="color: black">手机号码</th>
+                                <th>商户名</th>
+                                <th>盘口ID</th>
+                                <th>上级ID</th>
+                                <th>手机号码</th>
 
-                                <th style="color: black">支付状态</th>
-                                <th style="color: black">异步通知时间</th>
-                                <th style="color: black">异步通知状态</th>
+                                <th>支付状态</th>
+                                <th>异步通知时间</th>
+                                <th>异步通知状态</th>
 
-                                <th style="color: black">单笔接口费用</th>
-                                <th style="color: black">接口返回</th>
+                                <th>单笔接口费用</th>
+                                <th>接口返回</th>
 
-                                <th style="color: black">创建时间</th>
-                                <th style="color: black">支付时间</th>
+                                <th>创建时间</th>
+                                <th>支付时间</th>
 
                             </tr>
                             </thead>

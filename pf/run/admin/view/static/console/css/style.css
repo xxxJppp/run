@@ -3666,9 +3666,17 @@ table td {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 15px;
+  padding: 5px;
   line-height: 1.7;
+
 }
+.table > thead > tr > th{
+  color: #0a0a0a;
+  background-color: #eeeeee;
+  font-weight: bold
+
+}
+
 .doc-grid {
   padding: 10px 20px;
 }
