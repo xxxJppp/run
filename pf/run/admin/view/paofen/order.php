@@ -53,22 +53,23 @@ $fix = DB_PREFIX;
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>
-               
-                    <input onchange="trade_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
-                
+                <th><input onchange="trade_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'trade_no') echo $_GET['code'];?>">
                 </th>
-
-                <th>支付信息 <?php if ($sorting['code'] != 0 && $sorting['name'] == 'status'){?>(<?php if ($sorting['code'] == 1) echo '获取订单中';if ($sorting['code'] == 2) echo '未支付';if ($sorting['code'] == 3) echo '订单超时';if ($sorting['code'] == 4) echo '已支付';?>)<?php }?><a href='<?php echo url::s('admin/paofen/automaticOrder',"sorting=status&code=".($sorting['code']+1));?>'> <i class="fa fa-unsorted"></i></a></th>
-                <th>
-                    <input onchange="member(this);" style="width: 30%;"  type="text" class="form-control-line" placeholder="商户ID" value="<?php if ($sorting['name'] == 'user') echo $_GET['code'];?>">  [ <a href="<?php echo url::s('admin/paofen/automaticOrder','sorting=user&code=&locking=false');?>">全部</a>  ]
-                </th>
-                <th>异步通知 <?php if ($sorting['code'] != -1 && $sorting['name'] == 'callback'){?>(<?php if ($_GET['code'] == 0) echo '未回调';if ($_GET['code'] == 1) echo '已回调';?>)<?php }?><a href='<?php echo url::s('admin/paofen/automaticOrder',"sorting=callback&code=".($sorting['code']+1));?>'> <i class="fa fa-unsorted"></i></a></th>
-                <th>回调信息</th>
-                <th>创建时间</th>
+                <th style="color: black">支付金额(利)</th>
+                <th style="color: black">商户ID</th>
+                <th style="color: black">商户名</th>
+                <th style="color: black">上级ID</th>
+                <th style="color: black">盘口ID</th>
+                <th style="color: black">手机号码</th>
+                <th style="color: black">单笔接口费用</th>
+                <th style="color: black">接口返回</th>
+                <th style="color: black">支付状态</th>
+                <th style="color: black">异步通知状态</th>
+                <th style="color: black">异步通知时间</th>
+                <th style="color: black">创建时间</th>
+                <th style="color: black">支付时间</th>
                 <td>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
                         <input id="checkboxAll" type="checkbox">
-                        <label for="checkboxAll">
                         </label>
                         
                         <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
@@ -82,58 +83,57 @@ $fix = DB_PREFIX;
             <?php  foreach ($result['result'] as $ru){?>
               <tr>
                  <td><a target="_blank" href="<?php echo url::s('gateway/pay/automaticpaofen',"id={$ru['id']}");?>"><?php echo $ru['trade_no'];?> </a></td>
-
-
-                
-                
-                <td>支付金额：<span style="color: green;"><b><?php echo $ru['amount'];?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: ". ($ru['amount']-$ru['fees']) ." )" : '';?></span>
-                        <br>支付状态：<?php 
-                        if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
-                        if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
-                        if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
-                        if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
-                        ?><?php if ($ru['status'] == 4) echo ' (' . date("Y/m/d H:i:s",$ru['pay_time']) . ')';?>
-                        </td>
+                <td><span style="color: green;"><b><?php echo $ru['amount'];?></b> <?php echo $ru['callback_status'] == 1 ? " ( 利: ". ($ru['amount']-$ru['fees']) ." )" : '';?></span></td>
                         
-                        <td>商户信息：<?php $userInfo = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo is_array($userInfo) ? '<a href="'. url::s("admin/paofen/automaticOrder","sorting=user&code={$userInfo[id]}&locking=true") .'"><span style="color:green;font-size:14px;font-weight:bold;">'.$userInfo['username'] .'</span></a>' . ' ( 商户ID: ' .  $userInfo['id']  . ' ) ' : '<span style="color:red;font-size:8px;">会员不存在</span>';?>
-                            <?php
-                            $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id');
-                            ?>
-                            <br> 上级id：<span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span>
-                        <br> 盘口id：<?php echo $ru['pankou_id']; ?>
-                          <br>手机号码：<span style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无';?></span>
-                        </td>
-                        
-                         <td>
-                        <b>异步通知时间：</b> <?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '无信息';?><br>
-                        <b>异步通知状态：</b> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>';?><br>
-                        </td>
-                        
-                        <td>单笔接口费用：<?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '暂无信息';?>
-                        <br>接口返回信息：<span style="color:green;"><?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调';?></span>
+                <td><?php echo $userInfo['id'];?></td>
 
-                  <td><?php echo date('Y/m/d H:i:s',$ru['creation_time']);?></td>
+                <td><?php $userInfo = $mysql->query("client_user","id={$ru['user_id']}")[0]; echo is_array($userInfo) ? '<a href="'. url::s("admin/paofen/automaticOrder","sorting=user&code={$userInfo[id]}&locking=true") .'"><span style="color:green;font-size:14px;font-weight:bold;">'.$userInfo['username'] .'</span></a>' : '<span style="color:red;font-size:8px;">会员不存在</span>';?></td>
 
-                <td>
-                <p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
+                <td><?php $level_id = $mysql->query('client_user','id='.$ru['user_id'],'level_id'); ?><span style="color:green;font-size:14px;font-weight:bold;"><?php if(isset($level_id[0]['level_id']) || $level_id[0]['level_id']==0){?><a href="/admin/member/daili.do?id=<?php echo $level_id[0]['level_id'];?>"><?php echo $level_id[0]['level_id'];?></a><?php }else{echo '无';}?></span></td>
+
+              <td><?php echo $ru['pankou_id']; ?></td>
+
+              <td><span style="color:green;"><?php echo is_array($userInfo) ? $userInfo['phone'] : '无';?></span</td>
+
+              <td><?php echo $ru['callback_status'] == 1 ? $ru['fees'] : '0.000';?></td>
+
+              <td><span style="color:green;"><?php echo $ru['callback_status'] == 1 ? "成功": '失败';?></span></td>
+
+              <td><span style="color:green;">
+                      <?php if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
+                          if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
+                          if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
+                          if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
+                          ?>
+                  </span>
+              </td>
+
+              <td><?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已</span>' : '<span style="color:red;">未</span>';?></td>
+
+              <td><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s',$ru['callback_time']) : '无';?></td>
+
+              <td><?php echo date('Y/m/d H:i:s',$ru['creation_time']);?></td>
+
+              <td><?php echo $ru['status'] == 4?date("Y/m/d H:i:s",$ru['pay_time']):"无";?></td>
+
+              <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
                         <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
                         <label for="checkbox<?php echo $ru['id'];?>">
                             勾选订单!
                         </label>
-                    </div></p>
-                <p><a href="#" onclick="del('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>移除该订单</a></p>
-                </td>
+                    </div>
+                  </p>
+                  <p><a href="#" onclick="del('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>移除该订单</a></p>
+              </td>
               </tr>
             <?php }?>
             </tbody>
           </table>
-          
+        </div>
           <div style="float:right;">
-          <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
+              <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
           </div>
           <div style="clear: both"></div>
-          
-        </div>
 
       </div>
     </div>
