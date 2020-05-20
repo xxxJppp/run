@@ -371,7 +371,8 @@ $error_url = $data['error_url'];
     });
     $("#nes").text("收款人:<?php echo $ewm['name'];?>");
     $("#zhifu").show();
-    $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url=' + n.data.qrurl);
+    var ur = '<?php echo $ewm['ewm_url']; ?>';
+    $("#zhifu").attr('data-url', 'alipays://platformapi/startapp?appId=20000067&url='+ur);
     <?php }else{ ?>
     //使用匿名函数方法
     function countDown() {
