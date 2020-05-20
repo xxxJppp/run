@@ -214,7 +214,7 @@ $fix = DB_PREFIX;
                             }
                         });
                     });
-                    layer.msg(result.msg, {
+                    layer.msg('删除成功', {
                         icon: 1, time: 1000, end: function () {
                             window.location.reload();
                         }
