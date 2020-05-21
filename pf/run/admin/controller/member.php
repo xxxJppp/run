@@ -602,13 +602,14 @@ class member
         if($types!=0){
             $where .= " and types = '{$types}'";
         }
+
         $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/pankouwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
             'flow_no' => $flow_no,
             'username' => $username,
-
+            'types' => $types,
         ]);
     }
 
@@ -672,34 +673,37 @@ class member
     public function mashangwithdraw()
     {
         $this->powerLogin(28);
-        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-        $code = request::filter('get.code', '', 'htmlspecialchars');
+
+        $flow_no = trim(request::filter('get.flow_no', '', 'htmlspecialchars'));
+        $username = trim(request::filter('get.username', '', 'htmlspecialchars'));
+        $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
-        if ($sorting == 'flow_no') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "flow_no={$code}";
+        $where = '1 = 1';
+        if($flow_no){
+            $where .= " and flow_no = '{$flow_no}'";
+        }
+
+        //用户名
+        if ($username) {
+            $user = $this->mysql->query("client_user","username='{$username}'")[0];
+            if(!empty($user)){
+                $where .= " and user_id = '{$user['id']}'";
             }
         }
 
-        //未处理
-        if ($sorting == 'type') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "types={$code}";
-            }
+        //体现状态
+        if($types!=0){
+            $where .= " and types = '{$types}'";
         }
-
 
         $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/mashangwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
-            'sorting' => [
-                'code' => $code,
-                'name' => $sorting
-            ]
+            'flow_no' => $flow_no,
+            'username' => $username,
+            'types' => $types
         ]);
     }
 
@@ -763,34 +767,37 @@ class member
     public function agentwithdraw()
     {
         $this->powerLogin(28);
-        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-        $code = request::filter('get.code', '', 'htmlspecialchars');
+
+        $flow_no = trim(request::filter('get.flow_no', '', 'htmlspecialchars'));
+        $username = trim(request::filter('get.username', '', 'htmlspecialchars'));
+        $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
-        if ($sorting == 'flow_no') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "flow_no={$code}";
+        $where = '1 = 1';
+        if($flow_no){
+            $where .= " and flow_no = '{$flow_no}'";
+        }
+
+        //用户名
+        if ($username) {
+            $user = $this->mysql->query("client_user","username='{$username}'")[0];
+            if(!empty($user)){
+                $where .= " and user_id = '{$user['id']}'";
             }
         }
 
-        //未处理
-        if ($sorting == 'type') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "types={$code}";
-            }
+        //体现状态
+        if($types!=0){
+            $where .= " and types = '{$types}'";
         }
-
 
         $result = page::conduct('client_agentwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/agentwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
-            'sorting' => [
-                'code' => $code,
-                'name' => $sorting
-            ]
+            'flow_no' => $flow_no,
+            'username' => $username,
+            'types' => $types,
         ]);
     }
 
