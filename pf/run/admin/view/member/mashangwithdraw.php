@@ -52,20 +52,7 @@ $fix = DB_PREFIX;
                             </th>
                             <th>提现时间</th>
                             <th>打款信息</th>
-                            <td>操作
-                                <div class="checkbox checkbox-warning"
-                                     style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
-                                    <input id="checkboxAll" type="checkbox">
-                                    <label for="checkboxAll">
-                                    </label>
-
-                                    <button type="button" id="deletes" onclick="deletes();"
-                                            class="btn btn-option1 btn-xs"
-                                            style="display:none;position:relative;top:-8px;"><i
-                                                class="fa fa-trash-o"></i>删除
-                                    </button>
-                                </div>
-                            </td>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -127,17 +114,7 @@ $fix = DB_PREFIX;
                                     } ?></td>
 
 
-                                <td>
-                                    <p style="margin-top: -15px;">
-                                    <div class="checkbox checkbox-danger checkbox-circle">
-                                        <input onclick="showBtn()" name="items" value="<?php echo $ru['id']; ?>"
-                                               id="checkbox<?php echo $ru['id']; ?>" type="checkbox">
-                                        <label for="checkbox<?php echo $ru['id']; ?>">
-                                            勾选订单!
-                                        </label>
-                                    </div>
-                                    </p>
-                                    <p><?php if ($ru['types'] == 1) { ?><a href="#"
+                                <td><p><?php if ($ru['types'] == 1) { ?><a href="#"
                                                                            onclick="ok('<?php echo $ru['id']; ?>')"
                                                                            class="btn btn-success btn-xs"><i
                                                         class="fa fa-user-md"></i>确认</a>  <a href="#"
@@ -241,42 +218,6 @@ $fix = DB_PREFIX;
                 var wechat = $('#wechat').val();
                 location.href = "<?php echo url::s('admin/alipay/automaticOrder', "sorting=alipay&code=");?>" + wechat;
 
-            }
-
-
-            function deletes() {
-                layer.confirm('你确定要批量删除已选中的记录吗？', function (index) {
-                    $("input[name='items']:checked").each(function () {
-                        $.get("<?php echo url::s('admin/member/deletemashangWithdraw', 'id=');?>" + $(this).val(), function (result) {
-                            if(result.code != 200){
-                                layer.msg(result.msg, {icon: 1, time: 1000});
-                                return;
-                            }
-                        });
-                    });
-                    layer.msg("删除成功", {
-                        icon: 1, time: 1000, end: function () {
-                            window.location.reload();
-                        }
-                    });
-                });
-            }
-
-
-            function showBtn() {
-                var Inc = 0;
-                $("input[name='items']:checkbox").each(function () {
-                    if (this.checked) {
-                        $('#deletes').show();
-                        $('#callback').show();
-                        return true;
-                    }
-                    Inc++;
-                });
-                if ($("input[name='items']:checkbox").length == Inc) {
-                    $('#deletes').hide();
-                    $('#callback').hide();
-                }
             }
 
         </script>

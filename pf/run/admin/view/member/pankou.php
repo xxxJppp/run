@@ -21,7 +21,7 @@ $fix = DB_PREFIX;
                     </div>
                     <div>
                         <form action="" style="margin-top: 20px">
-                            <input type="text" name="id" placeholder="请输入盘口id" value="<?php echo $id;?>">
+                            <input type="text" name="username" placeholder="用户名" value="<?php echo $username;?>">
                             <input type="submit" style="border:0px" value="查询" class="btn btn-success">
                         </form>
 
