@@ -1,4 +1,4 @@
-<?php 
+<?php
 use xh\library\url;
 include_once (PATH_VIEW . 'common/header.php'); //头部
 $authority = json_decode($result['authority'],true);
@@ -8,17 +8,17 @@ $authority = json_decode($result['authority'],true);
 
   <!-- Start Page Header -->
   <div class="page-header">
-   
+
       <ol class="breadcrumb">
         <li><a href="<?php echo url::s('admin/customer/index');?>">管理组</a></li>
         <li class="active">修改</li>
       </ol>
-      
+
   </div>
   <!-- End Page Header -->
 <!-- START CONTAINER -->
 <div class="container-padding">
-  
+
     <!-- Start Row -->
   <div class="row">
 
@@ -38,24 +38,24 @@ $authority = json_decode($result['authority'],true);
             	<div class="form-group">
                   <label class="col-sm-2 control-label form-label">名称</label>
                   <div class="col-sm-3">
-                    <input type="text" class="form-control form-control-line" name="group_name"  placeholder="名称" value="<?php echo $result['name'];?>">
+                    <input type="text" style="width: 60px;" class="form-control form-control-line" name="group_name"  placeholder="名称" value="<?php echo $result['name'];?>">
                   </div>
                 </div>
-                
-                 <div class="form-group">
+
+                 <div class="form-group" >
                    <label class="col-sm-2 control-label form-label">权限</label>
                  <div class="col-sm-10">
-                 <?php 
+                 <?php
                  $authority = json_decode($result['authority'],true);
                  foreach ($modules as $key => $value){?>
                   <!--  开始 -->
                   <div class="form-group">
-                  <label class="col-sm-1 control-label form-label"><?php echo $key;?></label>
+                  <label style="width: 100px;" class="col-sm-1 control-label form-label"><?php echo $key;?></label>
                   <div class="col-sm-1">
-                    <input type="text" class="form-control form-control-line" name="<?php echo $key . '_cost';?>" placeholder="每笔费率" value="<?php echo $authority[$key]['cost'];?>">
+                    <input style="width: 60px;" type="text" class="form-control form-control-line" name="<?php echo $key . '_cost';?>" placeholder="每笔费率" value="<?php echo $authority[$key]['cost'];?>">
                   </div>
                   <div class="col-sm-1">
-                    <input type="text" class="form-control form-control-line" name="<?php echo $key . '_quantity';?>" placeholder="通道数量" value="<?php echo $authority[$key]['quantity'];?>">
+                    <input type="text" style="width: 60px;" class="form-control form-control-line" name="<?php echo $key . '_quantity';?>" placeholder="通道数量" value="<?php echo $authority[$key]['quantity'];?>">
                   </div>
                   <div class="col-sm-8" style="margin-top: 7px;">
                     <div class="checkbox checkbox-success checkbox-inline">
@@ -64,7 +64,7 @@ $authority = json_decode($result['authority'],true);
                     </div>
                   </div>
                 </div>
-                
+
                 <?php if ($key == 'service_auto'){?>
                      <div class="form-group">
                    <label class="col-sm-3 control-label form-label">service_auto->授权账号</label>
@@ -91,9 +91,9 @@ $authority = json_decode($result['authority'],true);
                    <?php }?>
                    </div>
                     </div>
-                    
-                     
-                    
+
+
+
                   <div class="form-group">
                   <label class="col-sm-2 control-label form-label"></label>
                   <div class="col-sm-10">
@@ -102,7 +102,7 @@ $authority = json_decode($result['authority'],true);
                   </div>
                 </div>
 
-              </form> 
+              </form>
 
             </div>
 
@@ -111,7 +111,7 @@ $authority = json_decode($result['authority'],true);
 
   </div>
   <!-- End Row -->
-  
+
     <script type="text/javascript">
 			function editGroup(){
 				$.ajax({
@@ -134,5 +134,5 @@ $authority = json_decode($result['authority'],true);
 			  });
 			}
    </script>
-  
+
 </div>
