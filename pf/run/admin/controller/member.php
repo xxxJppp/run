@@ -582,6 +582,7 @@ class member
         $this->powerLogin(28);
         $flow_no = trim(request::filter('get.flow_no', '', 'htmlspecialchars'));
         $username = trim(request::filter('get.username', '', 'htmlspecialchars'));
+        $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
         $where = '1 = 1';
@@ -597,6 +598,10 @@ class member
             }
         }
 
+        //体现状态
+        if($types!=0){
+            $where .= " and types = '{$types}'";
+        }
         $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/pankouwithdraw', [
             'result' => $result,

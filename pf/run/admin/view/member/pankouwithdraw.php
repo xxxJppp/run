@@ -13,7 +13,7 @@ $fix = DB_PREFIX;
    
       <ol class="breadcrumb">
         <li><a href="<?php echo url::s('admin/index/home');?>">控制台</a></li>
-        <li class="active">用户提现</li>
+        <li class="active">盘口提现</li>
       </ol>
   </div>
   <!-- End Page Header -->
@@ -38,6 +38,15 @@ $fix = DB_PREFIX;
               <form action="" style="margin-top: 20px;margin-bottom: 20px;">
                   <input type="text" name="flow_no" placeholder="订单号" value="<?php echo $flow_no;?>">
                   <input type="text" style="width: 120px;" name="username" placeholder="用户名" value="<?php echo $username;?>">
+
+                  <select name="types">
+                      <option value="0" <?php if($_GET['types'] == 0){ echo 'selected';} ?>>提现状态</option>
+                      <option value="1" <?php if($_GET['types'] == 1){ echo 'selected';} ?>>等待管理员处理</option>
+                      <option value="2" <?php if($_GET['types'] == 2){ echo 'selected';} ?>>已经处理</option>
+                      <option value="3" <?php if($_GET['types'] == 3){ echo 'selected';} ?>>已驳回该提现</option>
+                      <option value="4" <?php if($_GET['types'] == 4){ echo 'selected';} ?>>该流水异常</option>
+                  </select>
+
                   <input type="submit" style="border:0px" value="查询" class="btn btn-success">
               </form>
 
