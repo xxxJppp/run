@@ -13,7 +13,7 @@ $fix = DB_PREFIX;
    
       <ol class="breadcrumb">
         <li><a href="<?php echo url::s('admin/index/home');?>">控制台</a></li>
-        <li class="active">用户提现</li>
+        <li class="active">盘口提现</li>
       </ol>
   </div>
   <!-- End Page Header -->
@@ -33,13 +33,30 @@ $fix = DB_PREFIX;
                         echo '<span style="font-weight:bold;font-size:20px;color:red;"> '.floatval($order[0]['money']) .' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">'.intval($order[0]['count']).'</span> ';
                         ?>] </span>   
         </div>
+
+          <div>
+              <form action="" style="margin-top: 20px;margin-bottom: 20px;">
+                  <input type="text" name="flow_no" placeholder="订单号" value="<?php echo $flow_no;?>">
+                  <input type="text" style="width: 120px;" name="username" placeholder="用户名" value="<?php echo $username;?>">
+
+                  <select name="types">
+                      <option value="0" <?php if($_GET['types'] == 0){ echo 'selected';} ?>>提现状态</option>
+                      <option value="1" <?php if($_GET['types'] == 1){ echo 'selected';} ?>>等待管理员处理</option>
+                      <option value="2" <?php if($_GET['types'] == 2){ echo 'selected';} ?>>已经处理</option>
+                      <option value="3" <?php if($_GET['types'] == 3){ echo 'selected';} ?>>已驳回该提现</option>
+                      <option value="4" <?php if($_GET['types'] == 4){ echo 'selected';} ?>>该流水异常</option>
+                  </select>
+
+                  <input type="submit" style="border:0px" value="查询" class="btn btn-success">
+              </form>
+
+          </div>
+
         <div class="panel-body table-responsive">
           <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr>
-                <th>
-                    <input onchange="flow_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'flow_no') echo $_GET['code'];?>">
-                </th>
+                <th>订单号</th>
                 <th>用户名</th>
                 <th>手机号</th>
                 <th>提现前余额</th>
@@ -202,12 +219,6 @@ $fix = DB_PREFIX;
                   		});
                  });
         		  $('.showSweetAlert input').val('当前提现资金来源异常,暂时冻结该款项,如有疑问,请联系客服!');
-                  }
-              
-              
-
-              function flow_no(obj){
-                  location.href = "<?php echo url::s('admin/member/pankouwithdraw',"sorting=flow_no&code=");?>" + $(obj).val();
                   }
 
               function wechat(){
