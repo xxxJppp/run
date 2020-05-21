@@ -19,17 +19,16 @@ $fix = DB_PREFIX;
                     </div>
                 </div>
 
-                <table id="tbl" lay-data="{width:'100%',limit:15,id:'userData'}" cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                <table id="tbl" lay-data="{width:'100%',limit:15,id:'userData'}" cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-filter="main_list">
                     <thead>
                     <tr>
                         <th lay-data="{field:'check',width:80,checkbox:true}"></th>
-                        <th lay-data="{field:'key',width:90}">ID</th>
+                        <th lay-data="{field:'key',width:100}"></th>
                         <th lay-data="{field:'key1',width:130}">用户名</th>
                         <th lay-data="{field:'out_trade_id', width:200,style:'color:#060;'}">订单号</th>
                         <th lay-data="{field:'memberid', width:140}">申诉理由</th>
                         <th lay-data="{field:'money', width:140}">实际到账金额</th>
-<!--                        <th lay-data="{field:'voucher', width:140}">申诉凭证</th>-->
-<!--                        <th lay-data="{field:'remarks', width:400}">备注</th>-->
+                        <th lay-data="{field:'voucher', width:140  }">申诉凭证</th>
                         <th lay-data="{field:'create_time', width:200}">申请时间</th>
                         <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
@@ -38,20 +37,20 @@ $fix = DB_PREFIX;
                     <?php foreach ($result['result'] as $em) { ?>
                         <tr id="user_<?php echo $em['id']; ?>">
                             <td></td>
-                            <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
+                            <td style="text-align:center; "> <button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</button> </td>
                             <td><?php echo $mysql->query('client_user','id='.$em['user_id'],'username')[0]['username']; ?> </td>
-                            <td style="text-align:center; color:red;">
-
-                                    <?php echo $em['trade_no']; ?>
-
+                            <td style="text-align:center; color:red;" >
+                                <?php echo $em['trade_no']; ?>
                             </td>
                             <td style="text-align:center;"><?php echo $em['status']==1?'钱多了':'钱少了'; ?></td>
                             <td style="text-align:center;"><?php echo $em['money'];?></td>
-<!--                            <td style="text-align:center; color:#060"><span title="--><?php //echo $em['remarks']; ?><!--">--><?php //echo $em['remarks']; ?><!--</span></td>-->
+                            <td  ><?php echo $em['voucher'];?></td>
+
                             <td style="text-align:center; color:#666">
                                 <?php echo date('Y-m-d H:i:s',$em['create_time']);?>
                             </td>
                             <td style="text-align:center;">
+
                                 <?php if($em['audit'] == 0){?>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="audit('<?php echo $em['id']; ?>',3)">
@@ -108,6 +107,37 @@ $fix = DB_PREFIX;
             , layer = layui.layer //弹层
             , form = layui.form //表单
             , table = layui.table; //表格
+
+
+
+        //监听行工具事件
+        table.on('tool(main_list)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+
+            if(layEvent === 'detail'){
+                // layer.('查看操作');
+                var detail='<div style="padding: 10px;width: 350px;">';
+                detail+='<li>订单编号：'+data.out_trade_id+"</li>";
+                detail+='<li>时间：'+data.create_time+'</li>';
+                detail+="<li>凭证<br><img style='width:300px;height: 530px;' src='"+data.voucher+"' ></li>";
+                detail+='</div>';
+                var type=100;
+                layer.open({
+                    type: 1
+                    ,offset:'auto'
+                    ,id: 'layerDemo'+type //防止重复弹出
+                    ,content: detail
+                    ,btn: '关闭全部'
+                    ,area: ['350px','600px']
+                    ,btnAlign: 'c' //按钮居中
+                    ,shade: 0 //不显示遮罩
+                    ,yes: function(){
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
     });
 
     $('#export').on('click', function () {
@@ -124,12 +154,7 @@ $fix = DB_PREFIX;
             content:'<img src="'+url+'" alt="">'
         })
     }
-    $(document).ready(function(){
-        $(".layui-table tr td div").dblclick(function() {
-alert(0);
-        })
 
-    });
 
 
     function audit(id,type,money) {
