@@ -379,7 +379,7 @@ class features
         if (empty($order_id)) functions::json(-1, '订单ID错误');
         $order = $mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
-        if($order['status']==3) functions::json(-2, '订单超时，无法收款');
+        //if($order['status']==3) functions::json(-2, '订单超时，无法收款');
         $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($user)) functions::json(-1, '商户错误');
 
@@ -501,6 +501,13 @@ class features
                     if ($updateStatus !== false) {
                         $_SESSION['MEMBER']['balance'] = $user_balance;
                         $mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+                        $deposit = $mysql->query("deposit","order_id={$order['id']} and user_id={$_SESSION['MEMBER']['uid']}")[0];
+                        if(!is_array($deposit)){
+                            if($order['status']==3){
+                                $yue = $_SESSION['MEMBER']['balance']-$order['amount'];
+                                $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
+                            }
+                        }
                         $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");
                         $mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
                     }
@@ -583,6 +590,13 @@ class features
                     if ($updateStatus !== false) {
                         $_SESSION['MEMBER']['balance'] = $user_balance;
                         $mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$order['paofen_id']}");
+                        $deposit = $mysql->query("deposit","order_id={$order['id']} and user_id={$_SESSION['MEMBER']['uid']}")[0];
+                        if(!is_array($deposit)){
+                            if($order['status']==3){
+                                $yue = $_SESSION['MEMBER']['balance']-$order['amount'];
+                                $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
+                            }
+                        }
                         $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");
                         $mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
                     }

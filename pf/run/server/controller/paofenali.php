@@ -22,7 +22,6 @@ class paofenali{
     public function depositRelease(){
         $chaoshi = time()-900;
         $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and creation_time<={$chaoshi} and type=1 and pay_time=0");
-        print_r($orders);
         foreach($orders as $order){
             $user_id = $order['user_id'];
             $deposit = $this->mysql->query("deposit","user_id={$user_id} and order_id={$order['id']}")[0];
