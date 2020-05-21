@@ -19,7 +19,7 @@ $fix = DB_PREFIX;
                     </div>
                 </div>
 
-                <table lay-data="{width:'100%',limit:15,id:'userData'}" cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                <table id="tbl" lay-data="{width:'100%',limit:15,id:'userData'}" cellspacing="0" cellpadding="0" border="0" class="layui-table">
                     <thead>
                     <tr>
                         <th lay-data="{field:'check',width:80,checkbox:true}"></th>
@@ -41,9 +41,9 @@ $fix = DB_PREFIX;
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                             <td><?php echo $mysql->query('client_user','id='.$em['user_id'],'username')[0]['username']; ?> </td>
                             <td style="text-align:center; color:red;">
-                                <a onclick="voucher('<?php echo $em['voucher']; ?>')">
+
                                     <?php echo $em['trade_no']; ?>
-                                </a>
+
                             </td>
                             <td style="text-align:center;"><?php echo $em['status']==1?'钱多了':'钱少了'; ?></td>
                             <td style="text-align:center;"><?php echo $em['money'];?></td>
@@ -124,6 +124,13 @@ $fix = DB_PREFIX;
             content:'<img src="'+url+'" alt="">'
         })
     }
+    $(document).ready(function(){
+        $(".layui-table tr td div").dblclick(function() {
+alert(0);
+        })
+
+    });
+
 
     function audit(id,type,money) {
         if(money==''){

@@ -118,6 +118,9 @@ class paofen
         if($money == ''){
             functions::json(-3, '请填写实际到账金额');
         }
+        if($voucher == ''){
+            functions::json(-3, '请上传申诉凭证');
+        }
         $result = $this->mysql->query('client_paofen_automatic_orders', 'status=2 and id=' . $id . ' and user_id=' . $_SESSION['MEMBER']['uid'] . ' and trade_no=' . $trade_no, 'trade_no');
 
         if (!$result) {
