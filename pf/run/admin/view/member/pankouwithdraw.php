@@ -33,13 +33,21 @@ $fix = DB_PREFIX;
                         echo '<span style="font-weight:bold;font-size:20px;color:red;"> '.floatval($order[0]['money']) .' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">'.intval($order[0]['count']).'</span> ';
                         ?>] </span>   
         </div>
+
+          <div>
+              <form action="" style="margin-top: 20px;margin-bottom: 20px;">
+                  <input type="text" name="flow_no" placeholder="订单号" value="<?php echo $flow_no;?>">
+                  <input type="text" style="width: 120px;" name="username" placeholder="用户名" value="<?php echo $username;?>">
+                  <input type="submit" style="border:0px" value="查询" class="btn btn-success">
+              </form>
+
+          </div>
+
         <div class="panel-body table-responsive">
           <table class="table table-hover" style="width:  1800px;">
             <thead>
               <tr>
-                <th>
-                    <input onchange="flow_no(this);" style="width: 80%;"  type="text" class="form-control form-control-line" placeholder="订单号" value="<?php if ($sorting['name'] == 'flow_no') echo $_GET['code'];?>">
-                </th>
+                <th>订单号</th>
                 <th>用户名</th>
                 <th>手机号</th>
                 <th>提现前余额</th>
@@ -202,12 +210,6 @@ $fix = DB_PREFIX;
                   		});
                  });
         		  $('.showSweetAlert input').val('当前提现资金来源异常,暂时冻结该款项,如有疑问,请联系客服!');
-                  }
-              
-              
-
-              function flow_no(obj){
-                  location.href = "<?php echo url::s('admin/member/pankouwithdraw',"sorting=flow_no&code=");?>" + $(obj).val();
                   }
 
               function wechat(){

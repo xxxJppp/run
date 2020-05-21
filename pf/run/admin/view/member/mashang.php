@@ -252,11 +252,12 @@ $fix = DB_PREFIX;
                                 <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00">
                             </div>
                         </div>
+                        <input type="hidden" name="is_mashang" value="1">
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                        <button type="button" onclick="add()" class="btn btn-default">确认添加</button>
+                        <button type="button" onclick="add()" class="btn btn-success">确认添加</button>
                     </div>
                 </div>
             </form>

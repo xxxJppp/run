@@ -253,10 +253,12 @@ $fix = DB_PREFIX;
                             </div>
                         </div>
 
+                        <input type="hidden" name="is_pankou" value="1">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                        <button type="button" onclick="add()" class="btn btn-default">确认添加</button>
+                        <button type="button" onclick="add()" class="btn btn-success">确认添加</button>
                     </div>
                 </div>
             </form>

@@ -281,6 +281,11 @@ class member
         $group_id = request::filter('post.group_id');
         $phone = request::filter('post.phone');
         $level_id = intval(request::filter('post.level_id'));
+
+        $is_agent = intval(request::filter('post.is_agent'));
+        $is_pankou = intval(request::filter('post.is_pankou'));
+        $is_mashang = intval(request::filter('post.is_mashang'));
+
         $balance = floatval(request::filter('post.balance'));
         $money = floatval(request::filter('post.money'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
@@ -316,9 +321,9 @@ class member
             'token' => $token,
             'ip' => '8.8.8.8',
             'group_id' => $group_id,
-            'is_agent' => 1,
-            'is_pankou' => 1,
-            'is_mashang' => 1,
+            'is_agent' => $is_agent,
+            'is_pankou' => $is_pankou,
+            'is_mashang' => $is_mashang,
             'level_id' => $level_id,
             'login_time' => 0,
             'key_id' => $key_id = strtoupper(substr(md5(mt_rand(100000, 999999)), 0, 14)),
@@ -575,34 +580,30 @@ class member
     public function pankouwithdraw()
     {
         $this->powerLogin(28);
-        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-        $code = request::filter('get.code', '', 'htmlspecialchars');
+        $flow_no = trim(request::filter('get.flow_no', '', 'htmlspecialchars'));
+        $username = trim(request::filter('get.username', '', 'htmlspecialchars'));
 
         //订单号
-        if ($sorting == 'flow_no') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "flow_no={$code}";
-            }
+        $where = '1 = 1';
+        if($flow_no){
+            $where .= " and flow_no = '{$flow_no}'";
         }
 
-        //未处理
-        if ($sorting == 'type') {
-            if ($code != '') {
-                $code = trim($code);
-                $where = "types={$code}";
+        //用户名
+        if ($username) {
+            $user = $this->mysql->query("client_user","username='{$username}'")[0];
+            if(!empty($user)){
+                $where .= " and user_id = '{$user['id']}'";
             }
         }
-
 
         $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/pankouwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
-            'sorting' => [
-                'code' => $code,
-                'name' => $sorting
-            ]
+            'flow_no' => $flow_no,
+            'username' => $username,
+
         ]);
     }
 
