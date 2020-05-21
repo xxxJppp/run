@@ -126,7 +126,48 @@ use xh\library\url;
                 </div>
               </div>
             </div>
+              <div id="striped-table" style="margin-top:50px; ">
 
+                  <div class="row">
+
+                      <div class="col s12 m12 l12">
+                          <table class="striped">
+                              <thead>
+                              <tr>
+                                  <th>返回参数</th>
+                                  <th>说明</th>
+                                  <th>示例</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td>code</td>
+                                  <td>是否成功识别，200代表成功，其他则是失败</td>
+                                  <td>200</td>
+                              </tr>
+                              <tr>
+                                  <td>msg</td>
+                                  <td>成功或者失败得内容</td>
+                                  <td>SUCCESS</td>
+                              </tr>
+                              <tr>
+                                  <td>data</td>
+                                  <td>二维码匹配链接：<?php echo URL_ROOT; ?>/gateway/pay/alit.do?id=ID&sign=bb1cf47eac7b31fb60c4e7ef88628289</td>
+                                  <td>直接跳转此链接即可</td>
+                              </tr>
+                              <tr>
+                                  <td>示例：</td>
+                                  <td>{"code":200,"msg":"SUCCESS","data":"<?php echo URL_ROOT; ?>/gateway/pay/alit.do?id=443&sign=bb1cf47eac7b31fb60c4e7ef88628289"}</td>
+                                  <td></td>
+                              </tr>
+
+
+
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
             <!--Hoverable Table-->
 
  

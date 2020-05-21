@@ -143,7 +143,7 @@ class paofen
         $start_time = request::filter('get.start_time', '', 'trim');
         $end_time = request::filter('get.end_time', '', 'trim');
 
-        $where = '1=1';
+        $where = 'paofen_id>0 and user_id>0';
 
         if (!empty($status) && $status != 0) {
             $where .= ' AND status=' . $status;
