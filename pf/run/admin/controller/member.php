@@ -114,6 +114,7 @@ class member
         $this->powerLogin(20);
 
         $username = trim(request::filter('get.username'));
+        $agent_id = trim(request::filter('get.agent_id'));
 
         $where = 'is_mashang = 1 and status=1';
 
@@ -121,6 +122,9 @@ class member
             $where .= " and username = '{$username}'";
         }
 
+        if($agent_id){
+            $where .= " and level_id = '{$agent_id}'";
+        }
 
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
