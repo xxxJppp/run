@@ -53,10 +53,10 @@ class member
     {
         $this->powerLogin(20);
 
-        $member_id = request::filter('get.id');
+        $username = trim(request::filter('get.username'));
         $where = 'is_agent = 1';
-        if($member_id){
-            $where .= " and id = {$member_id}";
+        if($username){
+            $where .= " and username = '{$username}'";
         }
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
@@ -64,7 +64,7 @@ class member
             'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups,
-            'id'=>$member_id
+            'username'=>$username
         ]);
     }
 
@@ -113,23 +113,22 @@ class member
     {
         $this->powerLogin(20);
 
-        $member_id = request::filter('get.id');
-        $agent_id = request::filter('get.agent_id');
-        $where = '';
-        $where .= ' is_mashang = 1';
-        if ($agent_id) {
-            $where .= ' and level_id = ' . $agent_id;
+        $username = trim(request::filter('get.username'));
+
+        $where = 'is_mashang = 1';
+
+        if($username){
+            $where .= " and username = '{$username}'";
         }
-        if ($member_id) {
-            $where .= ' and id = ' . $member_id;
-        }
+
+
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
         new view('member/mashang', [
             'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups,
-            'id' => $member_id
+            'username' => $username
         ]);
     }
 
@@ -154,11 +153,11 @@ class member
     {
         $this->powerLogin(20);
 
-        $member_id = request::filter('get.id');
+        $username = trim(request::filter('get.username'));
 
         $where = " is_pankou = 1";
-        if($member_id){
-            $where .= " and id = {$member_id}";
+        if($username){
+            $where .= " and username = '{$username}'";
         }
         $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
         $groups = $this->mysql->query("client_group");
@@ -166,7 +165,7 @@ class member
             'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups,
-            'id' => $member_id
+            'username' => $username
         ]);
     }
 
@@ -431,7 +430,7 @@ class member
     public function delete()
     {
         $this->powerLogin(20);
-        $id = intval(request::filter('get.id'));
+        $id = intval(request::filter('post.id'));
         //查询当前用户组是否存在
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前会员不存在');
