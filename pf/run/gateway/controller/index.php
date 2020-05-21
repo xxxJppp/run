@@ -72,7 +72,7 @@ class index
 
         $order = $this->mysql->query("client_paofen_automatic_orders","out_trade_no='{$out_trade_no}'")[0];
         $sign = functions::sign($pankou['key_id'], ['amount' => $order['amount'], 'out_trade_no' => $order['out_trade_no']]);
-        if(is_array($order)) functions::str_json('json', 200, '订单已经存在',['order_id'=>$order['id'],'amount'=>$order['amount'],'sign'=>$sign]);
+        if(is_array($order)) functions::str_json('json', 200, '订单已经存在',url::s("gateway/pay/alit", "id={$order['id']}&sign={$sign}"));
         $type = intval(request::filter('post.type',1));
 
         $callback_url = request::filter('post.callback_url', '', 'htmlspecialchars');
@@ -105,8 +105,9 @@ class index
         $uid = $this->mysql->insert("client_paofen_automatic_orders",$data);
         if($uid>0){
             $sign = functions::sign($pankou['key_id'], ['amount' => $money, 'out_trade_no' => $out_trade_no]);
-            url::address(url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
-            //functions::str_json('json', 200, 'SUCCESS',['order_id'=>$uid,'amount'=>$money,'sign'=>$sign]);
+
+            //url::address(url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
+            functions::str_json('json', 200, 'SUCCESS',url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
         }
     }
     //端口：automatic
