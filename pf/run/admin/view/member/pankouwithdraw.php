@@ -55,11 +55,7 @@ $fix = DB_PREFIX;
                 <th>处理时间</th>
                 <th>打款信息</th>
 
-                <th>操作  <div class="checkbox checkbox-warning" style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
-
-                        
-                        <button type="button" id="deletes" onclick="deletes();" class="btn btn-option1 btn-xs" style="display:none;position:relative;top:-8px;"><i class="fa fa-trash-o"></i>删除</button>
-                    </div></th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody>
@@ -109,11 +105,7 @@ $fix = DB_PREFIX;
                 </td>
                         
                         
-                <td><p style="margin-top: -15px;"><div class="checkbox checkbox-danger checkbox-circle">
-                        <input onclick="showBtn()" name="items" value="<?php echo $ru['id'];?>" id="checkbox<?php echo $ru['id'];?>" type="checkbox">
-                        <label for="checkbox<?php echo $ru['id'];?>">
-                        </label>
-                    </div></p>
+                <td>
                 <p><?php if ($ru['types'] == 1){?><a href="#" onclick="ok('<?php echo $ru['id'];?>')" class="btn btn-success btn-xs"><i class="fa fa-user-md"></i>确认</a>  <a href="#" onclick="turnDown('<?php echo $ru['id'];?>')" class="btn btn-danger btn-xs"><i class="fa fa-reply-all"></i>驳回</a>  <a href="#" onclick="error('<?php echo $ru['id'];?>')" class="btn btn-warning btn-xs"><i class="fa fa-close"></i>异常</a><?php }else {echo '';}?></p>
                 </td>
               </tr>
@@ -224,47 +216,6 @@ $fix = DB_PREFIX;
                   location.href = "<?php echo url::s('admin/alipay/automaticOrder',"sorting=alipay&code=");?>" + wechat;
                   
                   }
-
-
-
-			function deletes(){ 
-		           swal({
-		                title: "非常危险", 
-		                text: "你确定要批量删除已选中的记录吗？", 
-		                type: "warning", 
-		                showCancelButton: true, 
-		                confirmButtonColor: "#DD6B55", 
-		                confirmButtonText: "是的,我要删除这些记录!", 
-		                closeOnConfirm: false 
-		              },
-		              function(){
-				           $("input[name='items']:checked").each(function(){
-				        	 $.get("<?php echo url::s('admin/member/deletepankouWithdraw','id=');?>" + $(this).val(), function(result){
-						            	swal("操作提示", '当前操作已经执行完毕!', "success");
-						              	setTimeout(function(){location.href = '';},1500);
-				                	  });
-				           });  
-						  
-		              });
-				}
-
-
-
-			function showBtn(){
-				var Inc = 0;
-				$("input[name='items']:checkbox").each(function(){
-                    if(this.checked){
-                    	$('#deletes').show();
-                    	$('#callback').show();
-                    	return true;
-                    }
-                    Inc++;
-              });
-	              if($("input[name='items']:checkbox").length == Inc){
-	            	  $('#deletes').hide();
-	            	  $('#callback').hide();
-		          }
-			}
 
             </script>
   </div>

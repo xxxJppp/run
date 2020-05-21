@@ -36,7 +36,7 @@ $fix = DB_PREFIX;
                             <th lay-data="{field:'money',width:130}">金额</th>
                             <th lay-data="{field:'remark',width:130}">备注</th>
                             <th lay-data="{field:'status',width:130}">状态</th>
-                            <th lay-data="{field:'time',width:130}">时间</th>
+                            <th lay-data="{field:'time',width:200}">时间</th>
                             <th lay-data="{field:'op_user',width:180}">操作ID/用户名</th>
                         </tr>
                         </thead>

@@ -555,7 +555,7 @@ class member
         }
         functions::json(200, '处理成功');
     }
-
+/*
     //删除提现
     public function deleteWithdraw()
     {
@@ -567,7 +567,7 @@ class member
         //删除
         $this->mysql->delete("client_withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
-    }
+    }*/
 
 //盘口提现
 
@@ -646,7 +646,7 @@ class member
         }
         functions::json(200, '处理成功');
     }
-
+/*
     //删除提现
     public function deletepankouWithdraw()
     {
@@ -658,7 +658,7 @@ class member
         //删除
         $this->mysql->delete("client_pankouwithdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
-    }
+    }*/
 
     //码商提现
 
@@ -737,7 +737,7 @@ class member
         functions::json(200, '处理成功');
     }
 
-    //删除提现
+   /* //删除提现
     public function deletemashangWithdraw()
     {
         $this->powerLogin(28);
@@ -748,7 +748,7 @@ class member
         //删除
         $this->mysql->delete("client_mashangwithdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
-    }
+    }*/
 
 
     //盘口提现
@@ -895,7 +895,7 @@ class member
             functions::json(-1, '失败');
         }
     }
-
+/*
     //删除提现
     public function deleteagentWithdraw()
     {
@@ -907,7 +907,7 @@ class member
         //删除
         $this->mysql->delete("client_agentwithdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
-    }
+    }*/
 
     //发送平台更新通知给用户
     public function notice()
