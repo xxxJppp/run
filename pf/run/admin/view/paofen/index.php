@@ -31,7 +31,7 @@ $fix = DB_PREFIX;
           跑分 Automatic 管理
         </div>
         <div class="panel-body table-responsive">
-          <table class="table table-hover" style="width:  1800px;">
+          <table class="layui-table" style="width:1800px;" cellspacing="0" cellpadding="0" border="0" >
             <thead>
               <tr>
                 <th>ID</th>

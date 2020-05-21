@@ -19,7 +19,7 @@ $fix = DB_PREFIX;
                     </div>
                 </div>
 
-                <table class="layui-table" lay-data="{width:'100%',limit:15,id:'userData'}">
+                <table lay-data="{width:'100%',limit:15,id:'userData'}" cellspacing="0" cellpadding="0" border="0" class="layui-table">
                     <thead>
                     <tr>
                         <th lay-data="{field:'check',width:80,checkbox:true}"></th>
@@ -28,8 +28,8 @@ $fix = DB_PREFIX;
                         <th lay-data="{field:'out_trade_id', width:200,style:'color:#060;'}">订单号</th>
                         <th lay-data="{field:'memberid', width:140}">申诉理由</th>
                         <th lay-data="{field:'money', width:140}">实际到账金额</th>
-                        <th lay-data="{field:'voucher', width:140}">申诉凭证</th>
-                        <th lay-data="{field:'remarks', width:400}">备注</th>
+<!--                        <th lay-data="{field:'voucher', width:140}">申诉凭证</th>-->
+<!--                        <th lay-data="{field:'remarks', width:400}">备注</th>-->
                         <th lay-data="{field:'create_time', width:200}">申请时间</th>
                         <th lay-data="{field:'mas', width:180,style:'color:#C00;'}">操作</th>
                     </tr>
@@ -40,20 +40,14 @@ $fix = DB_PREFIX;
                             <td></td>
                             <td style="text-align:center; color:#090;"><?php echo $em['id']; ?> </td>
                             <td><?php echo $mysql->query('client_user','id='.$em['user_id'],'username')[0]['username']; ?> </td>
-                            <td style="text-align:center; color:#090;">
-                                <?php echo $em['trade_no']; ?>
+                            <td style="text-align:center; color:red;">
+                                <a onclick="voucher('<?php echo $em['voucher']; ?>')">
+                                    <?php echo $em['trade_no']; ?>
+                                </a>
                             </td>
                             <td style="text-align:center;"><?php echo $em['status']==1?'钱多了':'钱少了'; ?></td>
                             <td style="text-align:center;"><?php echo $em['money'];?></td>
-                            <td style="text-align:center;">
-                                <?php if($em['voucher']){?>
-                                <button class="layui-btn layui-btn-small"
-                                        onclick="voucher('<?php echo $em['voucher']; ?>')">
-                                    查看图片
-                                </button>
-                                <?php } ?>
-                            </td>
-                            <td style="text-align:center; color:#060"><span title="<?php echo $em['remarks']; ?>"><?php echo $em['remarks']; ?></span></td>
+<!--                            <td style="text-align:center; color:#060"><span title="--><?php //echo $em['remarks']; ?><!--">--><?php //echo $em['remarks']; ?><!--</span></td>-->
                             <td style="text-align:center; color:#666">
                                 <?php echo date('Y-m-d H:i:s',$em['create_time']);?>
                             </td>
@@ -142,7 +136,7 @@ $fix = DB_PREFIX;
                     type: 'post',
                     data: {id:id,amount:ret,type:type},
                     success: function (res) {
-                        if(res.code == '1'){
+                        if(res.code == 1){
                             layer.msg(res.msg, {icon:1,time:1000,end:function () {
                                     window.location.href = "/admin/paofen/appeal";
                                 }});
@@ -158,7 +152,7 @@ $fix = DB_PREFIX;
                 type: 'post',
                 data: {id:id,type:type},
                 success: function (res) {
-                    if(res.code == '1'){
+                    if(res.code == 1){
                         layer.msg(res.msg, {icon:1,time:1000,end:function () {
                                 window.location.href = "/admin/paofen/appeal";
                         }});

@@ -53,7 +53,7 @@ $fix = DB_PREFIX;
                 </div>
 
                 <div class="panel-body table-responsive">
-                    <table class="table table-hover" style="width:  1800px;">
+                    <table class="layui-table" style="width:  1800px;"  cellspacing="0" cellpadding="0" border="0">
                         <thead>
                         <tr>
                             <th>订单号</th>
@@ -129,13 +129,11 @@ $fix = DB_PREFIX;
                         <?php } ?>
                         </tbody>
                     </table>
-
-                    <div style="float:right;">
-                        <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
-                    </div>
-                    <div style="clear: both"></div>
-
                 </div>
+                <div style="float:right;">
+                    <?php (new model())->load('page', 'turn')->auto($result['info']['pageAll'], $result['info']['page'], 10); ?>
+                </div>
+                <div style="clear: both"></div>
 
             </div>
         </div>
