@@ -55,7 +55,8 @@ $fix = DB_PREFIX;
                         }
                     </style>
                     <div class="panel-body table-responsive">
-                        <table class="table table-hover">  <tr>
+                        <table class="table table-hover">
+                            <tr>
                                 <form action="" method="get">
                                     <th><input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"> - <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
                                     <th><input type="text" placeholder=" 订单号" style="width:160px" name="trade_no" value="<?php if(!empty($_GET['trade_no'])){  echo $_GET['trade_no']; }?>"></th>
@@ -74,7 +75,7 @@ $fix = DB_PREFIX;
                                     <th><input type="submit" class="btn btn-success" value="查询"></th>
                                 </form>
                             </table>
-                        <table class="table table-hover" style="width:  1600px;">
+                        <table class="layui-table" style="width:1600px;"  cellspacing="0" cellpadding="0" border="0">
                             <thead>
                             <tr>
                                 <button style="
