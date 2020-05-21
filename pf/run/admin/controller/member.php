@@ -115,7 +115,7 @@ class member
 
         $username = trim(request::filter('get.username'));
 
-        $where = 'is_mashang = 1';
+        $where = 'is_mashang = 1 and status=1';
 
         if($username){
             $where .= " and username = '{$username}'";
