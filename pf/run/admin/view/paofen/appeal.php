@@ -142,10 +142,13 @@ $fix = DB_PREFIX;
                     type: 'post',
                     data: {id:id,amount:ret,type:type},
                     success: function (res) {
-                        var code = res.code==1 ? 1 : 2;
-                        layer.msg(res.msg, {icon: code, time: 1000,end:function () {
-                            window.location.href = "/admin/paofen/appeal";
-                        }});
+                        if(res.code == '1'){
+                            layer.msg(res.msg, {icon:1,time:1000,end:function () {
+                                    window.location.href = "/admin/paofen/appeal";
+                                }});
+                        }else{
+                            layer.msg(result.msg, {icon:2,time:1000})
+                        }
                     }
                 });
             });
@@ -155,10 +158,13 @@ $fix = DB_PREFIX;
                 type: 'post',
                 data: {id:id,type:type},
                 success: function (res) {
-                    var code = res.code==1 ? 1 : 2;
-                    layer.msg(res.msg, {icon: code, time: 1000,end:function () {
-                        window.location.href = "/admin/paofen/appeal";
-                    }});
+                    if(res.code == '1'){
+                        layer.msg(res.msg, {icon:1,time:1000,end:function () {
+                                window.location.href = "/admin/paofen/appeal";
+                        }});
+                    }else{
+                        layer.msg(result.msg, {icon:2,time:1000})
+                    }
                 }
             });
         }
