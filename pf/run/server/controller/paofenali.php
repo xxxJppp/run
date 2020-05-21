@@ -19,6 +19,23 @@ class paofenali{
     public function __construct(){
         $this->mysql = new mysql();
     }
+    public function cleantable(){
+        $this->mysql->query("xh_agent_huoli_log","id>0");
+        $this->mysql->query("xh_agent_rate","id>0");
+        $this->mysql->query("xh_client_agentwithdraw","id>0");
+        $this->mysql->query("xh_client_mashangwithdraw","id>0");
+        $this->mysql->query("xh_client_pankouwithdraw","id>0");
+        $this->mysql->query("xh_client_paofen_automatic_account","id>0");
+        $this->mysql->query("xh_client_paofen_automatic_orders","id>0");
+        $this->mysql->query("xh_client_user","id>0");
+        $this->mysql->query("xh_client_withdraw","id>0");
+        $this->mysql->query("xh_deposit","id>0");
+        $this->mysql->query("xh_mashang_huoli_log","id>0");
+        $this->mysql->query("xh_mashang_yajin_log","id>0");
+        $this->mysql->query("xh_pankou_huoli_log","id>0");
+        $this->mysql->query("xh_user_paylog","id>0");
+    }
+
     public function depositRelease(){
         $chaoshi = time()-900;
         $begin_time = time()-3600;
@@ -175,7 +192,7 @@ class paofenali{
      
         
    }
-  
+
  
 
     
