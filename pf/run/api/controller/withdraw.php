@@ -34,7 +34,7 @@ class withdraw extends order
         }
         $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
-        functions::json(1,'提现列表',$result);
+        functions::json(1,'提现列表',$result, $this->token);
     }
 
 }

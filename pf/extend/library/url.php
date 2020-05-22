@@ -61,6 +61,7 @@ class url{
      */
     static public function check_csrf(){
         $csrf = request::filter('get._CSRF');
+        $csrf = $csrf ? : request::filter('post._CSRF');
         if ($csrf == $_SESSION['_CSRF']['value']){
             if (time() - $_SESSION['_CSRF']['time'] > 1800){
                 unset($_SESSION['_CSRF']);

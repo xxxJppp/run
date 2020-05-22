@@ -30,7 +30,7 @@ class user{
         $username = request::filter('post.username','','htmlspecialchars');
         $pwd = request::filter('post.pwd','','htmlspecialchars');
         $google_code = request::filter('post.google_code','','htmlspecialchars');
-        if ($username == '' || $pwd == '' || $google_code == '') functions::json(-1, '登录出错,账号密码或google验证码未填写');
+        if ($username == '' || $pwd == '') functions::json(-1, '登录出错,账号或密码未填写');
         $mysql = new mysql();
         //验证账户是否存在
         $find_user = $mysql->query("mgt","username='{$username}'")[0];

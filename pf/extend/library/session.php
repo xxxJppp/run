@@ -76,7 +76,7 @@ class session{
     static public function loginCheck($callType=''){
         $Loca_ip = ip::get();
         //判断数据是否存在
-        if (is_array($_SESSION['USER_MGT'])) {
+        if (isset($_SESSION['USER_MGT']) && is_array($_SESSION['USER_MGT'])) {
             //检测数据是否过期 30分钟无操作
             if (($_SESSION['USER_MGT']['time'] + 1800) > time()) {
                 //检测ip是否异地登录（能够百分百防御XSS攻击）
