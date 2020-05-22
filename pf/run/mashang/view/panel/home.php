@@ -11,7 +11,7 @@ use xh\library\model;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title><?php echo WEB_NAME; ?>- 码商管理 </title>
+<!--    <title>--><?php //echo WEB_NAME; ?><!--- 码商管理 </title>-->
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
