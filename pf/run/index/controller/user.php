@@ -90,6 +90,7 @@ class user{
             'balance'=> cog::read('registerCog')['integral'],
             'money'=>0,
             'token'=>$token,
+            'is_mashang'=>1,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id'=>$_SESSION['register_user']['level_id'],
             'key_id'=>$key_id
