@@ -230,20 +230,23 @@ $error_url = $data['error_url'];
                     </table>
                 </div>
             </div>
-            <strong id="div" style="margin-left:35%;display: none;color:red;font-size:30px;">
+            <div style="overflow: hidden;">
+            <strong id="div" style="width:80px;margin:0 auto;display: none;color:red;font-size:30px;">
                                                                    <span class="time minutes" style="float: left">
-                                                                            <b></b>
+                                                                            <b>00</b>
 
                                                                         </span>
                 <span class="time"  style="float: left">:</span>
                 <span class="time seconds" style="float: left">
-                                                                            <b></b>
+                                                                            <b>00</b>
 
                                                                         </span>
 
-            </strong><br/>
-            <button id="zhifu" style="display: none;margin-left:25%;" onclick="copy('<?php echo $amount;?>')" class="immediate_pay">点击支付宝支付</button>
-            <input type="hidden" id="nyr" value="">
+            </strong></div>
+            <div>
+            <button id="zhifu" style="display: none;margin:0 auto;" onclick="copy('<?php echo $amount;?>')" class="immediate_pay">点击支付宝支付</button>
+            </div>
+                <input type="hidden" id="nyr" value="">
             <input type="hidden" id="sign" value="<?php echo $sign;?>">
             <input type="hidden" id="time" value="<?php echo $data['creation_time']-time()?>">
             <input type="hidden" id="orderid" value="<?php echo $data['id']?>">
@@ -293,6 +296,7 @@ $error_url = $data['error_url'];
                     $(".minutes b").text('00');
                     $(".seconds b").text('00');
                     $(".help").html('订单已过期,请重新提交');
+                    $("#zhifu").hide();
                     daoqi(id);
                     clearInterval(ci);
 
@@ -394,6 +398,7 @@ $error_url = $data['error_url'];
                     $("#lodings").hide();
                     $("#lodingt").show();
                     $("#je").attr("src", "/Public/theme/view4/images/shixiao.jpg");
+                    $("#zhifu").hide();
                     clearInterval(ti);
                     clearInterval(dscd_time);
                     clearInterval(orderlst);
