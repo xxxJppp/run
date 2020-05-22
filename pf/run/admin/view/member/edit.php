@@ -84,19 +84,19 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   </div>
                 </div>
                 
-                <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">账户余额</label>
-                  <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-line" name="balance"  placeholder="0.00" value="<?php echo $result['balance'];?>">
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="col-sm-2 control-label form-label">账户金额</label>
-                  <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00" value="<?php echo $result['money'];?>">
-                  </div>
-                </div>
+<!--                <div class="form-group">-->
+<!--                  <label class="col-sm-2 control-label form-label">账户余额</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                  <input type="text" class="form-control form-control-line" name="balance"  placeholder="0.00" value="--><?php //echo $result['balance'];?><!--">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="form-group">-->
+<!--                  <label class="col-sm-2 control-label form-label">账户金额</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                  <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00" value="--><?php //echo $result['money'];?><!--">-->
+<!--                  </div>-->
+<!--                </div>-->
                 
               <p style="font-size:20px;color:red;">下面的代理，盘口，码商 选项只能选一个 不能重复选，什么都不选 默认为商户</p>
               
@@ -135,6 +135,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                    	<a href="javascript:;" onclick="javascript:history.back(-1);" class="btn"><i class="fa fa-close"></i>取消</a>
                   </div>
                 </div>
+
 
               </form> 
 
@@ -186,8 +187,9 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          data: $('#from').serialize(),
 			          success: function (data) {
 			              if(data.code == '200'){
+
                               layer.msg(data.msg, {icon:1,time:1000,end:function () {
-                                      location.href = '<?php echo url::s('admin/member/index');?>';
+                                      location.href = '<?php echo url::s('admin/member/'.$callback_type);?>';
                                   }});
 			              }else{
                               layer.msg(data.msg, {icon: 2, time: 1000})

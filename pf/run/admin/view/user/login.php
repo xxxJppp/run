@@ -35,16 +35,25 @@ use xh\library\url;
     		</div>
     	</div>
     	
-    	<div class="input-group m-b-20">
-    		<span class="input-group-addon">
-    			<i class="zmdi zmdi-mic"></i>
-    		</span>
-    		<div class="fg-line">
-    			<input type="password" class="form-control" name="pwd_safe" placeholder="安全令牌" style="position:relative;left:-1px;"/>
-    		</div>
-    	</div>
-    	<div class="clearfix"></div>
-    	
+<!--    	<div class="input-group m-b-20">-->
+<!--    		<span class="input-group-addon">-->
+<!--    			<i class="zmdi zmdi-mic"></i>-->
+<!--    		</span>-->
+<!--    		<div class="fg-line">-->
+<!--    			<input type="password" class="form-control" name="pwd_safe" placeholder="安全令牌" style="position:relative;left:-1px;"/>-->
+<!--    		</div>-->
+<!--    	</div>-->
+<!--    	<div class="clearfix"></div>-->
+            
+        <div class="input-group m-b-20">
+        <span class="input-group-addon">
+            <i class="zmdi zmdi-mic"></i>
+        </span>
+            <div class="fg-line">
+                <input type="text" class="form-control" name="google_code" placeholder="Google 动态验证码" style="position:relative;left:-1px;"/>
+            </div>
+        </div>
+        <div class="clearfix"></div>
 
     	</form>
     	<a href="javascript:Login();" id="login" class="btn btn-login btn-danger btn-float">

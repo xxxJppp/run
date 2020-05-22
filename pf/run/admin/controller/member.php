@@ -178,6 +178,8 @@ class member
     {
         $this->powerLogin(20);
         $id = request::filter('get.id');
+        $type = request::filter('get.type');
+        var_dump($type);exit;
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
@@ -290,8 +292,8 @@ class member
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
 
-        $balance = floatval(request::filter('post.balance'));
-        $money = floatval(request::filter('post.money'));
+//        $balance = floatval(request::filter('post.balance'));
+//        $money = floatval(request::filter('post.money'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
@@ -319,8 +321,8 @@ class member
             'username' => $username,
             'phone' => $phone,
             'pwd' => functions::pwd($pwd, $token),
-            'balance' => $balance,
-            'money' => $money,
+            'balance' => 0,
+            'money' => 0,
             'yajin' => 0,
             'token' => $token,
             'ip' => '8.8.8.8',
@@ -346,6 +348,8 @@ class member
     {
         $this->powerLogin(20);
         $id = intval(request::filter('get.id'));
+        $type = intval(request::filter('get.type'));
+        var_dump($type);exit;
         $emp = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($emp)) functions::json(-3, '用户索引失败,请重试!');
         //上传文件到自己的空间
@@ -361,6 +365,7 @@ class member
     {
         $this->powerLogin(20);
         $id = base64_decode(str_replace('@', '=', request::filter('get.id')));
+        $type = $_GET['type'];
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('admin/member/index'), '识别会员失败', 1);
         //权限查询
@@ -368,7 +373,9 @@ class member
         //加载视图
         new view('member/edit', [
             'result' => $result,
-            'groups' => $groups
+            'groups' => $groups,
+            'callback_type' => $type,
+
         ]);
     }
 
@@ -385,8 +392,9 @@ class member
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
         $level_id = intval(request::filter('post.level_id'));
-        $balance = floatval(request::filter('post.balance'));
-        $money = floatval(request::filter('post.money'));
+
+//        $balance = floatval(request::filter('post.balance'));
+//        $money = floatval(request::filter('post.money'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
@@ -406,14 +414,15 @@ class member
             if (!is_array($find_level)) functions::json(-3, '上级ID填写有误,没有找到该会员ID');
         }
 
+
         $inArray = [
             'username' => $username,
             'phone' => $phone,
-            'balance' => $balance,
+            'balance' => 0,
             'is_agent' => $is_agent,
             'is_mashang' => $is_mashang,
             'is_pankou' => $is_pankou,
-            'money' => $money,
+            'money' => 0,
             'group_id' => $group_id,
             'level_id' => $level_id,
         ];

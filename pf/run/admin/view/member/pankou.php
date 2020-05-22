@@ -162,7 +162,7 @@ $fix = DB_PREFIX;
                                 </td>
                                 <td>
                                     <a class="layui-btn layui-btn-small"
-                                       href="<?php echo url::s('admin/member/edit',"id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
+                                       href="<?php echo url::s('admin/member/edit',"type=pankou&id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
                                         修改资料
                                     </a>
                                     <button class="layui-btn layui-btn-small"
@@ -239,19 +239,19 @@ $fix = DB_PREFIX;
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label form-label">账户余额</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-line" name="balance"  placeholder="0.00">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label form-label">账户金额</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00">
-                            </div>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-sm-2 control-label form-label">账户余额</label>-->
+<!--                            <div class="col-sm-10">-->
+<!--                                <input type="text" class="form-control form-control-line" name="balance"  placeholder="0.00">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!---->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-sm-2 control-label form-label">账户金额</label>-->
+<!--                            <div class="col-sm-10">-->
+<!--                                <input type="text" class="form-control form-control-line" name="money"  placeholder="0.00">-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                         <input type="hidden" name="is_pankou" value="1">
 

@@ -6,8 +6,11 @@ use xh\library\mysql;
 use xh\library\functions;
 use xh\library\url;
 use xh\library\ip;
+use xh\library\GoogleAuthenticator;
 use xh\library\session;
 use xh\unity\upload;
+
+
 
 class user{
     public function g(){
@@ -26,16 +29,20 @@ class user{
         session::loginCheck('json');
         $username = request::filter('post.username','','htmlspecialchars');
         $pwd = request::filter('post.pwd','','htmlspecialchars');
-        $pwd_safe = request::filter('post.pwd_safe','','htmlspecialchars');
-        if ($username == '' || $pwd == '' || $pwd_safe == '') functions::json(-1, '登录出错,账号或口令未填写');
+        $google_code = request::filter('post.google_code','','htmlspecialchars');
+        if ($username == '' || $pwd == '' || $google_code == '') functions::json(-1, '登录出错,账号密码或google验证码未填写');
         $mysql = new mysql();
         //验证账户是否存在
         $find_user = $mysql->query("mgt","username='{$username}'")[0];
         if (!is_array($find_user)) functions::json(-2, '登录出错,未找到该账号');
         //验证密码是否正确
         if (md5(functions::pwd($pwd, $find_user['token'])) !== md5($find_user['pwd'])) functions::json(-2, '登录出错,密码不正确');
-        //验证口令是否正确
-        if (md5(functions::pwd($pwd_safe, $find_user['token'])) !== md5($find_user['pwd_safe'])) functions::json(-2, '登录出错,安全令牌错误');
+        //google验证码是否正确
+        if ($find_user['google_auth']) {
+            if (!$this->google_check_verify($google_code, $find_user['google_auth'])) {
+                functions::json(-2, '登录出错,goole验证码输入错误');
+            }
+        }
         //获取用户组
         $group = $mysql->query("mgt_group","id={$find_user['group_id']}")[0];
         if (!is_array($group) || intval($group['authority']) == -1) functions::json(403, '您暂时没有权限访问');
@@ -44,6 +51,17 @@ class user{
         //设置会话
         session::set($find_user);
         functions::json(200, '登录成功');
+    }
+
+    /**
+     * 检测验证码
+     */
+    public function google_check_verify($code, $google)
+    {
+        $ga = new GoogleAuthenticator();
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google, $code, 1);
+        return $checkResult;
     }
     
     //安全退出
