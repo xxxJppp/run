@@ -112,7 +112,7 @@ class init{
         if(isset($_gk[0])){
             unset($_GET[$_gk[0]]);
         }
-        //$arg = isset($arg[2]) ? : explode('/', str_replace('.do', '',trim($_SERVER['REQUEST_URI'], '/')));
+        //$arg = isset($arg[2]) ? : explode('/', explode('?',str_replace('.do', '',trim($_SERVER['REQUEST_URI'], '/')))[0]);
         //构造路由信息
         $routingInfo = $this->routingAuto(array(
             //路径权重

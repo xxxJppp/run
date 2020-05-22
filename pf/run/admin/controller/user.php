@@ -16,13 +16,13 @@ class user{
     public function g(){
         session::check();
     }
-    
+
     //登录
     public function login(){
         session::loginCheck();
         new view('user/login');
     }
-    
+
     //result-登录
     public function loginResult(){
         url::check_csrf();
@@ -63,13 +63,13 @@ class user{
         $checkResult = $ga->verifyCode($google, $code, 1);
         return $checkResult;
     }
-    
+
     //安全退出
     public function out(){
         unset($_SESSION['USER_MGT']);
         url::address(url::s('admin/user/login'),'安全注销成功',2);
     }
-    
+
     //上传头像
     public function avatarUpload(){
         session::check('json');
@@ -84,8 +84,8 @@ class user{
         $mysql->update('mgt', array('avatar'=>$upload['new']),"id={$id}");
         functions::json(200, '头像更换成功!',array('img'=>$upload['new']));
     }
-    
-    
+
+
     //修改资料-view视图
     public function editView(){
         session::check();
@@ -96,11 +96,13 @@ class user{
             unset($_SESSION['USER_MGT']);
             url::address(url::s("admin/user/login"),'账户异常,请重新登录',2);
         }
+        $ga = new GoogleAuthenticator();
+        $result['qrcodeurl'] = $ga->getQRCodeGoogleUrl('paofen', $result['google_auth']);
         new view('user/edit',[
-            'result'=>$result
+            'result'=>$result,
         ]);
     }
-    
+
     //修改密码-result请求
     public function edit(){
         $id = $_SESSION['USER_MGT']['uid'];
@@ -108,6 +110,7 @@ class user{
         $pwd_safe = request::filter('post.pwd_safe');
         $phone = request::filter('post.phone');
         $email = request::filter('post.email');
+        $google_auth = request::filter('post.google_auth');
         $mysql = new mysql();
         //检测用户是否存在
         $Mgtd = $mysql->query('mgt',"id={$id}")[0];
@@ -123,7 +126,8 @@ class user{
         $token = $Mgtd['token'];
         $editEmp = [
             'phone'=>$phone,
-            'email'=>$email
+            'email'=>$email,
+            'google_auth' => $google_auth
         ];
         //检测密码和口令是否同时修改，同时修改重新生成token
         if (!empty($pwd) && !empty($pwd_safe)) {
@@ -132,9 +136,9 @@ class user{
         }
         if (!empty($pwd)) $editEmp['pwd'] = functions::pwd($pwd, $token); //更新密码
         if (!empty($pwd_safe)) $editEmp['pwd_safe'] = functions::pwd($pwd_safe, $token);//更新口令
-        
+
         $mysql->update("mgt", $editEmp,"id={$id}");
         functions::json(200, '恭喜您的资料更新完毕!');
     }
-    
+
 }

@@ -57,6 +57,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                             <td>基本资料</td>
                             <td>通讯方式</td>
                             <td>账户</td>
+                            <td>google密钥</td>
                             <td>操作
                                 <div class="checkbox checkbox-warning"
                                      style="display:inline-block;margin:0 0 0 25px;padding:0;position:relative;top:6px;">
@@ -75,6 +76,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                         </tr>
                         </thead>
                         <tbody>
+                        <?php $ga = new \xh\library\GoogleAuthenticator();?>
                         <?php foreach ($employee['result'] as $em) { ?>
                             <tr>
                                 <td style="width: 86px;">
@@ -111,8 +113,12 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
 
                                 <td>
                                     <p><b>员工备注：</b><?php echo $em['remarks']; ?></p>
-                                    <p><b>google秘钥：</b><?php echo $em['google_auth']; ?> </p>
                                     <p><b>登录时间：</b><?php echo date("Y/m/d H:i:s", $em['login_time']); ?> ( 上次 )</p>
+                                </td>
+                                <td>
+                                    <?php if($em['google_auth']){?>
+                                    <img src = "<?php echo  $ga->getQRCodeGoogleUrl('paofen', $em['google_auth']); ?>" height="80" width="80" id="qrcode"/>
+                                    <?php }?>
                                 </td>
 
                                 <td>

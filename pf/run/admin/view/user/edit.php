@@ -71,6 +71,21 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
                   <input type="text" class="form-control form-control-line" name="email"  placeholder="邮箱账号" value="<?php echo $result['email'];?>">
                   </div>
                 </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">google密钥</label>
+                      <div class="col-sm-3">
+                          <input type="text" class="form-control form-control-line" name="google_auth" id="google_auth"  placeholder="googel密钥" value="<?php echo $result['google_auth'];?>" readonly="readonly">
+                      </div>
+                      <div class="col-sm-3">
+                          <a href="#" onclick="shua()" class="btn btn-success"><i class="fa fa-refresh"></i>刷新google密钥</a> &nbsp;&nbsp;
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">goole绑定二维码</label>
+                      <div class="col-sm-3">
+                      <img src="<?php echo $result['qrcodeurl'];?>" height="200" width="200" id="qrcode" id="goole_image"/>
+                      </div>
+                  </div>
 
                   <div class="form-group">
                   <label class="col-sm-2 control-label form-label"></label>
@@ -140,6 +155,28 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
 			           }
 			  });
 			}
+
+    function shua(){
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "<?php echo url::s('admin/employee/google',"");?>",
+            data: $('#from').serialize(),
+            success: function (data) {
+                if(data.code == '200'){
+                    layer.msg("刷新成功", {icon:1,time:1000,end:function(){
+                            $('#google_auth').val(data.secret);
+                            $('#qrcode').attr('src', data.qrcode);
+                        }});
+                }else{
+                    layer.msg("修改失败", {icon:2,time:1000})
+                }
+            },
+            error: function(data) {
+                alert("error:"+data.responseText);
+            }
+        });
+    }
    </script>
   
 </div>
