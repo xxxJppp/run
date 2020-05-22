@@ -19,9 +19,28 @@ class paofenali{
     public function __construct(){
         $this->mysql = new mysql();
     }
+    public function cleantable(){
+        $this->mysql->delete("xh_agent_huoli_log","id>0");
+        $this->mysql->delete("xh_agent_rate","id>0");
+        $this->mysql->delete("xh_client_agentwithdraw","id>0");
+        $this->mysql->delete("xh_client_mashangwithdraw","id>0");
+        $this->mysql->delete("xh_client_pankouwithdraw","id>0");
+        $this->mysql->delete("xh_client_paofen_automatic_account","id>0");
+        $this->mysql->delete("xh_client_paofen_automatic_orders","id>0");
+        $this->mysql->delete("xh_client_user","id>0");
+        $this->mysql->delete("xh_client_withdraw","id>0");
+        $this->mysql->delete("xh_deposit","id>0");
+        $this->mysql->delete("xh_mashang_huoli_log","id>0");
+        $this->mysql->delete("xh_mashang_yajin_log","id>0");
+        $this->mysql->delete("xh_pankou_huoli_log","id>0");
+        $this->mysql->delete("xh_user_paylog","id>0");
+    }
+
     public function depositRelease(){
         $chaoshi = time()-900;
-        $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and creation_time<={$chaoshi} and type=1 and pay_time=0");
+        $begin_time = time()-3600;
+        $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and creation_time > {$begin_time} and creation_time<={$chaoshi} and type=1 and pay_time=0");
+        print_r($orders);
         foreach($orders as $order){
             $user_id = $order['user_id'];
             $deposit = $this->mysql->query("deposit","user_id={$user_id} and order_id={$order['id']}")[0];
@@ -173,7 +192,7 @@ class paofenali{
      
         
    }
-  
+
  
 
     

@@ -143,7 +143,7 @@ class paofen
         $start_time = request::filter('get.start_time', '', 'trim');
         $end_time = request::filter('get.end_time', '', 'trim');
 
-        $where = '1=1';
+        $where = 'paofen_id>0 and user_id>0';
 
         if (!empty($status) && $status != 0) {
             $where .= ' AND status=' . $status;
@@ -400,8 +400,10 @@ class paofen
 
 
     public function appealaudit(){
+        $this->powerLogin(93);
 
         $id = request::filter('post.id', '' );
+
         $amount = request::filter('post.amount', '');
         $type = request::filter('post.type', '');
         if($type == 1 && !is_numeric($amount)){
@@ -413,14 +415,32 @@ class paofen
         if(!$appeal){
             functions::json(-3,'该申诉记录不存在或已审核');
         }
+
+        $this->mysql->startThings();
+
         if($type == 1){
+
             $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],'trade_no='.$appeal[0]['trade_no']);
             if(!$result){
+                $this->mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
             }
+
+            $result1 = $mysql->update('appeal',['money'=>$amount],'id='.$id);
+            if(!$result1){
+                $this->mysql->rollBack();
+                functions::json(-3,'请确认订单是否正确');
+            }
+
         }
 
-        $mysql->update('appeal',['audit'=>$type],'id='.$id);
+        $result_appeal = $mysql->update('appeal',['audit'=>$type],'id='.$id);
+        if(!$result_appeal){
+            $this->mysql->rollBack();
+            functions::json(-3,'请确认订单是否正确');
+        }
+
+        $this->mysql->commit();
         functions::json(1,'操作成功');
     }
 

@@ -27,12 +27,26 @@ $fix = DB_PREFIX;
             <div class="col-md-15">
                 <div class="panel panel-default">
                     <div class="panel-title">
-                        交易订单 [ <b>统计:</b> <?php //查询今日收入
-                        $where_call =  $where;
-                        $where_call = trim(trim($where_call), 'and');
+                        交易订单   [ <b>今日收入:</b> <?php //查询今日收入
+                        $nowTime = strtotime(date("Y-m-d",time()) . ' 00:00:00');
+                        $where_call = "creation_time > {$nowTime} and status=4 and " . $where;
+                        $where_call = trim(trim($where_call),'and');
                         $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
-                        echo '<span style="color:red;font-weight:bold;"> ' . floatval($order[0]['money']) . ' </span> / 手续费: <span style="color:blue;">' . number_format($order[0]['fees'], 3) . '</span>  / 订单数量: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
-                        ?>]
+                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'.intval($order[0]['count']).'</span> ';
+                        ?>] - [ <b>昨日收入:</b> <?php
+                        $zrTime = strtotime(date("Y-m-d",$nowTime-86400) . ' 00:00:00'); //昨日的时间
+                        $where_call = "creation_time > {$zrTime} and creation_time<{$nowTime} and status=4 and " . $where;
+                        $where_call = trim(trim($where_call),'and');
+
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
+                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'. intval($order[0]['count']).'</span> ';
+                        ?> ] - [ <b>全部收入:</b> <?php
+                        $where_call =  $where;
+                        $where_call = trim(trim($where_call),'and');
+
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count,sum(fees) as fees from {$fix}client_paofen_automatic_orders where {$where_call}");
+                        echo '<span style="color:red;font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 手续费: <span style="color:blue;">'. number_format($order[0]['fees'],3) .'</span>  / 订单数量: <span style="color:green;font-weight:bold;">'. floatval($order[0]['count']) .'</span> ';
+                        ?> ]
                     </div>
 
                     <style>
@@ -41,7 +55,8 @@ $fix = DB_PREFIX;
                         }
                     </style>
                     <div class="panel-body table-responsive">
-                        <table class="table table-hover">  <tr>
+                        <table class="table table-hover">
+                            <tr>
                                 <form action="" method="get">
                                     <th><input type="date" style="width:150px" name="start_time" value="<?php if(!empty($_GET['start_time'])){  echo $_GET['start_time']; }  ?>"> - <input type="date" style="width:150px" name="end_time" value="<?php if(!empty($_GET['end_time'])){  echo $_GET['end_time']; } ?>"></th>
                                     <th><input type="text" placeholder=" 订单号" style="width:160px" name="trade_no" value="<?php if(!empty($_GET['trade_no'])){  echo $_GET['trade_no']; }?>"></th>
@@ -60,7 +75,7 @@ $fix = DB_PREFIX;
                                     <th><input type="submit" class="btn btn-success" value="查询"></th>
                                 </form>
                             </table>
-                        <table class="table table-hover" style="width:  1600px;">
+                        <table class="layui-table" style="width:1600px;"  cellspacing="0" cellpadding="0" border="0">
                             <thead>
                             <tr>
                                 <button style="

@@ -61,13 +61,13 @@ $fix = DB_PREFIX;
                         </tbody>
                     </table>
 
-                    <!--交易列表-->
-                    <div class="page">
-                        <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-0">
-                            <?php (new model())->load('page', 'turn')->auto($member['info']['pageAll'], $member['info']['page'], 10); ?>
-                        </div>
-                    </div>
                 </div>
+
+                <div style="float:right;">
+                    <?php (new model())->load('page', 'turn')->auto($member['info']['pageAll'], $member['info']['page'], 10); ?>
+                </div>
+                <div style="clear: both"></div>
+
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@ $fix = DB_PREFIX;
                         <div class="form-group">
                             <label class="col-sm-2 control-label form-label">金额</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-line" name="money" placeholder="输入金额" value="">
+                                <input type="number" class="form-control form-control-line" name="money" placeholder="输入金额" value="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,8 +121,6 @@ $fix = DB_PREFIX;
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                         <button type="button" onclick="add()" class="btn btn-success"><i class="fa fa-refresh"></i>确认添加</button>
-
-
                     </div>
                 </div>
             </form>
