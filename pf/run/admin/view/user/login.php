@@ -17,6 +17,7 @@ use xh\library\url;
     <div class="lc-block toggled" id="l-login" data-ng-class="{'toggled':lctrl.login === 1}">
     	<h1 class="lean">LOGIN</h1>
 		<form id="data">
+            <input type="hidden" name="_CSRF" value="<?php echo url::found_csrf();?>"  class="form-control" placeholder="密码" style="position:relative;left:-1px;"/>
     	<div class="input-group m-b-20">
     		<span class="input-group-addon">
     			<i class="zmdi zmdi-account"></i>
@@ -68,7 +69,7 @@ use xh\library\url;
 	  	$.ajax({
 	          type: "POST",
 	          dataType: "json",
-	          url: "<?php echo url::s('admin/user/loginResult','_CSRF='.url::found_csrf());?>",
+	          url: "<?php echo url::s('admin/user/loginResult','');?>",
 	          data: $('#data').serialize(),
 	          success: function (data) {
 	              if(data.code == '200'){
