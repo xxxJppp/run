@@ -10,10 +10,10 @@ use xh\unity\cog;
 class functions
 {
     //json解析
-    static public function json($Code, $Msg, $array = null)
+    static public function json($Code, $Msg, $array = null, $token = '')
     {
         header('Content-type: application/json;charset=utf-8');
-        exit(json_encode(array("code" => $Code, "msg" => $Msg, "data" => $array), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        exit(json_encode(array('code' => $Code, 'msg' => $Msg, 'data' => $array, 'token' => $token), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
     //pwd算法
@@ -129,12 +129,14 @@ class functions
 
         return json_decode(functions::pay_curl($url));
     }
-    static public function withdrawSystem(){
+
+    static public function withdrawSystem()
+    {
         return [
-            'quota'=>50000,
-            'time'=>0,
-            'fees'=>5,
-            'jiange'=>20
+            'quota' => 50000,
+            'time' => 0,
+            'fees' => 5,
+            'jiange' => 20
         ];
     }
 
@@ -377,11 +379,14 @@ class functions
         return $redis->set($key, $val, $time);
 
     }
-    static function getRedis(){
+
+    static function getRedis()
+    {
         if (!REDIS_ENABLE) return [];
 
-        return  redis::getInstance(self::getRedisConfig());
+        return redis::getInstance(self::getRedisConfig());
     }
+
     //获取二维码的值
     static function getOrderCode($key)
     {
@@ -476,8 +481,8 @@ class functions
     /**
      * 同步请求
      *
-     * @param  string $image key
-     * @param  int 超时时间
+     * @param string $image key
+     * @param int 超时时间
      *
      * @return array
      */
