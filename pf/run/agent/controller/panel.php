@@ -195,7 +195,7 @@ class panel
         if ($result) $result = $result[0];
         //   if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
         //权限查询
-        $groups = $this->mysql->query("client_group");
+        $groups = $this->mysql->query("client_group","name<{$_SESSION['MEMBER']['group']['name']}");
         //加载视图
         new view('panel/useradd', [
             'result' => $result,
@@ -213,9 +213,9 @@ class panel
         $phone = request::filter('post.phone');
         $level_id = $_SESSION['MEMBER']['uid'];
         $is_mashang = 1;
-        $group = $this->mysql->query("variable","name='registerCog'")[0];
-        $json = json_decode($group['value'],true);
-        $group_id = $json['group_id'];
+        //$group = $this->mysql->query("variable","name='registerCog'")[0];
+        //$json = json_decode($group['value'],true);
+        $group_id = request::filter('post.group_id');
         //  $balance = floatval(request::filter('get.balance'));
         //  $yajin = floatval(request::filter('get.yajin'));
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
@@ -258,7 +258,7 @@ class panel
             'is_mashang' => $is_mashang
         ]);
 
-        if ($Insert > 0) functions::json(200, '添加成功!请到会员列表设置费率');
+        if ($Insert > 0) functions::json(200, '添加成功!');
 
         functions::json(-3, '添加失败,请检查资料是否有误');
     }
@@ -360,7 +360,7 @@ class panel
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
         //权限查询
-        $groups = $this->mysql->query("client_group");
+        $groups = $this->mysql->query("client_group","name<{$_SESSION['MEMBER']['group']['name']}");
         //加载视图
         new view('panel/passwordedit', [
             'result' => $result,
@@ -374,7 +374,7 @@ class panel
         $id = intval(request::filter("post.id"));
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
-        /*$rebate = request::filter('post.mashang_rebate');*/
+        $group_id = request::filter('post.group_id');
 
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
@@ -389,10 +389,9 @@ class panel
             $inArray['pwd'] = functions::pwd($pwd, $token);
             $inArray['token'] = $token;
         }
-        /*if($rebate != $user['mashang_rebate']){
-            if($rebate>=100) functions::json(-1, '码商返点小于100%');
-            $inArray['mashang_rebate'] = $rebate;
-        }*/
+        if($group_id != $user['group_id']){
+            $inArray['group_id'] = $group_id;
+        }
 
         $Insert = $this->mysql->update("client_user", $inArray, "id={$id}");
 

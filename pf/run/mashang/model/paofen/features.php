@@ -384,9 +384,11 @@ class features
         if (!is_array($user)) functions::json(-1, '商户错误');
 
         //得到用户组
-        $group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}");
+        $agt = $mysql->query("client_user","id={$user['level_id']}")[0];
+        $group = $mysql->query('client_group', "id={$agt['group_id']}");
         $group && $group = $group[0];
-        $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}");
+        //$agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}");
+        $agent_group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}");
         $agent_group && $agent_group = $agent_group[0];
 
         //解析数据
@@ -398,11 +400,10 @@ class features
 
 
         if ($shangji !== '0') {
-
             //得到用户组
 
-            $agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}")[0];
-
+            //$agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}")[0];
+            $agent_group = $mysql->query('client_group', "id={$_SESSION['MEMBER']['group_id']}")[0];
 
             $duser = $mysql->query("client_user", "id={$shangji}")[0];
             $dailigroup = $mysql->query('client_group', "id={$duser['group_id']}")[0];
@@ -413,10 +414,10 @@ class features
             //解析数据
             $dailiauthority = json_decode($dailigroup['authority'], true)[$module_name];
             //获取代理给商户的费率
-            $shanghuauthority = json_decode($agent_group['authority'], true);
+            $shanghuauthority = json_decode($agent_group['authority'], true)[$module_name];
 
             //代理的获利    代理的费率-给商户的费率
-            $fess2 = $dailiauthority['cost'] - $shanghuauthority{$module_name};
+            $fess2 = $dailiauthority['cost'] - $shanghuauthority['cost'];
 
             //系统对代理的费率
             $dailifees = $order['amount'] * $dailiauthority['cost'];
@@ -424,7 +425,7 @@ class features
             $dailihuoli = $order['amount'] * $fess2;
 
 
-            $shanghufees = $order['amount'] * $shanghuauthority{$module_name};
+            $shanghufees = $order['amount'] * $shanghuauthority['cost'];
 
             $pankoufees = $order['amount'] * $pankouauthority['cost'];
 
