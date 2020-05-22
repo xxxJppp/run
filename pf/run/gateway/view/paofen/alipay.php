@@ -133,7 +133,7 @@ $error_url = $data['error_url'];
                 <div role="tabpanel" class="tab-pane active" id="weixin">
                     <div>
                         <h4 style=" font-weight: 700;background-color:red;color:#fff;line-height:24px;font-size:14px;">
-                            请按照本页面金额付款，请勿自行修改支付金额，否则无法到账。此二维码仅限本次支付使用，请勿重复支付使用。本次定单有效期为5分钟，过期请勿支付
+                            请按照本页面金额付款，请勿自行修改支付金额，否则无法到账。此二维码仅限本次支付使用，请勿重复支付使用。本次订单有效期为5分钟，过期请勿支付
                         </h4>
                     </div>
                     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">

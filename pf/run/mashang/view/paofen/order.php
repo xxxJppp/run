@@ -81,10 +81,14 @@ $fix = DB_PREFIX;
                                     <div data-v-9d393b54="" class="flexh flex-between MR10">
 
                                         <div data-v-9d393b54="" class="flex1">
-                                            <div data-v-9d393b54="" class="benefit">类型
+                                            <div data-v-9d393b54="" class="benefit">收款人
 
                                                 <span data-v-9d393b54=""
-                                                      class="warn-color font-14">支付宝</span>
+                                                      class="warn-color font-14">
+                                                    <?php $acc = $mysql->select("select name from {$fix}client_paofen_automatic_account where id={$ru['paofen_id']}");
+                                                        echo $acc[0]['name'];
+                                                    ?>
+                                                </span>
                                                 <span data-v-9d393b54=""
                                                       class="green font-14 ML10"><?php
                                                     if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';

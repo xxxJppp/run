@@ -141,7 +141,7 @@ $fix = DB_PREFIX;
                          style="width: 25%;margin-left: 10px;text-align: center;font-size: 16px;">收款名称
                     </div>
                     <div data-v-2496acda="" class="van-cell van-field"
-                         style="width: 50%;padding: 0;line-height: .2rem;margin: .12rem .1rem 0 10%;background: #fff;font-size: 16px;"><?php echo  $user['username'];?></div>
+                         style="width: 50%;padding: 0;line-height: .2rem;margin: .12rem .1rem 0 10%;background: #fff;font-size: 16px;"><?php echo $account['name'];?></div>
                 </div>
 
                 <div data-v-2496acda="" class="flexh" style="line-height: 22px;padding-top: 5px;margin-left: 13%;">
@@ -160,7 +160,7 @@ $fix = DB_PREFIX;
                     </div>
                     <div data-v-2496acda="" class="van-cell van-field"
                          style="width: 50%;padding: 0;line-height: .2rem;margin: .12rem .1rem 0 10%;background: #fff;font-size: 16px;">
-                        <?php echo date('Y/m/d H:i:s', $result['creation_time']); ?></div>
+                        <?php echo  $result['creation_time']; ?></div>
                 </div>
 
                 <div data-v-2496acda="" class="flexh" style="line-height: 22px;padding-top: 5px;margin-left: 13%">
