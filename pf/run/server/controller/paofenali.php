@@ -52,7 +52,7 @@ class paofenali{
 
     public function depositRelease(){
         $chaoshi = time()-900;
-        $begin_time = time()-3600;
+        $begin_time = time()-7200;
         $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and creation_time > {$begin_time} and creation_time<={$chaoshi} and type=1 and pay_time=0");
         print_r($orders);
         foreach($orders as $order){
