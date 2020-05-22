@@ -16,24 +16,9 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
         <li><a href="<?php echo url::s('admin/index/home'); ?>">控制台</a></li>
         <li class="active">用户组</li>
     </ol>
-
-    <!-- Start Page Header Right Div -->
-    <div class="right">
-        <div class="btn-group" role="group" aria-label="...">
-            <a data-toggle="modal" data-target="#addGroup" class="btn btn-light">添加用户组</a>
-            <a href="?verification=<?php echo mt_rand(1000, 9999); ?>" class="btn btn-light"><i
-                        class="fa fa-refresh"></i></a>
-
-        </div>
-    </div>
-    <!-- End Page Header Right Div -->
-
 </div>
-<!-- End Page Header -->
 
 
-<!-- //////////////////////////////////////////////////////////////////////////// -->
-<!-- START CONTAINER -->
 <div class="container-padding">
 
 
@@ -43,13 +28,21 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
         <!-- Start Panel -->
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-title">
-                    用户组
+                <div class="right">
+                    <div class="ibox-tools">
+                        <a data-toggle="modal" data-target="#addGroup" class="btn btn-light">添加用户组</a>
+                        <a href="?verification=<?php echo mt_rand(1000, 9999); ?>" class="btn btn-light"><i
+                                    class="fa fa-refresh"></i></a>
+                    </div>
                 </div>
-                <div class="panel-body table-responsive">
-                    <p>你可以在这里自定义会员的用户组，让他们拥有更多的优惠和福利。</p>
+                <div class="panel-title">
+                    用户组 (你可以在这里自定义会员的用户组，让他们拥有更多的优惠和福利)
+                </div>
 
-                    <table class="table table-hover">
+                <div class="panel-body table-responsive">
+
+
+                    <table class="layui-table">
                         <thead>
                         <tr>
                             <td>组ID</td>
