@@ -49,13 +49,16 @@ $fix = DB_PREFIX;
                                   name="pwd"  placeholder="登录的密码，不修改请留空" class="layui-input" value="">
                         </div>
                     </div>
-                    <!--<div class="layui-form-item">
-                        <label class="layui-form-label">码商返点(%)：</label>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户组：</label>
                         <div class="layui-input-block">
-                            <input type="text" lay-verify="title" autocomplete="off"
-                                   name="mashang_rebate"  placeholder="码商返点，不修改请留空" class="layui-input" value="<?php /*echo $result['mashang_rebate']; */?>">
+                            <select name="group_id">
+                                <?php foreach($groups as $val){ ?>
+                                    <option value="<?php echo $val['id']; ?>" <?php if($result['group_id']==$val['id']){ ?> selected <?php }?> ><?php echo $val['name']; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
-                    </div>-->
+                    </div>
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">

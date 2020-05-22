@@ -57,7 +57,7 @@ class index
     public function checkpoint(){
         $account_id = request::filter('post.account_id');
         $amount = floatval(request::filter('post.amount'));
-        //$s_key = $thoroughfare = request::filter('post.key', '', 'htmlspecialchars');
+        $td = request::filter('post.content_type', '', 'htmlspecialchars');
         $pankou = $this->mysql->query("client_user","id={$account_id}")[0];
         if(!is_array($pankou)) functions::str_json('json', -1, '该商户不存在');
         $min=0.01;
@@ -106,8 +106,10 @@ class index
         if($uid>0){
             $sign = functions::sign($pankou['key_id'], ['amount' => $money, 'out_trade_no' => $out_trade_no]);
 
-            //url::address(url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
-            functions::str_json('json', 200, 'SUCCESS',url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
+            if($td=='json'){
+                functions::str_json('json', 200, 'SUCCESS',url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
+            }
+            url::address(url::s("gateway/pay/alit", "id={$uid}&sign={$sign}"));
         }
     }
     //端口：automatic

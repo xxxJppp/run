@@ -114,7 +114,18 @@ use xh\library\url;
                           <label for="pwd">密码</label>
                         </div>
                       </div>
-<!--
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <select name="group_id">
+                                    <?php foreach($groups as $val){ ?>
+                                        <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                    <?php } ?>
+
+                                </select>
+                                <label for="pwd">选择用户组</label>
+                            </div>
+                        </div>
+                        <!--
 
                                     <div class="radio">
                   <input id="radio-1" name="is_mashang" type="radio" value="0" checked>

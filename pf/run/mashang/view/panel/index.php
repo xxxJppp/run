@@ -35,9 +35,9 @@ $fix = DB_PREFIX;
       <div class="ibox-title">
         <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;&nbsp;返点：
               <?php
-              $fd = $mysql->select("select authority from xh_agent_rate where uid={$_SESSION['MEMBER']['uid']}");
-              $json = json_decode($fd[0]['authority'],true);
-              $fandian = $json['paofen_auto']*100;
+
+              $json = json_decode($_SESSION['MEMBER']['group']['authority'],true);
+              $fandian = $json['paofen_auto']['cost']*100;
               echo $fandian.'%';
               ?>
           </h5>

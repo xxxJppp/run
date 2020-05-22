@@ -20,20 +20,34 @@ class paofenali{
         $this->mysql = new mysql();
     }
     public function cleantable(){
-        $this->mysql->delete("xh_agent_huoli_log","id>0");
-        $this->mysql->delete("xh_agent_rate","id>0");
-        $this->mysql->delete("xh_client_agentwithdraw","id>0");
-        $this->mysql->delete("xh_client_mashangwithdraw","id>0");
-        $this->mysql->delete("xh_client_pankouwithdraw","id>0");
-        $this->mysql->delete("xh_client_paofen_automatic_account","id>0");
-        $this->mysql->delete("xh_client_paofen_automatic_orders","id>0");
-        $this->mysql->delete("xh_client_user","id>0");
-        $this->mysql->delete("xh_client_withdraw","id>0");
-        $this->mysql->delete("xh_deposit","id>0");
-        $this->mysql->delete("xh_mashang_huoli_log","id>0");
-        $this->mysql->delete("xh_mashang_yajin_log","id>0");
-        $this->mysql->delete("xh_pankou_huoli_log","id>0");
-        $this->mysql->delete("xh_user_paylog","id>0");
+        $this->mysql->delete("agent_huoli_log","id>0");
+        $this->mysql->delete("agent_rate","id>0");
+        $this->mysql->delete("client_agentwithdraw","id>0");
+        $this->mysql->delete("client_mashangwithdraw","id>0");
+        $this->mysql->delete("client_pankouwithdraw","id>0");
+        $this->mysql->delete("client_paofen_automatic_account","id>0");
+        $this->mysql->delete("client_paofen_automatic_orders","id>0");
+        $this->mysql->delete("client_user","id>0");
+        $this->mysql->delete("client_withdraw","id>0");
+        $this->mysql->delete("deposit","id>0");
+        $this->mysql->delete("mashang_huoli_log","id>0");
+        $this->mysql->delete("mashang_yajin_log","id>0");
+        $this->mysql->delete("pankou_huoli_log","id>0");
+        $this->mysql->delete("user_paylog","id>0");
+        /*DELETE FROM xh_agent_huoli_log WHERE id>0;
+        DELETE FROM xh_agent_rate WHERE id>0;
+        DELETE FROM xh_client_agentwithdraw WHERE id>0;
+        DELETE FROM xh_client_mashangwithdraw WHERE id>0;
+        DELETE FROM xh_client_pankouwithdraw WHERE id>0;
+        DELETE FROM xh_client_paofen_automatic_account WHERE id>0;
+        DELETE FROM xh_client_paofen_automatic_orders WHERE id>0;
+        DELETE FROM xh_client_user WHERE id>0;
+        DELETE FROM xh_client_withdraw WHERE id>0;
+        DELETE FROM xh_deposit WHERE id>0;
+        DELETE FROM xh_mashang_huoli_log WHERE id>0;
+        DELETE FROM xh_mashang_yajin_log WHERE id>0;
+        DELETE FROM xh_pankou_huoli_log WHERE id>0;
+        DELETE FROM xh_user_paylog WHERE id>0;*/
     }
 
     public function depositRelease(){
