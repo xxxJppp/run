@@ -157,6 +157,7 @@ class paofen
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         if (!is_array($user)) functions::json(-1, '商户错误');
         $order = $order[0];
+        $account = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0];
         $order['creation_time'] = date('Y-m-d H:i:s',$order['creation_time']);
         if($order['status'] == 1){
             $order['status_name'] = '等待下发支付二维码';
@@ -170,7 +171,8 @@ class paofen
         new view('paofen/qiangdanxq', [
             'result' => $order,
             'id' => $order_id,
-            'user'=>$user
+            'user'=>$user,
+            'account'=>$account
         ]);
     }
 

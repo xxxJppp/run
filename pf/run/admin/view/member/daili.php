@@ -1,6 +1,7 @@
 <?php
 use xh\library\url;
 use xh\library\model;
+use xh\unity\cog;
 include_once (PATH_VIEW . 'common/header.php'); //头部
 $fix = DB_PREFIX;
 ?>
@@ -240,8 +241,9 @@ $fix = DB_PREFIX;
                         <div class="col-sm-10">
                             <select class="selectpicker" name="group_id">
                                 <?php foreach ($groups as $gp){?>
-                                    <option value="<?php echo $gp['id'];?>"><?php echo $gp['name'];?></option>
+                                    <option value="<?php echo $gp['id'];?>" <?php if ($gp['id'] == cog::read('registerCog')['group_id']) echo 'selected';?>><?php echo $gp['name'];?></option>
                                 <?php }?>
+
                             </select>
                         </div>
                     </div>
