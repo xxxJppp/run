@@ -9,7 +9,7 @@ use xh\library\url;
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=yes">
 <link href="/favicon.ico" rel="shortcut icon"/>
-<title>供码登录 - <?php echo WEB_NAME; ?> - 支付技术服务商，让支付简单、专业、快捷！</title>
+<!--<title>供码登录 - --><?php //echo WEB_NAME; ?><!-- - 支付技术服务商，让支付简单、专业、快捷！</title>-->
 <link rel="stylesheet" href="/Public/theme/view4/css/qietu.css">
 <link rel="stylesheet" href="/Public/theme/view4/css/animate.min.css"/>
 <link rel="stylesheet" href="/Public/theme/view4/css/iconfont.css">
@@ -63,39 +63,39 @@ use xh\library\url;
 	
 	<div class="m-head-nav">
 		<ul class="c-wrapper">
-			<li class="m-head-nav-logo">
-				<h4 style="font-size: 28px;font-weight: bold;line-height: 61px;"><?php echo WEB_NAME; ?></h4>
-			</li>
+<!--			<li class="m-head-nav-logo">-->
+<!--				<h4 style="font-size: 28px;font-weight: bold;line-height: 61px;">--><?php //echo WEB_NAME; ?><!--</h4>-->
+<!--			</li>-->
+<!---->
+<!--			<li class="m-head-nav-item ">-->
+<!--				<a href="/">首页</a>-->
+<!--			</li>-->
+<!---->
+<!--			<li class="m-head-nav-item ">-->
+<!--				<a href="/index/user/login">商户登录</a>-->
+<!--			</li>-->
 
-			<li class="m-head-nav-item ">
-				<a href="/">首页</a>
-			</li>
-
-			<li class="m-head-nav-item ">
-				<a href="/index/user/login">商户登录</a>
-			</li>
-
-          <li class="m-head-nav-item active ">
-				<a href="/mashang/user/login">供码登录</a>
-			</li>
+<!--          <li class="m-head-nav-item active ">-->
+<!--				<a href="/mashang/user/login">码商登录</a>-->
+<!--			</li>-->
           
-          <li class="m-head-nav-item  ">
-				<a href="/pankou/user/login">盘口登录</a>
-			</li>
-          
-          <li class="m-head-nav-item  ">
-				<a href="/agent/user/login">代理登录</a>
-			</li>
-			
-			
-			<li class="m-head-nav-item m-head-nav-right ">
-				<a href="/demo">支付体验</a>
-			</li>
-          
-          
-			<li class="m-head-nav-item m-head-nav-right ">
-				<a href="/index/user/register">商户注册</a>
-			</li>
+<!--          <li class="m-head-nav-item  ">-->
+<!--				<a href="/pankou/user/login">盘口登录</a>-->
+<!--			</li>-->
+<!--          -->
+<!--          <li class="m-head-nav-item  ">-->
+<!--				<a href="/agent/user/login">代理登录</a>-->
+<!--			</li>-->
+<!--			-->
+<!--			-->
+<!--			<li class="m-head-nav-item m-head-nav-right ">-->
+<!--				<a href="/demo">支付体验</a>-->
+<!--			</li>-->
+<!--          -->
+<!--          -->
+<!--			<li class="m-head-nav-item m-head-nav-right ">-->
+<!--				<a href="/index/user/register">商户注册</a>-->
+<!--			</li>-->
 
 		</ul>
 	</div>
