@@ -124,7 +124,7 @@ use xh\library\url;
               
               <?php if (cog::read('registerCog')['scale_open'] == 1){?>
               <li>
-					<input type="text" class="txt" name="recommend_username" id="text" maxlength="30"  placeholder="推荐人会员名,选填" value="<?php if(!empty($_GET['username'])){  echo $_GET['username']; } ?>" />
+					<input type="text" class="txt" name="recommend_username" id="text" maxlength="30"    disabled placeholder="推荐人会员名,选填" value="<?php if(!empty($_GET['username'])){  echo $_GET['username']; } ?>" />
 				</li>
               
               <?php }?>
