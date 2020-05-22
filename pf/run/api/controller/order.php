@@ -16,9 +16,7 @@ class order
     public function __construct()
     {
         $token = request::filter('server.HTTP_TOKEN');
-        $token = $token ? : request::filter('server.HTTP_AUTHORIZATION');
-        //$checktoken = jwt::verifyToken($token);
-        $checktoken = jwt::verifyToken(trim(str_replace('Bearer', '', $token)));
+        $checktoken = jwt::verifyToken($token);
         if ($checktoken) {
             $this->token = jwt::getToken($checktoken['sub']);
             $this->mysql = new mysql();
