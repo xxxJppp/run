@@ -17,7 +17,7 @@ new init([
         //时区设定
         'timezone'=>'PRC',
         //错误屏蔽级别[0:全部屏蔽,1:runtime错误,2:报告所有错误,3:报告E_NOTICE之外的错误]
-        'errorLevel'=>0,
+        'errorLevel'=>DEBUG_LEVEL,
         //浏览器输出缓冲区
         'OB_CACHE'=>true,
     ],
@@ -26,7 +26,7 @@ new init([
         //伪静态自动化
         'rewrite'=>true,
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
-        'routingWeight'=>DEBUG_LEVEL,
+        'routingWeight'=>0,
         //设置默认加载（index.index.home）
         'default'=>'agent.index.home',
         'bind_module'=>'agent',
