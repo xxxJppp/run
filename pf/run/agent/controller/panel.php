@@ -195,7 +195,7 @@ class panel
         if ($result) $result = $result[0];
         //   if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
         //权限查询
-        $groups = $this->mysql->query("client_group","name<{$_SESSION['MEMBER']['group']['name']}",'','name','asc');
+        $groups = $this->mysql->query("client_group","name<={$_SESSION['MEMBER']['group']['name']}",'','name','asc');
         //加载视图
         new view('panel/useradd', [
             'result' => $result,
@@ -360,7 +360,7 @@ class panel
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
         //权限查询
-        $groups = $this->mysql->query("client_group","name<{$_SESSION['MEMBER']['group']['name']}");
+        $groups = $this->mysql->query("client_group","name<={$_SESSION['MEMBER']['group']['name']}",'','name','asc');
         //加载视图
         new view('panel/passwordedit', [
             'result' => $result,
