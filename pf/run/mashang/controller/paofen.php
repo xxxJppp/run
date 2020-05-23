@@ -98,11 +98,11 @@ class paofen
     }
 
     public function uploadappeal(){
-        $path = str_replace('mashang', 'upload', PATH_VIEW) . 'voucher/';
-        $upload = (new \xh\unity\upload())->run($_FILES['file'], $path, array('jpg', 'png'), 1000);
+        $path = ROOT_PATH.'/web/mashang/Public/uploade/';
+        $upload = (new upload())->run($_FILES['file'], $path, array('jpg', 'png'), 1000);
         if (!is_array($upload)) functions::json(-2, '上传时错误,请选择一张小于1M的图片!');
         //$this->mysql->update('client_user', array('avatar' => '/run/upload/view/qrcode/'.$upload['new']), "id={$id}");
-        functions::json(200, '/run/upload/view/voucher/' . $upload['new']);
+        functions::json(200, '/Public/uploade/' . $upload['new']);
 
     }
 //上传图片解析二维码
