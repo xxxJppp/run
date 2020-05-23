@@ -39,10 +39,10 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
             <div class="panel-body">
               <form class="form-horizontal" id="from">
               
-                <div style="text-align: center;" class="form-group">
-                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="<?php echo $result['username'];?>" src="<?php echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/' . $result['avatar'];?>"></td>
-                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">
-                </div>
+<!--                <div style="text-align: center;" class="form-group">-->
+<!--                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="--><?php //echo $result['username'];?><!--" src="--><?php //echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/' . $result['avatar'];?><!--"></td>-->
+<!--                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">-->
+<!--                </div>-->
 
                 <div class="form-group">
                   <label class="col-sm-2 control-label form-label">密码</label>
