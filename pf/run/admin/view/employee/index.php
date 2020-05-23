@@ -112,6 +112,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
 
 
                                 <td>
+                                    <p><b>google密钥：</b><?php echo $em['google_auth']; ?></p>
                                     <p><b>员工备注：</b><?php echo $em['remarks']; ?></p>
                                     <p><b>登录时间：</b><?php echo date("Y/m/d H:i:s", $em['login_time']); ?> ( 上次 )</p>
                                 </td>

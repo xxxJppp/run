@@ -122,6 +122,8 @@ class employee{
         if (!is_array($result)) url::address(url::s('admin/employee/index'),'识别员工失败',1);
         //权限查询
         $groups = $this->mysql->query("mgt_group");
+        $ga = new GoogleAuthenticator();
+        $result['qrcodeurl'] = $ga->getQRCodeGoogleUrl('paofen', $result['google_auth']);
         //加载视图
         new view('employee/edit',[
             'result'=>$result,

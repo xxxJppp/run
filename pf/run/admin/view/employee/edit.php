@@ -98,10 +98,17 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   <div class="form-group">
                       <label class="col-sm-2 control-label form-label">google密钥</label>
                       <div class="col-sm-3">
-                          <input type="password" class="form-control form-control-line" name="google_auth" id="google_auth"   value="<?php echo $result['google_auth'];?>" placeholder="员工用作于登录的google密钥" readonly="readonly">
+                          <input type="text" class="form-control form-control-line" name="google_auth" id="google_auth"   value="<?php echo $result['google_auth'];?>" placeholder="员工用作于登录的google密钥" readonly="readonly">
                       </div>
                       <div class="col-sm-3">
                           <a href="#" onclick="shua()" class="btn btn-success"><i class="fa fa-refresh"></i>刷新google密钥</a> &nbsp;&nbsp;
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">goole二维码</label>
+                      <div class="col-sm-3">
+                          <img src="<?php echo $result['qrcodeurl'];?>" height="200" width="200" id="qrcode" id="goole_image"/>
                       </div>
                   </div>
  
@@ -188,6 +195,8 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                     if(data.code == '200'){
                         layer.msg("刷新成功", {icon:1,time:1000,end:function(){
                                 $('#google_auth').val(data.secret);
+                                $('#qrcode').attr('src', '');
+                                $('#qrcode').attr('src', data.qrcode);
                             }});
                     }else{
                         layer.msg("修改失败", {icon:2,time:1000})
