@@ -173,6 +173,7 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
                 if(data.code == '200'){
                     layer.msg("刷新成功", {icon:1,time:1000,end:function(){
                             $('#google_auth').val(data.secret);
+                            $('#qrcode').attr('src', '');
                             $('#qrcode').attr('src', data.qrcode);
                             $('#is_shua').val(1);
                         }});

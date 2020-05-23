@@ -3,30 +3,13 @@
 namespace xh\run\api\controller;
 
 use xh\library\functions;
-use xh\library\jwt;
-use xh\library\mysql;
 use xh\library\request;
 use xh\unity\page;
+require_once "./run/api/controller/common.php";
 
 
-class withdraw
+class withdraw extends common
 {
-    private $token = '';
-    private $user;
-    private $mysql;
-
-    public function __construct()
-    {
-        $token = request::filter('server.HTTP_TOKEN');
-        $checktoken = jwt::verifyToken($token);
-        if ($checktoken) {
-            $this->token = jwt::getToken($checktoken['sub']);
-            $this->mysql = new mysql();
-            $this->user = $this->mysql->query("client_user", "username='{$checktoken['sub']}'")[0];
-        } else {
-            functions::json(-1, '签名验证失败');
-        }
-    }
 
     public function index()
     {
@@ -45,6 +28,51 @@ class withdraw
         $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
         functions::json(1,'提现列表',$result, $this->token);
+    }
+
+    public function apply(){
+        $bank = json_decode($this->user['bank'],true);
+        if (!in_array($bank['type'], [1, 2])) functions::json(-1, '请在个人设置里面添加银行卡或支付宝');
+        //计算用户
+        //计算提现金额
+        $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
+        if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
+        //用户组
+        $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
+        $group = json_decode($find_group['authority'], true);
+        //手续费
+        $fees = floatval($group['withdraw']['cost']) * $amount;
+        //计算减掉的金额
+        $user_amount = $this->user['money'] - $amount;
+        //判断是否有足够的金额提现
+        if ($user_amount < 0) functions::json(-1, '余额不足');
+        //更新用户账户信息
+        try{
+            $this->mysql->startThings();
+
+            if ($this->mysql->update("client_user", ['money' => $user_amount], "id={$this->user['id']}") > 0) {
+                $in = $this->mysql->insert("client_withdraw", [
+                    'user_id'    => $this->user['id'],
+                    'old_amount' => $this->user['money'],
+                    'amount'     => $amount,
+                    'new_amount' => $user_amount,
+                    'types'      => 1,
+                    'content'    => '提现到账时间为2小时-24小时内到账',
+                    'apply_time' => time(),
+                    'deal_time'  => 0,
+                    'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
+                    'fees'       => $fees
+                ]);
+                functions::json(1, '您的提现已经提交成功!');
+            } else {
+                functions::json(-1, '系统正在维修,请稍后再提现!');
+            }
+
+            $this->mysql->commit();
+        }catch(\Exception $exception){
+            $this->mysql->rollBack();
+            functions::json(-1, '系统正在维修,请稍后再提现!');
+        }
     }
 
 }
