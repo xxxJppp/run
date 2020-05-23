@@ -121,7 +121,7 @@ class paofen
         if($voucher == ''){
             functions::json(-3, '请上传申诉凭证');
         }
-        $result = $this->mysql->query('client_paofen_automatic_orders', 'status=2 and id=' . $id . ' and user_id=' . $_SESSION['MEMBER']['uid'] . ' and trade_no=' . $trade_no, 'trade_no');
+        $result = $this->mysql->query('client_paofen_automatic_orders', 'status!=4 and id=' . $id . ' and user_id=' . $_SESSION['MEMBER']['uid'] . ' and trade_no=' . $trade_no, 'trade_no');
 
         if (!$result) {
             functions::json(-3, '订单信息有误');
@@ -158,6 +158,7 @@ class paofen
         if (!is_array($user)) functions::json(-1, '商户错误');
         $order = $order[0];
         $account = $this->mysql->query("client_paofen_automatic_account","id={$order['paofen_id']}")[0];
+        $shenshu = $this->mysql->query("appeal","trade_no={$order['trade_no']}")[0];
         $order['creation_time'] = date('Y-m-d H:i:s',$order['creation_time']);
         if($order['status'] == 1){
             $order['status_name'] = '等待下发支付二维码';
@@ -172,7 +173,8 @@ class paofen
             'result' => $order,
             'id' => $order_id,
             'user'=>$user,
-            'account'=>$account
+            'account'=>$account,
+            'shensu'=>$shenshu
         ]);
     }
 

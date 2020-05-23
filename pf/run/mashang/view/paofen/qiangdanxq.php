@@ -175,21 +175,26 @@ $fix = DB_PREFIX;
 
 
                 <!--div data-v-2496acda="" class="gray font-13 ML20 MR10" style="margin-top: 0.05rem;">若与收款码对应的实名认证姓名不一致，该收款码将审核不通过</div-->
-                <?php if($result['status']==2){;?>
+
+                <?php
+                if(!is_array($shensu)){
+                if($result['status']!=4){
+                ?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                         style="margin: .15rem .2rem 0 .2rem;"
                         onclick="order_view('<?php echo $id;?>')"><span
                         data-v-2496acda="" class="van-button__text">
 我要申诉</span></button>
-                <?php }elseif($result['status']==4){;?>
+                <?php }else{ ?>
                     <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                             style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
 已完成</span></button>
-                    <?php }else{?>
+                    <?php }
+                }else{ ?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                         style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
 已投诉</span></button>
-                <?php };?>
+                <?php }?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                         style="margin: .15rem .2rem 0 .2rem;"
                         onclick="confirmSK('<?php echo $result['status']; ?>','<?php echo $id;?>')"><span
