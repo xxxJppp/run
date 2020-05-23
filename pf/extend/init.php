@@ -2,6 +2,7 @@
 //简单路由设置、系统配置
 namespace xh;
 class init{
+    public static $action = '';
     //构造函数、构造系统结构以及初始化模块
     function __construct($params) {
         $this->protocol($params['protocol']);
@@ -129,6 +130,8 @@ class init{
 die;
         }
 
+
+        self::$action = $arg;
         //启动配置
         $this->global_config($params2,$routingInfo,$params);
         //控制器路径
