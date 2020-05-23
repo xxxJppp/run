@@ -36,11 +36,11 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 
             <div class="panel-body">
               <form class="form-horizontal" id="from">
-              
-                <div style="text-align: center;" class="form-group">
-                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="<?php echo $result['username'];?>" src="<?php echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/' . $result['avatar'];?>"></td>
-                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">
-                </div>
+
+<!--                <div style="text-align: center;" class="form-group">-->
+<!--                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="--><?php //echo $result['username'];?><!--" src="--><?php //echo URL_VIEW . '/upload/avatar/' . $result['id'] . '/' . $result['avatar'];?><!--"></td>-->
+<!--                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">-->
+<!--                </div>-->
 
                  <div class="form-group">
                   <label class="col-sm-2 control-label form-label">用户名</label>

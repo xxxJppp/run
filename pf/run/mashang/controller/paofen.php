@@ -11,6 +11,7 @@ use xh\unity\callbacks;
 use xh\unity\page;
 use xh\library\request;
 use xh\unity\sms;
+use xh\unity\upload;
 use xh\unity\userCog;
 
 class paofen
@@ -67,7 +68,6 @@ class paofen
             'mysql' => $this->mysql
         ]);
     }
-
 
     public function editdyname()
     {

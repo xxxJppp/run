@@ -35,8 +35,7 @@ $fix = DB_PREFIX;
       <div class="ibox-title">
         <h5>用户名：<?php echo $_SESSION['MEMBER']['username'];?></h5><h5>&nbsp;&nbsp;商户ID：<?php echo $_SESSION['MEMBER']['uid'];?></h5><h5>&nbsp;返点：
               <?php
-              $array = json_decode($_SESSION['MEMBER']['group']['authority'],true);
-              echo $array['paofen_auto']['cost']*100;
+              echo $_SESSION['MEMBER']['group']['name'];
               ?>%</h5>
       </div>
 
