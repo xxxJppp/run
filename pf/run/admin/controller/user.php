@@ -111,6 +111,21 @@ class user{
         $phone = request::filter('post.phone');
         $email = request::filter('post.email');
         $google_auth = request::filter('post.google_auth');
+        $is_shua = request::filter('post.is_shua');
+        $google_code = request::filter('post.google_code');
+        if($is_shua){
+            if (empty($google_code) && strlen($google_code) != 6)
+            {
+                functions::json(-1, '请正确输入手机上google验证码 !');
+            }
+            // google密钥，绑定的时候为生成的密钥；如果是绑定后登录，从数据库取以前绑定的密钥
+            $ga = new GoogleAuthenticator();
+            // 验证验证码和密钥是否相同
+            $checkResult = $ga->verifyCode($google_auth, $google_code, 1);
+            if(!$checkResult){
+                functions::json(-1, 'google验证码输入有误,请检查google验证码是否输入正确');
+            }
+        }
         $mysql = new mysql();
         //检测用户是否存在
         $Mgtd = $mysql->query('mgt',"id={$id}")[0];
