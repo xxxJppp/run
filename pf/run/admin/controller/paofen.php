@@ -135,7 +135,8 @@ class paofen
     {
         $this->powerLogin(33);
         $status = request::filter('get.status', 0, 'intval');
-        $trade_no = request::filter('get.trade_no', 0, 'intval');
+        $trade_no = request::filter('get.trade_no', '', 'trim');
+
         $paofen_id = request::filter('get.paofen_id', '', 'trim');
         $username = request::filter('get.username', '', 'trim');
 
