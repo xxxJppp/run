@@ -98,7 +98,7 @@ $fix = DB_PREFIX;
                                                     ?></span>
                                             </div>
                                             <div data-v-9d393b54="" class="MT03">
-                                                充值单号: <?php echo $ru['out_trade_no']; ?>
+                                                订单号: <?php echo $ru['trade_no']; ?>
                                             </div>
                                             <div data-v-9d393b54="" class="MT03" style="color: rgb(153, 153, 153);">
                                                 时间:<?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></div>

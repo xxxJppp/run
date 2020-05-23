@@ -120,11 +120,11 @@ $fix = DB_PREFIX;
 
                 <div data-v-2496acda="" class="flexh" style="line-height: 22px;padding-top: 5px;margin-left: 13%;">
                     <div data-v-2496acda="" class="font-14 example-guide"
-                         style="width: 25%;margin-left: 10px;text-align: center;font-size: 16px;">订单编号
+                         style="width: 25%;margin-left: 10px;text-align: center;font-size: 16px;">订单号
                     </div>
                     <div data-v-2496acda="" class="van-cell van-field"
                          style="width: 50%;padding: 0;line-height: .2rem;margin: .12rem .1rem 0 10%;background: #fff;font-size: 16px;">
-                        <?php  echo $result['out_trade_no']; ?>
+                        <?php  echo $result['trade_no']; ?>
                     </div>
                 </div>
 
