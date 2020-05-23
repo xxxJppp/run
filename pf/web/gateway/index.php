@@ -28,7 +28,7 @@ new init([
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
         'routingWeight'=>0,
         //设置默认加载（index.index.home）
-        'default'=>'gateway.panel.home',
+        'default'=>'gateway.index.checkpoint',
         'bind_module'=>'gateway',
         //设置伪造后缀
         'fix'=>'.do'
