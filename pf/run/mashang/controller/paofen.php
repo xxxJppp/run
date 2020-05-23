@@ -105,7 +105,26 @@ class paofen
         functions::json(200, '/run/upload/view/voucher/' . $upload['new']);
 
     }
+//上传图片解析二维码
+    public function jiexiup()
+    {
+        $id = $_SESSION['MEMBER']['uid'];
+        $emp = $this->mysql->query("client_user", "id={$id}")[0];
+        if (!is_array($emp)) functions::json(-3, '用户索引失败,请重试!');
+        //上传文件到自己的空间
+        $path = ROOT_PATH.'/run/upload/view/qrcode/';
+        $upload = (new upload())->run($_FILES['avatar'], $path, array('jpg', 'png'), 1000);
+        if (!is_array($upload)) functions::json(-2, '上传时错误,请选择一张小于1M的图片,注意只能是二维码图片!');
+        //$this->mysql->update('client_user', array('avatar' => '/run/upload/view/qrcode/'.$upload['new']), "id={$id}");
 
+        $data = functions::checkCode(ROOT_PATH.'/run/upload/view/qrcode/' . $upload['new']);
+
+        if ($data) {
+            functions::json(200, '二维码解析成功!', array('img' => $data));
+        } else {
+            functions::json(100, '二维码解析失败，请重新上传!', array('img' => 0));
+        }
+    }
     public function addappeal()
     {
         $id = intval(request::filter('post.id'));
