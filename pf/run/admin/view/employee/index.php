@@ -80,10 +80,7 @@ include_once(PATH_VIEW . 'common/header.php'); //头部
                         <?php foreach ($employee['result'] as $em) { ?>
                             <tr>
                                 <td style="width: 86px;">
-                                    <img id="<?php echo 'imgCode_' . $em['id']; ?>"
-                                         onclick="imgSelect('<?php echo 'img_' . $em['id']; ?>');"
-                                         style="width: 86px;border-radius:50%;" alt="<?php echo $em['username']; ?>"
-                                         src="<?php echo URL_VIEW . '/upload/avatar/' . $em['id'] . '/' . $em['avatar']; ?>">
+                                    <?php echo $em['username']; ?>
                                 </td>
                                 <input type="file" name="avatar" id="<?php echo 'img_' . $em['id']; ?>"
                                        style="display:none;"

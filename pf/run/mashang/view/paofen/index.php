@@ -229,7 +229,7 @@ $fix = DB_PREFIX;
         var fd = new FormData();
         fd.append('avatar', pic);
         $.ajax({
-            url: "<?php echo url::s('mobile/paofen/jiexiup', 'id=' . $result['id']);?>",
+            url: "<?php echo url::s('mashang/paofen/jiexiup', 'id=' . $result['id']);?>",
             type: "post",
             // Form数据
             data: fd,
