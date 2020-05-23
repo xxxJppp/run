@@ -1,0 +1,382 @@
+@charset "utf-8";
+
+
+*,
+:after,
+:before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font-weight: 400;
+	vertical-align: baseline
+}
+
+body {
+	line-height: 1.6
+}
+
+ol,
+ul {
+	list-style: none
+}
+
+@font-face {
+	font-family: cicon;
+	src: url(fonts/font_385839_bxvpl1zmvwj.eot);
+	src: url(fonts/font_385839_bxvpl1zmvwj.eot#iefix) format("embedded-opentype"), url(fonts/font_385839_bxvpl1zmvwj.woff) format("woff"), url(fonts/font_385839_bxvpl1zmvwj.ttf) format("truetype"), url(fonts/font_385839_bxvpl1zmvwj.svg#cicon) format("svg")
+}
+
+.c-icon {
+	font-family: cicon!important;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.c-wrapper {
+	width: 1176px;
+	margin: 0 auto
+}
+
+
+/*顶部bar*/
+
+.m-head {
+	position: relative;
+	z-index: 999;
+	width: 100%;
+	min-width: 1176px
+}
+
+.m-head a {
+	color: inherit;
+	text-decoration: none
+}
+
+.m-head .m-head-slider {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: url(../images/old_site.png) 0 0 no-repeat
+}
+
+.m-head .m-head-slider a {
+	display: block;
+	width: 68px;
+	height: 76px
+}
+
+.m-head .m-head-bar {
+	width: 100%;
+	height: 36px;
+	color: grey;
+	background: #000;
+	font-size: 12px;
+	line-height: 36px;
+	text-align: right
+}
+
+.m-head .m-head-bar a {
+	margin: 0 10px
+}
+
+.m-head .m-head-bar a:hover {
+	text-decoration: underline
+}
+
+.m-head .m-head-bar .c-wrapper {
+	padding-right: 60px
+}
+
+.m-head .m-head-nav {
+	width: 100%;
+	height: 72px;
+	color: #fff;
+	background: #262626;
+	background: rgba(0, 0, 0, .8);
+	font-size: 14px
+}
+
+.m-head .m-head-nav ul {
+	padding-right: 50px;
+	overflow: hidden
+}
+
+.m-head .m-head-nav ul a {
+	display: block
+}
+
+.m-head .m-head-nav ul li {
+	float: left;
+	height: 72px;
+	line-height: 72px
+}
+
+.m-head .m-head-nav ul .m-head-nav-logo {
+	margin-right: 50px
+}
+
+.m-head .m-head-nav ul .m-head-nav-logo img {
+	position: relative;
+	top: 12px
+}
+
+.m-head .m-head-nav ul .m-head-nav-item {
+	border-bottom: 4px solid transparent;
+	-webkit-transition: border-color .3s ease;
+	transition: border-color .3s ease
+}
+
+.m-head .m-head-nav ul .m-head-nav-item a {
+	padding: 0 20px
+}
+
+.m-head .m-head-nav ul .m-head-nav-item.active {
+	color: #1ccfc9
+}
+
+.m-head .m-head-nav ul .m-head-nav-item:hover {
+	border-bottom-color: #1ccfc9
+}
+
+.m-head .m-head-nav ul .m-head-nav-item sup {
+	position: relative;
+	font-size: 12px;
+	top: -6px;
+	left: 5px
+}
+
+.m-head .m-head-nav ul .m-head-nav-right {
+	float: right
+}
+
+
+/*轮播描述*/
+
+.c-col4 {
+	width: 16.66667%;
+	float: left;
+	box-sizing: border-box;
+}
+
+.c-col16 {
+	width: 66.66667%;
+	float: left;
+	box-sizing: border-box;
+}
+
+.c-gap-top-small {
+	margin-top: 8px;
+}
+
+.c-line-clamp {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.c-gap-top {
+	margin-top: 16px;
+}
+
+.index-top {
+	position: relative;
+	width: 100%;
+	color: #fff;
+	background: #000;
+	margin-top: -72px
+}
+
+.index-top a {
+	color: inherit;
+	text-decoration: none
+}
+
+.index-top .index-top-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 120px;
+	padding: 29px 0;
+	background: rgba(0, 0, 0, .35)
+}
+
+.index-top .index-top-bar .index-top-news ul {
+	font-size: 12px
+}
+
+.index-top .index-top-bar .index-top-media .c-icon {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	font-size: 25px;
+	margin-right: 8px;
+	-webkit-transition: color .3s ease;
+	transition: color .3s ease
+}
+
+.index-top .index-top-bar .index-top-media .c-icon:hover {
+	color: #07c7b2
+}
+
+.index-top .index-top-bar .index-top-media .c-icon:hover .index-top-media-qrcode {
+	visibility: visible;
+	opacity: 1;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0)
+}
+
+.index-top .index-top-bar .index-top-media .index-top-media-qrcode {
+	position: absolute;
+	bottom: 50px;
+	left: -44px;
+	z-index: 1;
+	width: 112px;
+	padding-top: 100px;
+	font-size: 12px;
+	color: #676767;
+	text-align: center;
+	border-radius: 4px;
+	border: 6px solid #fff;
+	background: #fff url(../images/erweima.png) 0 0 no-repeat;
+	cursor: default;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transform: translate3d(0, 5%, 0);
+	transform: translate3d(0, 5%, 0);
+	-webkit-transition: opacity .3s ease, visibility .3s ease, -webkit-transform .3s ease;
+	transition: opacity .3s ease, visibility .3s ease, -webkit-transform .3s ease;
+	transition: opacity .3s ease, transform .3s ease, visibility .3s ease;
+	transition: opacity .3s ease, transform .3s ease, visibility .3s ease, -webkit-transform .3s ease
+}
+
+.index-top .index-top-bar .index-top-media .index-top-media-qrcode:after {
+	content: "";
+	position: absolute;
+	bottom: -16px;
+	left: 50%;
+	margin-left: -10px;
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #fff
+}
+
+.index-top .index-top-bar .index-top-media .index-top-media-qrcode-alipay {
+	background-position: -100px 0
+}
+
+.index-top .index-top-bar .index-top-media .index-top-media-qrcode-weibo {
+	background-position: -200px 0
+}
+
+.index-top .index-top-bar .index-top-media .index-top-media-qrcode-wechat {
+	background-position: -300px 0
+}
+
+
+/*轮播*/
+
+.m-carousel {
+	position: relative;
+	overflow: hidden
+}
+
+.m-carousel-list {
+	overflow-y: hidden;
+	width: 100%;
+	height: 940px;
+	-webkit-transition: -webkit-transform .3s ease;
+	transition: -webkit-transform .3s ease;
+	transition: transform .3s ease;
+	transition: transform .3s ease, -webkit-transform .3s ease
+}
+
+.m-carousel-list li {
+	float: left;
+	width: 100%;
+	height: 100%;
+	padding-bottom: 120px;
+	overflow: hidden;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center 0;
+	background-size: auto 100%
+}
+
+.m-carousel-list li a {
+	display: block;
+	height: 100%
+}
+
+.m-carousel-list .m-carousel-title {
+	font-size: 56px;
+	font-weight: 700;
+	padding-top: 220px;
+	text-shadow: 0 2px 20px rgba(0, 0, 0, .1)
+}
+
+.m-carousel-list .m-carousel-note {
+	color: hsla(0, 0%, 100%, .8);
+	font-size: 24px;
+	text-shadow: 0 2px 20px rgba(0, 0, 0, .1)
+}
+
+.m-carousel-list .m-carousel-btn {
+	display: inline-block;
+	width: 218px;
+	height: 40px;
+	line-height: 40px;
+	background: -webkit-linear-gradient(right, #36e4ff, #5bbdff);
+	background: linear-gradient(-90deg, #36e4ff, #5bbdff);
+	border-radius: 4px;
+	margin-top: 250px
+}
+
+.m-carousel-list .m-carousel-btn:hover {
+	display: inline-block;
+	width: 218px;
+	height: 40px;
+	line-height: 40px;
+	background: -webkit-linear-gradient(right, #1ccfc9, #1ccfc9);
+	background: linear-gradient(-90deg, #1ccfc9, #1ccfc9);
+	border-radius: 4px;
+	margin-top: 250px
+}
+
+.c-carousel-dot {
+	position: absolute;
+	bottom: 148px;
+	left: 0;
+	width: 100%;
+	text-align: center
+}
+
+.c-carousel-dot span {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 0 5px;
+	border-radius: 6px;
+	background: #4d4d4d;
+	background: hsla(0, 0%, 100%, .3);
+	cursor: pointer;
+	-webkit-transition: width .3s ease, background .3s ease;
+	transition: width .3s ease, background .3s ease
+}
+
+.c-carousel-dot span:hover {
+	background: #666;
+	background: hsla(0, 0%, 100%, .4)
+}
+
+.c-carousel-dot span.active {
+	width: 23px;
+	background: #d8d8d8;
+	cursor: default
+}

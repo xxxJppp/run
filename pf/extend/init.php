@@ -60,7 +60,7 @@ class init{
 
         define('PATH_DOWNLOAD', ROOT_PATH . '/download/');
         //载入数据库配置信息
-        require (ROOT_PATH . '/config.php');
+
         //伪静态
         define('URL_REWRITE', $params3['rewrite']);
         //路由权重
@@ -70,7 +70,7 @@ class init{
 
         define('URL_ROOT', str_replace("\\", "", $http_type . trim( $_SERVER['HTTP_HOST'] .  dirname($_SERVER['SCRIPT_NAME']),"/")));
         //定义视图静态访问目录
-        define('URL_VIEW', URL_ROOT . '/run/' . MODEL_NAME . '/view/');
+        define('URL_VIEW', URL_ROOT );
         //定义静态目录url
         define('URL_STATIC', URL_ROOT . '/static/');
         //定义url后缀

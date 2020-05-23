@@ -74,25 +74,25 @@ use xh\library\url;
 <!--			<li class="m-head-nav-item ">-->
 <!--				<a href="/index/user/login">商户登录</a>-->
 <!--			</li>-->
-
+<!---->
 <!--          <li class="m-head-nav-item active ">-->
-<!--				<a href="/mashang/user/login">码商登录</a>-->
+<!--				<a href="/mashang/user/login">供码登录</a>-->
 <!--			</li>-->
-          
+<!--          -->
 <!--          <li class="m-head-nav-item  ">-->
 <!--				<a href="/pankou/user/login">盘口登录</a>-->
 <!--			</li>-->
-<!--          -->
+<!---->
 <!--          <li class="m-head-nav-item  ">-->
 <!--				<a href="/agent/user/login">代理登录</a>-->
 <!--			</li>-->
-<!--			-->
-<!--			-->
+<!---->
+<!---->
 <!--			<li class="m-head-nav-item m-head-nav-right ">-->
 <!--				<a href="/demo">支付体验</a>-->
 <!--			</li>-->
-<!--          -->
-<!--          -->
+<!---->
+<!---->
 <!--			<li class="m-head-nav-item m-head-nav-right ">-->
 <!--				<a href="/index/user/register">商户注册</a>-->
 <!--			</li>-->
