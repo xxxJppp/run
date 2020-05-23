@@ -17,7 +17,7 @@ $view_module = $_SESSION['USER_MGT']['view_module'] != 0 ? explode(',', $_SESSIO
     <meta name="description" content="Kode is a Premium Bootstrap Admin Template, It's responsive, clean coded and mobile friendly">
     <meta name="keywords" content="bootstrap, admin, dashboard, flat admin template, responsive,"/>
     <title><?php echo WEB_NAME; ?> - 管理系统 v <?php echo SYSTEM_VERSION; ?></title>
-    <link href="<?php echo URL_VIEW; ?>static/console/css/root.css" rel="stylesheet">
+    <link href="<?php echo URL_VIEW; ?>/static/console/css/root.css" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.ico">
     <link href="/Public/Front/css/font-awesome.min.css" rel="stylesheet">
     <link href="/Public/Front/css/style.css" rel="stylesheet">

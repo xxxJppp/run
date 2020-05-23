@@ -17,7 +17,7 @@ new init([
         //时区设定
         'timezone'=>'PRC',
         //错误屏蔽级别[0:全部屏蔽,1:runtime错误,2:报告所有错误,3:报告E_NOTICE之外的错误]
-        'errorLevel'=>0,
+        'errorLevel'=>2,
         //浏览器输出缓冲区
         'OB_CACHE'=>true,
     ],
@@ -28,7 +28,8 @@ new init([
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
         'routingWeight'=>0,
         //设置默认加载（index.index.home）
-        'default'=>'pankou.index.home',
+        'default'=>'pankou.panel.home',
+        'bind_module'=>'pankou',
         //设置伪造后缀
         'fix'=>'.do'
     ],

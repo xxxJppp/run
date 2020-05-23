@@ -122,6 +122,13 @@ class init{
             //访问路径
             'visit'=>$arg
         ));
+
+
+        if($params['bind_module']!==$routingInfo['module']){
+            header('HTTP/1.1 403 Forbidden');
+die;
+        }
+
         //启动配置
         $this->global_config($params2,$routingInfo,$params);
         //控制器路径

@@ -29,6 +29,7 @@ new init([
         'routingWeight'=>0,
         //设置默认加载（index.index.home）
         'default'=>'admin.index.home',
+        'bind_module'=>'admin',
         //设置伪造后缀
         'fix'=>'.do'
     ],
