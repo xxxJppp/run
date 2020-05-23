@@ -26,7 +26,7 @@ new init([
         //伪静态自动化
         'rewrite'=>true,
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
-        'routingWeight'=>0,
+        'routingWeight'=>DEBUG_LEVEL,
         //设置默认加载（index.index.home）
         'default'=>'pankou.panel.home',
         'bind_module'=>'pankou',
