@@ -9,9 +9,9 @@ use xh\library\request;
 
 class order
 {
-    protected $token = '';
-    protected $user;
-    protected $mysql;
+    private $token = '';
+    private $user;
+    private $mysql;
 
     public function __construct()
     {

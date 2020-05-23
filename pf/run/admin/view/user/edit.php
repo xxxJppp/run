@@ -71,6 +71,28 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
                   <input type="text" class="form-control form-control-line" name="email"  placeholder="邮箱账号" value="<?php echo $result['email'];?>">
                   </div>
                 </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">google密钥</label>
+                      <div class="col-sm-3">
+                          <input type="text" class="form-control form-control-line" name="google_auth" id="google_auth"  placeholder="<?php if(!$result['google_auth']){ ?>当前Google密钥未设置，请刷新Google密钥<?php } ?>" value="<?php echo $result['google_auth'];?>" readonly="readonly">
+                      </div>
+                      <div class="col-sm-2">
+                          <a href="#" onclick="shua()" class="btn btn-success"><i class="fa fa-refresh"></i>刷新google密钥</a> &nbsp;&nbsp;
+                      </div>
+
+
+                      <label class="col-sm-1 control-label form-label">google验证码</label>
+                      <input type="hidden" name="is_shua" id="is_shua" value="0" />
+                      <div class="col-sm-3">
+                          <input type="text" class="form-control form-control-line" name="google_code"  placeholder="刷新google密钥后此项必填" value="">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">goole绑定二维码</label>
+                      <div class="col-sm-3">
+                      <img src="<?php echo $result['qrcodeurl'];?>" height="200" width="200" id="qrcode" id="goole_image"/>
+                      </div>
+                  </div>
 
                   <div class="form-group">
                   <label class="col-sm-2 control-label form-label"></label>
@@ -140,6 +162,29 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
 			           }
 			  });
 			}
+
+    function shua(){
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "<?php echo url::s('admin/employee/google',"");?>",
+            data: $('#from').serialize(),
+            success: function (data) {
+                if(data.code == '200'){
+                    layer.msg("刷新成功", {icon:1,time:1000,end:function(){
+                            $('#google_auth').val(data.secret);
+                            $('#qrcode').attr('src', data.qrcode);
+                            $('#is_shua').val(1);
+                        }});
+                }else{
+                    layer.msg("修改失败", {icon:2,time:1000})
+                }
+            },
+            error: function(data) {
+                alert("error:"+data.responseText);
+            }
+        });
+    }
    </script>
   
 </div>

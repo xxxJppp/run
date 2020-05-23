@@ -1,5 +1,6 @@
 <?php
 namespace xh\run\admin\controller;
+use xh\library\GoogleAuthenticator;
 use xh\library\session;
 use xh\library\model;
 use xh\library\url;
@@ -13,11 +14,11 @@ use xh\unity\upload;
 
 //员工管理，自动验证是否拥有超级管理员权限
 class employee{
-    
+
     //构造一个mysql请求
     private $mysql;
-    
-    
+
+
     public function __construct(){
         session::check();
         if (!(new model())->load('user', 'authority')->superVerification()){
@@ -25,7 +26,7 @@ class employee{
         }
         $this->mysql = new mysql();
     }
-    
+
     //员工
     public function index(){
         $employee = page::conduct('mgt',request::filter('get.page'),15,null,null,'id','asc');
@@ -37,14 +38,14 @@ class employee{
             'groups'=>$groups
         ]);
     }
-    
+
     //查询员工IP归属地
     public function ipGet(){
         $ip = request::filter('get.ip');
         $result = ip::locus($ip);
         functions::json(200, 'IP归属地查询完毕!',array('ip'=>$ip,'city'=>$result['data']['country'] . $result['data']['region'] . $result['data']['city'] . $result['data']['isp']));
     }
-    
+
     //上传头像
     //头像
     public function avatarUpload(){
@@ -55,16 +56,16 @@ class employee{
         if (!is_array($emp)) functions::json(-3, '用户索引失败,请重试!');
         //上传文件到自己的空间
         $path = PATH_VIEW . 'upload/avatar/' . $id;
-      
+
         $upload = (new upload())->run($_FILES['avatar'], $path, array('jpg','png'),1000);
         if (!is_array($upload)) functions::json(-2, '上传时错误,请选择一张小于1M的图片,注意只能是图片!');
-        
+
         $this->mysql->update('mgt', array('avatar'=>$upload['new']),"id={$id}");
-        
+
         functions::json(200, '头像更换成功!',array('img'=>$upload['new']));
     }
-    
-    
+
+
     //添加员工-result请求
     public function add(){
         $username = strip_tags(request::filter('post.username'));
@@ -76,7 +77,8 @@ class employee{
         $remarks = request::filter('post.remarks');
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
         //判断用户名是否存在
-        $user = $this->mysql->query("mgt","username='{$username}'")[0];
+        $user = $this->mysql->query("mgt","username='{$username}'");
+        $user = $user ? $user[0] : '';
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
         //判断密码
         if (strlen($pwd) < 5) functions::json(-1, '密码不能为空且不能小于5位');
@@ -91,7 +93,10 @@ class employee{
         if (!functions::isEmail($email)) functions::json(-1, '邮箱输入有误,请检查邮箱格式是否正确');
         //生成密码盐值
         $token = substr(md5(mt_rand(10000,mt_rand(100000,9999999))), 0,9);
-        
+        $ga = new GoogleAuthenticator();
+
+        $createSecret = $ga->createSecret(32);
+
         $Insert = $this->mysql->insert("mgt", [
             'username'=>$username,
             'pwd'=>functions::pwd($pwd, $token),
@@ -101,14 +106,15 @@ class employee{
             'email'=>$email,
             'token'=>$token,
             'remarks'=>$remarks,
-            'ip'=>'8.8.8.8'
+            'ip'=>'8.8.8.8',
+            'google_auth' => $createSecret
         ]);
-        
+
         if ($Insert > 0) functions::json(200, '新增成功,祝贺您又新增了一位员工!');
-        
+
         functions::json(-3, '新增失败,当前索引未成功');
     }
-    
+
     //修改员工-View视图
     public function viewEdit(){
         $id = base64_decode(str_replace('@', '=', request::filter('get.id')));
@@ -122,7 +128,7 @@ class employee{
             'groups'=>$groups
         ]);
     }
-    
+
     //修改员工-result请求
     public function edit(){
         $id = intval(request::filter('get.id'));
@@ -135,6 +141,7 @@ class employee{
         $phone = request::filter('post.phone');
         $email = request::filter('post.email');
         $remarks = request::filter('post.remarks');
+        $google_auth = request::filter('post.google_auth');
         if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
         //检测用户是否存在
         $Mgtd = $this->mysql->query('mgt',"id={$id}")[0];
@@ -159,7 +166,8 @@ class employee{
             'group_id'=>$group_id,
             'phone'=>$phone,
             'email'=>$email,
-            'remarks'=>$remarks
+            'remarks'=>$remarks,
+            'google_auth' => $google_auth,
         ];
         //检测密码和口令是否同时修改，同时修改重新生成token
         if (!empty($pwd) && !empty($pwd_safe)) {
@@ -168,11 +176,11 @@ class employee{
         }
         if (!empty($pwd)) $editEmp['pwd'] = functions::pwd($pwd, $token); //更新密码
         if (!empty($pwd_safe)) $editEmp['pwd_safe'] = functions::pwd($pwd_safe, $token);//更新口令
-        
+
         $this->mysql->update("mgt", $editEmp,"id={$id}");
         functions::json(200, '当前员工资料更新成功!');
     }
-    
+
     //删除员工-result请求
     public function delete(){
         $id = intval(request::filter('get.id'));
@@ -185,6 +193,23 @@ class employee{
         $this->mysql->delete("mgt", "id={$id}");
         functions::json(200, '操作完成,您已经将该员工成功移除!');
     }
-    
-  
+
+    public function google(){
+        $ga = new GoogleAuthenticator();
+        $createSecret = $ga->createSecret(32);
+        $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
+        $data = [
+            'secret' => $createSecret,
+            'qrcode' => $qrCodeUrl
+        ];
+        $data['code'] = 400;
+        if($createSecret){
+            $data['code'] = 200;
+        }
+        echo json_encode($data);die;
+    }
+
+
+
+
 }
