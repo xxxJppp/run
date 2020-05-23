@@ -739,7 +739,7 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_mashangwithdraw", [
+        $result = $this->mysql->update("client_mashangwithdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -756,7 +756,11 @@ class member
                 ], "id={$find_user['id']}");
             }
         }
-        functions::json(200, '处理成功');
+        if($result){
+            functions::json(200, '处理成功');
+        }else{
+            functions::json(-2, '处理失败');
+        }
     }
 
    /* //删除提现
