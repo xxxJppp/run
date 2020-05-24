@@ -126,11 +126,11 @@ $fix = DB_PREFIX;
                                             微信名称 : <?php echo $ru['dy_name']; ?>  [ <a href="#"
                                                                                        onclick="editdyname('<?php echo $ru['id']; ?>');">修改</a> ]
                                             <br>
-                                            收款码链接: <?php echo $ru['ewm_url'] == '0' ? '<span style="color:red;">Unused</span>' : '<span style="color:green;">' . $ru['ewm_url'] . '</span>'; ?>
+<!--                                            收款码链接: --><?php //echo $ru['ewm_url'] == '0' ? '<span style="color:red;">Unused</span>' : '<span style="color:green;">' . $ru['ewm_url'] . '</span>'; ?>
 
-                                        <?php } else { ?>
+<!--                                        --><?php //} else { ?>
 
-                                            收款码链接: <?php echo $ru['ewm_url'] == '0' ? '<span style="color:red;">Unused</span>' : '<span style="color:green;">' . $ru['ewm_url'] . '</span>'; ?>
+<!--                                            收款码链接: --><?php //echo $ru['ewm_url'] == '0' ? '<span style="color:red;">Unused</span>' : '<span style="color:green;">' . $ru['ewm_url'] . '</span>'; ?>
 
                                         <?php } ?>
 

@@ -39,9 +39,9 @@ $fix = DB_PREFIX;
               ?>%</h5>
       </div>
 
-      <div class="ibox-content">
-        <p>商户KEY： <?php echo $_SESSION['MEMBER']['key_id'];?>，余额：<?php echo $_SESSION['MEMBER']['balance'];?></p><br>推荐链接：<?php echo URL_ROOT; ?>/index/user/register.do?username=<?php echo $_SESSION['MEMBER']['username'];?> (通过这个链接注册会成为您的下级)
-              </div>
+<!--      <div class="ibox-content">-->
+<!--        <p>商户KEY： --><?php //echo $_SESSION['MEMBER']['key_id'];?><!--，余额：--><?php //echo $_SESSION['MEMBER']['balance'];?><!--</p><br>推荐链接：--><?php //echo URL_ROOT; ?><!--/index/user/register.do?username=--><?php //echo $_SESSION['MEMBER']['username'];?><!-- (通过这个链接注册会成为您的下级)-->
+<!--              </div>-->
     </div>
   </div>
 </div>
