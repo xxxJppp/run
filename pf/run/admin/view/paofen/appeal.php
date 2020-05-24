@@ -120,7 +120,7 @@ $fix = DB_PREFIX;
                 var detail='<div style="padding: 10px;width: 350px;">';
                 detail+='<li>订单编号：'+data.out_trade_id+"</li>";
                 detail+='<li>时间：'+data.create_time+'</li>';
-                detail+="<li>凭证<br><img style='width:300px;height: 530px;' src='"+data.voucher+"' ></li>";
+                detail+="<li>凭证<br><img style='width:300px;height: 530px;' src='<?php echo MASHANG_URL;?>"+data.voucher+"' ></li>";
                 detail+='</div>';
                 var type=100;
                 layer.open({
