@@ -188,6 +188,7 @@ class paofen
         }else if($order['status'] == 4){
             $order['status_name'] = '已支付';
         }
+
         new view('paofen/qiangdanxq', [
             'result' => $order,
             'id' => $order_id,

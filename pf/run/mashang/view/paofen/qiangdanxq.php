@@ -181,7 +181,7 @@ $fix = DB_PREFIX;
                 if($result['status']!=4){
                 ?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
-                        style="margin: .15rem .2rem 0 .2rem;"
+                        style="margin: .15rem .2rem 0 .2rem;color: #0a68b4"
                         onclick="order_view('<?php echo $id;?>')"><span
                         data-v-2496acda="" class="van-button__text">
 我要申诉</span></button>
@@ -191,9 +191,25 @@ $fix = DB_PREFIX;
 已完成</span></button>
                     <?php }
                 }else{ ?>
-                <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
-                        style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
-已投诉</span></button>
+                    <?php if($shensu['audit'] == 0){?>
+                        <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
+                                style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
+未处理</span></button>
+                    <?php }else if($shensu['audit'] == 1){ ?>
+                        <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
+                                style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
+审核</span></button>
+                    <?php }else if($shensu['audit'] == 2){ ?>
+                        <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
+                                style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
+驳回</span></button>
+
+                    <?php }else if($shensu['audit'] == 3){ ?>
+                        <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
+                                style="margin: .15rem .2rem 0 .2rem;"><span data-v-2496acda="" class="van-button__text">
+处理中</span></button>
+
+                    <?php } ?>
                 <?php }?>
                 <button data-v-2496acda="" class="upload-code-btn van-button van-button--primary van-button--normal "
                         style="margin: .15rem .2rem 0 .2rem;"
