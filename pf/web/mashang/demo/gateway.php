@@ -1,7 +1,7 @@
 <?php
 
 use xh\library\ip;
-
+require ( '../../../config.php');
 error_reporting(0);
 //载入签名算法库
 include ('sign.php');
@@ -48,7 +48,7 @@ $error_url = $_SERVER['HTTP_HOST'].'://'.$_SERVER['SERVER_NAME'].'/demo/';
     <title>接口调用</title>
 </head>
 <body>
-<form action=<?php echo GATEWAY;?>"/gateway/index/checkpoint.do" method="post" id="frmSubmit">
+<form action="<?php echo GATEWAY;?>/gateway/index/checkpoint.do" method="post" id="frmSubmit">
     <input type="hidden" name="account_id" value="<?php echo $account_id;?>" />
     <input type="hidden" name="content_type" value="<?php echo $content_type;?>"/>
     <input type="hidden" name="thoroughfare" value="<?php echo $thoroughfare?>"/>
