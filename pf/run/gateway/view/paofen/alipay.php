@@ -310,7 +310,7 @@ $error_url = $data['error_url'];
             icon: 2,
             time: 1000,
             end:function(){
-            $.get("http://<?php echo GATEWAY;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
+            $.get("<?php echo GATEWAY;?>/gateway/index/automaticpaofenTimeout?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     $("#loding").hide();
@@ -330,7 +330,7 @@ $error_url = $data['error_url'];
     function order(){
         var id = $("#orderid").val();
         if(id!=''){
-            $.get("http://<?php echo GATEWAY;?>/gateway/pay/automaticpaofenQuery?id="+id, function(result){
+            $.get("<?php echo GATEWAY;?>/gateway/pay/automaticpaofenQuery?id="+id, function(result){
 
                 //成功
                 if(result.code == '200'){
@@ -392,7 +392,7 @@ $error_url = $data['error_url'];
         var time = document.getElementById("second_show");
         var id = $("#orderid").val();
         if (time.innerHTML == 0) {
-            $.get("http://<?php echo GATEWAY;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
+            $.get("<?php echo GATEWAY;?>/gateway/index/automaticpaofenDel?id="+id, function(result){
                 //成功
                 if(result.code == '200'){
                     $("#lodings").hide();
@@ -414,7 +414,7 @@ $error_url = $data['error_url'];
     function updateorder(){
         $.ajax({
             type: 'POST',
-            url: 'http://<?php echo GATEWAY;?>/gateway/index/addorder.do',
+            url: '<?php echo GATEWAY;?>/gateway/index/addorder.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',
