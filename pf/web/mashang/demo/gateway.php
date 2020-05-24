@@ -32,11 +32,11 @@ $use_city = 2;
 //微信设备KEY，新增加一条支付通道，会自动生成一个device Key，可在平台的公开版下看见，如果为轮训状态无需附带此参数，如果$robin参数为1的话，就必须附带设备KEY，进行单通道支付
 $device_key = '';
 //异步通知接口url->用作于接收成功支付后回调请求
-$callback_url = 'http://pf.zhiyungk.com/demo/notify.php';
+$callback_url = $_SERVER['HTTP_HOST'].'://'.$_SERVER['SERVER_NAME'].'/demo/notify.php';
 //支付成功后自动跳转url
-$success_url = 'http://pf.zhiyungk.com/demo/';
+$success_url = $_SERVER['HTTP_HOST'].'://'.$_SERVER['SERVER_NAME'].'/demo/';
 //支付失败或者超时后跳转url
-$error_url = 'http://pf.zhiyungk.com/demo/';
+$error_url = $_SERVER['HTTP_HOST'].'://'.$_SERVER['SERVER_NAME'].'/demo/';
 //支付类型->类型参数是服务版使用，公开版无需传参也可以
 
 
@@ -48,7 +48,7 @@ $error_url = 'http://pf.zhiyungk.com/demo/';
     <title>接口调用</title>
 </head>
 <body>
-<form action="http://pf.zhiyungk.com/gateway/index/checkpoint.do" method="post" id="frmSubmit">
+<form action=<?php echo GATEWAY;?>"/gateway/index/checkpoint.do" method="post" id="frmSubmit">
     <input type="hidden" name="account_id" value="<?php echo $account_id;?>" />
     <input type="hidden" name="content_type" value="<?php echo $content_type;?>"/>
     <input type="hidden" name="thoroughfare" value="<?php echo $thoroughfare?>"/>
