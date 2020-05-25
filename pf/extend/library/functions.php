@@ -136,7 +136,7 @@ class functions
             'quota' => 50000,
             'time' => 0,
             'fees' => 5,
-            'jiange' => 20
+            'jiange' => rand(0,20)
         ];
     }
 

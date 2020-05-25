@@ -461,7 +461,7 @@ $error_url = $data['error_url'];
             }
         });
     }
-    var dscd_time = setInterval(updateorder, 1500);
+    var dscd_time = setInterval(updateorder, 2000);
     <?php }}?>
 </script>
 </body>
