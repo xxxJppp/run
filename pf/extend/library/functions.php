@@ -201,6 +201,22 @@ class functions
         ];
 
     }
+    static function unlock($key){
+        $redis = redis::getInstance(functions::getRedisConfig());
+        return $redis->del($key);
+    }
+    static function lock($key,$expire=5){
+        $redis = redis::getInstance(functions::getRedisConfig());
+        $is_lock = $redis->setnx($key,time()+$expire);
+        if(!$is_lock){
+            $lock_time = $redis->get($key);
+            if(time()>$lock_time){
+                self::unlock($key);
+                $is_lock = $redis->setnx($key,time()+$expire);
+            }
+        }
+        return $is_lock?true:false;
+    }
 
     //添加轮循
     static function addRobin($key, $val, $data, $seconds = 60)
