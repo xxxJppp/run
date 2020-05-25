@@ -154,34 +154,52 @@ $fix = DB_PREFIX;
       		              });
       			
                   }
-
-              function turnDown(id){
-            	  swal({   title: "驳回确认",   
-                      text: "请输入驳回信息反馈给用户:",   
-                      type: "input",   showCancelButton: true,   
-                      closeOnConfirm: false,   
-                      animation: "slide-from-top",   
-                      inputPlaceholder: "驳回信息",
-                      confirmButtonText: "驳回" }, 
-                      function(inputValue){   
-                          if (inputValue === false) return false;      
-                          if (inputValue === "") {     
-                          swal.showInputError("请输入驳回信息!");     
-                          return false   
+              function turnDown(id) {
+                  layer.prompt({
+                          title:"请输入驳回信息反馈给用户",
+                          formType:2,
+                          btn:'驳回'
+                      },
+                      function (inputValue) {
+                          if (inputValue === "" || inputValue === false) {
+                              swal.showInputError("请输入驳回信息!");
+                              return false
                           }
-                     $.get("<?php echo url::s('admin/member/updatepankouWithdraw',"type=3&id=");?>" + id + "&msg=" + inputValue, function(result){
-                      	 if(result.code == '200'){
-                       		    swal("驳回提醒", result.msg, "success");
-            	              	setTimeout(function(){location.href = '';},1000);
-            	              }else{
-            	            	swal.showInputError(result.msg);     
-            	             }
-                  		});
-                 });
-        		  $('.showSweetAlert input').val('您的收款账号有误,钱款已经退回至您的账户,请更新收款账户后重新提现!');
-                  }
+                          $.get("<?php echo url::s('admin/member/updatepankouWithdraw', "type=3&id=");?>" + id + "&msg=" + inputValue, function (result) {
+                              if(result.code == '200'){
+                                  layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                          window.location.reload();
+                                      }});
+                              }else{
+                                  layer.msg(result.msg, {icon:2,time:1000})
+                              }
 
-              function error(id){
+                          });
+                      });
+              }
+              function error(id) {
+                  layer.prompt({
+                          title:"请输入异常信息反馈给用户",
+                          formType:2,
+                      },
+                      function (inputValue) {
+                          if (inputValue === "" || inputValue === false) {
+                              layer.msg("请输入异常信息!", {icon:2,time:1000})
+                              return false
+                          }
+                          $.get("<?php echo url::s('admin/member/updatepankouWithdraw', "type=4&id=");?>" + id + "&msg=" + inputValue, function (result) {
+                              if(result.code == '200'){
+                                  layer.msg(result.msg, {icon:1,time:1000,end:function () {
+                                          window.location.reload();
+                                      }});
+                              }else{
+                                  layer.msg(result.msg, {icon:2,time:1000})
+                              }
+
+                          });
+                      });
+              }
+             /* function error(id){
             	  swal({   title: "异常确认",   
                       text: "请输入异常信息反馈给用户:",   
                       type: "input",   showCancelButton: true,   
@@ -205,7 +223,7 @@ $fix = DB_PREFIX;
                   		});
                  });
         		  $('.showSweetAlert input').val('当前提现资金来源异常,暂时冻结该款项,如有疑问,请联系客服!');
-                  }
+                  }*/
 
               function wechat(){
                   var wechat = $('#wechat').val();

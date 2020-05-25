@@ -68,7 +68,7 @@ use xh\library\url;
 	           }
 	    });
 	}
-	setInterval("orderNotice()",1000);
+	//setInterval("orderNotice()",1000);
 	</script>
 </body>
 
