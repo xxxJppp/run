@@ -7,7 +7,9 @@ require ( '../../config.php');
 
 //初始化入口
 require ('../../extend/init.php');
-
+function p($data){
+    echo '<pre>'.print_r($data,true).'</pre>';exit;
+}
 //实例化入口
 new init([
     //头设置
