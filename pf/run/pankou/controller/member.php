@@ -220,7 +220,7 @@ class member
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
         if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
-            $in = $this->mysql->insert("client_pankouwithdraw", [
+            $in = $this->mysql->insert("withdraw", [
                 'user_id'    => $_SESSION['MEMBER']['uid'],
                 'old_amount' => $user['balance'],
                 'amount'     => $amount,
@@ -230,6 +230,7 @@ class member
                 'apply_time' => time(),
                 'deal_time'  => 0,
                 'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
+                'catalog'    => 1,
                 'fees'       => $fees
             ]);
             functions::json(200, '您的提现已经提交成功!');

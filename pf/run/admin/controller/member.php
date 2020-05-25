@@ -598,7 +598,7 @@ class member
         $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
-        $where = '1 = 1';
+        $where = 'catalog = 1';
         if($flow_no){
             $where .= " and flow_no = '{$flow_no}'";
         }
@@ -616,7 +616,7 @@ class member
             $where .= " and types = '{$types}'";
         }
 
-        $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/pankouwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
@@ -692,7 +692,7 @@ class member
         $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
-        $where = '1 = 1';
+        $where = 'catalog = 3';
         if($flow_no){
             $where .= " and flow_no = '{$flow_no}'";
         }
@@ -710,7 +710,7 @@ class member
             $where .= " and types = '{$types}'";
         }
 
-        $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/mashangwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,
@@ -790,7 +790,7 @@ class member
         $types = trim(request::filter('get.types', 0, 'intval'));
 
         //订单号
-        $where = '1 = 1';
+        $where = 'catalog = 2';
         if($flow_no){
             $where .= " and flow_no = '{$flow_no}'";
         }
@@ -808,7 +808,7 @@ class member
             $where .= " and types = '{$types}'";
         }
 
-        $result = page::conduct('client_agentwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('member/agentwithdraw', [
             'result' => $result,
             'mysql' => $this->mysql,

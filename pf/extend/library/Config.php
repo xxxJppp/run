@@ -87,11 +87,9 @@ class Config
                     'catalog'=> 0,
                 ];
                 //更改
-                $mysql->update("variable",$data);
-                //插入
-                $re = $mysql->insert("config", $data);
+                $re = $mysql->update("config",$data);
                 if(!$re){
-                    return ['code'=>2,'msg'=>'增加失敗'];
+                    return ['code'=>2,'msg'=>'更改失敗'];
                 }
                 return ['code'=>1,'msg'=>'成功'];
             }else{
@@ -107,16 +105,23 @@ class Config
      * @param string $name
      * @param array $Cog
      */
-    public function delConfig($name,$Cog){
+    public function delConfig($name){
         $mysql = new mysql();
         //写入数据库
-        $Cogc = $mysql->query('variable',"name='{$name}'")[0];
-        if (is_array($Cogc)) {
-            //更改
-            $mysql->update("variable", ['value'=>json_encode($Cog,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)],"id={$Cogc['id']}");
+        if($name){
+            $info = $mysql->query('config',"`key`='{$name}'")[0];
+            if(is_array($info)){
+                //删除
+                $re = $mysql->delete("city", "`key`='{$name}'");
+                if(!$re){
+                    return ['code'=>2,'msg'=>'删除失敗'];
+                }
+                return ['code'=>1,'msg'=>'成功'];
+            }else{
+                return ['code'=>2,'msg'=>'配置不存在'];
+            }
         }else{
-            //插入
-            $mysql->insert("variable", ['name'=>$name,'value'=>json_encode($Cog,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)]);
+            return ['code'=>2,'msg'=>'缺少参数'];
         }
     }
 
