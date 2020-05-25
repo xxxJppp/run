@@ -38,7 +38,7 @@ class common
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$this->user['id']}";
+        $where = "user_id={$this->user['id']} and catalog=3";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -47,7 +47,7 @@ class common
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
         functions::json(1, '提现列表', $result, $this->token);
     }

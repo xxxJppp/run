@@ -48,7 +48,7 @@ class panel
         //查询我的服务订单五条信息
         $service_order = $this->mysql->query("service_order", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
         //查询提现5条
-        $withdrawal = $this->mysql->query("client_agentwithdraw", "user_id={$_SESSION['MEMBER']['uid']}", null, "id", "desc", "0,5");
+        $withdrawal = $this->mysql->query("withdraw", "user_id={$_SESSION['MEMBER']['uid']} and catalog=2", null, "id", "desc", "0,5");
 
         $where = "agent_id =" . $_SESSION['MEMBER']['uid'];
         $member = page::conduct('agent_huoli_log', request::filter('get.page'), 10, $where, null, 'id', 'desc', "0,10");

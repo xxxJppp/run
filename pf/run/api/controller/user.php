@@ -2,11 +2,9 @@
 
 namespace xh\run\api\controller;
 
-use xh\init;
 use xh\library\functions;
 use xh\library\ip;
 use xh\library\jwt;
-use xh\library\mysql;
 use xh\library\request;
 use xh\unity\cog;
 use xh\unity\encrypt;
@@ -124,7 +122,7 @@ class user extends common
         $k = request::filter('post.k');
         $username = (new encrypt())->Decode($k, $this->userkey);
         if (!$k) {
-            functions::json(1, '参数错误');
+            functions::json(0, '参数错误');
         }
 
         $find_user = $this->mysql->query("client_user", "username='{$username}'", 'id')[0];

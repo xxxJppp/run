@@ -545,7 +545,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        $this->mysql->select('start transaction');
+        //$this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("client_withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -564,10 +564,15 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
+            $a = functions::lock($find_user['id']);
+            if(!$a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
                     'money' => $find_user['money'] + ($result['amount'])
                 ], "id={$find_user['id']}");
+                functions::unlock($find_user['id']);
             }
         }
         functions::json(200, '处理成功');
@@ -637,15 +642,15 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        $this->mysql->select('start transaction');
+        //$this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_pankouwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_pankouwithdraw", [
+        $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -656,10 +661,15 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
+            $a = functions::lock($find_user['id']);
+            if(!$a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
                     'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
+                functions::unlock($find_user['id']);
             }
             $this->mysql->select('commit');
         }
@@ -672,10 +682,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_pankouwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_pankouwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 
@@ -731,15 +741,15 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        $this->mysql->select('start transaction');
+        //$this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_mashangwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $result = $this->mysql->update("client_mashangwithdraw", [
+        $result = $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -750,10 +760,15 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
+            $a = functions::lock($find_user['id']);
+            if(!$a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
                     'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
+                functions::unlock($find_user['id']);
             }
         }
         if($result){
@@ -769,10 +784,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_mashangwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_mashangwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 
@@ -829,15 +844,15 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        $this->mysql->select('start transaction');
+        //$this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_agentwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_agentwithdraw", [
+        $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -848,10 +863,15 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
+            $a = functions::lock($find_user['id']);
+            if(!$a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             if (is_array($find_user)) {
                 $this->mysql->update("client_user", [
                     'balance' => $find_user['balance'] + ($result['amount'])
                 ], "id={$find_user['id']}");
+                functions::unlock($find_user['id']);
             }
         }
         functions::json(200, '处理成功');
@@ -892,6 +912,10 @@ class member
         $remark = trim(request::filter('post.remark'));
         $this->mysql->startThings();
         $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
+        $a = functions::lock($user['id']);
+        if(!$a){
+            functions::str_json($type_content, -1, '稍等片刻');
+        }
         if (!is_array($user)) functions::json(-1, '此码商不存在');
         if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');
         if (empty($remark)) functions::json(-1, '备注不能为空');
@@ -916,7 +940,9 @@ class member
         $up = $this->mysql->update('client_user', [
             'balance' => $new_money
         ], "id={$user['id']}");
+
         if ($st && $up) {
+            functions::unlock($user['id']);
             $this->mysql->commit();
             functions::json(200, '处理成功');
         } else {
@@ -931,10 +957,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_agentwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_agentwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 

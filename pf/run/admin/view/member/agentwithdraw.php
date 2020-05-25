@@ -30,7 +30,7 @@ $fix = DB_PREFIX;
             <div class="panel panel-default">
                 <div class="panel-title">
                     提现记录 <span style="font-size: 15px;margin-left:20px;">[ 所有用户总提现金额: <?php //查询全部提现
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_agentwithdraw where types=2");
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where types=2 and catalog=2");
                         echo '<span style="font-weight:bold;font-size:20px;color:red;"> ' . floatval($order[0]['money']) . ' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
                         ?>] </span>
                 </div>

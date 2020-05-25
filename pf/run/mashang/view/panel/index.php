@@ -121,7 +121,7 @@ $fix = DB_PREFIX;
       <div class="ibox-content" style="height: 120px">
 
                       <?php //查询全部提现 
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_mashangwithdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2");
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2 and catalog=3");
                       
                       
                         ?>
