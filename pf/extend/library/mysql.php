@@ -26,6 +26,7 @@ class mysql
     //$table 该参数为数据库的表名
     public function insert($table, $array)
     {
+
         $table = DB_PREFIX . $table;
         //开始处理局部array数组
         $x_key = '';
@@ -48,6 +49,7 @@ class mysql
         $x_val_prepare = trim($x_val_prepare, ",");
         //组合SQL语句
         $sql = "INSERT INTO {$table} ({$x_key}) VALUES ($x_val)";
+
         //mysqli执行语句
         try {
             if (strtolower(DB_TYPE) == 'mysqli') {

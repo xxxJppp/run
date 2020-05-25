@@ -2,6 +2,7 @@
 
 namespace xh\run\admin\controller;
 
+use xh\library\GoogleAuthenticator;
 use xh\library\session;
 use xh\library\model;
 use xh\library\url;
@@ -9,6 +10,7 @@ use xh\library\mysql;
 use xh\library\view;
 use xh\library\request;
 use xh\library\functions;
+use xh\library\Config;
 use xh\unity\page;
 use xh\unity\cog;
 use xh\unity\callbacks;
@@ -49,6 +51,20 @@ class paofen
             'mysql'  => $this->mysql,
             'result' => $result
         ]);
+    }
+
+    //支付宝-全自动版
+    //权限ID: 24
+    public function test()
+    {
+        echo 1212;exit;
+        $config = new Config();
+
+        $name = "customer";
+
+        $result = $config->inquire($name);
+        var_dump($result) ;
+
     }
 
     //启动automatic轮训
