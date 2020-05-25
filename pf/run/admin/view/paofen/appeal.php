@@ -118,9 +118,9 @@ $fix = DB_PREFIX;
             if(layEvent === 'detail'){
                 // layer.('查看操作');
                 var detail='<div style="padding: 10px;width: 350px;">';
-                detail+='<li>订单编号：'+data.out_trade_id+"</li>";
-                detail+='<li>时间：'+data.create_time+'</li>';
-                detail+="<li>凭证<br><img style='width:300px;height: 530px;' src='<?php echo MASHANG;?>"+data.voucher+"' ></li>";
+                detail+='<li>订单编号 ：'+data.out_trade_id+"</li>";
+                detail+='<li>申诉时间 ：'+data.create_time+'</li>';
+                detail+="<li><br><img style='width:300px;height: 530px;' src='<?php echo MASHANG;?>"+data.voucher+"' ></li>";
                 detail+='</div>';
                 var type=100;
                 layer.open({
@@ -128,7 +128,7 @@ $fix = DB_PREFIX;
                     ,offset:'auto'
                     ,id: 'layerDemo'+type //防止重复弹出
                     ,content: detail
-                    ,btn: '关闭全部'
+                    ,btn: '关闭'
                     ,area: ['350px','600px']
                     ,btnAlign: 'c' //按钮居中
                     ,shade: 0 //不显示遮罩

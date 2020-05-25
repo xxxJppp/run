@@ -6,31 +6,17 @@ use xh\init;
 use xh\library\functions;
 use xh\library\ip;
 use xh\library\jwt;
-use xh\library\model;
 use xh\library\mysql;
 use xh\library\request;
 use xh\unity\cog;
-
-class user
+require_once __DIR__.'/common.php';
+class user extends common
 {
 
-    private $mysql;
-    private $pass = ['login', 'registered'];
-    private $checktoken;
 
     public function __construct()
     {
-        $this->mysql = new mysql();
-        if (!in_array(init::$action[2], $this->pass)) {
-            $token = request::filter('server.HTTP_TOKEN');
-            $this->checktoken = jwt::verifyToken($token);
-            if ($this->checktoken) {
-                $this->token = jwt::getToken($this->checktoken['sub']);
-            } else {
-                functions::json(-1, '签名验证失败');
-            }
-        }
-
+        parent::__construct();
     }
 
     public function login()
