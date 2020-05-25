@@ -16,7 +16,7 @@ class common
     protected $user;
     protected $mysql;
     protected $checktoken;
-    protected $pass = ['login', 'registered'];//不需要签名验证的方法
+    protected $pass = ['login', 'registered', 'refreshtoken'];//不需要签名验证的方法
 
     public function __construct()
     {
@@ -26,7 +26,7 @@ class common
             $this->checktoken = jwt::verifyToken($token);
             if ($this->checktoken) {
                 $this->token = jwt::getToken($this->checktoken['sub']);
-                $this->user = $this->mysql->query("client_user", "username='{$checktoken['sub']}'")[0];
+                $this->user = $this->mysql->query("client_user", "username='{$this->checktoken['sub']}'")[0];
             } else {
                 functions::json(-1, '签名验证失败');
             }
@@ -49,7 +49,7 @@ class common
         }
         $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
-        functions::json(1,'提现列表',$result, $this->token);
+        functions::json(1, '提现列表', $result, $this->token);
     }
 
 }
