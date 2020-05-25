@@ -161,4 +161,33 @@ class user extends common
         functions::json(1, '获取成功', $checkuser[0], $this->token);
     }
 
+    public function setBank(){
+        $bank_type = request::filter('post.bank_type', '', 'htmlspecialchars');
+        if(!$bank_type){
+            functions::json(-1, '请选择绑定类型!');
+        }
+        if ($bank_type == 1) {
+            //支付宝
+            $alipay_name = request::filter('post.name', '', 'htmlspecialchars');
+            //账号
+            $alipay_content = request::filter('post.card', '', 'htmlspecialchars');
+            if (empty($alipay_name) || empty($alipay_content)) functions::json(-1, '支付宝姓名或账号不能为空!');
+            //写入
+            $edit['bank'] = json_encode(['type' => 1, 'name' => $alipay_name, 'card' => $alipay_content]);
+        }
+        if ($bank_type == 2) {
+            //姓名
+            $bank_name = request::filter('post.name', '', 'htmlspecialchars');
+            //银行名称
+            $bank = request::filter('post.bank', '', 'htmlspecialchars');
+            //账号
+            $card = request::filter('post.card', '', 'htmlspecialchars');
+            if (empty($bank_name) || empty($bank) || empty($card)) functions::json(-1, '银行卡信息有误,请填写正确!');
+            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank]);
+        }
+
+        $this->mysql->update("client_user", $edit, "id={$this->user['id']}");
+        functions::json(1, '银行信息设置成功!');
+    }
+
 }

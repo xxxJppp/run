@@ -5,7 +5,7 @@ namespace xh\run\api\controller;
 use xh\library\functions;
 use xh\library\request;
 use xh\unity\page;
-require_once "./run/api/controller/common.php";
+require_once ROOT_PATH."/run/api/controller/common.php";
 
 
 class withdraw extends common
@@ -76,7 +76,12 @@ class withdraw extends common
     }
 
     public function bankInfo(){
+        $bank_type = [
+            '1' => '支付宝',
+            '2' => '银行卡'
+        ];
         $bank = json_decode($this->user['bank'],true);
+        $bank['type_name'] = isset($bank_type[$bank['type']]) ? $bank_type[$bank['type']] : '';
         functions::json(1, '账号支付信息!', $bank);
     }
 
