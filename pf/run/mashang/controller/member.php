@@ -141,7 +141,7 @@ class member
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$_SESSION['MEMBER']['uid']}";
+        $where = "user_id={$_SESSION['MEMBER']['uid']} and catalog=3";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -150,7 +150,7 @@ class member
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('user/withdraw', [
             'result'  => $result,
             'mysql'   => $this->mysql,
@@ -205,6 +205,10 @@ class member
       //  if (!is_array($find_code)) functions::json(-39, '短信验证码不正确');
         //计算用户
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        $a = functions::lock($user['id']);
+        if(!$a){
+            functions::str_json($type_content, -1, '稍等片刻');
+        }
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
         if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
@@ -221,7 +225,8 @@ class member
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
         if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
-            $in = $this->mysql->insert("client_mashangwithdraw", [
+            functions::unlock($user['id']);
+            $in = $this->mysql->insert("withdraw", [
                 'user_id'    => $_SESSION['MEMBER']['uid'],
                 'old_amount' => $user['balance'],
                 'amount'     => $amount,
@@ -231,6 +236,7 @@ class member
                 'apply_time' => time(),
                 'deal_time'  => 0,
                 'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
+                'catalog'    => 3,
                 'fees'       => $fees
             ]);
             functions::json(200, '您的提现已经提交成功!');

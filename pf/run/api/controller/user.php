@@ -2,11 +2,9 @@
 
 namespace xh\run\api\controller;
 
-use xh\init;
 use xh\library\functions;
 use xh\library\ip;
 use xh\library\jwt;
-use xh\library\mysql;
 use xh\library\request;
 use xh\unity\cog;
 use xh\unity\encrypt;
@@ -108,7 +106,8 @@ class user extends common
             'token' => $token,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id' => $level_id,
-            'key_id' => $key_id
+            'key_id' => $key_id,
+            'is_mashang' => 1 //注册 即为码商
         ]);
         if ($userIn > 0) {
             //$this->mysql->delete("client_code", "phone={$_SESSION['register_user']['phone']} and typec='register'");
@@ -123,7 +122,7 @@ class user extends common
         $k = request::filter('post.k');
         $username = (new encrypt())->Decode($k, $this->userkey);
         if (!$k) {
-            functions::json(1, '参数错误');
+            functions::json(0, '参数错误');
         }
 
         $find_user = $this->mysql->query("client_user", "username='{$username}'", 'id')[0];
@@ -158,6 +157,35 @@ class user extends common
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
         functions::json(1, '获取成功', $checkuser[0], $this->token);
+    }
+
+    public function setBank(){
+        $bank_type = request::filter('post.bank_type', '', 'htmlspecialchars');
+        if(!$bank_type){
+            functions::json(-1, '请选择绑定类型!');
+        }
+        if ($bank_type == 1) {
+            //支付宝
+            $alipay_name = request::filter('post.name', '', 'htmlspecialchars');
+            //账号
+            $alipay_content = request::filter('post.card', '', 'htmlspecialchars');
+            if (empty($alipay_name) || empty($alipay_content)) functions::json(-1, '支付宝姓名或账号不能为空!');
+            //写入
+            $edit['bank'] = json_encode(['type' => 1, 'name' => $alipay_name, 'card' => $alipay_content]);
+        }
+        if ($bank_type == 2) {
+            //姓名
+            $bank_name = request::filter('post.name', '', 'htmlspecialchars');
+            //银行名称
+            $bank = request::filter('post.bank', '', 'htmlspecialchars');
+            //账号
+            $card = request::filter('post.card', '', 'htmlspecialchars');
+            if (empty($bank_name) || empty($bank) || empty($card)) functions::json(-1, '银行卡信息有误,请填写正确!');
+            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank]);
+        }
+
+        $this->mysql->update("client_user", $edit, "id={$this->user['id']}");
+        functions::json(1, '银行信息设置成功!');
     }
 
 }

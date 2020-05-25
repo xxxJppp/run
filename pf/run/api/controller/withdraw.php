@@ -5,7 +5,7 @@ namespace xh\run\api\controller;
 use xh\library\functions;
 use xh\library\request;
 use xh\unity\page;
-require_once "./run/api/controller/common.php";
+require_once ROOT_PATH."/run/api/controller/common.php";
 
 
 class withdraw extends common
@@ -16,7 +16,7 @@ class withdraw extends common
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$this->user['id']}";
+        $where = "user_id={$this->user['id']} and catalog=3";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -25,7 +25,7 @@ class withdraw extends common
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('client_mashangwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
 
         functions::json(1,'提现列表',$result, $this->token);
     }
@@ -73,6 +73,16 @@ class withdraw extends common
             $this->mysql->rollBack();
             functions::json(-1, '系统正在维修,请稍后再提现!');
         }
+    }
+
+    public function bankInfo(){
+        $bank_type = [
+            '1' => '支付宝',
+            '2' => '银行卡'
+        ];
+        $bank = json_decode($this->user['bank'],true);
+        $bank['type_name'] = isset($bank_type[$bank['type']]) ? $bank_type[$bank['type']] : '';
+        functions::json(1, '账号支付信息!', $bank);
     }
 
 }

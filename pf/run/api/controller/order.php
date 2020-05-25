@@ -3,33 +3,34 @@
 namespace xh\run\api\controller;
 
 use xh\library\functions;
-use xh\library\jwt;
-use xh\library\mysql;
 use xh\library\request;
+use xh\unity\page;
 
-class order
+require_once __DIR__ . '/common.php';
+class order extends common
 {
-    private $token = '';
-    private $user;
-    private $mysql;
 
     public function __construct()
     {
-        $token = request::filter('server.HTTP_TOKEN');
-        $checktoken = jwt::verifyToken($token);
-        if ($checktoken) {
-            $this->token = jwt::getToken($checktoken['sub']);
-            $this->mysql = new mysql();
-            $this->user = $this->mysql->query("client_user", "username='{$checktoken['sub']}'")[0];
-        } else {
-            functions::json(-1, '签名验证失败');
-        }
+        parent::__construct();
     }
 
-    public function orderlist()
+    public function automaticOrder()
     {
 
-        echo $this->token;
+        $uid = request::filter('post.uid');
+        $type = request::filter('post.type');
+        $where = "user_id={$uid}";
+        if($type){
+            $where .= " and status={$type}";
+        }
+        $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), 15, $where, 'id,trade_no,creation_time,amount,status', 'id', 'desc');
+
+        foreach ($result['result'] as &$v){
+            $v['creation_time'] = date('Y-m-d H:i:s',$v['creation_time']);
+            $v['status_name'] = $v['status'] == 2 ? '未支付' : ($v['status'] == 3 ? '订单超时' : '已支付');
+        }
+        functions::json(1, '获取成功',$result['result']);
     }
 
 }

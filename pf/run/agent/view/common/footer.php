@@ -47,28 +47,28 @@ use xh\library\url;
   	
   	<script type="text/javascript">
 	//检测微信订单和支付宝订单并发送萌妹子通知
-	function orderNotice(){
-		$.get("<?php echo url::s('index/asyc/getOrder');?>", function(result){
-	     	 if(result.code == '200'){
-		     	 if(result.data != null){
-			     		//第三方平台订单通知
-		         	 if(result.data.average == '1'){
-						//微信
-						if(result.data.types == '1'){
-							play(['<?php echo FILE_CACHE . "/download/sound/微信订单支付成功1.mp3";?>']);
-						}
-						//支付宝
-						if(result.data.types == '2'){
-							play(['<?php echo FILE_CACHE . "/download/sound/支付宝订单支付成功1.mp3";?>']);
-						}
-			         }else{
-						//普通收款订单
-				     }
-			     }
-	           }
-	    });
-	}
-	setInterval("orderNotice()",1000);
+	//function orderNotice(){
+	//	$.get("<?php //echo url::s('index/asyc/getOrder');?>//", function(result){
+	//     	 if(result.code == '200'){
+	//	     	 if(result.data != null){
+	//		     		//第三方平台订单通知
+	//	         	 if(result.data.average == '1'){
+	//					//微信
+	//					if(result.data.types == '1'){
+	//						play(['<?php //echo FILE_CACHE . "/download/sound/微信订单支付成功1.mp3";?>//']);
+	//					}
+	//					//支付宝
+	//					if(result.data.types == '2'){
+	//						play(['<?php //echo FILE_CACHE . "/download/sound/支付宝订单支付成功1.mp3";?>//']);
+	//					}
+	//		         }else{
+	//					//普通收款订单
+	//			     }
+	//		     }
+	//           }
+	//    });
+	//}
+	//setInterval("orderNotice()",1000);
 	</script>
 </body>
 

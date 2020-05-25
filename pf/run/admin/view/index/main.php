@@ -55,16 +55,16 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
         })
     })
 
-    function withdrawNotice() {
-        $.get("<?php echo url::s('index/notice/polling');?>", function (result) {
-            if (result.code == '200') {
-                //提现通知
-                playSound();
-            }
-        });
-    }
+    //function withdrawNotice() {
+    //    $.get("<?php //echo url::s('index/notice/polling');?>//", function (result) {
+    //        if (result.code == '200') {
+    //            //提现通知
+    //            playSound();
+    //        }
+    //    });
+    //}
 
-    setInterval("withdrawNotice()", 2000);
+    //setInterval("withdrawNotice()", 2000);
 
     function playSound() {
         var borswer = window.navigator.userAgent.toLowerCase();

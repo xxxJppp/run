@@ -381,10 +381,18 @@ class features
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
         //if($order['status']==3) functions::json(-2, '订单超时，无法收款');
         $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        $a = functions::lock($user['id']);
+        if(!$a){
+            functions::str_json($type_content, -1, '稍等片刻');
+        }
         if (!is_array($user)) functions::json(-1, '商户错误');
 
         //得到用户组
         $agt = $mysql->query("client_user","id={$user['level_id']}")[0];
+        $agt_a = functions::lock($agt['id']);
+        if(!$agt_a){
+            functions::str_json($type_content, -1, '稍等片刻');
+        }
         $group = $mysql->query('client_group', "id={$agt['group_id']}");
         $group && $group = $group[0];
         //$agent_group = $mysql->query('agent_rate', "uid={$_SESSION['MEMBER']['uid']}");
@@ -409,6 +417,10 @@ class features
             $dailigroup = $mysql->query('client_group', "id={$duser['group_id']}")[0];
             //获取盘口用户组
             $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
+            $puser_a = functions::lock($puser['id']);
+            if(!$puser_a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
             $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
             //解析数据
@@ -453,7 +465,7 @@ class features
                     $isCallback = 1;
 
                     $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
-
+                    functions::unlock($user['id']);
                     $agentlog = $mysql->query('agent_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
 
                     if (!is_array($agentlog)) {
@@ -475,6 +487,7 @@ class features
                         if ($alog > 0) {
 
                             $updateStatus_daili = $mysql->update("client_user", ['balance' => $daili_balance], "id={$duser['id']}");
+                            functions::unlock($duser['id']);
                         }
                     }
                     //写盘口获利记录
@@ -496,6 +509,7 @@ class features
                         if ($plog > 0) {
 
                             $updateStatus_pankou = $mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
+                            functions::unlock($puser['id']);
                         }
                     }
 
@@ -505,8 +519,14 @@ class features
                         $deposit = $mysql->query("deposit","order_id={$order['id']} and user_id={$_SESSION['MEMBER']['uid']}")[0];
                         if(!is_array($deposit)){
                             if($order['status']==3){
-                                $yue = $_SESSION['MEMBER']['balance']-$order['amount'];
+                                $bac = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+                                $act_a = functions::lock($bac['id']);
+                                if(!$act_a){
+                                    functions::str_json($type_content, -1, '稍等片刻');
+                                }
+                                $yue = $bac['balance']-$order['amount'];
                                 $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
+                                functions::unlock($user['id']);
                             }
                         }
                         $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");
@@ -522,6 +542,10 @@ class features
             //获取盘口用户组
             $puser = $mysql->query("client_user", "id={$order['pankou_id']}");
             $puser && $puser = $puser[0];
+            $puser_sult = functions::lock($puser['id']);
+            if(!$puser_sult){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}");
             $pankougroup && $pankougroup = $pankougroup[0];
             $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
@@ -551,7 +575,7 @@ class features
                     $isCallback = 1;
 
                     $updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
-
+                    functions::unlock($user['id']);
 
                     //写盘口获利记录
                     $pankoulog = $mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
@@ -572,6 +596,7 @@ class features
                         if ($plog > 0) {
 
                             $updateStatus_pankou = $mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
+                            functions::unlock($puser['id']);
                         }
                     }
 
@@ -594,8 +619,14 @@ class features
                         $deposit = $mysql->query("deposit","order_id={$order['id']} and user_id={$_SESSION['MEMBER']['uid']}")[0];
                         if(!is_array($deposit)){
                             if($order['status']==3){
-                                $yue = $_SESSION['MEMBER']['balance']-$order['amount'];
+                                $bac = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+                                $act_a = functions::lock($bac['id']);
+                                if(!$act_a){
+                                    functions::str_json($type_content, -1, '稍等片刻');
+                                }
+                                $yue = $bac['balance']-$order['amount'];
                                 $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
+                                functions::unlock($user['id']);
                             }
                         }
                         $mysql->delete("deposit","user_id={$order['user_id']} and order_id={$order['id']}");

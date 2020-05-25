@@ -52,7 +52,7 @@ $fix = DB_PREFIX;
                     <a href="#">
                         <span>总提现金额</span>
                       <?php 
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_mashangwithdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2");
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2 and catalog=3");
                         ?>
                         <h3><?php echo floatval($order[0]['money']); ?></h3>
                     </a>
