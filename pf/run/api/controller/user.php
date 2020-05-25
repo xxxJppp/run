@@ -106,7 +106,8 @@ class user extends common
             'token' => $token,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id' => $level_id,
-            'key_id' => $key_id
+            'key_id' => $key_id,
+            'is_mashang' => 1 //注册 即为码商
         ]);
         if ($userIn > 0) {
             //$this->mysql->delete("client_code", "phone={$_SESSION['register_user']['phone']} and typec='register'");

@@ -31,7 +31,7 @@ $fix = DB_PREFIX;
             <p class="caption" >
             <a href="#" onclick="withdraw();" style="font-size: 14px;background-color: #5874c8 !important;" class="btn waves-effect waves-light  cyan darken-2"><i class="mdi-action-accessibility left" style="width: 10px;background-color: #5874c8 !important;"></i>申请提现 ( 余额：<?php echo $_SESSION['MEMBER']['balance'];?> )</a>
              <span style="font-size: 15px;margin-left:20px;">[ 当前盈利余额: <b style="font-size: 20px;color:red;"><?php echo $_SESSION['MEMBER']['balance'];?></b>  / 总提现金额: <?php //查询全部提现 
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_pankouwithdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2");
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2 and catalog=1");
                         echo '<span style="font-weight:bold;"> '.floatval($order[0]['money']) .' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">'.intval($order[0]['count']).'</span> ';
                         ?>] </span>
             </p>

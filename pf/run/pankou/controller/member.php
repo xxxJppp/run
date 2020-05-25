@@ -141,7 +141,7 @@ class member
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$_SESSION['MEMBER']['uid']}";
+        $where = "user_id={$_SESSION['MEMBER']['uid']} and catalog=1";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -150,7 +150,7 @@ class member
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('user/withdraw', [
             'result'  => $result,
             'mysql'   => $this->mysql,
@@ -220,7 +220,7 @@ class member
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
         if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
-            $in = $this->mysql->insert("client_pankouwithdraw", [
+            $in = $this->mysql->insert("withdraw", [
                 'user_id'    => $_SESSION['MEMBER']['uid'],
                 'old_amount' => $user['balance'],
                 'amount'     => $amount,
@@ -230,6 +230,7 @@ class member
                 'apply_time' => time(),
                 'deal_time'  => 0,
                 'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
+                'catalog'    => 1,
                 'fees'       => $fees
             ]);
             functions::json(200, '您的提现已经提交成功!');
