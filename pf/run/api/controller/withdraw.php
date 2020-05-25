@@ -75,4 +75,9 @@ class withdraw extends common
         }
     }
 
+    public function bankInfo(){
+        $bank = json_decode($this->user['bank'],true);
+        functions::json(1, '账号支付信息!', $bank);
+    }
+
 }
