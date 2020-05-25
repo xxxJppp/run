@@ -3,6 +3,7 @@
 namespace xh\run\gateway\controller;
 
 
+use Think\Cache\Driver\Redis;
 use xh\library\request;
 use xh\library\mysql;
 use xh\library\functions;
@@ -18,12 +19,14 @@ class index
     private $mysql;
     private $redis;
     private $amount = 0;
+    private $_redis;
     private $alipay_url = "alipays://platformapi/startapp?appId=09999988&actionType=toAccount&goBack=NO";
     private $apiDomainArray = ['http://getip2.1088web.com/', 'http://ip.taobao.com/service/getIpInfo.php'];  //获取地址接口数组
 
 
     public function __construct()
     {
+        $this->_redis = \xh\library\redis::getInstance(functions::getRedisConfig());
         $this->mysql = new mysql();
         $this->redis = functions::getRedis();
     }
@@ -363,10 +366,23 @@ class index
         return null;
 
     }
-
+    public function unlock($key){
+        return $this->_redis->del($key);
+    }
+    public function lock($key,$expire=5){
+        $is_lock = $this->_redis->setnx($key,time()+$expire);
+        if(!$is_lock){
+            $lock_time = $this->_redis->get($key);
+            if(time()>$lock_time){
+                $this->unlock($key);
+                $is_lock = $this->_redis->setnx($key,time()+$expire);
+            }
+        }
+        return $is_lock?true:false;
+    }
     //跑分
     //跑分
-    private function  paofen($user, $type_content, $data)
+    private function paofen($user, $type_content, $data)
     {
         if ($data['amount'] > 50000) functions::str_json($type_content, -1, '支付金额不能大于50000元');
         //查询用户组
@@ -383,12 +399,16 @@ class index
             //随机算法
             $use_city  = $data['use_city'];
             $randAgent = $this->getPayAgent($data['amount'],$data['type']);
+            $a = $this->lock($randAgent['id']);
+            if(!$a){
+                functions::str_json($type_content, -1, '稍等片刻');
+            }
             $ordert = $this->mysql->query("client_paofen_automatic_orders","user_id={$randAgent['id']}",null,'creation_time','desc',1);
 
             $tim = functions::withdrawSystem();
             $back = time()-$ordert[0]['creation_time'];
             if($back<$tim['jiange']){
-                functions::str_json($type_content, -1, '该码商匹配订单间隔需要20s');
+                functions::str_json($type_content, -1, '该码商匹配订单间隔需要'.$tim['jiange'].'s');
             }
             if($use_city == 1){
 
@@ -486,15 +506,10 @@ class index
 
         if ($create_order > 0) {
             if ($type_content == 'json') {
-                //require_once ROOT_PATH.'/lib/phpqrcode.php';
-                //生成二维码图片
-                //$filename = '/Public/qrcode/' .time(). '.png';
-                //$url = $_SERVER['DOCUMENT_ROOT'] . $filename;
-                //\QRcode::png($find_paofen['ewm_url'], $url, 'L', 5, 2);
-                //functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrcode' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$filename,'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
+                $this->unlock($randAgent['id']);
                 functions::str_json($type_content, 200, 'success', ["time"=>$data['creation_time']-time(),"order_id" => $create_order, 'qrurl'=>$find_paofen['ewm_url'],'n'=>$find_paofen['name']]);
             }
-            url::address(url::s("gateway/pay/automaticpaofen", "id={$create_order}"));
+           // url::address(url::s("gateway/pay/automaticpaofen", "id={$create_order}"));
         }
         functions::str_json($type_content, -1, 'automatic->订单创建失败1,请联系客服');
     }

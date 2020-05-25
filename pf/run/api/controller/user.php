@@ -9,10 +9,14 @@ use xh\library\jwt;
 use xh\library\mysql;
 use xh\library\request;
 use xh\unity\cog;
-require_once __DIR__.'/common.php';
+use xh\unity\encrypt;
+
+require_once __DIR__ . '/common.php';
+
 class user extends common
 {
 
+    private $userkey = 'pfuser';
 
     public function __construct()
     {
@@ -26,13 +30,14 @@ class user extends common
 
         if (!$username) functions::json(0, '请输入用户名');
         if (strlen($pwd) < 6) functions::json(0, '密码不能小于6位，请重新输入');
-        $find_user = $this->mysql->query("client_user", "is_mashang = 1 and username='{$username}'")[0];
+        $field = 'id,username,phone,pwd,token,group_id';
+        $find_user = $this->mysql->query("client_user", "is_mashang = 1 and username='{$username}'", $field)[0];
         if (!is_array($find_user)) {
             if (!functions::isMobile($username)) {
                 functions::json(0, '请输入正确的码商账号');
             }
 
-            $find_user = $this->mysql->query("client_user", "is_mashang = 1 and phone={$username}")[0];
+            $find_user = $this->mysql->query("client_user", "is_mashang = 1 and phone={$username}", $field)[0];
         }
 
         if (md5($find_user['pwd']) === md5(functions::pwd($pwd, $find_user['token']))) {
@@ -41,6 +46,9 @@ class user extends common
             if (!is_array($find_group) || $find_group['authority'] == -1) functions::json(0, '该账号已被禁止登录');
             $this->mysql->update("client_user", ['ip' => ip::get(), 'login_time' => time()], "id={$find_user['id']}");
             $token = jwt::getToken($username);
+            unset($find_user['pwd']);
+            unset($find_user['token']);
+            $find_user['k'] = (new encrypt())->Encode($find_user['username'], $this->userkey);
             functions::json(1, '登录成功!', $find_user, $token);
         } else {
             functions::json(0, '请输入正确的用户名或密码!');
@@ -109,30 +117,47 @@ class user extends common
         functions::json(0, '注册失败');
     }
 
+    public function refreshtoken()
+    {
 
-    public function userinfo(){
+        $k = request::filter('post.k');
+        $username = (new encrypt())->Decode($k, $this->userkey);
+        if (!$k) {
+            functions::json(1, '参数错误');
+        }
 
-        $username = request::filter('post.username');
-        if($this->checktoken['sub'] != $username){
+        $find_user = $this->mysql->query("client_user", "username='{$username}'", 'id')[0];
+        if (!$find_user) functions::json(0, '参数错误');
+
+        functions::json(1, '获取成功', [], jwt::getToken($find_user));
+    }
+
+
+    public function userinfo()
+    {
+
+        $k = request::filter('post.k');
+        $username = (new encrypt())->Decode($k, $this->userkey);
+        if ($this->checktoken['sub'] != $username) {
             functions::json(0, '用户信息有误');
         }
-        $checkuser = $this->mysql->query('client_user',"username='{$username}' and is_mashang=1 and status=1",'id,username,phone,money');
+        $checkuser = $this->mysql->query('client_user', "username='{$username}' and is_mashang=1 and status=1", 'id,username,phone,money');
 
-        if(!$checkuser){
+        if (!$checkuser) {
             functions::json(0, '用户信息有误');
         }
-        $start_time = strtotime(date('ymd'.'00:00:00'));
-        $end_time = strtotime(date('ymd'.'23:59:59'));
-        $deposit = $this->mysql->query('deposit',"user_id='{$checkuser[0]['id']}'",'SUM(money) as money');
-        $appeal = $this->mysql->query('appeal',"user_id='{$checkuser[0]['id']}'",'count(id) as count');
-        $zfb = $this->mysql->query('client_paofen_automatic_orders',"user_id='{$checkuser[0]['id']}' and pay_time between {$start_time} and {$end_time}",'SUM(amount) as amount');
+        $start_time = strtotime(date('ymd' . '00:00:00'));
+        $end_time = strtotime(date('ymd' . '23:59:59'));
+        $deposit = $this->mysql->query('deposit', "user_id='{$checkuser[0]['id']}'", 'SUM(money) as money');
+        $appeal = $this->mysql->query('appeal', "user_id='{$checkuser[0]['id']}'", 'count(id) as count');
+        $zfb = $this->mysql->query('client_paofen_automatic_orders', "user_id='{$checkuser[0]['id']}' and pay_time between {$start_time} and {$end_time}", 'SUM(amount) as amount');
         $checkuser[0]['deposit'] = $deposit[0]['money'] ? $deposit[0]['money'] : 0;
         $checkuser[0]['wx'] = 0;
         $checkuser[0]['zfb'] = $zfb[0]['amount'] ? $zfb[0]['amount'] : 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
-        functions::json(1, '获取成功',$checkuser[0],$this->token);
+        functions::json(1, '获取成功', $checkuser[0], $this->token);
     }
 
 }

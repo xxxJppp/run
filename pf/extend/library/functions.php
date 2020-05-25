@@ -136,7 +136,7 @@ class functions
             'quota' => 50000,
             'time' => 0,
             'fees' => 5,
-            'jiange' => 20
+            'jiange' => rand(0,20)
         ];
     }
 
@@ -200,6 +200,22 @@ class functions
             'auth' => REDIS_AUTH
         ];
 
+    }
+    static function unlock($key){
+        $redis = redis::getInstance(functions::getRedisConfig());
+        return $redis->del($key);
+    }
+    static function lock($key,$expire=5){
+        $redis = redis::getInstance(functions::getRedisConfig());
+        $is_lock = $redis->setnx($key,time()+$expire);
+        if(!$is_lock){
+            $lock_time = $redis->get($key);
+            if(time()>$lock_time){
+                self::unlock($key);
+                $is_lock = $redis->setnx($key,time()+$expire);
+            }
+        }
+        return $is_lock?true:false;
     }
 
     //添加轮循
