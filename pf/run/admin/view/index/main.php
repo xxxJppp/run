@@ -64,7 +64,7 @@ include_once (PATH_VIEW . 'common/nav.php'); //导航
         });
     }
 
-    setInterval("withdrawNotice()", 2000);
+    //setInterval("withdrawNotice()", 2000);
 
     function playSound() {
         var borswer = window.navigator.userAgent.toLowerCase();

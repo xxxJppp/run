@@ -205,6 +205,10 @@ class member
       //  if (!is_array($find_code)) functions::json(-39, '短信验证码不正确');
         //计算用户
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
+        $a = functions::lock($user['id']);
+        if(!$a){
+            functions::str_json($type_content, -1, '稍等片刻');
+        }
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
         if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
@@ -220,6 +224,7 @@ class member
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
         if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
+            functions::unlock($user['id']);
             $in = $this->mysql->insert("withdraw", [
                 'user_id'    => $_SESSION['MEMBER']['uid'],
                 'old_amount' => $user['balance'],
