@@ -119,8 +119,8 @@ $fix = DB_PREFIX;
       <div class="ibox-content" style="height: 120px">
 
                       <?php //查询全部提现 
-                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}client_agentwithdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2");
-                      
+                        $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where user_id={$_SESSION['MEMBER']['uid']} and types=2 and catalog=2");
+
                       
                         ?>
         <h1 class="no-margins">总提现金额：<?php echo '<span style="color:blue;font-weight:bold;"> '.floatval($order[0]['money']) .' </span>' ?> 元</h1>

@@ -141,7 +141,7 @@ class member
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$_SESSION['MEMBER']['uid']}";
+        $where = "user_id={$_SESSION['MEMBER']['uid']} and catalog=1";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -150,7 +150,7 @@ class member
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('client_pankouwithdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('user/withdraw', [
             'result'  => $result,
             'mysql'   => $this->mysql,

@@ -639,13 +639,13 @@ class member
         // 开启事务
         $this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_pankouwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_pankouwithdraw", [
+        $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -672,10 +672,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_pankouwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_pankouwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 
@@ -733,13 +733,13 @@ class member
         // 开启事务
         $this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_mashangwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $result = $this->mysql->update("client_mashangwithdraw", [
+        $result = $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -769,10 +769,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_mashangwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_mashangwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 
@@ -831,13 +831,13 @@ class member
         // 开启事务
         $this->mysql->select('start transaction');
         // 查询订单并且加上悲观锁
-        $result = $this->mysql->query("client_agentwithdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
+        $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
         // 判断订单状态
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_agentwithdraw", [
+        $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
@@ -931,10 +931,10 @@ class member
         $this->powerLogin(28);
         $id = intval(request::filter('get.id'));
         //查询当前用户组是否存在
-        $result = $this->mysql->query("client_agentwithdraw", "id={$id}")[0];
+        $result = $this->mysql->query("withdraw", "id={$id}")[0];
         if (!is_array($result)) functions::json(-2, '当前记录不存在');
         //删除
-        $this->mysql->delete("client_agentwithdraw", "id={$id}");
+        $this->mysql->delete("withdraw", "id={$id}");
         functions::json(200, '操作完成,您已经将记录成功移除!');
     }*/
 
