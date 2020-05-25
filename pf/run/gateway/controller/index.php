@@ -400,7 +400,7 @@ class index
             $use_city  = $data['use_city'];
             $randAgent = $this->getPayAgent($data['amount'],$data['type']);
             $a = $this->lock($randAgent['id']);
-            if($a){
+            if(!$a){
                 functions::str_json($type_content, -1, '稍等片刻');
             }
             $ordert = $this->mysql->query("client_paofen_automatic_orders","user_id={$randAgent['id']}",null,'creation_time','desc',1);
