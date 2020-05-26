@@ -352,5 +352,4 @@ class order extends common
 
         functions::json(1, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $order['trade_no'] . ' 异步通知任务下发成功!');
     }
-
 }

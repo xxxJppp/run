@@ -164,14 +164,14 @@ class user extends common
     public function setBank(){
         $bank_type = request::filter('post.bank_type', '', 'htmlspecialchars');
         if(!$bank_type){
-            functions::json(-1, '请选择绑定类型!');
+            functions::json(0, '请选择绑定类型!');
         }
         if ($bank_type == 1) {
             //支付宝
             $alipay_name = request::filter('post.name', '', 'htmlspecialchars');
             //账号
             $alipay_content = request::filter('post.card', '', 'htmlspecialchars');
-            if (empty($alipay_name) || empty($alipay_content)) functions::json(-1, '支付宝姓名或账号不能为空!');
+            if (empty($alipay_name) || empty($alipay_content)) functions::json(0, '支付宝姓名或账号不能为空!');
             //写入
             $edit['bank'] = json_encode(['type' => 1, 'name' => $alipay_name, 'card' => $alipay_content]);
         }
@@ -182,7 +182,7 @@ class user extends common
             $bank = request::filter('post.bank', '', 'htmlspecialchars');
             //账号
             $card = request::filter('post.card', '', 'htmlspecialchars');
-            if (empty($bank_name) || empty($bank) || empty($card)) functions::json(-1, '银行卡信息有误,请填写正确!');
+            if (empty($bank_name) || empty($bank) || empty($card)) functions::json(0, '银行卡信息有误,请填写正确!');
             $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank]);
         }
 
@@ -275,8 +275,8 @@ class user extends common
     //添加收款码
     public function addAutomatic(){
         $name = request::filter('post.name');
-        if (empty($name)) functions::json(-1, '参数有误');
-        if(empty($_FILES['avatar']['tmp_name']))functions::json(-1, '参数有误');
+        if (empty($name)) functions::json(0, '参数有误');
+        if(empty($_FILES['avatar']['tmp_name']))functions::json(0, '参数有误');
         $ewm_url = functions::checkCode($_FILES['avatar']['tmp_name']);
         if ($ewm_url) {
             //添加支付宝通道
@@ -284,7 +284,7 @@ class user extends common
             $find_paofen_auto_count = $this->mysql->select("select count(id) as count from " . DB_PREFIX . "client_paofen_automatic_account where user_id={$this->user['id']}")[0]['count'];
             $swrc = $this->review('paofen_auto');
             if ($swrc['quantity'] != 0) {
-                if ($find_paofen_auto_count >= $swrc['quantity']) functions::json(-2, '您当前只有' . $swrc['quantity'] . '条通道,无法再继续新增!');
+                if ($find_paofen_auto_count >= $swrc['quantity']) functions::json(0, '您当前只有' . $swrc['quantity'] . '条通道,无法再继续新增!');
             }
 
             $type = 1;
@@ -357,10 +357,10 @@ class user extends common
             if ($in > 0) {
                 functions::json(1, '上传成功');
             }
-            functions::json(-1, '上传失败!');
+            functions::json(0, '上传失败!');
 
         } else {
-            functions::json(-1, '二维码解析失败，请重新上传!', array('img' => 0));
+            functions::json(0, '二维码解析失败，请重新上传!', array('img' => 0));
         }
     }
 
