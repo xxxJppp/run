@@ -432,7 +432,10 @@ class paofen
         if(!$appeal){
             functions::json(-3,'该申诉记录不存在或已审核');
         }
-
+        $order = $mysql->query('client_paofen_automatic_orders',"trade_no={$appeal[0]['trade_no']}")[0];
+        if(!is_array($order)){
+            functions::json(-3,'订单不存在');
+        }
         $this->mysql->startThings();
 
         if($type == 1){
@@ -442,13 +445,20 @@ class paofen
                 $this->mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
             }
+            $deposit = $mysql->query("deposit","user_id={$order['user_id']} and order_id={$order['id']}")[0];
+            if(is_array($deposit)){
+                $deposit_result = $mysql->update("deposit",['money'=>$amount],"id={$deposit['id']}");
+                if(!$deposit_result){
+                    $this->mysql->rollBack();
+                    functions::json(-3,'请确认订单是否正确');
+                }
+            }
 
             $result1 = $mysql->update('appeal',['money'=>$amount],'id='.$id);
             if(!$result1){
                 $this->mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
             }
-
         }
 
         $result_appeal = $mysql->update('appeal',['audit'=>$type],'id='.$id);
