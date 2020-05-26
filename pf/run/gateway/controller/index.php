@@ -456,7 +456,6 @@ class index
                   (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+" . $data['amount'] . " or c.max_amount = 0)", null, "id", "asc");
                 $find_paofen = $find_paofen[0];
                 if (!$find_paofen) {
-                    $this->mysql->rollBack();
                     functions::str_json($type_content, -1, '订单创建失败2,请稍后重试');
                 }
 
@@ -468,7 +467,6 @@ class index
         //已经得到paofen参数
 
         if (empty($find_paofen)) {
-            $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->无可用通道,请联系客服');
         }
 
