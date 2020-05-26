@@ -48,6 +48,26 @@ class member
         ]);
     }
 
+    //配置管理
+    //权限ID：20
+    public function configList()
+    {
+        $this->powerLogin(20);
+
+        $username = trim(request::filter('get.username'));
+        $where = 'is_agent = 1';
+        if($username){
+            $where .= " and username = '{$username}'";
+        }
+        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
+        $groups = $this->mysql->query("client_group");
+        new view('member/configList', [
+            'mysql' => $this->mysql,
+            'member' => $member,
+            'groups' => $groups,
+            'username'=>$username
+        ]);
+    }
 
     public function daili()
     {
@@ -179,7 +199,6 @@ class member
         $this->powerLogin(20);
         $id = request::filter('get.id');
         $type = request::filter('get.type');
-        var_dump($type);exit;
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
@@ -349,7 +368,6 @@ class member
         $this->powerLogin(20);
         $id = intval(request::filter('get.id'));
         $type = intval(request::filter('get.type'));
-        var_dump($type);exit;
         $emp = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($emp)) functions::json(-3, '用户索引失败,请重试!');
         //上传文件到自己的空间

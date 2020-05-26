@@ -15,7 +15,7 @@ class Config
         $mysql = new mysql();
         //查询数据库
         if($key){
-            $data = $mysql->query('config',"cfg_key='{$key}'")[0];
+            $data = $mysql->query('config',"cfg_key='{$key}' and status=1")[0];
             if(is_array($data)){
                 return  $data['cfg_value'];
             }else{
