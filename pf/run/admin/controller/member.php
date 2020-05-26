@@ -688,7 +688,6 @@ class member
                 }
                 functions::unlock($find_user['id']);
             }
-            $this->mysql->select('commit');
         }
         $this->mysql->commit();
         functions::json(200, '处理成功');
