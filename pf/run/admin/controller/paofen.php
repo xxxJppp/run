@@ -436,22 +436,9 @@ class paofen
         if(!is_array($order)){
             functions::json(-3,'订单不存在');
         }
-        $user = $mysql->query('client_user',"id={$order['user_id']}")[0];
-        if(!is_array($user)){
-            functions::json(-3,'订单用户已不存在');
-        }
+
         $this->mysql->startThings();
-        $money = $order['amount'] - $amount;
-        if($money==0){
-            functions::json(-3,'订单金额正确');
-        }else{
-            $yue = $user['balance']-$amount+$order['amount'];
-            $user_result = $mysql->update("client_user",['balance'=>$yue],"id={$user['id']}");
-            if(!$user_result){
-                $this->mysql->rollBack();
-                functions::json(-3,'金额修改失败');
-            }
-        }
+        
         if($type == 1){
 
             $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],"id={$order['id']}");
