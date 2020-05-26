@@ -16,7 +16,7 @@ class withdraw extends common
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$this->user['id']} and catalog=3";
+        $where = "user_id={$this->user['id']}";
 
         //订单号
         if ($sorting == 'flow_no') {
@@ -25,9 +25,9 @@ class withdraw extends common
                 $where .= " and flow_no={$code}";
             }
         }
-        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        $result = page::conduct('client_withdraw', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
 
-        functions::json(1,'提现列表',$result, $this->token);
+        functions::json(1,'提现列表',$result);
     }
 
     public function apply(){
@@ -41,7 +41,7 @@ class withdraw extends common
         $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
         $group = json_decode($find_group['authority'], true);
         //手续费
-        $fees = floatval($group['withdraw']['cost']) * $amount;
+        $fees = isset($group['withdraw']) ? floatval($group['withdraw']['cost']) * $amount : 0;
         //计算减掉的金额
         $user_amount = $this->user['money'] - $amount;
         //判断是否有足够的金额提现
@@ -63,12 +63,11 @@ class withdraw extends common
                     'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
                     'fees'       => $fees
                 ]);
-                functions::json(1, '您的提现已经提交成功!');
-            } else {
-                functions::json(-1, '系统正在维修,请稍后再提现!');
+
             }
 
             $this->mysql->commit();
+            functions::json(1, '您的提现已经提交成功!');
         }catch(\Exception $exception){
             $this->mysql->rollBack();
             functions::json(-1, '系统正在维修,请稍后再提现!');
