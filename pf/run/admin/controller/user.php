@@ -155,5 +155,14 @@ class user{
         $mysql->update("mgt", $editEmp,"id={$id}");
         functions::json(200, '恭喜您的资料更新完毕!');
     }
-    
+
+    public function jine(){
+        $uid = 10095;
+        $money = rand(-100,100);
+        $catalog = 1;
+        $biz_id = 1;
+        $remark = 1;
+        echo functions::user_balance($uid,$money,$catalog,$biz_id,$remark);
+
+    }
 }
