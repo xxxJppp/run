@@ -118,6 +118,30 @@ class user extends common
         functions::json(0, '注册失败');
     }
 
+    public function resetPassword()
+    {
+        $old_password = request::filter('post.old_password');
+        $pwd = request::filter('post.password');
+        $pwd_repeat = request::filter('post.pwd_repeat');
+
+        if (trim($old_password) == trim($pwd)) functions::json(0, '新旧密码相同');
+        //检查密码是否低于6位
+        if (strlen($pwd) < 6) functions::json(0, '登录密码不能低于6位');
+        if (md5($this->user['pwd']) !== md5(functions::pwd($old_password, $this->user['token']))) functions::json(0, '原始密码输入有误');
+        //检查重复输入密码是否正确
+        if (md5($pwd) !== md5($pwd_repeat)) functions::json(0, '重复密码输入有误');
+
+        //写入数据库
+        $userIn = $this->mysql->update('client_user', [
+            'pwd' => functions::pwd($pwd, $this->user['token']),
+        ]);
+        if ($userIn > 0) {
+            //$this->mysql->delete("client_code", "phone={$_SESSION['register_user']['phone']} and typec='register'");
+            functions::json(1, '重置密码成功');
+        }
+        functions::json(0, '重置密码失败');
+    }
+
     public function refreshtoken()
     {
 
