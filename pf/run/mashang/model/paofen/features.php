@@ -406,7 +406,6 @@ class features
         //获取上级用户组
         $shangji = $user['level_id'];
 
-
         if ($shangji !== '0') {
             //得到用户组
 
