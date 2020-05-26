@@ -274,7 +274,94 @@ class user extends common
 
     //添加收款码
     public function addAutomatic(){
+        $name = request::filter('post.name');
+        if (empty($name)) functions::json(-1, '参数有误');
+        if(empty($_FILES['avatar']['tmp_name']))functions::json(-1, '参数有误');
+        $ewm_url = functions::checkCode($_FILES['avatar']['tmp_name']);
+        if ($ewm_url) {
+            //添加支付宝通道
+            //检测当前拥有多少条通道
+            $find_paofen_auto_count = $this->mysql->select("select count(id) as count from " . DB_PREFIX . "client_paofen_automatic_account where user_id={$this->user['id']}")[0]['count'];
+            $swrc = $this->review('paofen_auto');
+            if ($swrc['quantity'] != 0) {
+                if ($find_paofen_auto_count >= $swrc['quantity']) functions::json(-2, '您当前只有' . $swrc['quantity'] . '条通道,无法再继续新增!');
+            }
 
+            $type = 1;
+
+            if($type == 3){
+
+                $typename = request::filter('get.typename', ' ', 'htmlspecialchars');
+            }else{
+
+                $typename = 0;
+            }
+
+            if($type == 4){
+
+                $account = request::filter('get.account', ' ', 'htmlspecialchars');
+                $pid = request::filter('get.pid', ' ', 'htmlspecialchars');
+                $ewm_url = 0;
+                $typename = 0;
+                $gathering_name=0;
+                $cardid=0;
+                $bank_id=0;
+                $account_no=0;
+
+            }else if($type == 5){
+                $gathering_name = request::filter('get.gathering_name', ' ', 'htmlspecialchars');
+                $cardid = request::filter('get.cardid', ' ', 'htmlspecialchars');
+                $bank_id = request::filter('get.bank_id', ' ', 'htmlspecialchars');
+                $account_no = request::filter('get.account_no', ' ', 'htmlspecialchars');
+
+                $ewm_url = 0;
+                $typename = 0;
+                $account = 0;
+                $pid=0;
+            }else{
+                $account = 0;
+                $typename = 0;
+                $pid=0;
+                $gathering_name=0;
+                $cardid=0;
+                $bank_id=0;
+                $account_no=0;
+            }
+            $key_id = strtoupper(substr(md5(mt_rand((mt_rand(1000, 9999) + mt_rand(1000, 9999)), mt_rand(1000000, 99999999))), 0, 18));
+            $insert = [
+                'name'              => $name,
+                'status'            => 4,
+                'login_time'        => 0,
+                'heartbeats'        => 0,
+                'active_time'       => 0,
+                'user_id'           => $this->user['id'],
+                'key_id'            => $key_id,
+                'training'          => 1,
+                'receiving'         => 1,
+                'ewm_url'         => $ewm_url,
+                'type'         => $type,
+                'typename'         => $typename,
+                'account'         => $account,
+                'pid'         => $pid,
+                'gathering_name'     => $gathering_name,
+                'cardid'       => $cardid,
+                'bank_id'     => $bank_id,
+                'account_no'    => $account_no,
+                'account_user_id' => '',
+                'app_user' => '',
+                'max_dd' => 0,
+                'dy_name' => ''
+            ];
+            $in = $this->mysql->insert("client_paofen_automatic_account", $insert);
+
+            if ($in > 0) {
+                functions::json(1, '上传成功');
+            }
+            functions::json(-1, '上传失败!');
+
+        } else {
+            functions::json(-1, '二维码解析失败，请重新上传!', array('img' => 0));
+        }
     }
 
 

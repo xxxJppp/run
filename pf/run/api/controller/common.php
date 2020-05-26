@@ -46,6 +46,7 @@ class common
         //检测通道总开关
         $cog = json_decode($mysql->query("variable","name='costCog'")[0]['value'],true)[$check_name];
         if ($cog['open'] != 1) functions::json('-3', '该通道已经关闭或正在升级,请稍后再试!');
+        return $authority;
     }
 
 
