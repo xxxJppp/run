@@ -53,7 +53,7 @@ $fix = DB_PREFIX;
 
                                 <?php if($em['audit'] == 0){?>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="audit('<?php echo $em['id']; ?>',3)">
+                                        onclick="audit('<?php echo $em['id']; ?>',3,'')">
                                     审核
                                 </button>
                                 <button class="layui-btn layui-btn-small"
