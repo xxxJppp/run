@@ -155,5 +155,5 @@ class user{
         $mysql->update("mgt", $editEmp,"id={$id}");
         functions::json(200, '恭喜您的资料更新完毕!');
     }
-
+    
 }

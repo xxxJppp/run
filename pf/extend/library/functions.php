@@ -136,7 +136,7 @@ class functions
             'quota' => 50000,
             'time' => 0,
             'fees' => 5,
-            'jiange' => rand(0,20)
+            'jiange' => rand(0, 20)
         ];
     }
 
@@ -201,21 +201,25 @@ class functions
         ];
 
     }
-    static function unlock($key){
+
+    static function unlock($key)
+    {
         $redis = redis::getInstance(functions::getRedisConfig());
         return $redis->del($key);
     }
-    static function lock($key,$expire=5){
+
+    static function lock($key, $expire = 5)
+    {
         $redis = redis::getInstance(functions::getRedisConfig());
-        $is_lock = $redis->setnx($key,time()+$expire);
-        if(!$is_lock){
+        $is_lock = $redis->setnx($key, time() + $expire);
+        if (!$is_lock) {
             $lock_time = $redis->get($key);
-            if(time()>$lock_time){
+            if (time() > $lock_time) {
                 self::unlock($key);
-                $is_lock = $redis->setnx($key,time()+$expire);
+                $is_lock = $redis->setnx($key, time() + $expire);
             }
         }
-        return $is_lock?true:false;
+        return $is_lock ? true : false;
     }
 
     //添加轮循
@@ -543,4 +547,78 @@ class functions
 
         return $data;
     }
+
+    /**
+     * 更新用户余额，写入账变(7)
+     * @param $uid 用户
+     * @param $money 金额
+     * @param $catalog 账变类型
+     * @param $biz_id 业务id
+     * @param $remark 备注
+     * @param int $count
+     * @return bool
+     */
+    public static function user_balance($uid, $money, $catalog, $biz_id, $remark, $count = 0)
+    {
+        $count++;
+        if($count>3){
+            return false;
+        }
+
+        $mysql = new mysql();
+        //1、 检测用户是否存在
+        $user = $mysql->query('client_user', "id={$uid}")[0];
+
+        $version = $user['version'];
+        $balance = $user['balance'];
+        if (!is_array($user)) return false;
+
+        if ($money == 0 || !is_numeric($money)) return false;
+
+        if (!is_int($catalog)) return false;
+
+        if ($biz_id <= 0) return false;
+
+        //开启事务
+        //2、乐观锁更新余额
+        $mysql->startThings();
+        $user_up = [
+            'balance' => $balance + $money,
+            'version' => $version + 1
+        ];
+
+        $user_re = $mysql->update("client_user", $user_up, "id={$uid} and version={$version}");
+
+        //3、更新失败，重试3次
+        if (!$user_re) {
+            //回滚事务
+            $mysql->rollback();
+            usleep(10);
+            self::user_balance($uid, $money, $catalog, $biz_id, $remark, $count);
+            return false;
+        }
+
+        //写入账变
+        $amount_inset = [
+            'uid' => $uid,
+            'biz_id' => $biz_id,
+            'money' => $money,
+            '`before`' => $balance,
+            '`after`' => $balance + $money,
+            'catalog' => $catalog,
+            'remark' => $remark,
+            'create_time' => time()
+        ];
+        $amount_re = $mysql->insert("user_balance_record", $amount_inset);
+
+        if (!$amount_re) {
+            //回滚事务
+            $mysql->rollback();
+            return false;
+        }
+        //提交修改
+        $mysql->commit();
+        return true;
+    }
+
 }
