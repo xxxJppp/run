@@ -32,11 +32,11 @@ class withdraw extends common
 
     public function apply(){
         $bank = json_decode($this->user['bank'],true);
-        if (!in_array($bank['type'], [1, 2])) functions::json(-1, '请在个人设置里面添加银行卡或支付宝');
+        if (!in_array($bank['type'], [1, 2])) functions::json(0, '请在个人设置里面添加银行卡或支付宝');
         //计算用户
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
-        if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
+        if ($amount < 1) functions::json(0, '提现金额输入不正确,本支付平台最低提现1元人民币');
         //用户组
         $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
         $group = json_decode($find_group['authority'], true);
@@ -45,7 +45,7 @@ class withdraw extends common
         //计算减掉的金额
         $user_amount = $this->user['money'] - $amount;
         //判断是否有足够的金额提现
-        if ($user_amount < 0) functions::json(-1, '余额不足');
+        if ($user_amount < 0) functions::json(0, '余额不足');
         //更新用户账户信息
         try{
             $this->mysql->startThings();
@@ -70,7 +70,7 @@ class withdraw extends common
             functions::json(1, '您的提现已经提交成功!');
         }catch(\Exception $exception){
             $this->mysql->rollBack();
-            functions::json(-1, '系统正在维修,请稍后再提现!');
+            functions::json(0, '系统正在维修,请稍后再提现!');
         }
     }
 

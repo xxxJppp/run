@@ -41,11 +41,11 @@ class common
         $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
         $group = json_decode($find_group['authority'], true);
         $authority = $group[$check_name];
-        if ($authority['open'] != 1) functions::json('-3', '您好,你当前所在的用户组无法使用该通道!');
+        if ($authority['open'] != 1) functions::json('0', '您好,你当前所在的用户组无法使用该通道!');
         $mysql = new mysql();
         //检测通道总开关
         $cog = json_decode($mysql->query("variable","name='costCog'")[0]['value'],true)[$check_name];
-        if ($cog['open'] != 1) functions::json('-3', '该通道已经关闭或正在升级,请稍后再试!');
+        if ($cog['open'] != 1) functions::json('0', '该通道已经关闭或正在升级,请稍后再试!');
         return $authority;
     }
 
