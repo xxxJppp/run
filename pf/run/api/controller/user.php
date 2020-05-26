@@ -282,12 +282,17 @@ class user extends common
             $bankStr[$bv['bank_id']] = $bv['bank_name'];
         }
         $type= [1=> '支付宝', 2=>'微信', 3=>'其他'];
+
+
+        $paofen_accounts = $this->mysql->select("select count(id) as count, paofen_id from {$this->prefix}client_paofen_automatic_orders   where status=4 and user_id={$this->user['id']} group by paofen_id");
+        $accounts = $this->changeArr($paofen_accounts, 'paofen_id', 'count');
+
         foreach ($result['result'] as &$v){
             $v['bank_name'] = isset($bankStr[$v['bank_id']]) ? $bankStr[$v['bank_id']] : '';
             $v['city_name'] = isset($bankStr[$v['area']]) ? $bankStr[$v['area']] : '';
             $v['type_name'] = isset($type[$v['type']]) ? $type[$v['type']] : '';
+            $v['total_pens'] = isset($accounts[$v['id']]) ? $accounts[$v['id']] : 0;
         }
-
         functions::json(1, '获取成功',$result);
     }
 
