@@ -17,6 +17,7 @@ class common
     protected $mysql;
     protected $checktoken;
     protected $pass = ['login', 'registered', 'refreshtoken'];//不需要签名验证的方法
+    protected $prefix = 'xh_';
 
     public function __construct()
     {
@@ -47,6 +48,15 @@ class common
         $cog = json_decode($mysql->query("variable","name='costCog'")[0]['value'],true)[$check_name];
         if ($cog['open'] != 1) functions::json('0', '该通道已经关闭或正在升级,请稍后再试!');
         return $authority;
+    }
+
+    //遍历
+    public function changeArr($arr, $k, $v=''){
+        $new = [];
+        foreach($arr as $val){
+            $new[$val[$k]] = $v ? $val[$v] : $val;
+        }
+        return $new;
     }
 
 

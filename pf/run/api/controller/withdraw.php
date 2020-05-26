@@ -80,7 +80,9 @@ class withdraw extends common
             '2' => '银行卡'
         ];
         $bank = json_decode($this->user['bank'],true);
-        $bank['type_name'] = isset($bank_type[$bank['type']]) ? $bank_type[$bank['type']] : '';
+        if($bank){
+            $bank['type_name'] = isset($bank_type[$bank['type']]) ? $bank_type[$bank['type']] : '';
+        }
         functions::json(1, '账号支付信息!', $bank);
     }
 
