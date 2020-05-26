@@ -12,6 +12,7 @@ use xh\unity\page;
 
 class common
 {
+    protected $perPage = 15;
     protected $token = '';
     protected $user;
     protected $mysql;
@@ -33,23 +34,18 @@ class common
         }
     }
 
-    public function index()
-    {
-        $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
-        $code = request::filter('get.code', '', 'htmlspecialchars');
 
-        $where = "user_id={$this->user['id']} and catalog=3";
 
-        //订单号
-        if ($sorting == 'flow_no') {
-            if ($code != '') {
-                $code = trim($code);
-                $where .= " and flow_no={$code}";
-            }
-        }
-        $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
-
-        functions::json(1, '提现列表', $result, $this->token);
+    //检查是否支持当前通道
+    public function review($check_name){
+        $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
+        $group = json_decode($find_group['authority'], true);
+        $authority = $group[$check_name];
+        if ($authority['open'] != 1) functions::json('-3', '您好,你当前所在的用户组无法使用该通道!');
+        $mysql = new mysql();
+        //检测通道总开关
+        $cog = json_decode($mysql->query("variable","name='costCog'")[0]['value'],true)[$check_name];
+        if ($cog['open'] != 1) functions::json('-3', '该通道已经关闭或正在升级,请稍后再试!');
     }
 
 }

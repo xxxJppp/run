@@ -5,9 +5,11 @@ namespace xh\run\api\controller;
 use xh\library\functions;
 use xh\library\ip;
 use xh\library\jwt;
+use xh\library\model;
 use xh\library\request;
 use xh\unity\cog;
 use xh\unity\encrypt;
+use xh\unity\page;
 
 require_once __DIR__ . '/common.php';
 
@@ -187,5 +189,94 @@ class user extends common
         $this->mysql->update("client_user", $edit, "id={$this->user['id']}");
         functions::json(1, '银行信息设置成功!');
     }
+
+    public function automaticOrder()
+    {
+
+        $uid = $this->user['id'];
+        $status = request::filter('post.status');
+        $where = "user_id={$uid}";
+        if($status){
+            $where .= " and status={$status}";
+        }
+        $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), $this->perPage, $where, 'id,trade_no,creation_time,amount,status', 'id', 'desc');
+
+        foreach ($result['result'] as &$v){
+            $v['creation_time'] = date('Y-m-d H:i:s',$v['creation_time']);
+            $v['status_name'] = $v['status'] == 2 ? '未支付' : ($v['status'] == 3 ? '订单超时' : '已支付');
+        }
+        functions::json(1, '获取成功',$result);
+    }
+
+    public function chargeOrder()
+    {
+
+        $where="uid =".$this->user['id'];
+        $status = [1=>'充值', 2=>'扣款'];
+        $result = page::conduct('user_paylog', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
+        foreach ($result['result'] as &$v){
+            $v['time'] = date('Y-m-d H:i:s',$v['time']);
+            $v['status_name'] = $status[$v['status']];
+        }
+        functions::json(1, '获取成功',$result);
+    }
+
+    public function withdraw()
+    {
+
+        $where="uid =".$this->user['id'];
+        $status = [1=>'充值', 2=>'扣款'];
+        $result = page::conduct('user_paylog', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
+        foreach ($result['result'] as &$v){
+            $v['time'] = date('Y-m-d H:i:s',$v['time']);
+            $v['status_name'] = $status[$v['status']];
+        }
+        functions::json(1, '获取成功',$result);
+    }
+
+    //收款码
+    public function automatic(){
+        $this->review('paofen_auto');
+        $type = request::filter('get.type', '', 'htmlspecialchars');
+        //筛选
+        $where = '';
+            $list = [1, 2, 3, 4, 5, 6, 7, 8];
+            if (in_array($type, $list)) {
+                $where .= "and type = {$type}";
+            } else {
+                unset($_SESSION['SERVICE_ACCOUNT']['WHERE']);
+            }
+
+        //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
+        $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), $this->perPage, "user_id={$this->user['id']} " . $where, null, 'id', 'desc');
+        //获取城市
+        $areaList = $this->mysql->query('city');
+        $areaStr = [];
+        foreach ($areaList as $bk => $bv) {
+            $areaStr[$bv['id']]=$bv['cityname'];
+        }
+
+        //获取银行id（简称）
+        $bankList = $this->mysql->query('bank_id');
+        $bankStr = [];
+        foreach ($bankList as $bk => $bv) {
+            $bankStr[$bv['bank_id']] = $bv['bank_name'];
+        }
+        $type= [1=> '支付宝', 2=>'微信', 3=>'其他'];
+        foreach ($result['result'] as &$v){
+            $v['bank_name'] = isset($bankStr[$v['bank_id']]) ? $bankStr[$v['bank_id']] : '';
+            $v['city_name'] = isset($bankStr[$v['area']]) ? $bankStr[$v['area']] : '';
+            $v['type_name'] = isset($type[$v['type']]) ? $type[$v['type']] : '';
+        }
+
+        functions::json(1, '获取成功',$result);
+    }
+
+    //添加收款码
+    public function addAutomatic(){
+
+    }
+
+
 
 }
