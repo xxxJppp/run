@@ -173,7 +173,7 @@ $fix = DB_PREFIX;
                                     window.location.href = "/admin/paofen/appeal";
                                 }});
                         }else{
-                            layer.msg(result.msg, {icon:2,time:1000})
+                            layer.msg(res.msg, {icon:2,time:1000})
                         }
                     }
                 });
@@ -189,7 +189,7 @@ $fix = DB_PREFIX;
                                 window.location.href = "/admin/paofen/appeal";
                         }});
                     }else{
-                        layer.msg(result.msg, {icon:2,time:1000})
+                        layer.msg(res.msg, {icon:2,time:1000})
                     }
                 }
             });

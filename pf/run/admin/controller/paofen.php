@@ -440,7 +440,7 @@ class paofen
 
         if($type == 1){
 
-            $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],'trade_no='.$appeal[0]['trade_no']);
+            $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],"id={$order['id']}");
             if(!$result){
                 $this->mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
@@ -450,7 +450,7 @@ class paofen
                 $deposit_result = $mysql->update("deposit",['money'=>$amount],"id={$deposit['id']}");
                 if(!$deposit_result){
                     $this->mysql->rollBack();
-                    functions::json(-3,'请确认订单是否正确');
+                    functions::json(-3,'请确认订单是否正确1');
                 }
             }
 
