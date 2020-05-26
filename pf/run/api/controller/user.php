@@ -137,12 +137,7 @@ class user extends common
     public function userinfo()
     {
 
-        $k = request::filter('post.k');
-        $username = (new encrypt())->Decode($k, $this->userkey);
-        if ($this->checktoken['sub'] != $username) {
-            functions::json(0, '用户信息有误');
-        }
-        $checkuser = $this->mysql->query('client_user', "username='{$username}' and is_mashang=1 and status=1", 'id,username,phone,money');
+        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,money');
 
         if (!$checkuser) {
             functions::json(0, '用户信息有误');
