@@ -30,7 +30,6 @@ class member
 
     }
 
-
     //用户列表
     //权限ID：20
     public function index()
@@ -45,27 +44,6 @@ class member
             'mysql' => $this->mysql,
             'member' => $member,
             'groups' => $groups
-        ]);
-    }
-
-    //配置管理
-    //权限ID：20
-    public function configList()
-    {
-        $this->powerLogin(20);
-
-        $username = trim(request::filter('get.username'));
-        $where = 'is_agent = 1';
-        if($username){
-            $where .= " and username = '{$username}'";
-        }
-        $member = page::conduct('client_user', request::filter('get.page'), 10, $where, null, 'id', 'desc');
-        $groups = $this->mysql->query("client_group");
-        new view('member/configList', [
-            'mysql' => $this->mysql,
-            'member' => $member,
-            'groups' => $groups,
-            'username'=>$username
         ]);
     }
 
