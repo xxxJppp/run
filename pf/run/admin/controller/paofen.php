@@ -481,7 +481,7 @@ class paofen
                     'money'    => $amount,
                     'old_balance'    =>  $new_user['balance'],
                     'new_balance'    => $je,
-                    'remark'    =>'申诉成功，从新冻结押金！订单号：'.$appeal[0]['trade_no'].',冻结金额：'.$amount.'元，冻结前余额：'. $new_user['balance'].'元，冻结后余额：'. $je.'元',
+                    'remark'    =>'申诉成功，重新冻结押金！订单号：'.$appeal[0]['trade_no'].',冻结金额：'.$amount.'元，冻结前余额：'. $new_user['balance'].'元，冻结后余额：'. $je.'元',
                     'time' => time(),
                     'status' => 1
                 ]);
