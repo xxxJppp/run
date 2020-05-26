@@ -570,7 +570,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
                 $balance_result = $this->mysql->update("client_user", [
@@ -676,7 +676,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
                 $balance_result = $this->mysql->update("client_user", [
@@ -783,7 +783,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
                 $balance_result = $this->mysql->update("client_user", [
@@ -892,7 +892,7 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
                 $palance_update = $this->mysql->update("client_user", [
@@ -946,7 +946,7 @@ class member
         $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
         $a = functions::lock($user['id']);
         if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
+            functions::json( -1, '稍等片刻');
         }
         if (!is_array($user)) functions::json(-1, '此码商不存在');
         if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');
