@@ -383,7 +383,7 @@ class features
         $user = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         $a = functions::lock($user['id']);
         if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
+            functions::json(-1, '稍等片刻');
         }
         if (!is_array($user)) functions::json(-1, '商户错误');
 
@@ -391,7 +391,7 @@ class features
         $agt = $mysql->query("client_user","id={$user['level_id']}")[0];
         $agt_a = functions::lock($agt['id']);
         if(!$agt_a){
-            functions::str_json($type_content, -1, '稍等片刻');
+            functions::json(-1, '稍等片刻');
         }
         $group = $mysql->query('client_group', "id={$agt['group_id']}");
         $group && $group = $group[0];
@@ -419,7 +419,7 @@ class features
             $puser = $mysql->query("client_user", "id={$order['pankou_id']}")[0];
             $puser_a = functions::lock($puser['id']);
             if(!$puser_a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json(-1, '稍等片刻');
             }
             $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}")[0];
             $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
@@ -522,7 +522,7 @@ class features
                                 $bac = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
                                 $act_a = functions::lock($bac['id']);
                                 if(!$act_a){
-                                    functions::str_json($type_content, -1, '稍等片刻');
+                                    functions::json( -1, '稍等片刻');
                                 }
                                 $yue = $bac['balance']-$order['amount'];
                                 $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
@@ -544,7 +544,7 @@ class features
             $puser && $puser = $puser[0];
             $puser_sult = functions::lock($puser['id']);
             if(!$puser_sult){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             $pankougroup = $mysql->query('client_group', "id={$puser['group_id']}");
             $pankougroup && $pankougroup = $pankougroup[0];
@@ -622,7 +622,7 @@ class features
                                 $bac = $mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
                                 $act_a = functions::lock($bac['id']);
                                 if(!$act_a){
-                                    functions::str_json($type_content, -1, '稍等片刻');
+                                    functions::json( -1, '稍等片刻');
                                 }
                                 $yue = $bac['balance']-$order['amount'];
                                 $mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");

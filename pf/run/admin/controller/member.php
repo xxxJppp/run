@@ -545,7 +545,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("client_withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -553,28 +553,37 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_withdraw", [
-            'types' => $type,
-            'is_notice' => 1,
-            'content' => $msg,
-            'status' => 1,
-            'deal_time' => time()
-        ], "id={$id}");
+         $width_result = $this->mysql->update("client_withdraw", [
+                            'types' => $type,
+                            'is_notice' => 1,
+                            'content' => $msg,
+                            'status' => 1,
+                            'deal_time' => time()
+                        ], "id={$id}");
+        if(!$width_result){
+            $this->mysql->rollback();
+            functions::json(-2,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'money' => $find_user['money'] + ($result['amount'])
-                ], "id={$find_user['id']}");
+                $balance_result = $this->mysql->update("client_user", [
+                                        'money' => $find_user['money'] + ($result['amount'])
+                                    ], "id={$find_user['id']}");
+                if(!$balance_result){
+                    $this->mysql->rollback();
+                    functions::json(-2,'提现失败2');
+                }
                 functions::unlock($find_user['id']);
             }
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 /*
@@ -642,7 +651,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -650,29 +659,37 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("withdraw", [
+        $width_result = $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
             'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
+        if(!$width_result){
+            $this->mysql->rollBack();
+            functions::json(-3,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
+                $balance_result = $this->mysql->update("client_user", [
+                                        'balance' => $find_user['balance'] + ($result['amount'])
+                                    ], "id={$find_user['id']}");
+                if(!$balance_result){
+                    $this->mysql->rollBack();
+                    functions::json(-3,'提现失败2');
+                }
                 functions::unlock($find_user['id']);
             }
-            $this->mysql->select('commit');
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 /*
@@ -741,7 +758,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -756,26 +773,32 @@ class member
             'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
+        if(!$result){
+            $this->mysql->rollBack();
+            functions::json(-3,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
+                $balance_result = $this->mysql->update("client_user", [
+                                        'balance' => $find_user['balance'] + ($result['amount'])
+                                    ], "id={$find_user['id']}");
+                if(!$balance_result){
+                    $this->mysql->rollBack();
+                    functions::json(-3,'提现失败2');
+                }
                 functions::unlock($find_user['id']);
             }
         }
-        if($result){
+        $this->mysql->commit();
             functions::json(200, '处理成功');
-        }else{
-            functions::json(-2, '处理失败');
-        }
+
     }
 
    /* //删除提现
@@ -844,7 +867,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -852,28 +875,37 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("withdraw", [
-            'types' => $type,
-            'is_notice' => 1,
-            'content' => $msg,
-            'status' => 1,
-            'deal_time' => time()
-        ], "id={$id}");
+        $withdraw_result =$this->mysql->update("withdraw", [
+                                'types' => $type,
+                                'is_notice' => 1,
+                                'content' => $msg,
+                                'status' => 1,
+                                'deal_time' => time()
+                            ], "id={$id}");
+        if(!$withdraw_result){
+            $this->mysql->rollback();
+            functions::json(-2, '提现失败1！');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             $a = functions::lock($find_user['id']);
             if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
+                functions::json( -1, '稍等片刻');
             }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
+                $palance_update = $this->mysql->update("client_user", [
+                                        'balance' => $find_user['balance'] + ($result['amount'])
+                                    ], "id={$find_user['id']}");
                 functions::unlock($find_user['id']);
+                if(!$palance_update){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
+                }
             }
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 
@@ -914,7 +946,7 @@ class member
         $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
         $a = functions::lock($user['id']);
         if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
+            functions::json( -1, '稍等片刻');
         }
         if (!is_array($user)) functions::json(-1, '此码商不存在');
         if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');

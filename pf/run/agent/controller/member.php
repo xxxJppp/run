@@ -208,7 +208,7 @@ class member
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
         $a = functions::lock($user['id']);
         if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
+            functions::json( -1, '稍等片刻');
         }
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));

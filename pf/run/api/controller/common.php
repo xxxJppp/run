@@ -7,7 +7,6 @@ use xh\library\functions;
 use xh\library\jwt;
 use xh\library\mysql;
 use xh\library\request;
-use xh\unity\page;
 
 
 class common
@@ -36,6 +35,7 @@ class common
 
 
 
+
     //检查是否支持当前通道
     public function review($check_name){
         $find_group = $this->mysql->query("client_group","id={$this->user['group_id']}")[0];
@@ -47,5 +47,6 @@ class common
         $cog = json_decode($mysql->query("variable","name='costCog'")[0]['value'],true)[$check_name];
         if ($cog['open'] != 1) functions::json('-3', '该通道已经关闭或正在升级,请稍后再试!');
     }
+
 
 }
