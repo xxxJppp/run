@@ -428,7 +428,7 @@ class paofen
         }
 
         $mysql = new Mysql();
-        $appeal = $mysql->query('appeal','id='.$id,'trade_no');
+        $appeal = $mysql->query('appeal','id='.$id,'trade_no,money');
         if(!$appeal){
             functions::json(-3,'该申诉记录不存在或已审核');
         }
@@ -437,38 +437,37 @@ class paofen
             functions::json(-3,'订单不存在');
         }
 
-        $this->mysql->startThings();
-        
-        if($type == 1){
+        $mysql->startThings();
 
+        if($type == 1){
             $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],"id={$order['id']}");
             if(!$result){
-                $this->mysql->rollBack();
+                $mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
             }
             $deposit = $mysql->query("deposit","user_id={$order['user_id']} and order_id={$order['id']}")[0];
             if(is_array($deposit)){
                 $deposit_result = $mysql->update("deposit",['money'=>$amount],"id={$deposit['id']}");
                 if(!$deposit_result){
-                    $this->mysql->rollBack();
+                    $mysql->rollBack();
                     functions::json(-3,'请确认订单是否正确1');
                 }
             }
-
-            $result1 = $mysql->update('appeal',['money'=>$amount],'id='.$id);
-            if(!$result1){
-                $this->mysql->rollBack();
-                functions::json(-3,'请确认订单是否正确');
+            if($appeal[0]['money']!=$amount){
+                $result1 = $mysql->update('appeal',['money'=>$amount],'id='.$id);
+                if(!$result1){
+                    $mysql->rollBack();
+                    functions::json(-3,'请确认订单是否正确2');
+                }
             }
         }
-
         $result_appeal = $mysql->update('appeal',['audit'=>$type],'id='.$id);
         if(!$result_appeal){
-            $this->mysql->rollBack();
+            $mysql->rollBack();
             functions::json(-3,'请确认订单是否正确');
         }
 
-        $this->mysql->commit();
+        $mysql->commit();
         functions::json(1,'操作成功');
     }
 
