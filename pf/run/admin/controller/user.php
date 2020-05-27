@@ -156,19 +156,31 @@ class user{
         functions::json(200, '恭喜您的资料更新完毕!');
     }
 
-    public function jine(){
+    public function jine()
+    {
         $mysql = new mysql();
+
         $mysql->startThings();
+
         $uid = 10127;
         $money = rand(-100,100);
         $catalog = 1;
         $biz_id = 1;
-        $remark = 1;
-        $re = functions::user_balance($mysql,$uid,$money,$catalog,$biz_id,$remark);
-        if($re){
-            $mysql->commit();
-            echo "成功";
+        $remark = '';
+
+        $re_balance = functions::user_balance($uid,$money);;
+        if(!$re_balance){
+            $mysql->rollBack();
+            functions::json(-1, '更新余额失败');
         }
 
+        $re_account = functions::user_account($uid,$money,$catalog,$biz_id,$remark);
+
+        if(!$re_account){
+            $mysql->rollBack();
+            functions::json(-1, '写入账变失败');
+        }
+        $mysql->commit();
+        functions::json(200, '成功');
     }
 }
