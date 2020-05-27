@@ -549,17 +549,15 @@ class functions
     }
 
     /**
-     * 更新用户余额，写入账变(7)
-     * @param $mysql 对象
+     * 更新用户余额
+
      * @param $uid 用户
-     * @param $money 金额
-     * @param $catalog 账变类型
-     * @param $biz_id 业务id
-     * @param $remark 备注
-     * @param int $count
+     * @param $balance 余额
+     * @param $money 返点
+
      * @return bool
      */
-    public static function user_balance($uid, $money, $count = 0)
+    public static function user_balance($uid, $balance,$money=0, $count = 0)
     {
         $mysql = new mysql();
 
@@ -573,28 +571,30 @@ class functions
 
         if (!is_array($user)) return false;
 
-        if ($money == 0 || !is_numeric($money)) return false;
+        if ($balance == 0 || !is_numeric($balance)) return false;
 
-        $balance = $user['balance'];
-        $version = $user['version'];
+        $user_balance = $user['balance'];
+        $user_version = $user['version'];
+        $user_money = $user['money'];
 
         //2、乐观锁更新余额
         $user_up = [
-            'balance' => $balance + $money,
-            'version' => $version + 1
+            'money' => $user_money + $money,
+            'balance' => $user_balance + $balance,
+            'version' => $user_version + 1
         ];
 
-        $user_re = $mysql->update("client_user", $user_up, "id={$uid} and version={$version}");
+        $user_re = $mysql->update("client_user", $user_up, "id={$uid} and version={$user_version}");
 
         //3、更新失败，重试3次
         if (!$user_re) {
             $rand = rand(100,3000);
             usleep($rand);
-            self::user_balance($uid, $money, $count);
+            self::user_balance($uid, $balance,$money=0, $count);
             return false;
         }
 
-        return $balance;
+        return $user_balance;
     }
 
     /**
