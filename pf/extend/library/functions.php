@@ -563,6 +563,14 @@ class functions
     {
         $count++;
         if($count>3){
+            $log_data = [
+                'uid'=>$uid,
+                'money'=>$money,
+                'catalog'=>$catalog,
+                '$biz_id'=>$biz_id,
+                'remark'=>$remark,
+            ];
+            $mysql->insert("user_balance_log", ['content'=>json_encode($log_data),'create_time' => time()]);
             return false;
         }
 
