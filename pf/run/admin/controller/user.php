@@ -156,4 +156,19 @@ class user{
         functions::json(200, '恭喜您的资料更新完毕!');
     }
 
+    public function jine(){
+        $mysql = new mysql();
+        $mysql->startThings();
+        $uid = 10127;
+        $money = rand(-100,100);
+        $catalog = 1;
+        $biz_id = 1;
+        $remark = 1;
+        $re = functions::user_balance($mysql,$uid,$money,$catalog,$biz_id,$remark);
+        if($re){
+            $mysql->commit();
+            echo "成功";
+        }
+
+    }
 }
