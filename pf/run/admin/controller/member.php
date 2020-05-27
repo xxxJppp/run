@@ -564,19 +564,14 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::json( -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $balance_result = $this->mysql->update("client_user", [
-                                        'money' => $find_user['money'] + ($result['amount'])
-                                    ], "id={$find_user['id']}");
-                if(!$balance_result){
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
                     $this->mysql->rollback();
-                    functions::json(-2,'提现失败2');
+                    functions::json(-2, '提现失败2！');
                 }
-                functions::unlock($find_user['id']);
             }
         }
         $this->mysql->commit();
@@ -670,19 +665,14 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::json( -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $balance_result = $this->mysql->update("client_user", [
-                                        'balance' => $find_user['balance'] + ($result['amount'])
-                                    ], "id={$find_user['id']}");
-                if(!$balance_result){
-                    $this->mysql->rollBack();
-                    functions::json(-3,'提现失败2');
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
                 }
-                functions::unlock($find_user['id']);
             }
         }
         $this->mysql->commit();
@@ -777,19 +767,14 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::json( -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $balance_result = $this->mysql->update("client_user", [
-                                        'balance' => $find_user['balance'] + ($result['amount'])
-                                    ], "id={$find_user['id']}");
-                if(!$balance_result){
-                    $this->mysql->rollBack();
-                    functions::json(-3,'提现失败2');
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
                 }
-                functions::unlock($find_user['id']);
             }
         }
         $this->mysql->commit();
@@ -886,16 +871,11 @@ class member
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::json( -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $palance_update = $this->mysql->update("client_user", [
-                                        'balance' => $find_user['balance'] + ($result['amount'])
-                                    ], "id={$find_user['id']}");
-                functions::unlock($find_user['id']);
-                if(!$palance_update){
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
                     $this->mysql->rollback();
                     functions::json(-2, '提现失败2！');
                 }
@@ -940,37 +920,31 @@ class member
         $remark = trim(request::filter('post.remark'));
         $this->mysql->startThings();
         $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
-        $a = functions::lock($user['id']);
-        if(!$a){
-            functions::json( -1, '稍等片刻');
-        }
         if (!is_array($user)) functions::json(-1, '此码商不存在');
         if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');
         if (empty($remark)) functions::json(-1, '备注不能为空');
         if ($status == 2) {
-            $new_money = $user['balance'] - $money;
+            $new_money =  '-'.$money;
+            $remark = '扣款';
         } else {
-            $new_money = $user['balance'] + $money;
+            $new_money = $money;
+            $remark = '充值';
         }
 
         $data = [
             'uid' => $user['id'],
             'money' => $money,
             'old_money' => $user['balance'],
-            'new_money' => $new_money,
+            'new_money' => $user['balance']+$new_money,
             'remark' => $remark,
             'time' => time(),
             'op_user' => $_SESSION['USER_MGT']['uid']."|".$_SESSION['USER_MGT']['username'],
             'status' => $status
         ];
-
         $st = $this->mysql->insert('user_paylog', $data);
-        $up = $this->mysql->update('client_user', [
-            'balance' => $new_money
-        ], "id={$user['id']}");
-
-        if ($st && $up) {
-            functions::unlock($user['id']);
+        $up = functions::user_balance($user['id'],$new_money);
+        $change = functions::user_balance_record($user['id'],$new_money,6,$st,$remark,$user['balance']);
+        if ($st && $up && $change) {
             $this->mysql->commit();
             functions::json(200, '处理成功');
         } else {

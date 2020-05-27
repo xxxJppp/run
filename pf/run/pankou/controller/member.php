@@ -223,27 +223,37 @@ class member
         //判断是否有足够的金额提现
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
-        if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
-            functions::unlock($user['id']);
-            $in = $this->mysql->insert("withdraw", [
-                'user_id'    => $_SESSION['MEMBER']['uid'],
-                'old_amount' => $user['balance'],
-                'amount'     => $amount,
-                'new_amount' => $user_amount,
-                'types'      => 1,
-                'content'    => '提现到账时间为2小时-24小时内到账',
-                'apply_time' => time(),
-                'deal_time'  => 0,
-                'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
-                'catalog'    => 1,
-                'fees'       => $fees
-            ]);
-            functions::json(200, '您的提现已经提交成功!');
-
-        } else {
-            functions::json(-1, '系统正在维修,请稍后再提现!');
+        $this->mysql->startThings();
+        $user_result = functions::user_balance($user['id'], '-' . $amount);
+        if (!$user_result) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败1，稍后再试!');
         }
 
+        $in = $this->mysql->insert("withdraw", [
+            'user_id' => $_SESSION['MEMBER']['uid'],
+            'old_amount' => $user['balance'],
+            'amount' => $amount,
+            'new_amount' => $user_amount,
+            'types' => 1,
+            'content' => '提现到账时间为2小时-24小时内到账',
+            'apply_time' => time(),
+            'deal_time' => 0,
+            'flow_no' => date("YmdHis") . mt_rand(100000, 999999),
+            'catalog' => 2,
+            'fees' => $fees
+        ]);
+        if (!$in) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败2，稍后再试!');
+        }
+        $change = functions::user_balance_record($user['id'],'-'.$amount,4,$in,'盘口提现',$user['balance']);
+        if (!$change) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败3，稍后再试!');
+        }
+        $this->mysql->commit();
+        functions::json(200, '您的提现已经提交成功!');
     }
 
     //充值
