@@ -625,7 +625,7 @@ class functions
             'uid' => $uid,
             'biz_id' => $biz_id,
             'money' => $money,
-            '`before`' => $balance+$money,
+            '`before`' => $balance-$money,
             '`after`' => $balance,
             'catalog' => $catalog,
             'remark' => $remark,
