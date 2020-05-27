@@ -161,7 +161,7 @@ class user extends common
     public function userinfo()
     {
 
-        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,money,google_auth');
+        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,balance,money,google_auth');
 
         if (!$checkuser) {
             functions::json(0, '用户信息有误');
@@ -217,7 +217,7 @@ class user extends common
     {
 
         $uid = $this->user['id'];
-        $status = request::filter('post.status');
+        $status = request::filter('get.status');
         $where = "user_id={$uid}";
         if($status){
             $where .= " and status={$status}";
