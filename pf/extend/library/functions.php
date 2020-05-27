@@ -559,8 +559,10 @@ class functions
      * @param int $count
      * @return bool
      */
-    public static function user_balance($mysql,$uid, $money, $count = 0)
+    public static function user_balance($uid, $money, $count = 0)
     {
+        $mysql = new mysql();
+
         $count++;
         if($count>3){
             return false;
@@ -607,6 +609,7 @@ class functions
      */
     public static function user_balance_record ($uid, $money, $catalog, $biz_id, $remark='',$before_balance)
     {
+        $mysql = new mysql();
         //1, 检测用户是否存在
 
         if ($money == 0 || !is_numeric($money)) return false;

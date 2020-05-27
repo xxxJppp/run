@@ -180,7 +180,7 @@ class user{
             $mysql->rollBack();
             functions::json(-1, '写入账变失败');
         }
-        
+
         $mysql->commit();
         functions::json(200, '成功');
     }
