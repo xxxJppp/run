@@ -157,12 +157,18 @@ class user{
     }
 
     public function jine(){
-        $uid = 10095;
+        $mysql = new mysql();
+        $mysql->startThings();
+        $uid = 10127;
         $money = rand(-100,100);
         $catalog = 1;
         $biz_id = 1;
         $remark = 1;
-        echo functions::user_balance($uid,$money,$catalog,$biz_id,$remark);
+        $re = functions::user_balance($mysql,$uid,$money,$catalog,$biz_id,$remark);
+        if($re){
+            $mysql->commit();
+            echo "成功";
+        }
 
     }
 }

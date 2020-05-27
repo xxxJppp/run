@@ -558,14 +558,14 @@ class functions
      * @param int $count
      * @return bool
      */
-    public static function user_balance($uid, $money, $catalog, $biz_id, $remark, $count = 0)
+    public static function user_balance($mysql, $uid, $money, $catalog, $biz_id, $remark, $count = 0)
     {
         $count++;
         if($count>3){
             return false;
         }
 
-        $mysql = new mysql();
+        //$mysql = new mysql();
         //1、 检测用户是否存在
         $user = $mysql->query('client_user', "id={$uid}")[0];
 
@@ -581,7 +581,7 @@ class functions
 
         //开启事务
         //2、乐观锁更新余额
-        $mysql->startThings();
+        //$mysql->startThings();
         $user_up = [
             'balance' => $balance + $money,
             'version' => $version + 1
@@ -617,7 +617,7 @@ class functions
             return false;
         }
         //提交修改
-        $mysql->commit();
+        //$mysql->commit();
         return true;
     }
 
