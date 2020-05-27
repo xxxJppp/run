@@ -583,7 +583,8 @@ class functions
 
         //3、更新失败，重试3次
         if (!$user_re) {
-            usleep(10);
+            $rand = rand(100,3000);
+            usleep($rand);
             self::user_balance($uid, $money, $count);
             return false;
         }
