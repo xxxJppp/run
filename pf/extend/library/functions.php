@@ -549,15 +549,18 @@ class functions
     }
 
     /**
-     * 更新用户余额
+     * 更新用户余额，写入账变(7)
+     * @param $mysql 对象
      * @param $uid 用户
      * @param $money 金额
+     * @param $catalog 账变类型
+     * @param $biz_id 业务id
+     * @param $remark 备注
+     * @param int $count
      * @return bool
      */
-    public static function user_balance($uid, $money, $count = 0)
+    public static function user_balance($mysql,$uid, $money, $count = 0)
     {
-        $mysql = new mysql();
-
         $count++;
         if($count>3){
             return false;
@@ -604,8 +607,6 @@ class functions
      */
     public static function user_balance_record ($uid, $money, $catalog, $biz_id, $remark='',$before_balance)
     {
-        $mysql = new mysql();
-
         //1, 检测用户是否存在
 
         if ($money == 0 || !is_numeric($money)) return false;
@@ -628,6 +629,38 @@ class functions
         $result = $mysql->insert("user_balance_record", $user_balance_record);
 
         if (!$result) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * @param $user_id
+     * @param $amount
+     * @param $order_no
+     * @param int $type  1是增加，2是扣除
+     */
+    static function accountChange($mysql,$user_id,$amount,$order_no,$remark,$type=1){
+        $user = $mysql->query("client_user","id={$user_id}")[0];
+        if($type==1){
+            $money = $user['balance']+$amount;
+        }else{
+            $money = $user['balance']-$amount;
+        }
+        $data =  [
+            'uid' => $user_id,
+            'trade_no' => $order_no,
+            'money' => $amount,
+            'old_balance' => $user['balance'],
+            'new_balance' => $money,
+            'remark' => $remark,
+            'time' => time(),
+            'status' => 1
+        ];
+        $result = $mysql->insert("mashang_yajin_log",$data);
+        if (!$result) {
+            //回滚事务
             return false;
         }
         return true;
