@@ -374,23 +374,6 @@ class index
 
     }
 
-    public function unlock($key)
-    {
-        return $this->_redis->del($key);
-    }
-
-    public function lock($key, $expire = 5)
-    {
-        $is_lock = $this->_redis->setnx($key, time() + $expire);
-        if (!$is_lock) {
-            $lock_time = $this->_redis->get($key);
-            if (time() > $lock_time) {
-                $this->unlock($key);
-                $is_lock = $this->_redis->setnx($key, time() + $expire);
-            }
-        }
-        return $is_lock ? true : false;
-    }
     //跑分
     //跑分
     private function paofen($user, $type_content, $data)
@@ -411,10 +394,6 @@ class index
             //随机算法
             $use_city = $data['use_city'];
             $randAgent = $this->getPayAgent($data['amount'], $data['type']);
-            $a = $this->lock($randAgent['id']);
-            if (!$a) {
-                functions::str_json($type_content, -1, '稍等片刻');
-            }
             $ordert = $this->mysql->query("client_paofen_automatic_orders", "user_id={$randAgent['id']}", null, 'creation_time', 'desc', 1);
 
             $tim = functions::withdrawSystem();
@@ -499,11 +478,13 @@ class index
         }
         $puser = $this->mysql->query("client_user", "id={$randAgent['id']}")[0];
 
-        $mashang_balance = $puser['balance'] - $data['amount']; // 用户最终余额
-        $mashang_balance = floatval($mashang_balance);
+        //$mashang_balance = $puser['balance'] - $data['amount']; // 用户最终余额
+        //$mashang_balance = floatval($mashang_balance);
 
-        $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$randAgent['id']}");
-        if(!$updateStatus){
+        //$updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$randAgent['id']}");
+        $updateStatus = functions::user_balance($randAgent['id'],'-'.$data['amount']);
+        $change = functions::user_balance_record($randAgent['id'],'-'.$data['amount'],5,$data['id'],'接单押金',$puser['balance']);
+        if(!$updateStatus || !$change){
             $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->订单创建失败4,请联系客服');
         }
@@ -532,7 +513,6 @@ class index
         }
 
             if ($type_content == 'json') {
-                $this->unlock($randAgent['id']);
                 $this->mysql->commit();
                 functions::str_json($type_content, 200, 'success', ["time" => $data['creation_time'] - time(), "order_id" => $create_order, 'qrurl' => $find_paofen['ewm_url'], 'n' => $find_paofen['name']]);
             }

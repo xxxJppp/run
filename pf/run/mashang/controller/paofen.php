@@ -145,7 +145,7 @@ class paofen
         if (!$result) {
             functions::json(-3, '订单信息有误');
         }
-        $check_appeal = $this->mysql->query('appeal','trade_no='.$trade_no.' audit=0','id',null,'',1);
+        $check_appeal = $this->mysql->query('appeal','trade_no='.$trade_no.' and audit=0','id',null,'',1);
         if($check_appeal){
             functions::json(-3, '该申诉订单正在审核');
         }

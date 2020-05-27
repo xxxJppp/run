@@ -26,7 +26,10 @@ class withdraw extends common
             }
         }
         $result = page::conduct('client_withdraw', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
-
+        foreach ($result['result'] as &$v){
+            $v['apply_time'] = $v['apply_time'] ? date('Y-m-d H:i:s',$v['apply_time']) : '';
+            $v['deal_time'] = $v['deal_time'] ? date('Y-m-d H:i:s',$v['deal_time']) : '';
+        }
         functions::json(1,'提现列表',$result);
     }
 

@@ -638,35 +638,5 @@ class functions
     }
 
 
-    /**
-     * @param $user_id
-     * @param $amount
-     * @param $order_no
-     * @param int $type  1是增加，2是扣除
-     */
-    static function accountChange($mysql,$user_id,$amount,$order_no,$remark,$type=1){
-        $user = $mysql->query("client_user","id={$user_id}")[0];
-        if($type==1){
-            $money = $user['balance']+$amount;
-        }else{
-            $money = $user['balance']-$amount;
-        }
-        $data =  [
-            'uid' => $user_id,
-            'trade_no' => $order_no,
-            'money' => $amount,
-            'old_balance' => $user['balance'],
-            'new_balance' => $money,
-            'remark' => $remark,
-            'time' => time(),
-            'status' => 1
-        ];
-        $result = $mysql->insert("mashang_yajin_log",$data);
-        if (!$result) {
-            //回滚事务
-            return false;
-        }
-        return true;
-    }
 
 }
