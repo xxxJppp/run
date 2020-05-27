@@ -589,7 +589,7 @@ class functions
             return false;
         }
 
-        return true;
+        return $balance;
     }
 
     /**
