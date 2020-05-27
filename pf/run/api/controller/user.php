@@ -177,6 +177,10 @@ class user extends common
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
+        if($checkuser[0]['google_auth']) {
+            $ga = new GoogleAuthenticator();
+            $checkuser[0]['google_qrcode'] = $ga->getQRCodeGoogleUrl('paofen', $checkuser[0]['google_auth']);
+        }
         functions::json(1, '获取成功', $checkuser[0], $this->token);
     }
 
@@ -429,8 +433,9 @@ class user extends common
     {
         $ga = new GoogleAuthenticator();
         $createSecret = $ga->createSecret(32);
+        $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
         if($createSecret){
-            functions::json(1, '获取成功', ['secret' => $createSecret]);
+            functions::json(1, '获取成功', ['secret' => $createSecret,'qrcode' => $qrCodeUrl]);
         }
         functions::json(0, '获取失败,系统维护中', ['secret' => '']);
     }
