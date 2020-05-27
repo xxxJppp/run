@@ -28,25 +28,21 @@ class Fees{
         //查询未派发的订单
         $order_data = $this->mysql->query('client_paofen_automatic_orders',"batch=0",'','','',100);
         foreach ($order_data as $item){
-            //代理返佣
+            //1、代理返佣
             if($item['agent_rate']>0){
                 //获取代理id
-                $user_daili = $this->mysql->query('client_user',"id='10127'")[0];
-                if(!empty($user_daili)){
+                $user_info = $this->mysql->query('client_user',"id='10127'")[0];
+                $agent_id =$user_info['level_id'];
+                if(!empty($user_info)){
                     //增加余额
-                    $balance = $user_daili['balance'];
-                    $version = $user_daili['version'];
-                    $money = $user_daili['money'];
-                    $user_up = [
-                        'balance' => $balance + $item['agent_rate'],
-                        'money' => $money + $item['agent_rate'],
-                        'version' => $version + 1
-                    ];
-                    $this->mysql->update("client_user", $user_up, "id={$user_daili['id']} and version={$version}");
+                    $fees = $item['agent_rate'];
+
+                   $sql = "update xh_client_user set balance = blance+$fees,money=money+$fees where id=$agent_id" ;
+                   // $this->mysql->update("client_user", $user_up, "id={$user_daili['id']} and version={$version}");
 
                     //写入账变
                     $user_balance_record = [
-                        'uid' => $user_daili['id'],
+                        'uid' => $agent_id,
                         'biz_id' => $item['id'],
                         'money' => $item['agent_rate'],
                         '`before`' => $balance,
@@ -60,7 +56,7 @@ class Fees{
 
             }
 
-            //盘口返佣
+            //2、盘口扣费
             if($item['pankou_fees']>0){
                 $user = $this->mysql->query('client_user',"id='10127'")[0];
                 if(!empty($agent_id)){
@@ -93,7 +89,7 @@ class Fees{
             //更新订单表
             $this->mysql->update("client_paofen_automatic_orders", ['batch'=>date('Ymdhis',time())], "id={$item['id']} and batch=0");
         }
-        
+
 
 	 }
 
