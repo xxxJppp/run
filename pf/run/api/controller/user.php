@@ -3,6 +3,7 @@
 namespace xh\run\api\controller;
 
 use xh\library\functions;
+use xh\library\GoogleAuthenticator;
 use xh\library\ip;
 use xh\library\jwt;
 use xh\library\model;
@@ -133,8 +134,7 @@ class user extends common
 
         //写入数据库
         $userIn = $this->mysql->update('client_user', [
-            'pwd' => functions::pwd($pwd, $this->user['token']),
-        ]);
+            'pwd' => functions::pwd($pwd, $this->user['token'])], "id={$this->user['id']}");
         if ($userIn > 0) {
             //$this->mysql->delete("client_code", "phone={$_SESSION['register_user']['phone']} and typec='register'");
             functions::json(1, '重置密码成功');
@@ -161,7 +161,7 @@ class user extends common
     public function userinfo()
     {
 
-        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,money');
+        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,money,google_auth');
 
         if (!$checkuser) {
             functions::json(0, '用户信息有误');
@@ -425,6 +425,42 @@ class user extends common
         functions::json(0, $msg.'失败!');
     }
 
+    public function getGoogle()
+    {
+        $ga = new GoogleAuthenticator();
+        $createSecret = $ga->createSecret(32);
+        if($createSecret){
+            functions::json(1, '获取成功', ['secret' => $createSecret]);
+        }
+        functions::json(0, '获取失败,系统维护中', ['secret' => '']);
+    }
+
+    public function bindGoogle()
+    {
+        $google_auth = request::filter('post.secret');
+        $code = request::filter('post.code');
+        if (empty($google_auth)|| empty($code)) functions::json(0, '参数错误');
+        if (empty($code) && strlen($code) != 6)
+        {
+            functions::json(0, '请正确输入手机上google验证码 !');
+        }
+        // google密钥，绑定的时候为生成的密钥；如果是绑定后登录，从数据库取以前绑定的密钥
+        $ga = new GoogleAuthenticator();
+        // 验证验证码和密钥是否相同
+        $checkResult = $ga->verifyCode($google_auth, $code, 1);
+        if(!$checkResult){
+            functions::json(0, 'google验证码输入有误,请检查google验证码是否输入正确');
+        }
+        //写入数据库
+        $userIn = $this->mysql->update('client_user', [
+            'google_auth' => $google_auth], "id = {$this->user['id']}"
+        );
+        if ($userIn > 0) {
+            //$this->mysql->delete("client_code", "phone={$_SESSION['register_user']['phone']} and typec='register'");
+            functions::json(1, '谷歌绑定成功');
+        }
+        functions::json(0, '谷歌绑定失败');
+    }
 
 
 }
