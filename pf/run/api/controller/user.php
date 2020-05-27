@@ -389,5 +389,42 @@ class user extends common
     }
 
 
+    //停用收款码
+    public function stopAutomatic(){
+        $id = request::filter('get.id');
+        if (empty($id)) functions::json(0, '参数有误');
+        $find_paofen_auto = $this->mysql->query("client_paofen_automatic_account", "user_id={$this->user['id']} and id={$id}");
+        if (!$find_paofen_auto) {
+            functions::json(0, '你没有该收款码,不得修改');
+        }
+        $status = $find_paofen_auto[0]['receiving'] ? 0 : 1;
+        $msg  = $status ? '启用' : '停用';
+        $in = $this->mysql->update("client_paofen_automatic_account", ['receiving' => $status],"id={$id}");
+
+        if ($in > 0) {
+            functions::json(1, $msg.'成功');
+        }
+        functions::json(0, $msg.'失败!');
+    }
+
+    //停用收款码
+    public function delAutomatic(){
+        $id = request::filter('get.id');
+        if (empty($id)) functions::json(0, '参数有误');
+        $find_paofen_auto = $this->mysql->query("client_paofen_automatic_account", "user_id={$this->user['id']} and id={$id}");
+        if (!$find_paofen_auto) {
+            functions::json(0, '你没有该收款码,不得删除');
+        }
+
+        $in = $this->mysql->delete("client_paofen_automatic_account", "id={$id}");
+
+        $msg = "删除";
+        if ($in > 0) {
+            functions::json(1, $msg.'成功');
+        }
+        functions::json(0, $msg.'失败!');
+    }
+
+
 
 }
