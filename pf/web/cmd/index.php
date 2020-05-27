@@ -7,15 +7,13 @@ require ( '../../config.php');
 
 //初始化入口
 require ('../../extend/init.php');
-function p($data){
-    echo '<pre>'.print_r($data,true).'</pre>';exit;
-}
+
 //实例化入口
 new init([
     //头设置
     'protocol'=>[
         //session会话支持开启
-        'session'=>true,
+        'session'=>false,
         //时区设定
         'timezone'=>'PRC',
         //错误屏蔽级别[0:全部屏蔽,1:runtime错误,2:报告所有错误,3:报告E_NOTICE之外的错误]
@@ -30,8 +28,8 @@ new init([
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
         'routingWeight'=>0,
         //设置默认加载（index.index.home）
-        'default'=>'',
-        'bind_module'=>'server',
+        'default'=>'cmd.pc.test',
+        'bind_module'=>'cmd',
         //设置伪造后缀
         'fix'=>'.do'
     ],
