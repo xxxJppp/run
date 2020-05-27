@@ -550,6 +550,7 @@ class functions
 
     /**
      * 更新用户余额，写入账变(7)
+     * @param $mysql 对象
      * @param $uid 用户
      * @param $money 金额
      * @param $catalog 账变类型
