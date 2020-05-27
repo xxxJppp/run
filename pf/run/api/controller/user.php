@@ -217,7 +217,7 @@ class user extends common
     {
 
         $uid = $this->user['id'];
-        $status = request::filter('post.status');
+        $status = request::filter('get.status');
         $where = "user_id={$uid}";
         if($status){
             $where .= " and status={$status}";
