@@ -43,17 +43,17 @@ class withdraw extends common
         //手续费
         $fees = isset($group['withdraw']) ? floatval($group['withdraw']['cost']) * $amount : 0;
         //计算减掉的金额
-        $user_amount = $this->user['money'] - $amount;
+        $user_amount = $this->user['balance'] - $amount;
         //判断是否有足够的金额提现
         if ($user_amount < 0) functions::json(0, '余额不足');
         //更新用户账户信息
         try{
             $this->mysql->startThings();
 
-            if ($this->mysql->update("client_user", ['money' => $user_amount], "id={$this->user['id']}") > 0) {
+            if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$this->user['id']}") > 0) {
                 $in = $this->mysql->insert("client_withdraw", [
                     'user_id'    => $this->user['id'],
-                    'old_amount' => $this->user['money'],
+                    'old_amount' => $this->user['balance'],
                     'amount'     => $amount,
                     'new_amount' => $user_amount,
                     'types'      => 1,
