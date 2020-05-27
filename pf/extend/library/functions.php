@@ -599,19 +599,14 @@ class functions
      * @param $catalog 账变类型
      * @param $biz_id 业务id
      * @param $remark 备注
-     * @param int $count
+     * @param $before_balance 账变前金额
      * @return bool
      */
-    public static function user_account ($uid, $money, $catalog, $biz_id, $remark='')
+    public static function user_balance_record ($uid, $money, $catalog, $biz_id, $remark='',$before_balance)
     {
         $mysql = new mysql();
 
         //1, 检测用户是否存在
-        $user = $mysql->query('client_user', "id={$uid}")[0];
-
-        $balance = $user['balance'];
-
-        if (!is_array($user)) return false;
 
         if ($money == 0 || !is_numeric($money)) return false;
 
@@ -620,19 +615,19 @@ class functions
         if ($biz_id <= 0) return false;
 
         //2,写入账变
-        $amount_inset = [
+        $user_balance_record = [
             'uid' => $uid,
             'biz_id' => $biz_id,
             'money' => $money,
-            '`before`' => $balance-$money,
-            '`after`' => $balance,
+            '`before`' => $before_balance,
+            '`after`' => $before_balance + $money,
             'catalog' => $catalog,
             'remark' => $remark,
             'create_time' => time()
         ];
-        $amount_re = $mysql->insert("user_balance_record", $amount_inset);
+        $result = $mysql->insert("user_balance_record", $user_balance_record);
 
-        if (!$amount_re) {
+        if (!$result) {
             return false;
         }
         return true;

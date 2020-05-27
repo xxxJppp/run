@@ -168,18 +168,19 @@ class user{
         $biz_id = 1;
         $remark = '';
 
-        $re_balance = functions::user_balance($uid,$money);;
-        if(!$re_balance){
+        $before_balance = functions::user_balance($uid,$money);;
+        if($before_balance===false){
             $mysql->rollBack();
             functions::json(-1, '更新余额失败');
         }
 
-        $re_account = functions::user_account($uid,$money,$catalog,$biz_id,$remark);
+        $re_account = functions::user_balance_record($uid,$money,$catalog,$biz_id,$remark,$before_balance);
 
-        if(!$re_account){
+        if($re_account===false){
             $mysql->rollBack();
             functions::json(-1, '写入账变失败');
         }
+        
         $mysql->commit();
         functions::json(200, '成功');
     }
