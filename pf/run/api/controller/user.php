@@ -175,7 +175,7 @@ class user extends common
     public function userinfo()
     {
 
-        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,balance,money,google_auth,yajin');
+        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,group_id,username,phone,balance,money,google_auth,yajin');
 
         if (!$checkuser) {
             functions::json(0, '用户信息有误');
@@ -184,13 +184,15 @@ class user extends common
         $end_time = strtotime(date('ymd' . '23:59:59'));
         $deposit = $this->mysql->query('deposit', "user_id='{$checkuser[0]['id']}'", 'SUM(money) as money');
         $appeal = $this->mysql->query('appeal', "user_id='{$checkuser[0]['id']}'", 'count(id) as count');
-        $zfb = $this->mysql->query('client_paofen_automatic_orders', "user_id='{$checkuser[0]['id']}' and pay_time between {$start_time} and {$end_time}", 'SUM(amount) as amount');
+        $zfb = $this->mysql->query('client_paofen_automatic_orders', "user_id='{$checkuser[0]['id']}' and pay_time between {$start_time} and {$end_time}", 'SUM(amount) as amount,SUM(fees) as fees');
         $checkuser[0]['deposit'] = $deposit[0]['money'] ? $deposit[0]['money'] : 0;
+        $checkuser[0]['fees'] = $zfb[0]['fees'] ? $zfb[0]['fees'] : 0;
         $checkuser[0]['wx'] = 0;
         $checkuser[0]['zfb'] = $zfb[0]['amount'] ? $zfb[0]['amount'] : 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
+        $checkuser[0]['cost'] = json_decode($this->mysql->query('client_group', "id={$checkuser[0]['group_id']}")[0]['authority'],true)['paofen_auto']['cost'];
         if ($checkuser[0]['google_auth']) {
             $ga = new GoogleAuthenticator();
             $checkuser[0]['google_qrcode'] = $ga->getQRCodeGoogleUrl('paofen', $checkuser[0]['google_auth']);
