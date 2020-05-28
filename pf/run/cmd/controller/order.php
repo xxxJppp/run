@@ -23,39 +23,49 @@ class order{
         $chaoshi = time()-900;
         $begin_time = time()-7200;
         $orders = $this->mysql->query("client_paofen_automatic_orders","status=3 and creation_time > {$begin_time} and creation_time<={$chaoshi} and type=1 and pay_time=0");
-        print_r($orders);
         foreach($orders as $order){
             $user_id = $order['user_id'];
             $deposit = $this->mysql->query("deposit","user_id={$user_id} and order_id={$order['id']}")[0];
             if(is_array($deposit)){
+                $this->mysql->startThings();
                 $puser = $this->mysql->query("client_user", "id={$user_id}")[0];
                 $mashang_balance = $puser['balance'] +  $deposit['money']; // 用户最终余额
                 $mashang_balance = floatval($mashang_balance);
-                $updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+                //$updateStatus = $this->mysql->update("client_user", ['balance' => $mashang_balance], "id={$user_id}");
+                $updateStatus = functions::user_balance($user_id,$deposit['money']);
+                $change = functions::user_balance_record($user_id,$deposit['money'],5,$order['id'],'冻结押金退回',$puser['balance']);
                 $del = $this->mysql->delete("deposit","id={$deposit['id']}");
-
+                if($updateStatus===false || $change===false || !$del){
+                    $this->mysql->rollBack();
+                    echo '失败\r\n';
+                }
+                $this->mysql->commit();
+                echo 'success\r\n';
             }
             //$p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
 
         }
-        echo 'success';
+
     }
     public function orderovertime(){
         $chaoshi = time()-300;
         $order = $this->mysql->query("client_paofen_automatic_orders","status=2 and creation_time <= {$chaoshi} and type=1 and pay_time=0");
         foreach($order as $val){
-            $this->mysql->update("client_paofen_automatic_orders",['status'=>3],"id={$val['id']}");
-            $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$val['paofen_id']}");
+            $up = $this->mysql->update("client_paofen_automatic_orders",['status'=>3],"id={$val['id']}");
+            $set = $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$val['paofen_id']}");
+            echo 'success\r\n';
         }
-        echo 'success';
+
     }
     public function orderDel(){
         $chaoshi = time()-300;
         $order = $this->mysql->query("client_paofen_automatic_orders","creation_time <= {$chaoshi} and paofen_id=0 and user_id=0");
         foreach($order as $val){
-            $this->mysql->delete("client_paofen_automatic_orders","id={$val['id']}");
+            if($this->mysql->delete("client_paofen_automatic_orders","id={$val['id']}")){
+            echo 'success\r\n';
+            }
         }
-        echo 'success';
+
     }
 
     /**
