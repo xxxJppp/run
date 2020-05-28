@@ -489,7 +489,6 @@ class index
             $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->订单创建失败4,请联系客服');
         }
-        $yajin_update = $this->mysql->update("client_user",['yajin'=>$randAgent['yajin']+$data['amount']],"id={$randAgent['id']}");
         $deposit = $this->mysql->insert("deposit", [
             'user_id' => $randAgent['id'],
             'money' => $data['amount'],
