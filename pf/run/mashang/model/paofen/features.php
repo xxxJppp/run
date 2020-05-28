@@ -391,6 +391,17 @@ class features
         if (!is_array($group) || $group['authority'] == -1 || $authority['open'] != 1) functions::json(-1, '用户组错误');
         $fees = $order['amount'] * $authority['cost'];
         $puser = $mysql->query("client_user","id={$order['pankou_id']}")[0];
+        //盘口返佣
+        $pankou = $mysql->query('client_group', "id={$puser['group_id']}")[0];
+        $pankou_feilv = json_decode($pankou['authority'], true)[$module_name];
+        $pankou_fees = $order['amount'] * $pankou_feilv['cost'];
+
+        $agent = $mysql->query("client_user","id={$user['level_id']}")[0];
+        $agent_group = $mysql->query('client_group', "id={$agent['group_id']}")[0];
+        $agent_feilv = json_decode($agent_group['authority'], true)[$module_name];
+        $count_fees = $order['amount'] * $agent_feilv['cost'];
+        $agent_fees = $order['amount'] * $agent_feilv['cost']-$fees;
+
             $isCallback = 0;
         $mysql->startThings();
             if ($order['reached'] == 1) {
@@ -488,6 +499,9 @@ class features
             ]));
             $set = $mysql->update("client_paofen_automatic_orders", [
                 'fees' => $fees,
+                'agent_rate'=>$agent_fees,
+                'xitong_fees'=>$count_fees,
+                'pankou_fees'=>$pankou_fees,
                 'reached' => 1
             ], "id={$order['id']}");
             if(!$set){
