@@ -226,10 +226,12 @@ class user extends common
             $bank_name = $name;
             //银行名称
             $bank = request::filter('post.bank', '', 'htmlspecialchars');
+            //网点
+            $outlets = request::filter('post.outlets', '', 'htmlspecialchars');
             //账号
             $card = request::filter('post.card', '', 'htmlspecialchars');
-            if (empty($bank_name) || empty($bank) || empty($card)) functions::json(0, '银行卡信息有误,请填写正确!');
-            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank],JSON_UNESCAPED_UNICODE);
+            if (empty($bank_name) || empty($bank) || empty($card) || empty($outlets)) functions::json(0, '银行卡信息有误,请填写正确!');
+            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank, 'outlets' => $outlets],JSON_UNESCAPED_UNICODE);
         }
 
         $this->mysql->update("client_user", $edit, "id={$this->user['id']}");
