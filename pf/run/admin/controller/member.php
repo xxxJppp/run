@@ -282,29 +282,39 @@ class member
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
         $group_id = request::filter('post.group_id');
-        $phone = request::filter('post.phone');
+        $phone = trim(request::filter('post.phone'));
         $level_id = intval(request::filter('post.level_id'));
 
         $is_agent = intval(request::filter('post.is_agent'));
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
 
-//        $balance = floatval(request::filter('post.balance'));
-//        $money = floatval(request::filter('post.money'));
-        if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
+        if (strlen($username) < 6) functions::json(-1, '用户名不能为空或小于6位');
+
+        if (!preg_match("/^[a-zA-Z0-9_]{0,}$/", $username))  functions::json(-1, '用户名不能有汉字');
+
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
-        //判断手机是否存在
-        $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
-        if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
+
+
+        if($phone==''){
+            $phone = 0;
+        }else{
+            //判断手机是否存在
+            $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
+            if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
+
+            //手机号规则
+            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+        }
+
         //判断密码
         if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
         if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
-        //手机号
-        if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+
         //生成密码盐值
         $token = substr(md5(mt_rand(10000, mt_rand(100000, 9999999))), 0, 9);
         //判断上级ID是否存在
@@ -314,6 +324,7 @@ class member
             //检测是否有上级
             if ($find_level['level_id'] != 0) functions::json(-3, '上级ID填写有误,该上级会员不支持直接在后台添加下级');
         }
+
         $Insert = $this->mysql->insert("client_user", [
             'username' => $username,
             'phone' => $phone,

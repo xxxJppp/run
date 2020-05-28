@@ -42,11 +42,12 @@ class order extends common
         $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}",'paofen_id,status,trade_no,amount,creation_time',null,'desc',1);
         if (!isset($order[0])) functions::json(0, '当前订单不存在');
         $order = $order[0];
-        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}",'name')[0];
+        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}",'name,ewm_url')[0];
         $shenshu = $this->mysql->query("appeal", "trade_no={$order['trade_no']}",'audit')[0];
         $order['creation_time'] = date('Y-m-d H:i:s', $order['creation_time']);
         $order['type'] = '支付宝';
         $order['account'] = $account['name'];
+        $order['qrcode'] = $account['ewm_url'];
         if ($order['status'] == 1) {
             $order['status_name'] = '等待下发支付二维码';
         } else if ($order['status'] == 2) {

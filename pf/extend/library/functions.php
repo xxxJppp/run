@@ -47,6 +47,40 @@ class functions
         return false;
     }
 
+    //检测用户名是否正确
+    static public function checkUsername($username)
+    {
+        $len = strlen($username);
+        if ($len < 4 || $len > 16) {
+            return false;
+        }
+        if (preg_match('/^[a-z0-9]+$/i', $username)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //检测姓名是否正确
+    static public function checkName($str)
+    {
+        //新疆等少数民族可能有·
+        if (strpos($str, '·')) {
+            $str = str_replace("·", '', $str);
+            if (preg_match('/^[\x7f-\xff]+$/', $str)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (preg_match('/^[\x7f-\xff]+$/', $str)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     //检测是否为邮箱
     static public function isEmail($email)
     {
@@ -550,19 +584,17 @@ class functions
 
     /**
      * 更新用户余额
-
      * @param $uid 用户
      * @param $balance 余额
      * @param $money 返点
-
      * @return bool
      */
-    public static function user_balance($uid, $balance,$money=0, $count = 0)
+    public static function user_balance($uid, $balance, $money = 0, $count = 0)
     {
         $mysql = new mysql();
 
         $count++;
-        if($count>3){
+        if ($count > 3) {
             return false;
         }
 
@@ -588,9 +620,9 @@ class functions
 
         //3、更新失败，重试3次
         if (!$user_re) {
-            $rand = rand(100,3000);
+            $rand = rand(100, 3000);
             usleep($rand);
-            self::user_balance($uid, $balance,$money=0, $count);
+            self::user_balance($uid, $balance, $money = 0, $count);
             return false;
         }
 
@@ -607,7 +639,7 @@ class functions
      * @param $before_balance 账变前金额
      * @return bool
      */
-    public static function user_balance_record ($uid, $money, $catalog, $biz_id, $remark='',$before_balance)
+    public static function user_balance_record($uid, $money, $catalog, $biz_id, $remark = '', $before_balance)
     {
         $mysql = new mysql();
         //1, 检测用户是否存在
@@ -636,7 +668,6 @@ class functions
         }
         return true;
     }
-
 
 
 }
