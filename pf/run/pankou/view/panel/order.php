@@ -77,13 +77,13 @@ $fix = DB_PREFIX;
             <th lay-data="{field:'key',width:90}">序号</th>
             <th lay-data="{field:'ddlx', width:90}">类型</th>
             <th lay-data="{field:'out_trade_id', width:240,style:'color:#060;'}">系统订单号</th>
-             <th lay-data="{field:'trade_id', width:240,style:'color:#060;'}">外部订单号</th>
-             <th lay-data="{field:'timetrade_id', width:240,style:'color:#060;'}">创建时间</th>
+            <th lay-data="{field:'trade_id', width:240,style:'color:#060;'}">外部订单号</th>
+            <th lay-data="{field:'timetrade_id', width:240,style:'color:#060;'}">创建时间</th>
             <th lay-data="{field:'amount', width:100,style:'color:#060;'}">交易金额</th>
             <th lay-data="{field:'rate', width:90}">接口费用</th>
             <th lay-data="{field:'applydate', width:160}">异步通知时间</th>
             <th lay-data="{field:'successdate', width:160}">异步通知状态</th>
-            <th lay-data="{field:'successdate', width:160}">接口返回信息</th>
+            <th lay-data="{field:'successdate1', width:160}">接口返回信息</th>
             <th lay-data="{field:'status', width:110}">支付状态</th>
             <th lay-data="{field:'callback_status', width:110}">点击回调</th>
           </tr>
@@ -94,13 +94,13 @@ $fix = DB_PREFIX;
               <td><?php echo $ru['id']; ?></td>
               <td><?php if($ru['type'] == 1){  echo '支付宝';}else if($ru['type'] == 2){echo '微信';} else { echo '其他';} ?></td>
               <td style="text-align:center; color:#090;"><?php echo $ru['trade_no']; ?></td>
-             <td style="text-align:center; color:#090;"><?php echo $ru['out_trade_no']; ?></td>
-            <td style="text-align:center; color:#090;"> <?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>
+              <td style="text-align:center; color:#090;"><?php echo $ru['out_trade_no']; ?></td>
+              <td style="text-align:center; color:#090;"> <?php echo date('Y/m/d H:i:s', $ru['creation_time']); ?></td>
               <td style="text-align:center; color:#060"><?php echo $ru['amount']; ?></td>
               <td style="text-align:center; color:#666"><?php echo $ru['callback_status'] == 1 ? $ru['pankou_fees'] : '暂无信息'; ?></td>
               <td style="text-align:center;"><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; ?></td>
               <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>'; ?></td>
-             <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?></td>
+             <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? "成功" : "失败"; ?></td>
 
               <td style="text-align:center; color:#369"><?php
                 if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
