@@ -313,10 +313,10 @@ $fix = DB_PREFIX;
             url: "<?php echo url::s('admin/member/add');?>",
             data: $('#from').serialize(),
             success: function (data) {
-                console.log(data);
-                if(data.code == '200'){
-                    layer.msg('添加成功!', {icon: 1, time: 1000});
-                    window.location.href="/admin/member/mashang";
+                if (data.code == '200') {
+                    layer.msg(data.msg, {icon: 1, time: 1000,end:function () {
+                            window.location.href = "/admin/member/mashang";
+                        }});
                 }else{
                     layer.msg(data.msg, {icon: 1, time: 1000});
                 }
