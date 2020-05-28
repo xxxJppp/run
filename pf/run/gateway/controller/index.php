@@ -463,7 +463,8 @@ class index
             'trade_no' => $data['trade_no'],
             'app_user' => $find_paofen['app_user'],
             'type' => $find_paofen['type'],
-            'dy_name' => $find_paofen['dy_name']
+            'dy_name' => $find_paofen['dy_name'],
+            'agent_id'=>$randAgent['level_id']
         ], "id={$data['id']}");
         if (!$create_order) {
             $this->mysql->rollBack();
