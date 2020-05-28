@@ -122,7 +122,7 @@ class order
             ], "id={$item['id']}");
 
             if($result != 'success'){
-                echo "回调失败\r\n";
+                echo "订单id:".$item['id']."回调失败\r\n";
                 continue;
             }
         }
