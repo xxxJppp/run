@@ -62,7 +62,8 @@ class order extends common
             $appeal = [];
             $appeal[0] = '未审核';
             $appeal[1] = '已审核';
-            $appeal[0] = '已驳回';
+            $appeal[2] = '已驳回';
+            $appeal[3] = '处理中';
 
             $order['appeal'] = $shenshu[0]['audit'];
             $order['appeal_name'] = $appeal[$order['appeal']];
