@@ -90,8 +90,6 @@ class panel{
   //订单列表
    public function order()
     {
-
-       
         $where = "status = 4 and pankou_id ={$_SESSION['MEMBER']['uid']} and ";
         $sorting = request::filter('get.sorting', '', 'htmlspecialchars');
         $code = request::filter('get.code', '', 'htmlspecialchars');
@@ -145,11 +143,10 @@ class panel{
      */
     public function callback()
     {
-        $this->powerLogin(25);
-
         $order_id = request::filter('get.id');
 
         $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id}")[0];
+
         if (!is_array($order)) functions::json(-2, '当前订单不存在');
 
         //查询用户
