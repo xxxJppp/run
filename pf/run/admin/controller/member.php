@@ -298,15 +298,15 @@ class member
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
 
 
-        if(!empty($phone)){
+        if($phone==''){
+            $phone = 0;
+        }else{
             //判断手机是否存在
             $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
             if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
 
             //手机号规则
             if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
-        }else{
-            $phone = "13800138000";
         }
 
         //判断密码
