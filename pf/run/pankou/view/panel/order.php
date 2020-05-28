@@ -99,7 +99,13 @@ $fix = DB_PREFIX;
               <td style="text-align:center; color:#060"><?php echo $ru['amount']; ?></td>
               <td style="text-align:center; color:#666"><?php echo $ru['callback_status'] == 1 ? $ru['pankou_fees'] : '暂无信息'; ?></td>
               <td style="text-align:center;"><?php echo $ru['callback_time'] != 0 ? date('Y/m/d H:i:s', $ru['callback_time']) : '无信息'; ?></td>
-              <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? '<span style="color:green;">已回调</span>' : '<span style="color:red;">未回调</span>'; ?></td>
+
+              <td style="text-align:center;"><?php
+                  if ($ru['callback_status'] == 1) echo '<span style="color:green;">回调成功</span>';
+                  if ($ru['callback_status'] == 2) echo '<span style="color:red;">回调失败</span>';
+                  if ($ru['callback_status'] == 0) echo '<span style="color:#039be5;">未回调</span>';
+                  ?></td>
+
              <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? "成功" : "失败"; ?></td>
 
               <td style="text-align:center; color:#369"><?php
@@ -109,7 +115,7 @@ $fix = DB_PREFIX;
                 if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
                 ?></td>
               <td>
-                  <?php if($ru['callback_status']==0 && $ru['status']==4 && $ru['reached']==1){?>
+                  <?php if($ru['callback_status']!=1 && $ru['status']==4 && $ru['reached']==1){?>
                       <a href="#" onclick="orderCallback('<?php echo $ru['id'];?>')" class="layui-btn layui-btn-small">回调</a>
                   <?php }?>
               </td>

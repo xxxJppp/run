@@ -153,19 +153,14 @@ class panel{
         $user = $this->mysql->query("client_user", "id={$order['user_id']}")[0];
         if (!is_array($user)) functions::json(-2, '该订单的主用户不存在');
 
-        //检测订单是否为未支付
-        if ($order['status'] != 4) {
-            $this->mysql->update("client_paofen_automatic_orders", [
-                'pay_time' => time(),
-                'status'   => 4
-            ], "id={$order['id']}");
-        }
         if ($order['pay_time'] == 0) {
             $pay_time = time();
         } else {
             $pay_time = $order['pay_time'];
         }
+
         $callback_time = time();
+
         // 手续费扣除成功，开始回调
         $result = callbacks::curl($order['callback_url'], http_build_query([
             'account_name'  => $user['username'],
@@ -181,15 +176,26 @@ class panel{
             'callback_time' => $callback_time
         ]));
 
+
+        if($result == 'success'){
+            $callback_status = 1;
+        }else{
+            $callback_status = 2;
+        }
+
         $this->mysql->update("client_paofen_automatic_orders", [
             'pay_time'         => $pay_time,
             'callback_time'    => $callback_time,
-            'callback_status'  => 1,
+            'callback_status'  => $callback_status,
             'callback_content' => $result,
             'fees'             => $order['fees']
         ], "id={$order['id']}");
 
-        functions::json(200, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $order['trade_no'] . ' 异步通知任务下发成功!');
+        if($result == 'success'){
+            functions::json(200, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $order['trade_no'] . ' 异步通知任务下发成功!');
+        }else{
+            functions::json(-2, '回调失败:'.$result);
+        }
 
     }
   
