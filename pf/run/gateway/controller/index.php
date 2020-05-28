@@ -432,7 +432,7 @@ class index
               and c.receiving=1 
               and c.bind_uid=''
               and (c.max_amount > IFNULL(
-                  (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+" . $data['amount'] . " or c.max_amount = 0)", null, "id", "asc");
+                  (select sum(o.amount) as money from xh_client_paofen_automatic_orders as o where o.creation_time > {$nowTime} and o.status IN (2,4) and o.user_id={$randAgent['id']} and o.paofen_id = c.id),0)+" . $data['amount'] . " or c.max_amount = 0)", null, "rand()", "asc");
                 $find_paofen = $find_paofen[0];
                 if (!$find_paofen) {
                     functions::str_json($type_content, -1, '订单创建失败2,请稍后重试');
@@ -489,26 +489,14 @@ class index
             $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->订单创建失败4,请联系客服');
         }
-        $p2user = $this->mysql->query("client_user", "id={$randAgent['id']}")[0];
-        //写押金记录 冻结金额
-        $ya = $this->mysql->insert("mashang_yajin_log", [
-            'uid' => $randAgent['id'],
-            'trade_no' => $data['trade_no'],
-            'money' => $data['amount'],
-            'old_balance' => $puser['balance'],
-            'new_balance' => $p2user['balance'],
-            'remark' => '抢单成功！订单号：' . $data['trade_no'] . ',冻结金额：' . $data['amount'] . '元，冻结前余额：' . $puser['balance'] . '元，冻结后余额：' . $p2user['balance'] . '元',
-            'time' => time(),
-            'status' => 1
-
-        ]);
+        
         $deposit = $this->mysql->insert("deposit", [
             'user_id' => $randAgent['id'],
             'money' => $data['amount'],
             'order_id' => $data['id'],
             'addtime' => time()
         ]);
-        if(!$deposit || !$ya){
+        if(!$deposit){
             $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->订单创建失败5,请联系客服');
         }
