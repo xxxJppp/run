@@ -75,25 +75,23 @@ class order
     public function callback()
     {
         //查询未回调的订单
-        $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status=0 and status=4 and reached=1",'','','',20);
+        $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status!=1 and status=4 and reached=1",'','','',20);
         foreach ($order_data as $item){
             //查询用户
             $user = $this->mysql->query("client_user", "id={$item['user_id']}")[0];
-            if (!is_array($user)) functions::json(-2, '该订单的主用户不存在');
-
-            //检测订单是否为未支付
-            if ($item['status'] != 4) {
-                $this->mysql->update("client_paofen_automatic_orders", [
-                    'pay_time' => time(),
-                    'status'   => 4
-                ], "id={$item['id']}");
+            if(!is_array($user)){
+                echo "该订单的主用户不存在\r\n";
+                continue;
             }
+
             if ($item['pay_time'] == 0) {
                 $pay_time = time();
             } else {
                 $pay_time = $item['pay_time'];
             }
+
             $callback_time = time();
+
             // 手续费扣除成功，开始回调
             $result = callbacks::curl($item['callback_url'], http_build_query([
                 'account_name'  => $user['username'],
@@ -109,16 +107,26 @@ class order
                 'callback_time' => $callback_time
             ]));
 
+            if($result == 'success'){
+                $callback_status = 1;
+            }else{
+                $callback_status = 2;
+            }
+
             $this->mysql->update("client_paofen_automatic_orders", [
                 'pay_time'         => $pay_time,
                 'callback_time'    => $callback_time,
-                'callback_status'  => 1,
+                'callback_status'  => $callback_status,
                 'callback_content' => $result,
                 'fees'             => $item['fees']
             ], "id={$item['id']}");
 
-            functions::json(200, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $item['trade_no'] . ' 异步通知任务下发成功!');
+            if($result != 'success'){
+                echo "订单id:".$item['id']."回调失败\r\n";
+                continue;
+            }
         }
+        echo 'success';
     }
 
 }

@@ -93,6 +93,7 @@ class Fees{
             //提交事务
             $this->mysql->commit();
         }
+        echo 'success';
 
 	 }
 
