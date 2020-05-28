@@ -489,7 +489,6 @@ class index
             $this->mysql->rollBack();
             functions::str_json($type_content, -1, 'automatic->订单创建失败4,请联系客服');
         }
-        
         $deposit = $this->mysql->insert("deposit", [
             'user_id' => $randAgent['id'],
             'money' => $data['amount'],

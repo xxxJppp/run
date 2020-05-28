@@ -161,7 +161,7 @@ class user extends common
     public function userinfo()
     {
 
-        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,balance,money,google_auth');
+        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,username,phone,balance,money,google_auth,yajin');
 
         if (!$checkuser) {
             functions::json(0, '用户信息有误');
@@ -190,9 +190,17 @@ class user extends common
         if (!$bank_type) {
             functions::json(0, '请选择绑定类型!');
         }
+        $bank = json_decode($this->user['bank'],true);
+        $name = request::filter('post.name', '', 'htmlspecialchars');
+        if($bank){
+            if($name && $name != $bank['name']){
+                functions::json(0, '账号名称不能修改!');
+            }
+            $name = $bank['name'];
+        }
         if ($bank_type == 1) {
             //支付宝
-            $alipay_name = request::filter('post.name', '', 'htmlspecialchars');
+            $alipay_name = $name;
             //账号
             $alipay_content = request::filter('post.card', '', 'htmlspecialchars');
             if (empty($alipay_name) || empty($alipay_content)) functions::json(0, '支付宝姓名或账号不能为空!');
@@ -201,7 +209,7 @@ class user extends common
         }
         if ($bank_type == 2) {
             //姓名
-            $bank_name = request::filter('post.name', '', 'htmlspecialchars');
+            $bank_name = $name;
             //银行名称
             $bank = request::filter('post.bank', '', 'htmlspecialchars');
             //账号

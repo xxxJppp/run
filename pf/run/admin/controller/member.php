@@ -899,7 +899,7 @@ class member
         }
 
         //TODO 查询充值列表
-        $this->powerLogin(20);
+        //$this->powerLogin(20);
 
         $member = page::conduct('user_paylog', request::filter('get.page'), 10, $where, null, 'id', 'desc');
 
@@ -929,8 +929,11 @@ class member
         } else {
             $new_money = $money;
             $remark = '充值';
+            $zyj = $user['yajin']+$new_money;
+            $this->mysql->update("client_user",[
+                'yajin'=>$zyj
+            ],"id={$user['id']}");
         }
-
         $data = [
             'uid' => $user['id'],
             'money' => $money,
@@ -944,6 +947,8 @@ class member
         $st = $this->mysql->insert('user_paylog', $data);
         $up = functions::user_balance($user['id'],$new_money);
         $change = functions::user_balance_record($user['id'],$new_money,6,$st,$remark,$user['balance']);
+
+
         if ($st && $up && $change) {
             $this->mysql->commit();
             functions::json(200, '处理成功');
