@@ -216,7 +216,9 @@ class init
                     $routingArray['action'] = $params['default'][2];
                 }
                 break;
+
         }
+
         return $routingArray;
     }
 
