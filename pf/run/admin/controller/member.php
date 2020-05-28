@@ -297,16 +297,14 @@ class member
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
 
-
         if($phone==''){
             $phone = 0;
         }else{
+            //手机号规则
+            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
             //判断手机是否存在
             $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
             if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
-
-            //手机号规则
-            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
         }
 
         //判断密码
@@ -400,27 +398,26 @@ class member
         $is_mashang = intval(request::filter('post.is_mashang'));
         $level_id = intval(request::filter('post.level_id'));
 
-//        $balance = floatval(request::filter('post.balance'));
-//        $money = floatval(request::filter('post.money'));
-        if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
-        //判断用户名是否存在
-        $user = $this->mysql->query("client_user", "username='{$username}'")[0];
-        if (is_array($user) && $username != $user['username']) functions::json(-3, '当前用户名已经存在,请更换重试');
-        //判断手机是否存在
-        $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
-        if (is_array($find_phone) && $find_phone['phone'] != $phone) functions::json(-3, '当前手机已经存在,请更换重试');
+        if($phone==''){
+            $phone = 0;
+        }else{
+            //手机号规则
+            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+            //判断手机是否存在
+            $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
+            if (is_array($find_phone) && $find_phone['phone'] != $phone) functions::json(-3, '当前手机已经存在,请更换重试');
+
+        }
+
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
         if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
-        //手机号
-        if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
 
         //判断上级ID是否存在
         if ($level_id > 0) {
             $find_level = $this->mysql->query("client_user", "id={$level_id}")[0];
             if (!is_array($find_level)) functions::json(-3, '上级ID填写有误,没有找到该会员ID');
         }
-
 
         $inArray = [
             'username' => $username,

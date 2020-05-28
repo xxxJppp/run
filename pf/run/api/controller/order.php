@@ -39,11 +39,11 @@ class order extends common
     {
         $order_id = request::filter('post.id');
         if (empty($order_id)) functions::json(0, '订单ID错误');
-        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}",'paofen_id,status,trade_no,amount,creation_time',null,'desc',1);
+        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}", 'paofen_id,status,trade_no,amount,creation_time', null, 'desc', 1);
         if (!isset($order[0])) functions::json(0, '当前订单不存在');
         $order = $order[0];
-        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}",'name,ewm_url')[0];
-        $shenshu = $this->mysql->query("appeal", "trade_no={$order['trade_no']}",'audit')[0];
+        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}", 'name,ewm_url')[0];
+        $shenshu = $this->mysql->query("appeal", "trade_no={$order['trade_no']}", 'audit')[0];
         $order['creation_time'] = date('Y-m-d H:i:s', $order['creation_time']);
         $order['type'] = '支付宝';
         $order['account'] = $account['name'];
@@ -58,7 +58,7 @@ class order extends common
             $order['status_name'] = '已支付';
         }
 
-        if($shenshu){
+        if ($shenshu) {
             $appeal = [];
             $appeal[0] = '未审核';
             $appeal[1] = '已审核';
@@ -67,11 +67,11 @@ class order extends common
 
             $order['appeal'] = $shenshu[0]['audit'];
             $order['appeal_name'] = $appeal[$order['appeal']];
-        }else{
+        } else {
             $order['appeal'] = '';
             $order['appeal_name'] = '立即申诉';
         }
-        functions::json(1, '请求成功',$order);
+        functions::json(1, '请求成功', $order);
     }
 
 
@@ -82,270 +82,89 @@ class order extends common
         if (empty($order_id)) functions::json(0, '订单ID错误');
         $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}")[0];
         if (!is_array($order)) functions::json(0, '当前订单不存在');
-        //if($order['status']==3) functions::json(-2, '订单超时，无法收款');
-        $a = functions::lock($this->user['id']);
-        if (!$a) {
-            functions::json(0, '稍等片刻');
+
+        if($order['status'] == 4){
+            functions::json(0, '该订单已完成');
         }
-        if (!is_array($this->user)) functions::json(0, '商户错误');
+        $user = $this->mysql->query("client_user", "id={$this->user['id']}")[0];
 
-
+        if (!is_array($user)) functions::json(0, '商户错误');
         //得到用户组
-        $agt = $this->mysql->query("client_user", "id={$this->user['level_id']}")[0];
-        $agt_a = functions::lock($agt['id']);
-        if (!$agt_a) {
-            functions::json(0, '稍等片刻');
-        }
-
-        $group = $this->mysql->query('client_group', "id={$agt['group_id']}");
+        $group = $this->mysql->query('client_group', "id={$user['group_id']}");
         $group && $group = $group[0];
-        //$agent_group = $this->mysql->query('agent_rate', "uid={$this->user['id']}");
-        $agent_group = $this->mysql->query('client_group', "id={$this->user['group_id']}");
-        $agent_group && $agent_group = $agent_group[0];
-
         //解析数据
         $authority = json_decode($group['authority'], true)[$module_name];
-        if (!is_array($group) || $group['authority'] == -1 || $authority['open'] != 1) functions::json(-1, '用户组错误');
-        //获取上级用户组
+        if (!is_array($group) || $group['authority'] == -1 || $authority['open'] != 1) functions::json(0, '用户组错误');
+        $fees = $order['amount'] * $authority['cost'];
+        $puser = $this->mysql->query("client_user", "id={$order['pankou_id']}")[0];
+        //盘口返佣
+        $pankou = $this->mysql->query('client_group', "id={$puser['group_id']}")[0];
+        $pankou_feilv = json_decode($pankou['authority'], true)[$module_name];
+        $pankou_fees = $order['amount'] * $pankou_feilv['cost'];
 
+        $agent = $this->mysql->query("client_user", "id={$user['level_id']}")[0];
+        $agent_group = $this->mysql->query('client_group', "id={$agent['group_id']}")[0];
+        $agent_feilv = json_decode($agent_group['authority'], true)[$module_name];
+        $count_fees = $order['amount'] * $agent_feilv['cost'];
+        $agent_fees = $order['amount'] * $agent_feilv['cost'] - $fees;
 
-        if ($this->user['level_id'] !== '0') {
-            //得到用户组
-
-            //$agent_group = $this->mysql->query('agent_rate', "uid={$this->user['id']}")[0];
-            $agent_group = $this->mysql->query('client_group', "id={$this->user['group_id']}")[0];
-
-            $duser = $this->mysql->query("client_user", "id={$this->user['level_id']}")[0];
-            $dailigroup = $this->mysql->query('client_group', "id={$duser['group_id']}")[0];
-            //获取盘口用户组
-            $puser = $this->mysql->query("client_user", "id={$order['pankou_id']}")[0];
-            $puser_a = functions::lock($puser['id']);
-            if (!$puser_a) {
-                functions::json(0, '稍等片刻');
-            }
-
-            $pankougroup = $this->mysql->query('client_group', "id={$puser['group_id']}")[0];
-            $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
-            //解析数据
-            $dailiauthority = json_decode($dailigroup['authority'], true)[$module_name];
-            //获取代理给商户的费率
-            $shanghuauthority = json_decode($agent_group['authority'], true)[$module_name];
-
-            //代理的获利    代理的费率-给商户的费率
-            $fess2 = $dailiauthority['cost'] - $shanghuauthority['cost'];
-
-            //系统对代理的费率
-            $dailifees = $order['amount'] * $dailiauthority['cost'];
-
-            $dailihuoli = $order['amount'] * $fess2;
-
-
-            $shanghufees = $order['amount'] * $shanghuauthority['cost'];
-
-            $pankoufees = $order['amount'] * $pankouauthority['cost'];
-
-            $pankouhuoli = $order['amount'] - $pankoufees;
-
-
-            $isCallback = 0;
-            if ($order['reached'] == 1) {
-                $isCallback = 1;
-            } else {
-
-                $shanghu_balance = $this->user['balance'] + $shanghufees; // 用户最终余额
-                $user_balance = floatval($shanghu_balance);
-
-                $daili_balance = $duser['balance'] + $dailihuoli; // 代理最终余额
-                $daili_balance = floatval($daili_balance);
-
-
-                $pankou_balance = $puser['balance'] + $pankouhuoli; // 代理最终余额
-                $pankou_balance = floatval($pankou_balance);
-
-
-                if ($user_balance >= 0) {
-                    $isCallback = 1;
-
-                    $updateStatus = $this->mysql->update("client_user", ['balance' => $user_balance], "id={$this->user['id']}");
-                    functions::unlock($this->user['id']);
-                    $agentlog = $this->mysql->query('agent_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-
-                    if (!is_array($agentlog)) {
-
-                        //写代理获利记录
-                        $alog = $this->mysql->insert("agent_huoli_log", [
-                            'uid' => $this->user['id'],
-                            'agent_id' => $duser['id'],
-                            'orderid' => $order_id,
-                            'amount' => $order['amount'],
-                            'huoli' => $dailihuoli,
-                            'trade_no' => $order['trade_no'],
-                            'daili_balance' => $daili_balance,
-                            'shanghu_fees' => $shanghufees,
-                            'type' => '跑分模式',
-                            'time' => time()
-                        ]);
-
-                        if ($alog > 0) {
-
-                            $updateStatus_daili = $this->mysql->update("client_user", ['balance' => $daili_balance], "id={$duser['id']}");
-                            functions::unlock($duser['id']);
-                        }
-                    }
-                    //写盘口获利记录
-                    $pankoulog = $this->mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-
-                    if (!is_array($pankoulog)) {
-                        $plog = $this->mysql->insert("pankou_huoli_log", [
-                            'uid' => $puser['id'],
-                            'orderid' => $order_id,
-                            'amount' => $order['amount'],
-                            'balance' => $pankou_balance,
-                            'trade_no' => $order['trade_no'],
-                            'old_balance' => $puser['balance'],
-                            'pankou_fees' => $pankoufees,
-                            'type' => $order['type'],
-                            'time' => time()
-                        ]);
-
-                        if ($plog > 0) {
-
-                            $updateStatus_pankou = $this->mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
-                            functions::unlock($puser['id']);
-                        }
-                    }
-
-                    if ($updateStatus !== false) {
-                        $this->user['balance'] = $user_balance;
-                        $this->mysql->update("client_paofen_automatic_account", ['bind_uid' => ''], "id={$order['paofen_id']}");
-                        $deposit = $this->mysql->query("deposit", "order_id={$order['id']} and user_id={$this->user['id']}")[0];
-                        if (!is_array($deposit)) {
-                            if ($order['status'] == 3) {
-                                $bac = $this->mysql->query("client_user", "id={$this->user['id']}")[0];
-                                $act_a = functions::lock($bac['id']);
-                                if (!$act_a) {
-                                    functions::json(0, '稍等片刻');
-                                }
-                                $yue = $bac['balance'] - $order['amount'];
-                                $this->mysql->update("client_user", ['balance' => $yue], "id={$this->user['id']}");
-                                functions::unlock($this->user['id']);
-                            }
-                        }
-                        $this->mysql->delete("deposit", "user_id={$order['user_id']} and order_id={$order['id']}");
-                        $this->mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
-                    }
-                } else {
-                    functions::json(-1, '账户余额不足，回调失败');
-                }
-            }
-
+        $isCallback = 0;
+        $this->mysql->startThings();
+        if ($order['reached'] == 1) {
+            $isCallback = 1;
         } else {
 
-            //获取盘口用户组
-            $puser = $this->mysql->query("client_user", "id={$order['pankou_id']}");
-            $puser && $puser = $puser[0];
-            $puser_sult = functions::lock($puser['id']);
-            if (!$puser_sult) {
-                functions::json(0, '稍等片刻');
-            }
-            $pankougroup = $this->mysql->query('client_group', "id={$puser['group_id']}");
-            $pankougroup && $pankougroup = $pankougroup[0];
-            $pankouauthority = json_decode($pankougroup['authority'], true)[$module_name];
-            $pankoufees = $order['amount'] * $pankouauthority['cost'];
-            $pankouhuoli = $order['amount'] - $pankoufees;
+            $shanghu_balance = $user['balance'] + $fees; // 用户最终余额
+            $user_balance = floatval($shanghu_balance);
 
-            $fees = $order['amount'] * $authority['cost'];
-
-            $dailifees = 0;
-            $shanghufees = $fees;
-            $dailihuoli = 0;
-
-
-            $isCallback = 0;
-
-            if ($order['reached'] == 1) {
+            if ($user_balance >= 0) {
                 $isCallback = 1;
-            } else {
-                $user_balance = $this->user['balance'] + $fees; // 用户最终余额
-                $user_balance = floatval($user_balance);
 
+                //$updateStatus = $this->mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
+                $updateStatus = functions::user_balance($user['id'], $fees, $fees);
+                $change = functions::user_balance_record($user['id'], $fees, 3, $order['id'], '码商返利', $user['balance']);
+                if ($updateStatus === false || $change === false) {
+                    $this->mysql->rollBack();
+                    functions::json(0, '回调失败');
+                }
 
-                $pankou_balance = $puser['balance'] + $pankouhuoli; // 盘口最终余额
-                $pankou_balance = floatval($pankou_balance);
-
-                if ($user_balance >= 0) {
-                    $isCallback = 1;
-
-                    $updateStatus = $this->mysql->update("client_user", ['balance' => $user_balance], "id={$this->user['id']}");
-                    functions::unlock($this->user['id']);
-
-                    //写盘口获利记录
-                    $pankoulog = $this->mysql->query('pankou_huoli_log', "trade_no LIKE '{$order['trade_no']}'")[0];
-
-                    if (!is_array($pankoulog)) {
-                        $plog = $this->mysql->insert("pankou_huoli_log", [
-                            'uid' => $puser['id'],
-                            'orderid' => $order_id,
-                            'amount' => $order['amount'],
-                            'balance' => $pankou_balance,
-                            'trade_no' => $order['trade_no'],
-                            'old_balance' => $puser['balance'],
-                            'pankou_fees' => $pankoufees,
-                            'type' => $order['type'],
-                            'time' => time()
-                        ]);
-
-                        if ($plog > 0) {
-
-                            $updateStatus_pankou = $this->mysql->update("client_user", ['balance' => $pankou_balance], "id={$puser['id']}");
-                            functions::unlock($puser['id']);
+                $this->user['balance'] = $user_balance;
+                $erweima = $this->mysql->update("client_paofen_automatic_account", ['bind_uid' => ''], "id={$order['paofen_id']}");
+                $deposit = $this->mysql->query("deposit", "order_id={$order['id']} and user_id={$this->user['id']}")[0];
+                if (!is_array($deposit)) {
+                    if ($order['status'] == 3) {
+                        $bac = $this->mysql->query("client_user", "id={$this->user['id']}")[0];
+                        $yue = $bac['balance'] - $order['amount'];
+                        //$this->mysql->update("client_user",['balance'=>$yue],"id={$this->user['id']}");
+                        $user_dongjie = functions::user_balance($user['id'], '-' . $order['amount']);
+                        $chang = functions::user_balance_record($user['id'], '-' . $order['amount'], 5, $order['id'], '超时订单确认收款扣除', $bac['balance']);
+                        if ($user_dongjie === false || $chang === false) {
+                            $this->mysql->rollBack();
+                            functions::json(0, '回调失败1');
                         }
-                    }
-
-                    $mauser = $this->mysql->query("client_user", "id={$this->user['id']}")[0];
-                    //写押金记录 冻结金额
-                    $this->mysql->insert("mashang_yajin_log", [
-                        'uid' => $this->user['id'],
-                        'trade_no' => $order['trade_no'],
-                        'money' => $order['amount'],
-                        'old_balance' => $this->user['balance'],
-                        'new_balance' => $mauser['balance'],
-                        'remark' => '补发订单成功！订单号：' . $order['trade_no'] . ',扣除金额：' . $order['amount'] . '元，扣除前余额：' . $this->user['balance'] . '元，扣除后余额：' . $mauser['balance'] . '元',
-                        'time' => time(),
-                        'status' => 2
-
-                    ]);
-                    if ($updateStatus !== false) {
-                        $this->user['balance'] = $user_balance;
-                        $this->mysql->update("client_paofen_automatic_account", ['bind_uid' => ''], "id={$order['paofen_id']}");
-                        $deposit = $this->mysql->query("deposit", "order_id={$order['id']} and user_id={$this->user['id']}")[0];
-                        if (!is_array($deposit)) {
-                            if ($order['status'] == 3) {
-                                $bac = $this->mysql->query("client_user", "id={$this->user['id']}")[0];
-                                $act_a = functions::lock($bac['id']);
-                                if (!$act_a) {
-                                    functions::json(0, '稍等片刻');
-                                }
-                                $yue = $bac['balance'] - $order['amount'];
-                                $this->mysql->update("client_user", ['balance' => $yue], "id={$this->user['id']}");
-                                functions::unlock($this->user['id']);
-                            }
-                        }
-                        $this->mysql->delete("deposit", "user_id={$order['user_id']} and order_id={$order['id']}");
-                        $this->mysql->update("client_alipaygm_automatic_orders", ['reached' => 1], "id={$order['id']}");
                     }
                 } else {
-                    functions::json(-1, '账户余额不足，回调失败');
+                    $del_deposit = $this->mysql->delete("deposit", "user_id={$order['user_id']} and order_id={$order['id']}");
+                    if (!$del_deposit) {
+                        $this->mysql->rollBack();
+                        functions::json(0, '回调失败0');
+                    }
                 }
+
+                $order_up = $this->mysql->update("client_paofen_automatic_orders", ['reached' => 1], "id={$order['id']}");
+                if (!$order_up) {
+                    $this->mysql->rollBack();
+                    functions::json(0, '回调失败2');
+                }
+
+            } else {
+                functions::json(0, '账户余额不足，回调失败');
             }
-
-
         }
-
 
         //检测订单是否为未支付
         if ($order['status'] != 4) {
-            $this->mysql->update("client_paofen_automatic_orders", [
+            $update_order = $this->mysql->update("client_paofen_automatic_orders", [
                 'pay_time' => time(),
                 'status' => 4,
                 'callback_time' => time(),
@@ -354,14 +173,17 @@ class order extends common
                 'reached' => 1
             ], "id={$order['id']}");
         } else {
-            $this->mysql->update("client_paofen_automatic_orders", [
+            $update_order = $this->mysql->update("client_paofen_automatic_orders", [
                 'callback_time' => time(),
                 'callback_status' => 1,
                 'callback_content' => '商户后台回调',
                 'reached' => 1
             ], "id={$order['id']}");
         }
-
+        if (!$update_order) {
+            $this->mysql->rollBack();
+            functions::json(0, '回调失败3');
+        }
         if ($isCallback == 1) {
             $pay_time = $order['pay_time'] == 0 ? time() : $order['pay_time'];
 
@@ -372,7 +194,7 @@ class order extends common
                 'amount' => $order['amount'],
                 'out_trade_no' => $order['out_trade_no'],
                 'trade_no' => $order['trade_no'],
-                'fees' => $shanghufees,
+                'fees' => $fees,
                 'sign' => functions::sign($puser['key_id'], [
                     'amount' => $order['amount'],
                     'out_trade_no' => $order['out_trade_no']
@@ -381,15 +203,20 @@ class order extends common
                 'type' => 1,
                 'account_key' => $puser['key_id']
             ]));
-            $this->mysql->update("client_paofen_automatic_orders", [
-                'fees' => $shanghufees,
-                'xitong_fees' => $dailifees,
-                'agent_rate' => $dailihuoli,
-                'pankou_fees' => $pankoufees,
+            $set = $this->mysql->update("client_paofen_automatic_orders", [
+                'fees' => $fees,
+                'agent_rate' => $agent_fees,
+                'xitong_fees' => $count_fees,
+                'pankou_fees' => $pankou_fees,
                 'reached' => 1
             ], "id={$order['id']}");
+            if (!$set) {
+                $this->mysql->rollBack();
+                functions::json(0, '回调失败4');
+            }
         }
 
+        $this->mysql->commit();
         functions::json(1, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $order['trade_no'] . ' 异步通知任务下发成功!');
     }
 

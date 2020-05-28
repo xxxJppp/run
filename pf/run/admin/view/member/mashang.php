@@ -163,7 +163,7 @@ $fix = DB_PREFIX;
                                 <td>
                                     <a class="layui-btn layui-btn-small"
                                        href="<?php echo url::s('admin/member/edit',"type=mashang&id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
-                                        修改资料
+                                        修改
                                     </a>
                                     <button class="layui-btn layui-btn-small"
                                             onclick="order_del(this,'<?php echo $em['id']; ?>')">
@@ -313,10 +313,10 @@ $fix = DB_PREFIX;
             url: "<?php echo url::s('admin/member/add');?>",
             data: $('#from').serialize(),
             success: function (data) {
-                console.log(data);
-                if(data.code == '200'){
-                    layer.msg('添加成功!', {icon: 1, time: 1000});
-                    window.location.href="/admin/member/mashang";
+                if (data.code == '200') {
+                    layer.msg(data.msg, {icon: 1, time: 1000,end:function () {
+                            window.location.href = "/admin/member/mashang";
+                        }});
                 }else{
                     layer.msg(data.msg, {icon: 1, time: 1000});
                 }
