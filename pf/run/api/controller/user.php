@@ -180,9 +180,10 @@ class user extends common
         functions::json(1, '获取成功', $checkuser[0], $this->token);
     }
 
-    public function setBank(){
+    public function setBank()
+    {
         $bank_type = request::filter('post.bank_type', '', 'htmlspecialchars');
-        if(!$bank_type){
+        if (!$bank_type) {
             functions::json(0, '请选择绑定类型!');
         }
         if ($bank_type == 1) {
@@ -215,56 +216,57 @@ class user extends common
         $uid = $this->user['id'];
         $status = request::filter('post.status');
         $where = "user_id={$uid}";
-        if($status){
+        if ($status) {
             $where .= " and status={$status}";
         }
         $result = page::conduct('client_paofen_automatic_orders', request::filter('get.page'), $this->perPage, $where, 'id,trade_no,creation_time,amount,status', 'id', 'desc');
 
-        foreach ($result['result'] as &$v){
-            $v['creation_time'] = date('Y-m-d H:i:s',$v['creation_time']);
+        foreach ($result['result'] as &$v) {
+            $v['creation_time'] = date('Y-m-d H:i:s', $v['creation_time']);
             $v['status_name'] = $v['status'] == 2 ? '未支付' : ($v['status'] == 3 ? '订单超时' : '已支付');
         }
-        functions::json(1, '获取成功',$result);
+        functions::json(1, '获取成功', $result);
     }
 
     public function chargeOrder()
     {
 
-        $where="uid =".$this->user['id'];
-        $status = [1=>'充值', 2=>'扣款'];
+        $where = "uid =" . $this->user['id'];
+        $status = [1 => '充值', 2 => '扣款'];
         $result = page::conduct('user_paylog', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
-        foreach ($result['result'] as &$v){
-            $v['time'] = date('Y-m-d H:i:s',$v['time']);
+        foreach ($result['result'] as &$v) {
+            $v['time'] = date('Y-m-d H:i:s', $v['time']);
             $v['status_name'] = $status[$v['status']];
         }
-        functions::json(1, '获取成功',$result);
+        functions::json(1, '获取成功', $result);
     }
 
     public function withdraw()
     {
 
-        $where="uid =".$this->user['id'];
-        $status = [1=>'充值', 2=>'扣款'];
+        $where = "uid =" . $this->user['id'];
+        $status = [1 => '充值', 2 => '扣款'];
         $result = page::conduct('user_paylog', request::filter('get.page'), $this->perPage, $where, null, 'id', 'desc');
-        foreach ($result['result'] as &$v){
-            $v['time'] = date('Y-m-d H:i:s',$v['time']);
+        foreach ($result['result'] as &$v) {
+            $v['time'] = date('Y-m-d H:i:s', $v['time']);
             $v['status_name'] = $status[$v['status']];
         }
-        functions::json(1, '获取成功',$result);
+        functions::json(1, '获取成功', $result);
     }
 
     //收款码
-    public function automatic(){
+    public function automatic()
+    {
         $this->review('paofen_auto');
         $type = request::filter('get.type', '', 'htmlspecialchars');
         //筛选
         $where = '';
-            $list = [1, 2, 3, 4, 5, 6, 7, 8];
-            if (in_array($type, $list)) {
-                $where .= "and type = {$type}";
-            } else {
-                unset($_SESSION['SERVICE_ACCOUNT']['WHERE']);
-            }
+        $list = [1, 2, 3, 4, 5, 6, 7, 8];
+        if (in_array($type, $list)) {
+            $where .= "and type = {$type}";
+        } else {
+            unset($_SESSION['SERVICE_ACCOUNT']['WHERE']);
+        }
 
         //     $result = page::conduct('service_account', request::filter('get.page'), 10, $where, null, 'id', 'asc');
         $result = page::conduct('client_paofen_automatic_account', request::filter('get.page'), $this->perPage, "user_id={$this->user['id']} " . $where, null, 'id', 'desc');
@@ -272,7 +274,7 @@ class user extends common
         $areaList = $this->mysql->query('city');
         $areaStr = [];
         foreach ($areaList as $bk => $bv) {
-            $areaStr[$bv['id']]=$bv['cityname'];
+            $areaStr[$bv['id']] = $bv['cityname'];
         }
 
         //获取银行id（简称）
@@ -281,26 +283,27 @@ class user extends common
         foreach ($bankList as $bk => $bv) {
             $bankStr[$bv['bank_id']] = $bv['bank_name'];
         }
-        $type= [1=> '支付宝', 2=>'微信', 3=>'其他'];
+        $type = [1 => '支付宝', 2 => '微信', 3 => '其他'];
 
 
         $paofen_accounts = $this->mysql->select("select count(id) as count, paofen_id from {$this->prefix}client_paofen_automatic_orders   where status=4 and user_id={$this->user['id']} group by paofen_id");
         $accounts = $this->changeArr($paofen_accounts, 'paofen_id', 'count');
 
-        foreach ($result['result'] as &$v){
+        foreach ($result['result'] as &$v) {
             $v['bank_name'] = isset($bankStr[$v['bank_id']]) ? $bankStr[$v['bank_id']] : '';
             $v['city_name'] = isset($bankStr[$v['area']]) ? $bankStr[$v['area']] : '';
             $v['type_name'] = isset($type[$v['type']]) ? $type[$v['type']] : '';
             $v['total_pens'] = isset($accounts[$v['id']]) ? $accounts[$v['id']] : 0;
         }
-        functions::json(1, '获取成功',$result);
+        functions::json(1, '获取成功', $result);
     }
 
     //添加收款码
-    public function addAutomatic(){
+    public function addAutomatic()
+    {
         $name = request::filter('post.name');
         if (empty($name)) functions::json(0, '参数有误');
-        if(empty($_FILES['avatar']['tmp_name']))functions::json(0, '参数有误');
+        if (empty($_FILES['avatar']['tmp_name'])) functions::json(0, '参数有误');
         $ewm_url = functions::checkCode($_FILES['avatar']['tmp_name']);
         if ($ewm_url) {
             //添加支付宝通道
@@ -313,26 +316,26 @@ class user extends common
 
             $type = 1;
 
-            if($type == 3){
+            if ($type == 3) {
 
                 $typename = request::filter('get.typename', ' ', 'htmlspecialchars');
-            }else{
+            } else {
 
                 $typename = 0;
             }
 
-            if($type == 4){
+            if ($type == 4) {
 
                 $account = request::filter('get.account', ' ', 'htmlspecialchars');
                 $pid = request::filter('get.pid', ' ', 'htmlspecialchars');
                 $ewm_url = 0;
                 $typename = 0;
-                $gathering_name=0;
-                $cardid=0;
-                $bank_id=0;
-                $account_no=0;
+                $gathering_name = 0;
+                $cardid = 0;
+                $bank_id = 0;
+                $account_no = 0;
 
-            }else if($type == 5){
+            } else if ($type == 5) {
                 $gathering_name = request::filter('get.gathering_name', ' ', 'htmlspecialchars');
                 $cardid = request::filter('get.cardid', ' ', 'htmlspecialchars');
                 $bank_id = request::filter('get.bank_id', ' ', 'htmlspecialchars');
@@ -341,36 +344,36 @@ class user extends common
                 $ewm_url = 0;
                 $typename = 0;
                 $account = 0;
-                $pid=0;
-            }else{
+                $pid = 0;
+            } else {
                 $account = 0;
                 $typename = 0;
-                $pid=0;
-                $gathering_name=0;
-                $cardid=0;
-                $bank_id=0;
-                $account_no=0;
+                $pid = 0;
+                $gathering_name = 0;
+                $cardid = 0;
+                $bank_id = 0;
+                $account_no = 0;
             }
             $key_id = strtoupper(substr(md5(mt_rand((mt_rand(1000, 9999) + mt_rand(1000, 9999)), mt_rand(1000000, 99999999))), 0, 18));
             $insert = [
-                'name'              => $name,
-                'status'            => 4,
-                'login_time'        => 0,
-                'heartbeats'        => 0,
-                'active_time'       => 0,
-                'user_id'           => $this->user['id'],
-                'key_id'            => $key_id,
-                'training'          => 1,
-                'receiving'         => 1,
-                'ewm_url'         => $ewm_url,
-                'type'         => $type,
-                'typename'         => $typename,
-                'account'         => $account,
-                'pid'         => $pid,
-                'gathering_name'     => $gathering_name,
-                'cardid'       => $cardid,
-                'bank_id'     => $bank_id,
-                'account_no'    => $account_no,
+                'name' => $name,
+                'status' => 4,
+                'login_time' => 0,
+                'heartbeats' => 0,
+                'active_time' => 0,
+                'user_id' => $this->user['id'],
+                'key_id' => $key_id,
+                'training' => 1,
+                'receiving' => 1,
+                'ewm_url' => $ewm_url,
+                'type' => $type,
+                'typename' => $typename,
+                'account' => $account,
+                'pid' => $pid,
+                'gathering_name' => $gathering_name,
+                'cardid' => $cardid,
+                'bank_id' => $bank_id,
+                'account_no' => $account_no,
                 'account_user_id' => '',
                 'app_user' => '',
                 'max_dd' => 0,
@@ -390,7 +393,8 @@ class user extends common
 
 
     //停用收款码
-    public function stopAutomatic(){
+    public function stopAutomatic()
+    {
         $id = request::filter('get.id');
         if (empty($id)) functions::json(0, '参数有误');
         $find_paofen_auto = $this->mysql->query("client_paofen_automatic_account", "user_id={$this->user['id']} and id={$id}");
@@ -398,17 +402,18 @@ class user extends common
             functions::json(0, '你没有该收款码,不得修改');
         }
         $status = $find_paofen_auto[0]['receiving'] ? 0 : 1;
-        $msg  = $status ? '启用' : '停用';
-        $in = $this->mysql->update("client_paofen_automatic_account", ['receiving' => $status],"id={$id}");
+        $msg = $status ? '启用' : '停用';
+        $in = $this->mysql->update("client_paofen_automatic_account", ['receiving' => $status], "id={$id}");
 
         if ($in > 0) {
-            functions::json(1, $msg.'成功');
+            functions::json(1, $msg . '成功');
         }
-        functions::json(0, $msg.'失败!');
+        functions::json(0, $msg . '失败!');
     }
 
     //停用收款码
-    public function delAutomatic(){
+    public function delAutomatic()
+    {
         $id = request::filter('get.id');
         if (empty($id)) functions::json(0, '参数有误');
         $find_paofen_auto = $this->mysql->query("client_paofen_automatic_account", "user_id={$this->user['id']} and id={$id}");
@@ -418,13 +423,34 @@ class user extends common
 
         $in = $this->mysql->delete("client_paofen_automatic_account", "id={$id}");
 
-        $msg = "删除";
         if ($in > 0) {
-            functions::json(1, $msg.'成功');
+            functions::json(1, '删除成功');
         }
-        functions::json(0, $msg.'失败!');
+        functions::json(0, '删除失败!');
     }
 
+
+    public function statistics()
+    {
+        $ret = [];
+        $order_true = 0;
+        $automatic = $this->mysql->query("client_paofen_automatic_account", "user_id={$this->user['id']}", 'count(id) as count');
+        $order = $this->mysql->query("client_paofen_automatic_orders", "user_id={$this->user['id']}", 'status');
+        $deposit = $this->mysql->query("xh_deposit", "user_id={$this->user['id']}", 'SUM(money) as money');
+        $withdraw = $this->mysql->query("client_paofen_withdraw", "user_id={$this->user['id']}", 'SUM(amount) as money');
+        foreach ($order as $v) {
+            if ($v['status'] == 4) {
+                $order_true += 1;
+            }
+
+        }
+        $ret['automatic'] = isset($automatic[0]) ? $automatic[0]['count'] : 0;
+        $ret['deposit'] = isset($deposit[0]) ? $deposit[0]['money'] : 0;
+        $ret['order_true'] = $order_true;
+        $ret['order'] = count($order);
+        $ret['withdraw'] = isset($withdraw[0]) ? $withdraw[0]['money'] : 0;
+        functions::json(1, '请求成功', $ret);
+    }
 
 
 }
