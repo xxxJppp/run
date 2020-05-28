@@ -53,7 +53,7 @@ $fix = DB_PREFIX;
 
                                 <?php if($em['audit'] == 0){?>
                                 <button class="layui-btn layui-btn-small"
-                                        onclick="audit('<?php echo $em['id']; ?>',3)">
+                                        onclick="audit('<?php echo $em['id']; ?>',3,'')">
                                     审核
                                 </button>
                                 <button class="layui-btn layui-btn-small"
@@ -173,7 +173,7 @@ $fix = DB_PREFIX;
                                     window.location.href = "/admin/paofen/appeal";
                                 }});
                         }else{
-                            layer.msg(result.msg, {icon:2,time:1000})
+                            layer.msg(res.msg, {icon:2,time:1000})
                         }
                     }
                 });
@@ -189,7 +189,7 @@ $fix = DB_PREFIX;
                                 window.location.href = "/admin/paofen/appeal";
                         }});
                     }else{
-                        layer.msg(result.msg, {icon:2,time:1000})
+                        layer.msg(res.msg, {icon:2,time:1000})
                     }
                 }
             });

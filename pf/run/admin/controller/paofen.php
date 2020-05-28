@@ -428,36 +428,76 @@ class paofen
         }
 
         $mysql = new Mysql();
-        $appeal = $mysql->query('appeal','id='.$id,'trade_no');
+        $appeal = $mysql->query('appeal','id='.$id,'trade_no,money');
         if(!$appeal){
             functions::json(-3,'该申诉记录不存在或已审核');
         }
-
-        $this->mysql->startThings();
+        $order = $mysql->query('client_paofen_automatic_orders',"trade_no={$appeal[0]['trade_no']}")[0];
+        if(!is_array($order)){
+            functions::json(-3,'订单不存在');
+        }
+        $user = $mysql->query("client_user","id={$order['user_id']}")[0];
+        if($appeal[0]['money']!=$amount && $type==1){
+            $arr = ['money'=>$amount,'audit'=>$type];
+        }else{
+            $arr = ['audit'=>$type];
+        }
+        $mysql->startThings();
 
         if($type == 1){
-
-            $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],'trade_no='.$appeal[0]['trade_no']);
+            $result = $mysql->update('client_paofen_automatic_orders',['amount'=>$amount],"id={$order['id']}");
             if(!$result){
-                $this->mysql->rollBack();
+                $mysql->rollBack();
                 functions::json(-3,'请确认订单是否正确');
             }
+            $deposit = $mysql->query("deposit","user_id={$order['user_id']} and order_id={$order['id']}")[0];
+            if(is_array($deposit)){
+                $data = [
+                    'user_id'=>$deposit['user_id'],
+                    'money'=>$amount,
+                    'order_id'=>$order['id'],
+                    'addtime'=>time()
+                ];
+                $user_money = $mysql->update("client_user",['balance'=>$user['balance']+$deposit['money']],"id={$user['id']}");
+                $deposit_result = $mysql->delete("deposit","id={$deposit['id']}");
 
-            $result1 = $mysql->update('appeal',['money'=>$amount],'id='.$id);
-            if(!$result1){
-                $this->mysql->rollBack();
-                functions::json(-3,'请确认订单是否正确');
+                $new_user = $mysql->query("client_user","id={$user['id']}")[0];
+                $yajin_result = $mysql->insert("mashang_yajin_log",[
+                    'uid' => $user['id'],
+                    'trade_no' =>$appeal[0]['trade_no'],
+                    'money'    => $deposit['money'],
+                    'old_balance'    =>  $user['balance'],
+                    'new_balance'    => $new_user['balance'],
+                    'remark'    =>'申诉成功,释放押金！订单号：'.$appeal[0]['trade_no'].',释放冻结金额：'.$deposit['money'].'元，释放前余额：'. $user['balance'].'元，释放后余额：'. $new_user['balance'].'元',
+                    'time' => time(),
+                    'status' => 1
+                ]);
+                $new_user_money = $mysql->update("client_user",['balance'=>$new_user['balance']-$amount],"id={$new_user['id']}");
+                $add_deposit = $mysql->insert("deposit",$data);
+                $je = $new_user['balance']-$amount;
+                $new_yajin_result = $mysql->insert("mashang_yajin_log",[
+                    'uid' => $new_user['id'],
+                    'trade_no' =>$appeal[0]['trade_no'],
+                    'money'    => $amount,
+                    'old_balance'    =>  $new_user['balance'],
+                    'new_balance'    => $je,
+                    'remark'    =>'申诉成功，重新冻结押金！订单号：'.$appeal[0]['trade_no'].',冻结金额：'.$amount.'元，冻结前余额：'. $new_user['balance'].'元，冻结后余额：'. $je.'元',
+                    'time' => time(),
+                    'status' => 1
+                ]);
+                if(!$deposit_result || !$yajin_result || !$new_yajin_result || !$user_money || !$new_user_money || !$add_deposit){
+                    $mysql->rollBack();
+                    functions::json(-3,'请确认订单是否正确1');
+                }
             }
-
         }
-
-        $result_appeal = $mysql->update('appeal',['audit'=>$type],'id='.$id);
+        $result_appeal = $mysql->update('appeal',$arr,'id='.$id);
         if(!$result_appeal){
-            $this->mysql->rollBack();
+            $mysql->rollBack();
             functions::json(-3,'请确认订单是否正确');
         }
 
-        $this->mysql->commit();
+        $mysql->commit();
         functions::json(1,'操作成功');
     }
 

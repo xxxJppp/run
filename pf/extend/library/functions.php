@@ -47,6 +47,40 @@ class functions
         return false;
     }
 
+    //检测用户名是否正确
+    static public function checkUsername($username)
+    {
+        $len = strlen($username);
+        if ($len < 4 || $len > 16) {
+            return false;
+        }
+        if (preg_match('/^[a-z0-9]+$/i', $username)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //检测姓名是否正确
+    static public function checkName($str)
+    {
+        //新疆等少数民族可能有·
+        if (strpos($str, '·')) {
+            $str = str_replace("·", '', $str);
+            if (preg_match('/^[\x7f-\xff]+$/', $str)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (preg_match('/^[\x7f-\xff]+$/', $str)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     //检测是否为邮箱
     static public function isEmail($email)
     {
@@ -136,7 +170,7 @@ class functions
             'quota' => 50000,
             'time' => 0,
             'fees' => 5,
-            'jiange' => rand(0,20)
+            'jiange' => rand(0, 20)
         ];
     }
 
@@ -201,21 +235,25 @@ class functions
         ];
 
     }
-    static function unlock($key){
+
+    static function unlock($key)
+    {
         $redis = redis::getInstance(functions::getRedisConfig());
         return $redis->del($key);
     }
-    static function lock($key,$expire=5){
+
+    static function lock($key, $expire = 5)
+    {
         $redis = redis::getInstance(functions::getRedisConfig());
-        $is_lock = $redis->setnx($key,time()+$expire);
-        if(!$is_lock){
+        $is_lock = $redis->setnx($key, time() + $expire);
+        if (!$is_lock) {
             $lock_time = $redis->get($key);
-            if(time()>$lock_time){
+            if (time() > $lock_time) {
                 self::unlock($key);
-                $is_lock = $redis->setnx($key,time()+$expire);
+                $is_lock = $redis->setnx($key, time() + $expire);
             }
         }
-        return $is_lock?true:false;
+        return $is_lock ? true : false;
     }
 
     //添加轮循
@@ -543,4 +581,93 @@ class functions
 
         return $data;
     }
+
+    /**
+     * 更新用户余额
+     * @param $uid 用户
+     * @param $balance 余额
+     * @param $money 返点
+     * @return bool
+     */
+    public static function user_balance($uid, $balance, $money = 0, $count = 0)
+    {
+        $mysql = new mysql();
+
+        $count++;
+        if ($count > 3) {
+            return false;
+        }
+
+        //1、 检测用户是否存在
+        $user = $mysql->query('client_user', "id={$uid}")[0];
+
+        if (!is_array($user)) return false;
+
+        if ($balance == 0 || !is_numeric($balance)) return false;
+
+        $user_balance = $user['balance'];
+        $user_version = $user['version'];
+        $user_money = $user['money'];
+
+        //2、乐观锁更新余额
+        $user_up = [
+            'money' => $user_money + $money,
+            'balance' => $user_balance + $balance,
+            'version' => $user_version + 1
+        ];
+
+        $user_re = $mysql->update("client_user", $user_up, "id={$uid} and version={$user_version}");
+
+        //3、更新失败，重试3次
+        if (!$user_re) {
+            $rand = rand(100, 3000);
+            usleep($rand);
+            self::user_balance($uid, $balance, $money = 0, $count);
+            return false;
+        }
+
+        return $user_balance;
+    }
+
+    /**
+     * 写入账变
+     * @param $uid 用户
+     * @param $money 金额
+     * @param $catalog 账变类型
+     * @param $biz_id 业务id
+     * @param $remark 备注
+     * @param $before_balance 账变前金额
+     * @return bool
+     */
+    public static function user_balance_record($uid, $money, $catalog, $biz_id, $remark = '', $before_balance)
+    {
+        $mysql = new mysql();
+        //1, 检测用户是否存在
+
+        if ($money == 0 || !is_numeric($money)) return false;
+
+        if (!is_int($catalog)) return false;
+
+        if ($biz_id <= 0) return false;
+
+        //2,写入账变
+        $user_balance_record = [
+            'uid' => $uid,
+            'biz_id' => $biz_id,
+            'money' => $money,
+            '`before`' => $before_balance,
+            '`after`' => $before_balance + $money,
+            'catalog' => $catalog,
+            'remark' => $remark,
+            'create_time' => time()
+        ];
+        $result = $mysql->insert("user_balance_record", $user_balance_record);
+
+        if (!$result) {
+            return false;
+        }
+        return true;
+    }
+
+
 }

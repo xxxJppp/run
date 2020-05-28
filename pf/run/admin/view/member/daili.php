@@ -186,7 +186,7 @@ $fix = DB_PREFIX;
 
                                 <a class="layui-btn layui-btn-small"
                                         href="<?php echo url::s('admin/member/edit',"type=daili&id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
-                                    修改资料
+                                    修改
                                 </a>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="order_del(this,'<?php echo $em['id']; ?>')">
@@ -251,7 +251,7 @@ $fix = DB_PREFIX;
                     <div class="form-group">
                         <label class="col-sm-2 control-label form-label">手机号</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control form-control-line" name="phone"  placeholder="手机号码">
+                            <input type="text" class="form-control form-control-line" name="phone"  placeholder="手机号码(选填)">
                         </div>
                     </div>
 
@@ -333,10 +333,10 @@ $fix = DB_PREFIX;
             url: "<?php echo url::s('admin/member/add');?>",
             data: $('#from').serialize(),
             success: function (data) {
-                console.log(data);
-                if(data.code == '200'){
-                    layer.msg('添加成功!', {icon: 1, time: 1000});
-                    window.location.href="/admin/member/daili";
+                if (data.code == '200') {
+                    layer.msg(data.msg, {icon: 1, time: 1000,end:function () {
+                            window.location.href = "/admin/member/daili";
+                        }});
                 }else{
                     layer.msg(data.msg, {icon: 1, time: 1000});
                 }

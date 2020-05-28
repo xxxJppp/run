@@ -30,7 +30,6 @@ class member
 
     }
 
-
     //用户列表
     //权限ID：20
     public function index()
@@ -47,7 +46,6 @@ class member
             'groups' => $groups
         ]);
     }
-
 
     public function daili()
     {
@@ -179,7 +177,6 @@ class member
         $this->powerLogin(20);
         $id = request::filter('get.id');
         $type = request::filter('get.type');
-        var_dump($type);exit;
         $result = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($result)) url::address(url::s('agent/panel/userlist'), '识别会员失败', 1);
 
@@ -285,29 +282,37 @@ class member
         $username = strip_tags(request::filter('post.username'));
         $pwd = request::filter('post.pwd');
         $group_id = request::filter('post.group_id');
-        $phone = request::filter('post.phone');
+        $phone = trim(request::filter('post.phone'));
         $level_id = intval(request::filter('post.level_id'));
 
         $is_agent = intval(request::filter('post.is_agent'));
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
 
-//        $balance = floatval(request::filter('post.balance'));
-//        $money = floatval(request::filter('post.money'));
-        if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
+        if (strlen($username) < 6) functions::json(-1, '用户名不能为空或小于6位');
+
+        if (!preg_match("/^[a-zA-Z0-9_]{0,}$/", $username))  functions::json(-1, '用户名不能有汉字');
+
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
-        //判断手机是否存在
-        $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
-        if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
+
+        if($phone==''){
+            $phone = 0;
+        }else{
+            //手机号规则
+            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+            //判断手机是否存在
+            $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
+            if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
+        }
+
         //判断密码
         if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
         if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
-        //手机号
-        if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+
         //生成密码盐值
         $token = substr(md5(mt_rand(10000, mt_rand(100000, 9999999))), 0, 9);
         //判断上级ID是否存在
@@ -317,6 +322,7 @@ class member
             //检测是否有上级
             if ($find_level['level_id'] != 0) functions::json(-3, '上级ID填写有误,该上级会员不支持直接在后台添加下级');
         }
+
         $Insert = $this->mysql->insert("client_user", [
             'username' => $username,
             'phone' => $phone,
@@ -349,7 +355,6 @@ class member
         $this->powerLogin(20);
         $id = intval(request::filter('get.id'));
         $type = intval(request::filter('get.type'));
-        var_dump($type);exit;
         $emp = $this->mysql->query("client_user", "id={$id}")[0];
         if (!is_array($emp)) functions::json(-3, '用户索引失败,请重试!');
         //上传文件到自己的空间
@@ -393,27 +398,26 @@ class member
         $is_mashang = intval(request::filter('post.is_mashang'));
         $level_id = intval(request::filter('post.level_id'));
 
-//        $balance = floatval(request::filter('post.balance'));
-//        $money = floatval(request::filter('post.money'));
-        if (strlen($username) < 5) functions::json(-1, '用户名不能为空或小于5位');
-        //判断用户名是否存在
-        $user = $this->mysql->query("client_user", "username='{$username}'")[0];
-        if (is_array($user) && $username != $user['username']) functions::json(-3, '当前用户名已经存在,请更换重试');
-        //判断手机是否存在
-        $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
-        if (is_array($find_phone) && $find_phone['phone'] != $phone) functions::json(-3, '当前手机已经存在,请更换重试');
+        if($phone==''){
+            $phone = 0;
+        }else{
+            //手机号规则
+            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+            //判断手机是否存在
+            $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
+            if (is_array($find_phone) && $find_phone['phone'] != $phone) functions::json(-3, '当前手机已经存在,请更换重试');
+
+        }
+
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
         if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
-        //手机号
-        if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
 
         //判断上级ID是否存在
         if ($level_id > 0) {
             $find_level = $this->mysql->query("client_user", "id={$level_id}")[0];
             if (!is_array($find_level)) functions::json(-3, '上级ID填写有误,没有找到该会员ID');
         }
-
 
         $inArray = [
             'username' => $username,
@@ -545,7 +549,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("client_withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -553,28 +557,32 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("client_withdraw", [
-            'types' => $type,
-            'is_notice' => 1,
-            'content' => $msg,
-            'status' => 1,
-            'deal_time' => time()
-        ], "id={$id}");
+         $width_result = $this->mysql->update("client_withdraw", [
+                            'types' => $type,
+                            'is_notice' => 1,
+                            'content' => $msg,
+                            'status' => 1,
+                            'deal_time' => time()
+                        ], "id={$id}");
+        if(!$width_result){
+            $this->mysql->rollback();
+            functions::json(-2,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'money' => $find_user['money'] + ($result['amount'])
-                ], "id={$find_user['id']}");
-                functions::unlock($find_user['id']);
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
+                }
             }
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 /*
@@ -642,7 +650,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -650,29 +658,32 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("withdraw", [
+        $width_result = $this->mysql->update("withdraw", [
             'types' => $type,
             'is_notice' => 1,
             'content' => $msg,
             'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
+        if(!$width_result){
+            $this->mysql->rollBack();
+            functions::json(-3,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
-                functions::unlock($find_user['id']);
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
+                }
             }
-            $this->mysql->select('commit');
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 /*
@@ -741,7 +752,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -756,26 +767,27 @@ class member
             'status' => 1,
             'deal_time' => time()
         ], "id={$id}");
+        if(!$result){
+            $this->mysql->rollBack();
+            functions::json(-3,'提现失败1');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
-                functions::unlock($find_user['id']);
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
+                }
             }
         }
-        if($result){
+        $this->mysql->commit();
             functions::json(200, '处理成功');
-        }else{
-            functions::json(-2, '处理失败');
-        }
+
     }
 
    /* //删除提现
@@ -844,7 +856,7 @@ class member
         if (!in_array($type, $type_arr)) functions::json(-1, '当前更新的状态有误!');
         $msg = $type == 2 ? '提现已到账' : request::filter('get.msg', '', 'htmlspecialchars');
         // 开启事务
-        //$this->mysql->select('start transaction');
+        $this->mysql->startThings();
         // 查询订单并且加上悲观锁
         $result = $this->mysql->query("withdraw", "id={$id}", null, null, 'desc', null, 'for update')[0];
         if (!is_array($result)) functions::json(-2, '当前订单不存在');
@@ -852,28 +864,32 @@ class member
         if ($result['status'] != 0) {
             functions::json(-2, '当前订单状态有误！');
         }
-        $this->mysql->update("withdraw", [
-            'types' => $type,
-            'is_notice' => 1,
-            'content' => $msg,
-            'status' => 1,
-            'deal_time' => time()
-        ], "id={$id}");
+        $withdraw_result =$this->mysql->update("withdraw", [
+                                'types' => $type,
+                                'is_notice' => 1,
+                                'content' => $msg,
+                                'status' => 1,
+                                'deal_time' => time()
+                            ], "id={$id}");
+        if(!$withdraw_result){
+            $this->mysql->rollback();
+            functions::json(-2, '提现失败1！');
+        }
         //钱款驳回
         if ($type == 3) {
             //将钱款退款给用户
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
-            $a = functions::lock($find_user['id']);
-            if(!$a){
-                functions::str_json($type_content, -1, '稍等片刻');
-            }
             if (is_array($find_user)) {
-                $this->mysql->update("client_user", [
-                    'balance' => $find_user['balance'] + ($result['amount'])
-                ], "id={$find_user['id']}");
-                functions::unlock($find_user['id']);
+                $user_result = functions::user_balance($find_user['id'],$result['amount']);
+                $change = functions::user_balance_record($find_user['id'],$result['amount'],4,$result['id'],'代理提现驳回',$find_user['balance']);
+
+                if(!$user_result || !$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '提现失败2！');
+                }
             }
         }
+        $this->mysql->commit();
         functions::json(200, '处理成功');
     }
 
@@ -891,7 +907,7 @@ class member
         }
 
         //TODO 查询充值列表
-        $this->powerLogin(20);
+        //$this->powerLogin(20);
 
         $member = page::conduct('user_paylog', request::filter('get.page'), 10, $where, null, 'id', 'desc');
 
@@ -912,37 +928,36 @@ class member
         $remark = trim(request::filter('post.remark'));
         $this->mysql->startThings();
         $user = $this->mysql->query('client_user', "username='{$name}' and is_mashang=1")[0];
-        $a = functions::lock($user['id']);
-        if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
-        }
         if (!is_array($user)) functions::json(-1, '此码商不存在');
         if ($status == 2 && $money > $user['balance']) functions::json(-1, '码商余额不足，无法扣除');
         if (empty($remark)) functions::json(-1, '备注不能为空');
         if ($status == 2) {
-            $new_money = $user['balance'] - $money;
+            $new_money =  '-'.$money;
+            $remark = '扣款';
         } else {
-            $new_money = $user['balance'] + $money;
+            $new_money = $money;
+            $remark = '充值';
+            $zyj = $user['yajin']+$new_money;
+            $this->mysql->update("client_user",[
+                'yajin'=>$zyj
+            ],"id={$user['id']}");
         }
-
         $data = [
             'uid' => $user['id'],
             'money' => $money,
             'old_money' => $user['balance'],
-            'new_money' => $new_money,
+            'new_money' => $user['balance']+$new_money,
             'remark' => $remark,
             'time' => time(),
             'op_user' => $_SESSION['USER_MGT']['uid']."|".$_SESSION['USER_MGT']['username'],
             'status' => $status
         ];
-
         $st = $this->mysql->insert('user_paylog', $data);
-        $up = $this->mysql->update('client_user', [
-            'balance' => $new_money
-        ], "id={$user['id']}");
+        $up = functions::user_balance($user['id'],$new_money);
+        $change = functions::user_balance_record($user['id'],$new_money,6,$st,$remark,$user['balance']);
 
-        if ($st && $up) {
-            functions::unlock($user['id']);
+
+        if ($st && $up && $change) {
             $this->mysql->commit();
             functions::json(200, '处理成功');
         } else {

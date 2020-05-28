@@ -16,13 +16,13 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
       </ol>
 
     <!-- Start Page Header Right Div -->
-    <div class="right">
+      <div class="ibox-tools">
       <div class="btn-group" role="group" aria-label="...">
         <a data-toggle="modal" data-target="#add" class="btn btn-light">添加模块</a>
         <a href="?verification=<?php echo mt_rand(1000,9999);?>" class="btn btn-light"><i class="fa fa-refresh"></i></a>
-       
       </div>
     </div>
+      
     <!-- End Page Header Right Div -->
 
   </div>
@@ -149,7 +149,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                    <button type="button" onclick="add()" class="btn btn-default">确认添加</button>
+                    <button type="button" onclick="add()" class="btn btn-success">确认添加</button>
                   </div>
                 </div>
                  </form>
@@ -164,17 +164,17 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
 			          url: "<?php echo url::s('admin/module/add');?>",
 			          data: $('#from').serialize(),
 			          success: function (data) {
-				          console.log(data);
-			              if(data.code == '200'){
-			            	  swal("操作提示", data.msg, "success")
-			              	setTimeout(function(){location.href = '';},1500);
-			              }else{
-			            	  swal("操作提示", data.msg, "error")
-			              }
-			          },
-			          error: function(data) {
-			              alert("error:"+data.responseText);
-			           }
+                          if(data.code == '200'){
+                              layer.msg("成功", {icon:1,time:1000,end:function(){
+                                      location.href = '<?php echo url::s('admin/module/index');?>';
+                                  }});
+                          }else{
+                              layer.msg("失败", {icon:2,time:1000})
+                          }
+                      },
+                    error: function(data) {
+                        alert("error:"+data.responseText);
+                    }
 			  });
 			}
 

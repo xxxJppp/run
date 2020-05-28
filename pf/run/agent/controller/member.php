@@ -65,12 +65,12 @@ class member
         $find_code = $this->mysql->query("client_code", "phone={$_SESSION['MEMBER']['phone']} and {$now_time}<get_time and state=1 and typec='edit'");
         if (is_array($find_code[0])) functions::json(-1, '验证码获取太频繁,请耐心等待几秒再尝试!');
         $in = $this->mysql->insert("client_code", [
-            'phone'    => $_SESSION['MEMBER']['phone'],
-            'codec'    => $code,
+            'phone' => $_SESSION['MEMBER']['phone'],
+            'codec' => $code,
             'get_time' => time(),
-            'state'    => 1,
-            'typec'    => 'edit',
-            'ip'       => ip::get()
+            'state' => 1,
+            'typec' => 'edit',
+            'ip' => ip::get()
         ]);
         if ($in > 0) {
             (new sms())->send($_SESSION['MEMBER']['phone'], $code);
@@ -87,7 +87,7 @@ class member
         $code = intval(request::filter('post.code', '', 'htmlspecialchars'));
         $now_time = time() - 300;
         $find_code = $this->mysql->query("client_code", "phone={$_SESSION['MEMBER']['phone']} and codec={$code} and {$now_time}<get_time and state=1 and typec='edit'")[0];
-       // if (!is_array($find_code)) functions::json(-3, '短信验证码不正确');
+        // if (!is_array($find_code)) functions::json(-3, '短信验证码不正确');
         //初始化修改参数
         $edit = [];
         $renew = intval(request::filter('post.renew', '', 'htmlspecialchars'));
@@ -153,8 +153,8 @@ class member
         }
         $result = page::conduct('withdraw', request::filter('get.page'), 15, $where, null, 'id', 'desc');
         new view('user/withdraw', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
@@ -180,12 +180,12 @@ class member
         $find_code = $this->mysql->query("client_code", "phone={$_SESSION['MEMBER']['phone']} and {$now_time}<get_time and state=1 and typec='apply'");
         if (is_array($find_code[0])) functions::json(-1, '验证码获取太频繁,请耐心等待几秒再尝试!');
         $in = $this->mysql->insert("client_code", [
-            'phone'    => $_SESSION['MEMBER']['phone'],
-            'codec'    => $code,
+            'phone' => $_SESSION['MEMBER']['phone'],
+            'codec' => $code,
             'get_time' => time(),
-            'state'    => 1,
-            'typec'    => 'apply',
-            'ip'       => ip::get()
+            'state' => 1,
+            'typec' => 'apply',
+            'ip' => ip::get()
         ]);
         if ($in > 0) {
             (new sms())->send($_SESSION['MEMBER']['phone'], $code);
@@ -203,18 +203,14 @@ class member
         $code = intval(request::filter('post.code', '', 'htmlspecialchars'));
         $now_time = time() - 300;
         $find_code = $this->mysql->query("client_code", "phone={$_SESSION['MEMBER']['phone']} and codec={$code} and {$now_time}<get_time and state=1 and typec='apply'")[0];
-      //  if (!is_array($find_code)) functions::json(-39, '短信验证码不正确');
+        //  if (!is_array($find_code)) functions::json(-39, '短信验证码不正确');
         //计算用户
         $user = $this->mysql->query("client_user", "id={$_SESSION['MEMBER']['uid']}")[0];
-        $a = functions::lock($user['id']);
-        if(!$a){
-            functions::str_json($type_content, -1, '稍等片刻');
-        }
         //计算提现金额
         $amount = floatval(request::filter('post.amount', '', 'htmlspecialchars'));
         if ($amount < 1) functions::json(-1, '提现金额输入不正确,本支付平台最低提现1元人民币');
         $system = functions::withdrawSystem();
-        if($amount>$system['quota']) functions::json(-1, '提现金额输入不正确,本支付平台最高提现'.$system['quota'].'元人民币');
+        if ($amount > $system['quota']) functions::json(-1, '提现金额输入不正确,本支付平台最高提现' . $system['quota'] . '元人民币');
         //用户组
         $group = json_decode($_SESSION['MEMBER']['group']['authority'], true);
         //手续费
@@ -224,26 +220,37 @@ class member
         //判断是否有足够的金额提现
         if ($user_amount < 0) functions::json(-89, '余额不足');
         //更新用户账户信息
-        if ($this->mysql->update("client_user", ['balance' => $user_amount], "id={$user['id']}") > 0) {
-            functions::unlock($user['id']);
-            $in = $this->mysql->insert("withdraw", [
-                'user_id'    => $_SESSION['MEMBER']['uid'],
-                'old_amount' => $user['balance'],
-                'amount'     => $amount,
-                'new_amount' => $user_amount,
-                'types'      => 1,
-                'content'    => '提现到账时间为2小时-24小时内到账',
-                'apply_time' => time(),
-                'deal_time'  => 0,
-                'flow_no'    => date("YmdHis") . mt_rand(100000, 999999),
-                'catalog'    => 2,
-                'fees'       => $fees
-            ]);
-            functions::json(200, '您的提现已经提交成功!');
-
-        } else {
-            functions::json(-1, '系统正在维修,请稍后再提现!');
+        $this->mysql->startThings();
+        $user_result = functions::user_balance($user['id'], '-' . $amount);
+        if (!$user_result) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败1，稍后再试!');
         }
+
+        $in = $this->mysql->insert("withdraw", [
+            'user_id' => $_SESSION['MEMBER']['uid'],
+            'old_amount' => $user['balance'],
+            'amount' => $amount,
+            'new_amount' => $user_amount,
+            'types' => 1,
+            'content' => '提现到账时间为2小时-24小时内到账',
+            'apply_time' => time(),
+            'deal_time' => 0,
+            'flow_no' => date("YmdHis") . mt_rand(100000, 999999),
+            'catalog' => 2,
+            'fees' => $fees
+        ]);
+        if (!$in) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败2，稍后再试!');
+        }
+        $change = functions::user_balance_record($user['id'],'-'.$amount,4,$in,'代理提现',$user['balance']);
+        if (!$change) {
+            $this->mysql->rollBack();
+            functions::json(-1, '提现失败3，稍后再试!');
+        }
+        $this->mysql->commit();
+        functions::json(200, '您的提现已经提交成功!');
 
     }
 
@@ -278,13 +285,13 @@ class member
         $result = page::conduct('client_pay_record', request::filter('get.page'), 20, $where, null, 'id', 'desc');
 
         new view('user/record', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'where'   => $where
+            'where' => $where
         ]);
     }
 
@@ -326,13 +333,13 @@ class member
             $result['result'][$key]['rate'] = $info;
         }
         new view('user/agent', [
-            'result'  => $result,
-            'mysql'   => $this->mysql,
+            'result' => $result,
+            'mysql' => $this->mysql,
             'sorting' => [
                 'code' => $code,
                 'name' => $sorting
             ],
-            'where'   => $where
+            'where' => $where
         ]);
     }
 
@@ -381,7 +388,7 @@ class member
         //查询所有的交易记录
         new view('user/agent', [
             'result' => $result,
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
         ]);
     }
 
@@ -429,14 +436,14 @@ class member
         }
         new view('user/income_log', [
             'result' => $result,
-            'mysql'  => $this->mysql,
+            'mysql' => $this->mysql,
         ]);
     }
 
     /**
      * @param string $name
-     * @param array  $expCellName
-     * @param array  $expTableData
+     * @param array $expCellName
+     * @param array $expTableData
      *
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception

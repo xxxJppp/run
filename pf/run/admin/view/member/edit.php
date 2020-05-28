@@ -37,15 +37,15 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
             <div class="panel-body">
               <form class="form-horizontal" id="from">
               
-                <div style="text-align: center;" class="form-group">
-                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="<?php echo $result['username'];?>" src="<?php echo strlen($result['avatar']) > 2 ? str_replace("admin", 'index', URL_VIEW) . 'upload/avatar/' . $result['id'] . '/' . $result['avatar'] : str_replace("admin", 'index', URL_VIEW) .'static/images/avatar.png';?>"></td>
-                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">
-                </div>
+<!--                <div style="text-align: center;" class="form-group">-->
+<!--                  <img id="avatar" onclick="imgSelect();" style="width: 100px;border-radius:50%;margin: 0 auto;" alt="--><?php //echo $result['username'];?><!--" src="--><?php //echo strlen($result['avatar']) > 2 ? str_replace("admin", 'index', URL_VIEW) . 'upload/avatar/' . $result['id'] . '/' . $result['avatar'] : str_replace("admin", 'index', URL_VIEW) .'static/images/avatar.png';?><!--"></td>-->
+<!--                  <input type="file" name="avatar" id="avatarImg"  style="display:none;" onchange="uploadPic();">-->
+<!--                </div>-->
 
                  <div class="form-group">
                   <label class="col-sm-2 control-label form-label">会员名</label>
                   <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-line" name="username"  placeholder="登录的用户名" value="<?php echo $result['username'];?>">
+                  <input type="text" class="form-control form-control-line" name="username"  placeholder="登录的用户名" value="<?php echo $result['username'];?>" readonly="readonly">
                   </div>
                 </div>
                 
@@ -60,7 +60,7 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                 <div class="form-group">
                   <label class="col-sm-2 control-label form-label">手机号</label>
                   <div class="col-sm-10">
-                  <input type="text" class="form-control form-control-line" name="phone"  placeholder="手机号码" value="<?php echo $result['phone'];?>">
+                  <input type="text" class="form-control form-control-line" name="phone"  placeholder="手机号码" value="<?php echo $result['phone']=="0"?"":$result['phone'];?>">
                   </div>
                 </div>
                 
