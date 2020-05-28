@@ -85,7 +85,7 @@ $fix = DB_PREFIX;
             <th lay-data="{field:'successdate', width:160}">异步通知状态</th>
             <th lay-data="{field:'successdate', width:160}">接口返回信息</th>
             <th lay-data="{field:'status', width:110}">支付状态</th>
-            <th lay-data="{field:'callback_status', width:110}">回调状态</th>
+            <th lay-data="{field:'callback_status', width:110}">点击回调</th>
           </tr>
           </thead>
           <tbody>
@@ -109,7 +109,7 @@ $fix = DB_PREFIX;
                 if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
                 ?></td>
               <td>
-                  <?php if($ru['callback_status']==0 && $ru['callback_count']<10 && $ru['status']==4 && $ru['reached']==1){?>
+                  <?php if($ru['callback_status']==0 && $ru['status']==4 && $ru['reached']==1){?>
                       <a href="#" onclick="orderCallback('<?php echo $ru['id'];?>')" class="layui-btn layui-btn-small">回调</a>
                   <?php }?>
               </td>

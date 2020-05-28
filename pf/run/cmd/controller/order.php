@@ -2,8 +2,9 @@
 
 namespace xh\run\cmd\controller;
 
+use xh\library\functions;
 use xh\library\mysql;
-
+use xh\unity\callbacks;
 
 
 class order
@@ -67,4 +68,57 @@ class order
         }
         echo 'success';
     }
+
+    /**
+     * 回调
+     */
+    public function callback()
+    {
+        //查询未回调的订单
+        $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status=0 and status=4 and reached=1",'','','',20);
+        foreach ($order_data as $item){
+            //查询用户
+            $user = $this->mysql->query("client_user", "id={$item['user_id']}")[0];
+            if (!is_array($user)) functions::json(-2, '该订单的主用户不存在');
+
+            //检测订单是否为未支付
+            if ($item['status'] != 4) {
+                $this->mysql->update("client_paofen_automatic_orders", [
+                    'pay_time' => time(),
+                    'status'   => 4
+                ], "id={$item['id']}");
+            }
+            if ($item['pay_time'] == 0) {
+                $pay_time = time();
+            } else {
+                $pay_time = $item['pay_time'];
+            }
+            $callback_time = time();
+            // 手续费扣除成功，开始回调
+            $result = callbacks::curl($item['callback_url'], http_build_query([
+                'account_name'  => $user['username'],
+                'pay_time'      => $pay_time,
+                'status'        => 'success',
+                'amount'        => $item['amount'],
+                'out_trade_no'  => $item['out_trade_no'],
+                'trade_no'      => $item['trade_no'],
+                'fees'          => $item['fees'],
+                'sign'          => functions::sign($user['key_id'], [
+                    'amount'        => $item['amount'],
+                    'out_trade_no'  => $item['out_trade_no']]),
+                'callback_time' => $callback_time
+            ]));
+
+            $this->mysql->update("client_paofen_automatic_orders", [
+                'pay_time'         => $pay_time,
+                'callback_time'    => $callback_time,
+                'callback_status'  => 1,
+                'callback_content' => $result,
+                'fees'             => $item['fees']
+            ], "id={$item['id']}");
+
+            functions::json(200, ' [' . date("Y/m/d H:i:s", time()) . ']: 订单号->' . $item['trade_no'] . ' 异步通知任务下发成功!');
+        }
+    }
+
 }
