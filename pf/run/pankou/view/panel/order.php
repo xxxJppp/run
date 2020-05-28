@@ -108,7 +108,11 @@ $fix = DB_PREFIX;
                 if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
                 if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
                 ?></td>
-              <td><a href='<?php echo url::s("pankou/paner/callback", "id={$ru['id']}"); ?>'>回调</a></td>
+              <td>
+                  <?php if($ru['callback_status']==0 && $ru['callback_count']<10 && $ru['status']==4 && $ru['reached']==1){?>
+                      <a href="#" onclick="orderCallback('<?php echo $ru['id'];?>')" class="layui-btn layui-btn-small">回调</a>
+                  <?php }?>
+              </td>
             </tr>
            <?php } ?>
           </tbody>
@@ -178,18 +182,18 @@ $fix = DB_PREFIX;
     }
 
     /*订单-回调*/
-    function order_callback(obj, id) {
-        $.ajax({
-            url:"/agent_Order_delOrder.html",
-            type:'post',
-            data:'id='+id,
-            success:function(res){
-                if(res.status){
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!',{icon:1,time:1000});
-                }
+    function orderCallback(id){
+        $.get("<?php echo url::s('pankou/panel/callback',"id=");?>" + id,                  function(result){
+            if (result.code == '200') {
+                layer.msg(result.msg, {
+                    icon: 1, time: 1000, end: function () {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                layer.msg(result.msg, {icon: 2, time: 1000})
             }
-        });
+       });
     }
 
     $('#export').on('click',function(){

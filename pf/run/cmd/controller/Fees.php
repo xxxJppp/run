@@ -102,7 +102,7 @@ class Fees{
     public function callback()
     {
         //查询未回调的订单
-        $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status=0 and callback_count<10 and status=4",'','','',20);
+        $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status=0 and callback_count<10 and status=4 and reached=1",'','','',20);
         foreach ($order_data as $item){
             //查询用户
             $user = $this->mysql->query("client_user", "id={$item['user_id']}")[0];
