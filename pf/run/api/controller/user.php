@@ -516,5 +516,31 @@ class user extends common
         functions::json(1, '请求成功', $ret);
     }
 
+    //账变流水
+    public function accountChange()
+    {
+        $uid = $this->user['id'];
+        $catalog = request::filter('get.catalog');
+        $where = "uid={$uid}";
+        if ($catalog) {
+            $where .= " and catalog={$catalog}";
+        }
+        $result = page::conduct('user_balance_record', request::filter('get.page'), $this->perPage, $where, '', 'id', 'desc');
+
+        $cate = [
+            1=>'盘口获利',
+            2=>'代理获利',
+            3=>'码商获利',
+            4 => '提现',
+            5 => '接单押金',
+            6 => '充值'
+        ];
+        foreach ($result['result'] as &$v) {
+            $v['create_time'] = $v['create_time'] ? date('Y-m-d H:i:s', $v['create_time']) : '';
+            $v['catalog_name'] = isset($cate[$v['catalog']]) ? $cate[$v['catalog']] : '';
+        }
+        functions::json(1, '获取成功', $result);
+    }
+
 
 }
