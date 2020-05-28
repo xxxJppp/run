@@ -36,6 +36,44 @@ class order extends common
         functions::json(1, '获取成功', $result['result']);
     }
 
+    public function orderDetails()
+    {
+        $order_id = request::filter('post.id');
+        if (empty($order_id)) functions::json(0, '订单ID错误');
+        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}",'status,trade_no,amount,creation_time',null,'desc',1);
+
+        if (!is_array($order)) functions::json(0, '当前订单不存在');
+        $order = $order[0];
+        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}")[0];
+        $shenshu = $this->mysql->query("appeal", "trade_no={$order['trade_no']}",'audit')[0];
+        $order['creation_time'] = date('Y-m-d H:i:s', $order['creation_time']);
+        $order['type'] = '支付宝';
+        if ($order['status'] == 1) {
+            $order['status_name'] = '等待下发支付二维码';
+        } else if ($order['status'] == 2) {
+            $order['status_name'] = '未支付';
+        } else if ($order['status'] == 3) {
+            $order['status_name'] = '订单超时';
+        } else if ($order['status'] == 4) {
+            $order['status_name'] = '已支付';
+        }
+
+        if($shenshu){
+            $appeal = [];
+            $appeal[0] = '未审核';
+            $appeal[1] = '已审核';
+            $appeal[2] = '已驳回';
+            $appeal[3] = '处理中';
+
+            $order['appeal'] = $shenshu[0]['audit'];
+            $order['appeal_name'] = $appeal[$order['appeal']];
+        }else{
+            $order['appeal'] = '';
+            $order['appeal_name'] = '立即申诉';
+        }
+        functions::json(1, '请求成功',$order);
+    }
+
 
     public function reissue()
     {
@@ -369,7 +407,7 @@ class order extends common
             functions::json(0, '请填写实际到账金额');
         }
 
-        $result = $this->mysql->query('client_paofen_automatic_orders', 'status!=4 and id=' . $id . ' and user_id=' . $this->user['id'],'trade_no');
+        $result = $this->mysql->query('client_paofen_automatic_orders', 'status!=4 and id=' . $id . ' and user_id=' . $this->user['id'], 'trade_no');
 
         if (!$result) {
             functions::json(0, '订单信息有误');
