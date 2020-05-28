@@ -37,10 +37,12 @@ class order{
                 $del = $this->mysql->delete("deposit","id={$deposit['id']}");
                 if($updateStatus===false || $change===false || !$del){
                     $this->mysql->rollBack();
-                    echo '失败\r\n';
+                    echo "失败\r\n";
                 }
                 $this->mysql->commit();
-                echo 'success\r\n';
+                echo "success\r\n";
+            }else{
+                echo "空的\r\n";
             }
             //$p2user = $this->mysql->query("client_user", "id={$user_id}")[0];
 
@@ -53,7 +55,7 @@ class order{
         foreach($order as $val){
             $up = $this->mysql->update("client_paofen_automatic_orders",['status'=>3],"id={$val['id']}");
             $set = $this->mysql->update("client_paofen_automatic_account",['bind_uid'=>''],"id={$val['paofen_id']}");
-            echo 'success\r\n';
+            echo "success\r\n";
         }
 
     }
@@ -62,7 +64,7 @@ class order{
         $order = $this->mysql->query("client_paofen_automatic_orders","creation_time <= {$chaoshi} and paofen_id=0 and user_id=0");
         foreach($order as $val){
             if($this->mysql->delete("client_paofen_automatic_orders","id={$val['id']}")){
-            echo 'success\r\n';
+            echo "success\r\n";
             }
         }
 
