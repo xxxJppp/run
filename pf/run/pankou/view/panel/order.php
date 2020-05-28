@@ -85,7 +85,7 @@ $fix = DB_PREFIX;
             <th lay-data="{field:'successdate', width:160}">异步通知状态</th>
             <th lay-data="{field:'successdate', width:160}">接口返回信息</th>
             <th lay-data="{field:'status', width:110}">支付状态</th>
-           
+            <th lay-data="{field:'callback_status', width:110}">回调状态</th>
           </tr>
           </thead>
           <tbody>
@@ -103,12 +103,12 @@ $fix = DB_PREFIX;
              <td style="text-align:center;"> <?php echo $ru['callback_status'] == 1 ? htmlspecialchars($ru['callback_content']) : '未回调'; ?></td>
 
               <td style="text-align:center; color:#369"><?php
-                                        if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
-                                        if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
-                                        if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
-                                        if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
-                                        ?></td>
-            
+                if ($ru['status'] == 1) echo '<span style="color:#039be5;">任务下发中..</span>';
+                if ($ru['status'] == 2) echo '<span style="color:red;">未支付</span>';
+                if ($ru['status'] == 3) echo '<span style="color:#bdbdbd;">订单超时</span>';
+                if ($ru['status'] == 4) echo '<span style="color:green;"><b>已支付</b></span>';
+                ?></td>
+              <td><a href='<?php echo url::s("pankou/paner/callback", "id={$ru['id']}"); ?>'>回调</a></td>
             </tr>
            <?php } ?>
           </tbody>
@@ -176,6 +176,22 @@ $fix = DB_PREFIX;
             });
         });
     }
+
+    /*订单-回调*/
+    function order_callback(obj, id) {
+        $.ajax({
+            url:"/agent_Order_delOrder.html",
+            type:'post',
+            data:'id='+id,
+            success:function(res){
+                if(res.status){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }
+            }
+        });
+    }
+
     $('#export').on('click',function(){
         window.location.href
             ="/agent_Order_exportorder_status_0.html";
