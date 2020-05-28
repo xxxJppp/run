@@ -1,18 +1,23 @@
 <?php
 //简单路由设置、系统配置
 namespace xh;
-class init{
+class init
+{
     public static $action = '';
+    public $module = '';
+
     //构造函数、构造系统结构以及初始化模块
-    function __construct($params) {
+    function __construct($params)
+    {
+        $this->module = $params['route']['bind_module'];
         $this->protocol($params['protocol']);
-        $this->route($params['route'],$params['global']);
+        $this->route($params['route'], $params['global']);
     }
 
     //网页协议头设置
-    private function protocol($params){
-        switch ($params['errorLevel'])
-        {
+    private function protocol($params)
+    {
+        switch ($params['errorLevel']) {
             case 0:
                 // 关闭错误报告
                 error_reporting(0);
@@ -37,7 +42,7 @@ class init{
             session_start();
         }
         //浏览器缓冲区开启
-        if ($params['OB_CACHE'] === true){
+        if ($params['OB_CACHE'] === true) {
             ob_start();
         }
         //设置当前时区
@@ -45,7 +50,8 @@ class init{
     }
 
     //导入库以及路径
-    private function global_config($params,$params2,$params3){
+    private function global_config($params, $params2, $params3)
+    {
         //扩展函数功能库目录路径
         define('PATH_UNITY', $params['unityPath']);
         //当前模块名称
@@ -69,31 +75,31 @@ class init{
         //定义url根物理路径
         $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
 
-        define('URL_ROOT', str_replace("\\", "", $http_type . trim( $_SERVER['HTTP_HOST'] .  dirname($_SERVER['SCRIPT_NAME']),"/")));
+        define('URL_ROOT', str_replace("\\", "", $http_type . trim($_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']), "/")));
         //定义视图静态访问目录
-        define('URL_VIEW', URL_ROOT );
+        define('URL_VIEW', URL_ROOT);
         //定义静态目录url
         define('URL_STATIC', URL_ROOT . '/static/');
         //定义url后缀
         define('URL_FIX', $params3['fix']);
         //自动加载library本地库地址
-        if($handle = opendir($params['libraryPath'])){
-            while (false !== ($file = readdir($handle))){
-               //检测是否为php文件
-                if (substr(strrchr($file, "."), 1) == 'php'){
-                   //库路径
-                   require_once ($params['libraryPath'] . $file);
+        if ($handle = opendir($params['libraryPath'])) {
+            while (false !== ($file = readdir($handle))) {
+                //检测是否为php文件
+                if (substr(strrchr($file, "."), 1) == 'php') {
+                    //库路径
+                    require_once($params['libraryPath'] . $file);
                 }
             }
             closedir($handle);
         }
         //自动加载功能扩展对象库
-        if($unity = opendir($params['unityPath'])){
-            while (false !== ($file = readdir($unity))){
+        if ($unity = opendir($params['unityPath'])) {
+            while (false !== ($file = readdir($unity))) {
                 //检测是否为php文件
-                if (substr(strrchr($file, "."), 1) == 'php'){
+                if (substr(strrchr($file, "."), 1) == 'php') {
                     //库路径
-                    require_once ($params['unityPath'] . $file);
+                    require_once($params['unityPath'] . $file);
                 }
             }
             closedir($unity);
@@ -102,42 +108,44 @@ class init{
 
 
     //路由
-    private function route($params,$params2){
+    private function route($params, $params2)
+    {
         $_gk = array();
-        foreach ($_GET as $key => $val){
+        foreach ($_GET as $key => $val) {
             $_gk[] = $key;
         }
         // 0 - 模块   1 - 控制器  2 - 方法
         $arg = $_gk ? explode("_", str_replace('.', '_', $_gk[0])) : [];
         //删除arg 0 路由信息，防止出错
-        if(isset($_gk[0])){
+        if (isset($_gk[0])) {
             unset($_GET[$_gk[0]]);
         }
         //$arg = isset($arg[2]) ? : explode('/', explode('?',str_replace('.do', '',trim($_SERVER['REQUEST_URI'], '/')))[0]);
         //构造路由信息
         $routingInfo = $this->routingAuto(array(
+
             //路径权重
-            'weight'=>$params['routingWeight'],
+            'weight' => $params['routingWeight'],
             //默认路径
-            'default'=>explode('.', $params['default']),
+            'default' => explode('.', $params['default']),
             //访问路径
-            'visit'=>$arg
+            'visit' => $arg
         ));
 
 
-        if($params['bind_module']!==$routingInfo['module']){
+        if ($this->module !== $routingInfo['module']) {
             header('HTTP/1.1 403 Forbidden');
-die;
+            die;
         }
 
 
         self::$action = $arg;
         //启动配置
-        $this->global_config($params2,$routingInfo,$params);
+        $this->global_config($params2, $routingInfo, $params);
         //控制器路径
-        require_once (ROOT_PATH . '/run/' . $routingInfo['module'] . '/controller/' . $routingInfo['controller'] . '.php');
+        require_once(ROOT_PATH . '/run/' . $routingInfo['module'] . '/controller/' . $routingInfo['controller'] . '.php');
         //控制器命名空间
-        $namespace = 'xh\run\\'. $routingInfo['module'] .'\\controller\\' . $routingInfo['controller'];
+        $namespace = 'xh\run\\' . $routingInfo['module'] . '\\controller\\' . $routingInfo['controller'];
         //实例化控制器
         $routeInit = new $namespace();
         //访问
@@ -152,45 +160,47 @@ die;
      * @param unknown $params
      * @return unknown[] 数组
      */
-    protected function routingAuto($params){
+    protected function routingAuto($params)
+    {
         //初始化
         $routingArray = array();
         //权力分配
-        switch ($params['weight']){
+        switch ($params['weight']) {
             //权0 满配
             case 0:
                 //模块
-                if (isset($params['visit'][0]) && $params['visit'][0] != ''){
+                if (isset($params['visit'][0]) && $params['visit'][0] != '') {
                     $routingArray['module'] = $params['visit'][0];
-                }else{
+                } else {
                     $routingArray['module'] = $params['default'][0];
                 }
                 //控制器
-                if (isset($params['visit'][1]) && $params['visit'][1] != ''){
+                if (isset($params['visit'][1]) && $params['visit'][1] != '') {
                     $routingArray['controller'] = $params['visit'][1];
-                }else{
+                } else {
                     $routingArray['controller'] = $params['default'][1];
                 }
                 //方法
-                if (isset($params['visit'][2]) && $params['visit'][2] != ''){
+                if (isset($params['visit'][2]) && $params['visit'][2] != '') {
                     $routingArray['action'] = $params['visit'][2];
-                }else{
+                } else {
                     $routingArray['action'] = $params['default'][2];
                 }
                 break;
             case 1:
+
                 //模块
-                    $routingArray['module'] = $params['default'][0];
+                $routingArray['module'] = $this->module;
                 //控制器
-                if ($params['visit'][0] != ''){
+                if ($params['visit'][0] != '') {
                     $routingArray['controller'] = $params['visit'][0];
-                }else{
+                } else {
                     $routingArray['controller'] = $params['default'][1];
                 }
                 //方法
-                if ($params['visit'][1] != ''){
+                if ($params['visit'][1] != '') {
                     $routingArray['action'] = $params['visit'][1];
-                }else{
+                } else {
                     $routingArray['action'] = $params['default'][2];
                 }
                 break;
@@ -200,9 +210,9 @@ die;
                 //控制器
                 $routingArray['controller'] = $params['default'][1];
                 //方法
-                if ($params['visit'][0] != ''){
+                if ($params['visit'][0] != '') {
                     $routingArray['action'] = $params['visit'][0];
-                }else{
+                } else {
                     $routingArray['action'] = $params['default'][2];
                 }
                 break;

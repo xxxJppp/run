@@ -197,7 +197,12 @@ $fix = DB_PREFIX;
                     }
                 });
             } else {
-                layer.msg(result.msg, {icon: 2, time: 1000})
+
+                layer.msg(result.msg, {
+                    icon: 2, time: 1000, end: function () {
+                        window.location.reload();
+                    }
+                });
             }
        });
     }
