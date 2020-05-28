@@ -1,34 +1,23 @@
 <?php
 
 namespace xh\run\cmd\controller;
-
-use xh\library\functions;
+use xh\library\request;
 use xh\library\mysql;
+use xh\unity\cog;
+use xh\library\functions;
+use xh\unity\sms;
+use xh\unity\encrypt;
 use xh\unity\callbacks;
+use xh\library\url;
 
 
-class order
-{
+class order{
+
     private $mysql;
+
     public function __construct(){
         $this->mysql = new mysql();
     }
-    /*public function cleantable(){
-        $this->mysql->delete("agent_huoli_log","id>0");
-        $this->mysql->delete("agent_rate","id>0");
-        $this->mysql->delete("withdraw","id>0 and catalog=2");
-        $this->mysql->delete("withdraw","id>0 and catalog=3");
-        $this->mysql->delete("withdraw","id>0 and catalog=1");
-        $this->mysql->delete("client_paofen_automatic_account","id>0");
-        $this->mysql->delete("client_paofen_automatic_orders","id>0");
-        $this->mysql->delete("client_user","id>0");
-        $this->mysql->delete("client_withdraw","id>0");
-        $this->mysql->delete("deposit","id>0");
-        $this->mysql->delete("mashang_huoli_log","id>0");
-        $this->mysql->delete("mashang_yajin_log","id>0");
-        $this->mysql->delete("pankou_huoli_log","id>0");
-        $this->mysql->delete("user_paylog","id>0");
-    }*/
 
     public function depositRelease(){
         $chaoshi = time()-900;
@@ -72,10 +61,11 @@ class order
     /**
      * 回调
      */
-    public function callback()
+    public function Callback()
     {
         //查询未回调的订单
         $order_data = $this->mysql->query('client_paofen_automatic_orders',"callback_status!=1 and status=4 and reached=1",'','','',20);
+
         foreach ($order_data as $item){
             //查询用户
             $user = $this->mysql->query("client_user", "id={$item['user_id']}")[0];
@@ -128,5 +118,6 @@ class order
         }
         echo 'success';
     }
+
 
 }

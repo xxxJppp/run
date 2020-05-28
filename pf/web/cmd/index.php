@@ -8,6 +8,13 @@ require ( '../../config.php');
 //初始化入口
 require ('../../extend/init.php');
 
+//重新定义路由
+$_argv  = $argv[1];
+$key  = str_replace('.do', '',trim($_argv, '/'));
+$key = str_replace('/','_',$key);
+$_GET[$key]='';
+
+
 //实例化入口
 new init([
     //头设置
@@ -28,7 +35,7 @@ new init([
         //路由url权重 [0:模块.控制器.方法,1:控制器.方法,2:方法]
         'routingWeight'=>0,
         //设置默认加载（index.index.home）
-        'default'=>'cmd.Fees.batch',
+        'default'=>'Fees.batch',
         'bind_module'=>'cmd',
         //设置伪造后缀
         'fix'=>'.do'
