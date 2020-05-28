@@ -163,7 +163,7 @@ $fix = DB_PREFIX;
                                 <td>
                                     <a class="layui-btn layui-btn-small"
                                        href="<?php echo url::s('admin/member/edit',"type=pankou&id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
-                                        修改资料
+                                        修改
                                     </a>
                                     <button class="layui-btn layui-btn-small"
                                             onclick="order_del(this,'<?php echo $em['id']; ?>')">

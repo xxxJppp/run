@@ -186,7 +186,7 @@ $fix = DB_PREFIX;
 
                                 <a class="layui-btn layui-btn-small"
                                         href="<?php echo url::s('admin/member/edit',"type=daili&id=" . str_replace('=', '@', base64_encode($em['id'])));?>">
-                                    修改资料
+                                    修改
                                 </a>
                                 <button class="layui-btn layui-btn-small"
                                         onclick="order_del(this,'<?php echo $em['id']; ?>')">
