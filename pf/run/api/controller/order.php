@@ -21,9 +21,8 @@ class order extends common
     public function automaticOrder()
     {
 
-        $uid = request::filter('post.uid');
         $type = request::filter('post.type');
-        $where = "user_id={$uid}";
+        $where = "user_id={$this->user['id']}";
         if ($type) {
             $where .= " and status={$type}";
         }
@@ -40,14 +39,14 @@ class order extends common
     {
         $order_id = request::filter('post.id');
         if (empty($order_id)) functions::json(0, '订单ID错误');
-        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}",'status,trade_no,amount,creation_time',null,'desc',1);
-
-        if (!is_array($order)) functions::json(0, '当前订单不存在');
+        $order = $this->mysql->query('client_paofen_automatic_orders', "id={$order_id} and user_id={$this->user['id']}",'paofen_id,status,trade_no,amount,creation_time',null,'desc',1);
+        if (!isset($order[0])) functions::json(0, '当前订单不存在');
         $order = $order[0];
-        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}")[0];
+        $account = $this->mysql->query("client_paofen_automatic_account", "id={$order['paofen_id']}",'name')[0];
         $shenshu = $this->mysql->query("appeal", "trade_no={$order['trade_no']}",'audit')[0];
         $order['creation_time'] = date('Y-m-d H:i:s', $order['creation_time']);
         $order['type'] = '支付宝';
+        $order['account'] = $account['name'];
         if ($order['status'] == 1) {
             $order['status_name'] = '等待下发支付二维码';
         } else if ($order['status'] == 2) {
