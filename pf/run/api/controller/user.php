@@ -63,27 +63,40 @@ class user extends common
         $username = request::filter('post.username');
         $pwd = request::filter('post.password');
         $pwd_repeat = request::filter('post.pwd_repeat');
+        $name = request::filter('post.name');
         $phone = request::filter('post.phone');
         $recommend_username = request::filter('post.recommend_username');
         $level_id = 0;
-        //检查用户名是否低于4位
-        if (strlen($username) < 4) functions::json(0, '会员名不能低于4位');
+        //检查用户名是否正确
+        if (!functions::checkUsername($username)) functions::json(0, '用户名必须为4~16位字母或数字');
         //检查用户名是否已经存在
         $find_user_username = $this->mysql->query("client_user", "username='{$username}'", 'id')[0];
         if (is_array($find_user_username)) functions::json(0, '该用户名已经存在');
+
         //检查密码是否低于6位
         if (strlen($pwd) < 6) functions::json(0, '登录密码不能低于6位');
+
         //检查重复输入密码是否正确
         if (md5($pwd) !== md5($pwd_repeat)) functions::json(0, '重复密码输入有误');
-        //检查手机是否输入正确
-        if (!functions::isMobile($phone)) functions::json(0, '手机号码输入有误');
-        //检查手机是否已经注册过了
-        $find_user_phone = $this->mysql->query("client_user", "phone={$phone}", 'id')[0];
-        if (is_array($find_user_phone)) functions::json(0, '该手机号已经注册过了');
+
+        //检查用户名是否正确
+        if (!functions::checkName($name)) functions::json(0, '姓名必须为汉字');
+        //检查用户名是否已经存在
+        $find_user_name = $this->mysql->query("client_user", "bank like '%{$name}%'", 'id', null, 'desc', 1)[0];
+        if (is_array($find_user_name)) functions::json(0, '该姓名已经存在，请联系客服');
+
+        if ($phone) {
+            //检查手机是否输入正确
+            if (!functions::isMobile($phone)) functions::json(0, '手机号码输入有误');
+            //检查手机是否已经注册过了
+            $find_user_phone = $this->mysql->query("client_user", "phone={$phone}", 'id')[0];
+            if (is_array($find_user_phone)) functions::json(0, '该手机号已经注册过了');
+        }
+        $bank = json_encode(['type' => '', 'name' => $name, 'card' => ''],JSON_UNESCAPED_UNICODE);
         //检测推荐会员名是否存在
         if (cog::read('registerCog')['scale_open'] == 1) {
             if (!empty($recommend_username)) {
-                $find_recommend = $this->mysql->query("client_user", "username='{$recommend_username}'", 'id,level_id')[0];
+                $find_recommend = $this->mysql->query('client_user', "username='{$recommend_username}'", 'id,level_id')[0];
                 if (!is_array($find_recommend)) functions::json(0, '您填写的推荐会员没有找到,如果没有推荐会员,可留空');
                 $level_id = $find_recommend['id'];
                 //检测三级分销
@@ -107,6 +120,7 @@ class user extends common
             'balance' => cog::read('registerCog')['integral'],
             'money' => 0,
             'token' => $token,
+            'bank' => $bank,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id' => $level_id,
             'key_id' => $key_id,
@@ -151,10 +165,10 @@ class user extends common
             functions::json(0, '参数错误');
         }
 
-        $find_user = $this->mysql->query("client_user", "username='{$username}'", 'id')[0];
+        $find_user = $this->mysql->query("client_user", "username='{$username}'", 'username')[0];
         if (!$find_user) functions::json(0, '参数错误');
 
-        functions::json(1, '获取成功', [], jwt::getToken($find_user));
+        functions::json(1, '获取成功', [], jwt::getToken($find_user['username']));
     }
 
 
@@ -177,7 +191,7 @@ class user extends common
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['yhk'] = 0;
         $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
-        if($checkuser[0]['google_auth']) {
+        if ($checkuser[0]['google_auth']) {
             $ga = new GoogleAuthenticator();
             $checkuser[0]['google_qrcode'] = $ga->getQRCodeGoogleUrl('paofen', $checkuser[0]['google_auth']);
         }
@@ -190,10 +204,10 @@ class user extends common
         if (!$bank_type) {
             functions::json(0, '请选择绑定类型!');
         }
-        $bank = json_decode($this->user['bank'],true);
+        $bank = json_decode($this->user['bank'], true);
         $name = request::filter('post.name', '', 'htmlspecialchars');
-        if($bank){
-            if($name && $name != $bank['name']){
+        if ($bank) {
+            if ($name && $name != $bank['name']) {
                 functions::json(0, '账号名称不能修改!');
             }
             $name = $bank['name'];
@@ -205,7 +219,7 @@ class user extends common
             $alipay_content = request::filter('post.card', '', 'htmlspecialchars');
             if (empty($alipay_name) || empty($alipay_content)) functions::json(0, '支付宝姓名或账号不能为空!');
             //写入
-            $edit['bank'] = json_encode(['type' => 1, 'name' => $alipay_name, 'card' => $alipay_content]);
+            $edit['bank'] = json_encode(['type' => 1, 'name' => $alipay_name, 'card' => $alipay_content],JSON_UNESCAPED_UNICODE);
         }
         if ($bank_type == 2) {
             //姓名
@@ -215,7 +229,7 @@ class user extends common
             //账号
             $card = request::filter('post.card', '', 'htmlspecialchars');
             if (empty($bank_name) || empty($bank) || empty($card)) functions::json(0, '银行卡信息有误,请填写正确!');
-            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank]);
+            $edit['bank'] = json_encode(['type' => 2, 'name' => $bank_name, 'card' => $card, 'bank' => $bank],JSON_UNESCAPED_UNICODE);
         }
 
         $this->mysql->update("client_user", $edit, "id={$this->user['id']}");
@@ -446,8 +460,8 @@ class user extends common
         $ga = new GoogleAuthenticator();
         $createSecret = $ga->createSecret(32);
         $qrCodeUrl = $ga->getQRCodeGoogleUrl('paofen', $createSecret);
-        if($createSecret){
-            functions::json(1, '获取成功', ['secret' => $createSecret,'qrcode' => $qrCodeUrl]);
+        if ($createSecret) {
+            functions::json(1, '获取成功', ['secret' => $createSecret, 'qrcode' => $qrCodeUrl]);
         }
         functions::json(0, '获取失败,系统维护中', ['secret' => '']);
     }
@@ -456,16 +470,15 @@ class user extends common
     {
         $google_auth = request::filter('post.secret');
         $code = request::filter('post.code');
-        if (empty($google_auth)|| empty($code)) functions::json(0, '参数错误');
-        if (empty($code) && strlen($code) != 6)
-        {
+        if (empty($google_auth) || empty($code)) functions::json(0, '参数错误');
+        if (empty($code) && strlen($code) != 6) {
             functions::json(0, '请正确输入手机上google验证码 !');
         }
         // google密钥，绑定的时候为生成的密钥；如果是绑定后登录，从数据库取以前绑定的密钥
         $ga = new GoogleAuthenticator();
         // 验证验证码和密钥是否相同
         $checkResult = $ga->verifyCode($google_auth, $code, 1);
-        if(!$checkResult){
+        if (!$checkResult) {
             functions::json(0, 'google验证码输入有误,请检查google验证码是否输入正确');
         }
         //写入数据库
