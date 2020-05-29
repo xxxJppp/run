@@ -56,6 +56,7 @@ $fix = DB_PREFIX;
                     <table class="layui-table" style="width:1800px;" cellspacing="0" cellpadding="0" border="0">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>订单号</th>
                             <th>用户名</th>
                             <th>手机号</th>
@@ -78,11 +79,13 @@ $fix = DB_PREFIX;
                         <?php foreach ($result['result'] as $ru) {
                             $find_user = $mysql->query("client_user", "id={$ru['user_id']}")[0]; ?>
                             <tr>
+                                <td><?php echo $ru['id']; ?></td>
+
                                 <td><?php echo $ru['flow_no']; ?></td>
 
-                                <td><?php $user = $mysql->query("client_user", "id={$ru['user_id']}")[0]; echo isset($user['username'])?$user['username']:''; ?></td>
+                                <td><a href="/admin/member/userBalanceRecord.do?username=<?php echo $find_user['username']?>" ><span style="color: #0000cc;"><?php echo isset($find_user['username'])?$find_user['username']:''; ?></span></a></td>
 
-                                <td><?php echo $user['phone']; ?></td>
+                                <td><?php echo $find_user['phone']=="0"?"":$find_user['phone']; ?></td>
 
                                 <td><?php echo $ru['old_amount']; ?></td>
 

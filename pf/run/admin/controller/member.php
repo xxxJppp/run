@@ -988,6 +988,34 @@ class member
         functions::json(200, '操作成功');
 
     }
+
+    /**
+     * 账变列表
+     */
+    public function userBalanceRecord()
+    {
+        $this->powerLogin(28);
+        $username = trim(request::filter('get.username', '', 'htmlspecialchars'));
+
+        $where = '1 = 1';
+        //用户名
+        if ($username) {
+            $user = $this->mysql->query("client_user", "username='{$username}'")[0];
+            if (!empty($user)) {
+                $where .= " and uid = '{$user['id']}'";
+            }
+        }
+
+        $result = page::conduct('user_balance_record', request::filter('get.page'), 15, $where, null, 'id', 'desc');
+        new view('member/userbalancerecord', [
+            'result' => $result,
+            'mysql' => $this->mysql,
+            'username' => $username
+        ]);
+
+    }
+
+
         /*
             //删除提现
             public function deleteagentWithdraw()
