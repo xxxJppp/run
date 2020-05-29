@@ -13,7 +13,7 @@ $fix = DB_PREFIX;
 <div class="page-header">
 
     <ol class="breadcrumb">
-        <li><a href="<?php echo url::s('admin/index/home'); ?>">控制台</a></li>
+        <li><a href="">财务管理</a></li>
         <li class="active">码商提现</li>
     </ol>
 </div>
@@ -29,7 +29,7 @@ $fix = DB_PREFIX;
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-title">
-                    提现记录 <span style="font-size: 15px;margin-left:20px;">[ 所有用户总提现金额: <?php //查询全部提现
+                    提现记录 <span style="font-size: 15px;margin-left:20px;">[ 总提现金额: <?php //查询全部提现
                         $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where types=2 and catalog=3");
                         echo '<span style="font-weight:bold;font-size:20px;color:red;"> ' . floatval($order[0]['money']) . ' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
                         ?>] </span>
@@ -108,9 +108,7 @@ $fix = DB_PREFIX;
 
                                 <td><?php echo $ru['types'] == 1 ? "处理中":'已处理';?></td>
 
-                                <td><p><?php if ($ru['types'] == 1) { ?><a href="#"
-                                                                           onclick="ok('<?php echo $ru['id']; ?>')"
-                                                                           class="btn btn-success btn-xs"><i
+                                <td><p><?php if ($ru['types'] == 1) { ?><a href="#" onclick="ok('<?php echo $find_user['id'].'\',\''.$find_user['username'].'\',\''.$ru['id'].'\',\''.$ru['amount']; ?>')" class="btn btn-success btn-xs"><i
                                                         class="fa fa-user-md"></i>确认</a>  <a href="#"
                                                                                              onclick="turnDown('<?php echo $ru['id']; ?>')"
                                                                                              class="btn btn-danger btn-xs"><i
@@ -138,19 +136,17 @@ $fix = DB_PREFIX;
 
         <script type="text/javascript">
 
-            function ok(id) {
-                layer.confirm('你确认已经为该提现订单打过款了吗？', function (index) {
-                    $.get("<?php echo url::s('admin/member/updatemashangWithdraw', "type=2&id=");?>" + id, function (result) {
-
-                        if(result.code == '200'){
-                            layer.msg(result.msg, {icon:1,time:1000,end:function () {
-                                    window.location.reload();
-                                }});
-                        }else{
-                            layer.msg(result.msg, {icon:2,time:1000})
-                        }
-
-                    });
+            function ok(id,name,orderid,orderamount) {
+                layer.open({
+                    type: 2,
+                    shadeClose: true,
+                    shade: 0.3,
+                    maxmin: true,
+                    area: ['780px', '560px'],
+                    title: name+'：信息审计',
+                    content: '/admin/member/userbalancerecordinfo.do?id='+id + "&orderid=" + orderid + "&orderamount=" + orderamount,
+                    end: function() {
+                    },
                 });
             }
 

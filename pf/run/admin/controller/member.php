@@ -1028,7 +1028,29 @@ class member
             'mysql' => $this->mysql,
             'username' => $username
         ]);
+    }
 
+    /**
+     * 账变列表 个人
+     */
+    public function userBalanceRecordInfo()
+    {
+        $this->powerLogin(28);
+        $uid = trim(request::filter('get.id', '', 'htmlspecialchars'));
+        $orderid = trim(request::filter('get.orderid', '', 'htmlspecialchars'));
+        $orderamount = trim(request::filter('get.orderamount', '', 'htmlspecialchars'));
+
+        $user = $this->mysql->query("client_user", "id='{$uid}'")[0];
+
+        $where = "uid = '{$uid}'";
+        $result = page::conduct('user_balance_record', request::filter('get.page'), 10, $where, null, 'id', 'desc');
+        new view('member/userbalancerecordinfo', [
+            'result' => $result,
+            'mysql' => $this->mysql,
+            'user' => $user,
+            'orderid' => $orderid,
+            'orderamount' => $orderamount,
+        ]);
     }
 
 
