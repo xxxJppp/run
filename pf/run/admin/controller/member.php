@@ -280,6 +280,7 @@ class member
     {
         $this->powerLogin(20);
         $username = strip_tags(request::filter('post.username'));
+        $realname = strip_tags(request::filter('post.realname'));
         $pwd = request::filter('post.pwd');
         $group_id = request::filter('post.group_id');
         $phone = trim(request::filter('post.phone'));
@@ -289,26 +290,30 @@ class member
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
 
-        if (strlen($username) < 6) functions::json(-1, '用户名不能为空或小于6位');
-
-        if (!preg_match("/^[a-zA-Z0-9_]{0,}$/", $username)) functions::json(-1, '用户名不能有汉字');
+        //校验用户名格式
+        if (strlen($username) < 6) functions::json(-3, '用户名不能为空或小于6位');
+        if (!preg_match("/^[a-zA-Z0-9_]{0,}$/", $username)) functions::json(-3, '用户名不能有汉字');
 
         //判断用户名是否存在
         $user = $this->mysql->query("client_user", "username='{$username}'")[0];
         if (is_array($user)) functions::json(-3, '当前用户名已经存在,请更换重试');
 
+        //校验姓名格式
+        if (strlen($username) < 2) functions::json(-3, '姓名不能为空或小于2位');
+        if (!preg_match("/^([\xe4-\xe9][\x80-\xbf]{2}){2,4}$/", $realname)) functions::json(-3, '输入姓名不合法');
+
         if ($phone == '') {
             $phone = 0;
         } else {
             //手机号规则
-            if (!functions::isMobile($phone)) functions::json(-1, '手机号输入有误,请检查手机号是否输入正确');
+            if (!functions::isMobile($phone)) functions::json(-3, '手机号输入有误,请检查手机号是否输入正确');
             //判断手机是否存在
             $find_phone = $this->mysql->query("client_user", "phone={$phone}")[0];
             if (is_array($find_phone)) functions::json(-3, '当前手机已经存在,请更换重试');
         }
 
         //判断密码
-        if (strlen($pwd) < 6) functions::json(-1, '密码不能为空且不能小于6位');
+        if (strlen($pwd) < 6) functions::json(-3, '密码不能为空且不能小于6位');
         //权限组
         $group = $this->mysql->query("client_group", "id={$group_id}")[0];
         if (!is_array($group)) functions::json(-2, '权限组分配失败,请重新选择');
@@ -325,6 +330,7 @@ class member
 
         $Insert = $this->mysql->insert("client_user", [
             'username' => $username,
+            'realname' => $realname,
             'phone' => $phone,
             'pwd' => functions::pwd($pwd, $token),
             'balance' => 0,
@@ -390,6 +396,7 @@ class member
         $this->powerLogin(20);
         $id = intval(request::filter("get.id"));
         $username = strip_tags(request::filter('post.username'));
+        $realname = strip_tags(request::filter('post.realname'));
         $pwd = request::filter('post.pwd');
         $group_id = request::filter('post.group_id');
         $phone = request::filter('post.phone');
@@ -397,6 +404,10 @@ class member
         $is_pankou = intval(request::filter('post.is_pankou'));
         $is_mashang = intval(request::filter('post.is_mashang'));
         $level_id = intval(request::filter('post.level_id'));
+
+        //校验姓名格式
+        if (strlen($username) < 2) functions::json(-3, '姓名不能为空或小于2位');
+        if (!preg_match("/^([\xe4-\xe9][\x80-\xbf]{2}){2,4}$/", $realname)) functions::json(-3, '输入姓名不合法');
 
         if ($phone == '') {
             $phone = 0;
@@ -421,6 +432,7 @@ class member
 
         $inArray = [
             'username' => $username,
+            'realname' => $realname,
             'phone' => $phone,
             'is_agent' => $is_agent,
             'is_mashang' => $is_mashang,

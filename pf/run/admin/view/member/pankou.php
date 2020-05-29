@@ -35,6 +35,7 @@ $fix = DB_PREFIX;
                             <th lay-data="{field:'key1',width:130}">用户名</th>
                             <th lay-data="{field:'out_trade_id', width:100,style:'color:#060;'}">用户组</th>
                             <th lay-data="{field:'memberid', width:140}">用户余额</th>
+                            <th lay-data="{field:'realname', width:120}">姓名</th>
                             <th lay-data="{field:'amount', width:100,style:'color:#060;'}">IP地址</th>
                             <th lay-data="{field:'rate', width:100}">今日跑量</th>
                             <!--<th lay-data="{field:'bbb', width:100,style:'color:#C00;'}">今日下发金额</th>
@@ -61,6 +62,7 @@ $fix = DB_PREFIX;
                                     echo is_array($group) ? '<span style="color:orange;"><b>' . $group['name'] . '</b></span>' : '<span style="color:red;">未分配</span>'; ?>
                                 </td>
                                 <td style="text-align:center;"><?php echo $em['balance']; ?></td>
+                                <td style="text-align:center;"><?php echo $em['realname']; ?></td>
                                 <td style="text-align:center; color:#060"><?php echo $em['ip']; ?> </td>
                                 <td style="text-align:center; color:#666">
                                     <?php //查询今日收入
@@ -204,6 +206,13 @@ $fix = DB_PREFIX;
                             <label class="col-sm-2 control-label form-label">用户名</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control form-control-line" name="username"  placeholder="登录用户名">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control form-control-line" name="realname"  placeholder="真实姓名">
                             </div>
                         </div>
 
