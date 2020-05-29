@@ -224,7 +224,7 @@ class member
         $user_result = functions::user_balance($user['id'], '-' . $amount);
         if (!$user_result) {
             $this->mysql->rollBack();
-            functions::json(-1, '提现失败1，稍后再试!');
+            functions::json(-1, '余额更新失败，稍后再试!');
         }
 
         $in = $this->mysql->insert("withdraw", [
@@ -247,7 +247,7 @@ class member
         $change = functions::user_balance_record($user['id'],'-'.$amount,4,$in,'代理提现',$user['balance']);
         if (!$change) {
             $this->mysql->rollBack();
-            functions::json(-1, '提现失败3，稍后再试!');
+            functions::json(-1, '账变记录失败，稍后再试!');
         }
         $this->mysql->commit();
         functions::json(200, '您的提现已经提交成功!');

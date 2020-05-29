@@ -584,11 +584,15 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $user_result = functions::user_balance($find_user['id'], $result['amount']);
+                if (!$user_result || !$change) {
+                    $this->mysql->rollback();
+                    functions::json(-2, '余额更新失败！');
+                }
                 $change = functions::user_balance_record($find_user['id'], $result['amount'], 4, $result['id'], '代理提现驳回', $find_user['balance']);
 
                 if (!$user_result || !$change) {
                     $this->mysql->rollback();
-                    functions::json(-2, '提现失败2！');
+                    functions::json(-2, '账变记录失败！');
                 }
             }
         }
@@ -685,11 +689,16 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $user_result = functions::user_balance($find_user['id'], $result['amount']);
+
+                if (!$user_result) {
+                    $this->mysql->rollback();
+                    functions::json(-2, '余额更新失败！');
+                }
                 $change = functions::user_balance_record($find_user['id'], $result['amount'], 4, $result['id'], '代理提现驳回', $find_user['balance']);
 
-                if (!$user_result || !$change) {
+                if (!$change) {
                     $this->mysql->rollback();
-                    functions::json(-2, '提现失败2！');
+                    functions::json(-2, '账变记录失败！');
                 }
             }
         }
@@ -787,11 +796,15 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $user_result = functions::user_balance($find_user['id'], $result['amount']);
+                if (!$user_result) {
+                    $this->mysql->rollback();
+                    functions::json(-2, '余额更新失败！');
+                }
                 $change = functions::user_balance_record($find_user['id'], $result['amount'], 4, $result['id'], '代理提现驳回', $find_user['balance']);
 
-                if (!$user_result || !$change) {
+                if (!$change) {
                     $this->mysql->rollback();
-                    functions::json(-2, '提现失败2！');
+                    functions::json(-2, '账变记录失败！');
                 }
             }
         }
@@ -891,11 +904,14 @@ class member
             $find_user = $this->mysql->query("client_user", "id={$result['user_id']}")[0];
             if (is_array($find_user)) {
                 $user_result = functions::user_balance($find_user['id'], $result['amount']);
-                $change = functions::user_balance_record($find_user['id'], $result['amount'], 4, $result['id'], '代理提现驳回', $find_user['balance']);
-
-                if (!$user_result || !$change) {
+                if (!$user_result) {
                     $this->mysql->rollback();
-                    functions::json(-2, '提现失败2！');
+                    functions::json(-2, '更新余额失败！');
+                }
+                $change = functions::user_balance_record($find_user['id'], $result['amount'], 4, $result['id'], '代理提现驳回', $find_user['balance']);
+                if(!$change){
+                    $this->mysql->rollback();
+                    functions::json(-2, '账变记录失败！');
                 }
             }
         }
@@ -1031,16 +1047,14 @@ class member
             }*/
 
         //发送平台更新通知给用户
-        public
-        function notice()
+        public function notice()
         {
             $this->powerLogin(30);
             new view('member/notice');
         }
 
         //发送通知
-        public
-        function sendNotice()
+        public function sendNotice()
         {
             $this->powerLogin(30);
             //检测安全令牌是否正确
