@@ -82,7 +82,7 @@ class user extends common
         //检查用户名是否正确
         if (!functions::checkName($name)) functions::json(0, '姓名必须为汉字');
         //检查姓名是否已经存在
-        $find_user_name = $this->mysql->query("client_user", "bank like '%{$name}%'", 'id', null, 'desc', 1)[0];
+        $find_user_name = $this->mysql->query("client_user", "realname='{$name}'", 'id', null, 'desc', 1)[0];
         if (is_array($find_user_name)) functions::json(0, '该姓名已经存在，请联系客服');
 
         if ($phone) {
@@ -120,6 +120,7 @@ class user extends common
             'balance' => cog::read('registerCog')['integral'],
             'money' => 0,
             'token' => $token,
+            'realname' => $name,
             'bank' => $bank,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id' => $level_id,
