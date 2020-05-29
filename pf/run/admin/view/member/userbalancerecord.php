@@ -43,8 +43,8 @@ $fix = DB_PREFIX;
                             <th>ID</th>
                             <th>用户名</th>
                             <th>业务ID</th>
-                            <th>账变金额</th>
                             <th>账变前金额</th>
+                            <th>账变金额</th>
                             <th>账变后金额</th>
                             <th>账变类型</th>
                             <th>备注</th>
@@ -62,9 +62,9 @@ $fix = DB_PREFIX;
 
                               <td><?php echo $ru['biz_id']; ?></td>
 
-                              <td><?php echo $ru['money']; ?></td>
-
                               <td><?php echo $ru['before']; ?></td>
+
+                              <td><?php echo $ru['money']; ?></td>
 
                               <td><?php echo $ru['after']; ?></td>
 

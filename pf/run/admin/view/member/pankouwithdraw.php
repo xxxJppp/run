@@ -53,15 +53,14 @@ $fix = DB_PREFIX;
                 </div>
 
                 <div class="panel-body table-responsive">
-                    <table class="layui-table" style="width:1800px;" cellspacing="0" cellpadding="0" border="0">
+                    <table class="layui-table" style="width:1500px;" cellspacing="0" cellpadding="0" border="0">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>订单号</th>
                             <th>用户名</th>
                             <th>手机号</th>
-                            <th>提现前余额</th>
-                            <th>提现后余额</th>
+
                             <th>提现金额</th>
                             <th>实际打款 </th>
                             <th>手续费用</th>
@@ -86,10 +85,6 @@ $fix = DB_PREFIX;
                                 <td><a href="/admin/member/userBalanceRecord.do?username=<?php echo $find_user['username']?>" ><span style="color: #0000cc;"><?php echo isset($find_user['username'])?$find_user['username']:''; ?></span></a></td>
 
                                 <td><?php echo $find_user['phone']=="0"?"":$find_user['phone']; ?></td>
-
-                                <td><?php echo $ru['old_amount']; ?></td>
-
-                                <td><?php echo $ru['new_amount']; ?></td>
 
                                 <td><?php echo $ru['amount']; ?></td>
 
