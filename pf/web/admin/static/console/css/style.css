@@ -2233,9 +2233,9 @@ dd {
 /* Button General */
 .btn {
   font-size: 14px;
-  padding: 7px 20px 7px 20px;
+ /* padding: 7px 20px 7px 20px;
   border: none;
-  background: #e4e4e4;
+  background: #e4e4e4;*/
   color: inherit;
   border-radius: 3px;
 }
@@ -2401,7 +2401,7 @@ fieldset[disabled] .btn {
 }
 /* Button light */
 .btn-light {
-  background-color: #fff;
+  background-color: #eee;
   color: inherit;
   border: 1px solid #BDC4C9;
 }
@@ -2755,13 +2755,13 @@ fieldset[disabled] .btn {
 .has-error .form-control-feedback {
   color: #ef4836;
 }
-.panel  input,
+.ibox input,
+.panel input,
 .panel  select {
   height: 34px;
   border-radius: 3px;
   padding-left: 10px;
   font-size: 14px;
-  background: #fff;
   border: 1px solid #BDC4C9;
   box-shadow: inset 0px 1px 0px #F1F0F1;
 }
