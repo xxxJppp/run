@@ -81,8 +81,8 @@ class user extends common
 
         //检查用户名是否正确
         if (!functions::checkName($name)) functions::json(0, '姓名必须为汉字');
-        //检查用户名是否已经存在
-        $find_user_name = $this->mysql->query("client_user", "bank like '%{$name}%'", 'id', null, 'desc', 1)[0];
+        //检查姓名是否已经存在
+        $find_user_name = $this->mysql->query("client_user", "realname='{$name}'", 'id', null, 'desc', 1)[0];
         if (is_array($find_user_name)) functions::json(0, '该姓名已经存在，请联系客服');
 
         if ($phone) {
@@ -120,6 +120,7 @@ class user extends common
             'balance' => cog::read('registerCog')['integral'],
             'money' => 0,
             'token' => $token,
+            'realname' => $name,
             'bank' => $bank,
             'group_id' => cog::read('registerCog')['group_id'],
             'level_id' => $level_id,
@@ -175,31 +176,33 @@ class user extends common
     public function userinfo()
     {
 
-        $checkuser = $this->mysql->query('client_user', "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1", 'id,group_id,username,bank,phone,balance,money,google_auth,yajin');
-
-        if (!$checkuser) {
-            functions::json(0, '用户信息有误');
-        }
         $start_time = strtotime(date('Y-m-d' . '00:00:00'));
         $end_time = strtotime(date('Y-m-d' . '23:59:59'));
-        $deposit = $this->mysql->query('deposit', "user_id='{$checkuser[0]['id']}'", 'SUM(money) as money');
-        $appeal = $this->mysql->query('appeal', "user_id='{$checkuser[0]['id']}'", 'count(id) as count');
-        $zfb = $this->mysql->query('client_paofen_automatic_orders', "user_id='{$checkuser[0]['id']}' and (pay_time between {$start_time} and {$end_time})", 'SUM(amount) as amount,SUM(fees) as fees');
-        $checkuser[0]['deposit'] = $deposit[0]['money'] ? $deposit[0]['money'] : 0;
-        $checkuser[0]['name'] = json_decode($checkuser[0]['bank'],true)['name'];
-        $checkuser[0]['fees'] = $zfb[0]['fees'] ? $zfb[0]['fees'] : 0;
-        $checkuser[0]['wx'] = 0;
-        $checkuser[0]['zfb'] = $zfb[0]['amount'] ? $zfb[0]['amount'] : 0;
-        $checkuser[0]['yhk'] = 0;
-        $checkuser[0]['yhk'] = 0;
-        $checkuser[0]['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
-        $checkuser[0]['cost'] = json_decode($this->mysql->query('client_group', "id={$checkuser[0]['group_id']}")[0]['authority'],true)['paofen_auto']['cost'];
-        unset($checkuser[0]['bank']);
-        if ($checkuser[0]['google_auth']) {
+        $deposit = $this->mysql->query('deposit', "user_id='{$this->user['id']}'", 'SUM(money) as money');
+        $appeal = $this->mysql->query('appeal', "user_id='{$this->user['id']}'", 'count(id) as count');
+        $zfb = $this->mysql->query('client_paofen_automatic_orders', "user_id='{$this->user['id']}' and (pay_time between {$start_time} and {$end_time})", 'SUM(amount) as amount,SUM(fees) as fees');
+
+        $checkuser = [];
+        $checkuser['id'] = $this->user['id'];
+        $checkuser['username'] = $this->user['username'];
+        $checkuser['phone'] = $this->user['phone'];
+        $checkuser['money'] = $this->user['money'];
+        $checkuser['google_auth'] = $this->user['google_auth'];
+        $checkuser['yajin'] = $this->user['yajin'];
+        $checkuser['realname'] = $this->user['realname'];
+        $checkuser['deposit'] = $deposit[0]['money'] ? $deposit[0]['money'] : 0;
+        $checkuser['fees'] = $zfb[0]['fees'] ? $zfb[0]['fees'] : 0;
+        $checkuser['wx'] = 0;
+        $checkuser['zfb'] = $zfb[0]['amount'] ? $zfb[0]['amount'] : 0;
+        $checkuser['yhk'] = 0;
+        $checkuser['yhk'] = 0;
+        $checkuser['appeal'] = $appeal[0]['count'] ? $appeal[0]['count'] : 0;
+        $checkuser['cost'] = json_decode($this->mysql->query('client_group', "id={$this->user['group_id']}")[0]['authority'],true)['paofen_auto']['cost'];
+        if ($checkuser['google_auth']) {
             $ga = new GoogleAuthenticator();
-            $checkuser[0]['google_qrcode'] = $ga->getQRCodeGoogleUrl('paofen', $checkuser[0]['google_auth']);
+            $checkuser['google_qrcode'] = $ga->getQRCodeGoogleUrl('paofen', $checkuser['google_auth']);
         }
-        functions::json(1, '获取成功', $checkuser[0], $this->token);
+        functions::json(1, '获取成功', $checkuser, $this->token);
     }
 
     public function setBank()
@@ -208,13 +211,14 @@ class user extends common
         if (!$bank_type) {
             functions::json(0, '请选择绑定类型!');
         }
-        $bank = json_decode($this->user['bank'], true);
         $name = request::filter('post.name', '', 'htmlspecialchars');
-        if ($bank) {
-            if ($name && $name != $bank['name']) {
-                functions::json(0, '账号名称不能修改!');
-            }
-            $name = $bank['name'];
+
+        if ($name && $this->user['realname'] &&  $name != $this->user['realname']) {
+            functions::json(0, '账号名称不能修改!');
+        }
+        $name = $this->user['realname'] ? $this->user['realname'] : $name;
+        if(empty($name)){
+            functions::json(0, '账号名称不能为空!');
         }
         if ($bank_type == 1) {
             //支付宝

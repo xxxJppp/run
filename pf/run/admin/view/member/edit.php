@@ -48,6 +48,13 @@ include_once (PATH_VIEW . 'common/header.php'); //头部
                   <input type="text" class="form-control form-control-line" name="username"  placeholder="登录的用户名" value="<?php echo $result['username'];?>" readonly="readonly">
                   </div>
                 </div>
+
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label form-label">姓名</label>
+                      <div class="col-sm-10">
+                          <input type="text" class="form-control form-control-line" name="realname"  placeholder="请输入姓名" value="<?php echo $result['realname'];?>">
+                      </div>
+                  </div>
                 
                 <div class="form-group">
                   <label class="col-sm-2 control-label form-label">密码</label>
