@@ -589,7 +589,7 @@ class functions
      * @param $money 返点
      * @return bool
      */
-    public static function user_balance($uid, $balance, $money = 0, $count = 0)
+    public static function user_balance($uid, $balance, $money = 0, $yajin = 0, $count = 0)
     {
         $mysql = new mysql();
 
@@ -608,11 +608,13 @@ class functions
         $user_balance = $user['balance'];
         $user_version = $user['version'];
         $user_money = $user['money'];
+        $user_yajin = $user['yajin'];
 
         //2、乐观锁更新余额
         $user_up = [
             'money' => $user_money + $money,
             'balance' => $user_balance + $balance,
+            'yajin' => $user_yajin + $yajin,
             'version' => $user_version + 1
         ];
 
@@ -620,9 +622,9 @@ class functions
 
         //3、更新失败，重试3次
         if (!$user_re) {
-            $rand = rand(100, 3000);
+            $rand = rand(100, 1000);
             usleep($rand);
-            self::user_balance($uid, $balance, $money = 0, $count);
+            self::user_balance($uid, $balance, $money, $yajin, $count);
             return false;
         }
 
