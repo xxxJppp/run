@@ -27,7 +27,7 @@ class common
             $this->checktoken = jwt::verifyToken($token);
             if ($this->checktoken) {
                 $this->token = jwt::getToken($this->checktoken['sub']);
-                $this->user = $this->mysql->query("client_user", "username='{$this->checktoken['sub']}'");
+                $this->user = $this->mysql->query("client_user", "username='{$this->checktoken['sub']}' and is_mashang=1 and status=1");
                 if (!isset($this->user[0])) {
                     functions::json(-1, '签名验证失败');
                 }

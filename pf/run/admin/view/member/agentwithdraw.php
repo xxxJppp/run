@@ -13,8 +13,8 @@ $fix = DB_PREFIX;
 <div class="page-header">
 
     <ol class="breadcrumb">
-        <li><a href="<?php echo url::s('admin/index/home'); ?>">控制台</a></li>
-        <li class="active">用户提现</li>
+        <li><a href="">财务管理</a></li>
+        <li class="active">代理提现</li>
     </ol>
 </div>
 <!-- End Page Header -->
@@ -29,7 +29,7 @@ $fix = DB_PREFIX;
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-title">
-                    提现记录 <span style="font-size: 15px;margin-left:20px;">[ 所有用户总提现金额: <?php //查询全部提现
+                    提现记录 <span style="font-size: 15px;margin-left:20px;">[ 总提现金额: <?php //查询全部提现
                         $order = $mysql->select("select sum(amount) as money,count(id) as count from {$fix}withdraw where types=2 and catalog=2");
                         echo '<span style="font-weight:bold;font-size:20px;color:red;"> ' . floatval($order[0]['money']) . ' </span> / 总提现笔数: <span style="color:green;font-weight:bold;">' . intval($order[0]['count']) . '</span> ';
                         ?>] </span>
@@ -53,14 +53,13 @@ $fix = DB_PREFIX;
                 </div>
 
                 <div class="panel-body table-responsive">
-                    <table class="layui-table" style="width:1800px;" cellspacing="0" cellpadding="0" border="0">
+                    <table class="layui-table" style="width:1500px;" cellspacing="0" cellpadding="0" border="0">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>订单号</th>
                             <th>用户名</th>
                             <th>手机号</th>
-                            <th>提现前余额</th>
-                            <th>提现后余额</th>
                             <th>提现金额</th>
                             <th>实际打款 </th>
                             <th>手续费用</th>
@@ -78,15 +77,13 @@ $fix = DB_PREFIX;
                         <?php foreach ($result['result'] as $ru) {
                             $find_user = $mysql->query("client_user", "id={$ru['user_id']}")[0]; ?>
                           <tr>
+                              <td><?php echo $ru['id']; ?></td>
+
                               <td><?php echo $ru['flow_no']; ?></td>
 
-                              <td><?php $user = $mysql->query("client_user", "id={$ru['user_id']}")[0]; echo isset($user['username'])?$user['username']:''; ?></td>
+                              <td><a href="/admin/member/userBalanceRecord.do?username=<?php echo $find_user['username']?>" ><span style="color: #0000cc;"><?php echo isset($find_user['username'])?$find_user['username']:''; ?></span></a></td>
 
-                              <td><?php echo $user['phone']; ?></td>
-
-                              <td><?php echo $ru['old_amount']; ?></td>
-
-                              <td><?php echo $ru['new_amount']; ?></td>
+                              <td><?php echo $find_user['phone']=="0"?"":$find_user['phone']; ?></td>
 
                               <td><?php echo $ru['amount']; ?></td>
 
@@ -116,7 +113,7 @@ $fix = DB_PREFIX;
 
                                 <td>
                                     <p><?php if ($ru['types'] == 1) { ?><a href="#"
-                                                                           onclick="ok('<?php echo $ru['id']; ?>')"
+                                                                           onclick="ok('<?php echo $find_user['id'].'\',\''.$find_user['username'].'\',\''.$ru['id'].'\',\''.$ru['amount']; ?>')""
                                                                            class="btn btn-success btn-xs"><i
                                                         class="fa fa-user-md"></i>确认</a>  <a href="#"
                                                                                              onclick="turnDown('<?php echo $ru['id']; ?>')"
@@ -142,22 +139,17 @@ $fix = DB_PREFIX;
         </div>
         <!-- End Panel -->
         <script type="text/javascript">
-
-            function ok(id) {
-                layer.confirm('你确认已经为该提现订单打过款了吗？', function (index) {
-                    $.get("<?php echo url::s('admin/member/updateagentWithdraw', "type=2&id=");?>" + id, function (result) {
-
-                        if (result.code == '200') {
-                            layer.msg(result.msg, {
-                                icon: 1, time: 1000, end: function () {
-                                    window.location.reload();
-                                }
-                            });
-                        } else {
-                            layer.msg(result.msg, {icon: 2, time: 1000})
-                        }
-
-                    });
+            function ok(id,name,orderid,orderamount) {
+                layer.open({
+                    type: 2,
+                    shadeClose: true,
+                    shade: 0.3,
+                    maxmin: true,
+                    area: ['780px', '560px'],
+                    title: name+'：信息审计',
+                    content: '/admin/member/userbalancerecordinfo.do?id='+id + "&orderid=" + orderid + "&orderamount=" + orderamount,
+                    end: function() {
+                    },
                 });
             }
 

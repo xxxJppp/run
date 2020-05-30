@@ -123,7 +123,7 @@ class index
     //端口：automatic
     //网关关卡
     //通讯端口：80
-    public function addorder()
+    public function matchOrder()
     {
         $data = [];
         /*//商户ID

@@ -14,13 +14,13 @@ $fix = DB_PREFIX;
                     <div class="ibox-title">
                         <h5>人工充值扣款</h5>
                         <div class="ibox-tools">
-                            <a data-toggle="modal" data-target="#add1" class="btn btn-light">人工充值扣款</a>
+                            <a data-toggle="modal" data-target="#add1" class="btn btn-light"><i class="layui-icon"></i>人工充值扣款</a>
                             <i class="layui-icon" onclick="location.replace(location.href);" title="刷新"
                                style="cursor:pointer;">ဂ</i>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="panel">
                         <form action="" style="margin-top: 20px">
                             <input type="text" name="m_username" placeholder="请输入码商账号" value="<?php echo $m_username;?>">
                             <input type="submit" style="border:0px" value="查询" class="btn btn-success">

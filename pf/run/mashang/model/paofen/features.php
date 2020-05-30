@@ -416,10 +416,14 @@ class features
 
                     //$updateStatus = $mysql->update("client_user", ['balance' => $user_balance], "id={$user['id']}");
                     $updateStatus = functions::user_balance($user['id'],$fees,$fees);
-                    $change = functions::user_balance_record($user['id'],$fees,3,$order['id'],'码商返利',$user['balance']);
-                    if($updateStatus===false || $change===false){
+                    if($updateStatus===false){
                         $mysql->rollBack();
-                        functions::json(-1, '回调失败');
+                        functions::json(-1, '余额更新失败');
+                    }
+                    $change1 = functions::user_balance_record($user['id'],$fees,3,$order['id'],'码商返利',$user['balance']);
+                    if($change1===false){
+                        $mysql->rollBack();
+                        functions::json(-1, '账变记录失败');
                     }
 
                     $_SESSION['MEMBER']['balance'] = $user_balance;
@@ -431,10 +435,14 @@ class features
                             $yue = $bac['balance']-$order['amount'];
                             //$mysql->update("client_user",['balance'=>$yue],"id={$_SESSION['MEMBER']['uid']}");
                             $user_dongjie = functions::user_balance($user['id'],'-'.$order['amount']);
-                            $chang = functions::user_balance_record($user['id'],'-'.$order['amount'],5,$order['id'],'超时订单确认收款扣除',$bac['balance']);
-                            if($user_dongjie===false || $chang===false){
+                            if($user_dongjie===false){
                                 $mysql->rollBack();
-                                functions::json(-1, '回调失败1');
+                                functions::json(-1, '余额更新失败');
+                            }
+                            $chang = functions::user_balance_record($user['id'],'-'.$order['amount'],5,$order['id'],'超时订单确认收款扣除',$bac['balance']);
+                            if($change===false){
+                                $mysql->rollBack();
+                                functions::json(-1, '账变记录失败');
                             }
                         }
                     }else{

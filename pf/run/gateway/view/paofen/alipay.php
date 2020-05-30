@@ -414,7 +414,7 @@ $error_url = $data['error_url'];
     function updateorder(){
         $.ajax({
             type: 'POST',
-            url: '<?php echo GATEWAY;?>/gateway/index/addorder.do',
+            url: '<?php echo GATEWAY;?>/gateway/index/matchOrder.do',
             data: {
                 account_id: '<?= $account_id;?>',
                 content_type: '<?= $content_type;?>',

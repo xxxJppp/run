@@ -186,8 +186,8 @@ strong {
 .col-sm-12,
 .col-md-12,
 .col-lg-12 {
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 .row {
   margin-right: -15px;
@@ -264,8 +264,8 @@ strong {
   margin-right: -5px;
 }
 .container-padding {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .container-no-padding {
   padding: 0px;
@@ -2233,9 +2233,9 @@ dd {
 /* Button General */
 .btn {
   font-size: 14px;
-  padding: 7px 20px 7px 20px;
+ /* padding: 7px 20px 7px 20px;
   border: none;
-  background: #e4e4e4;
+  background: #e4e4e4;*/
   color: inherit;
   border-radius: 3px;
 }
@@ -2401,7 +2401,7 @@ fieldset[disabled] .btn {
 }
 /* Button light */
 .btn-light {
-  background-color: #fff;
+  background-color: #eee;
   color: inherit;
   border: 1px solid #BDC4C9;
 }
@@ -2755,13 +2755,13 @@ fieldset[disabled] .btn {
 .has-error .form-control-feedback {
   color: #ef4836;
 }
-input,
-select {
+.ibox input,
+.panel input,
+.panel  select {
   height: 34px;
   border-radius: 3px;
   padding-left: 10px;
   font-size: 14px;
-  background: #fff;
   border: 1px solid #BDC4C9;
   box-shadow: inset 0px 1px 0px #F1F0F1;
 }
@@ -3115,9 +3115,9 @@ div[data-role="editor-toolbar"] {
 /* Panels */
 .panel {
   box-shadow: none;
-  border: 1px solid #e5e5e5;
+  border: 0px solid #e5e5e5;
   background: #fff;
-  padding: 20px;
+  padding: 5px;
   margin-bottom: 20px;
   position: relative;
 }
@@ -3145,10 +3145,9 @@ div[data-role="editor-toolbar"] {
   font-size: 13px;
   font-weight: bold;
   text-transform: uppercase;
-  padding: 16px 20px;
-  margin: -20px;
+  padding: 5px 10px;
+  margin: 5px;
   background: #fff;
-  margin-bottom: 5px;
   border-bottom: none;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -3224,7 +3223,7 @@ div[data-role="editor-toolbar"] {
 }
 /* Panel Default */
 .panel-default {
-  border-color: #ddd;
+ border-color:rgba(255, 255, 255, 0.1)
 }
 .panel-default .badge {
   color: inherit;
